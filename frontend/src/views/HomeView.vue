@@ -1,10 +1,17 @@
 <template>
-  <main class="main scroll">
-    <text-font color="red" size="20" weight="regular">TEST</text-font>
+  <main class="main">
 
+    <section class="w-100">
+      <IngredientsBox/>
+    </section>
+
+
+    <text-font color="red" size="20" weight="regular">
+      custom font tag test
+    </text-font>
 
     <section>
-      <Button label="test" :click="showModal">
+      <Button label="button component test" :click="showModal">
         icon
       </Button>
 
@@ -36,6 +43,8 @@ import Modal from "@/components/common/Modal.vue";
 import {Ref} from "vue-property-decorator";
 import CardUi from "@/components/CardUi.vue";
 import Button from "@/components/common/Button.vue";
+import IngredientsBox from "@/components/IngredientsBox.vue";
+
 
 type ModalComponent = InstanceType<typeof Modal>
 
@@ -43,7 +52,8 @@ type ModalComponent = InstanceType<typeof Modal>
   components: {
     Button,
     Modal,
-    CardUi
+    CardUi,
+    IngredientsBox
   }
 })
 export default class HomeView extends Vue {
@@ -57,13 +67,12 @@ export default class HomeView extends Vue {
 
 <style scoped lang="scss">
 .main {
-  padding: 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   margin: auto;
-  height: 100vh;
+  min-height: 1000px;
 }
 
 .main__body {

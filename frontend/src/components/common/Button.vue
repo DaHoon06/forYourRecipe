@@ -26,8 +26,9 @@ export default class Button extends Vue {
 
 <style scoped lang="scss">
 @mixin defaultButtonOptions() {
-  width: 108px;
-  height: 32px;
+  min-width: 108px;
+  padding: 4px 8px;
+  min-height: 32px;
   border: 1px solid transparent;
   border-radius: 4px;
   display: flex;
