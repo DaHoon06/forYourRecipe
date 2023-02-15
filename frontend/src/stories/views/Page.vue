@@ -34,7 +34,7 @@
       <p>
         Get a guided tutorial on component-driven development at
         <a href="https://storybook.js.org/tutorials/" target="_blank" rel="noopener noreferrer"
-          >Storybook tutorials</a
+        >Storybook tutorials</a
         >
         . Read more in the
         <a href="https://storybook.js.org/docs" target="_blank" rel="noopener noreferrer">docs</a>
@@ -60,12 +60,12 @@
 
 <script>
 import './page.css';
-import MyHeader from './Header.vue';
+import MyHeader from '../components/common/layout/header/Header.vue';
 
 export default {
   name: 'my-page',
 
-  components: { MyHeader },
+  components: {MyHeader},
 
   data() {
     return {
@@ -75,13 +75,13 @@ export default {
 
   methods: {
     onLogin() {
-      this.user = { name: 'Jane Doe' };
+      this.user = {name: 'Jane Doe'};
     },
     onLogout() {
       this.user = null;
     },
     onCreateAccount() {
-      this.user = { name: 'Jane Doe' };
+      this.user = {name: 'Jane Doe'};
     },
   },
 };

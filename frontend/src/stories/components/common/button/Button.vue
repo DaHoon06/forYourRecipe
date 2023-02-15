@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import './button.css';
-import { reactive, computed } from 'vue';
+import './button.scss';
+import {reactive, computed} from 'vue';
 
 export default {
   name: 'my-button',
@@ -17,6 +17,10 @@ export default {
     primary: {
       type: Boolean,
       default: false,
+    },
+    outline: {
+      type: Boolean,
+      default: false
     },
     size: {
       type: String,
@@ -31,13 +35,13 @@ export default {
 
   emits: ['click'],
 
-  setup(props, { emit }) {
+  setup(props, {emit}) {
     props = reactive(props);
     return {
       classes: computed(() => ({
         'storybook-button': true,
         'storybook-button--primary': props.primary,
-        'storybook-button--secondary': !props.primary,
+        'outline-button': !props.primary,
         [`storybook-button--${props.size || 'medium'}`]: true,
       })),
       style: computed(() => ({
