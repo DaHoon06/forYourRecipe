@@ -1,15 +1,18 @@
 <template>
+  <Header />
   <router-view/>
-  <modal />
+  <Footer />
 </template>
 <script lang="ts">
 
 import {Options, Vue} from "vue-class-component";
-import Modal from "@/components/common/Modal.vue";
+import Header from "@/components/common/Header.vue";
+import Footer from "@/components/common/Footer.vue";
 
 @Options({
   components: {
-    Modal
+    Footer,
+    Header,
   }})
 export default class App extends Vue {
 

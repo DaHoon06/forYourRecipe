@@ -13,21 +13,18 @@ type FontSize = '12' | '13' | '14' | '15' | '16' | '18' | '20' | '22' | '24';
 type FontColor =
   | 'black'
   | 'white'
-  | 'pointColor'
   | 'placeholder'
   | 'red'
   | 'textBody'
   | 'textTitle'
-  | 'textSub'
   | 'gray'
-  | 'yellow';
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
 
 
 @Options({components:{}})
 export default class Typography extends Vue {
   @Prop({ default: 'black' }) readonly color!: FontColor;
-  @Prop({ default: '12' }) readonly size!: FontSize;
+  @Prop({ default: '14' }) readonly size!: FontSize;
   @Prop({ default: 'regular' }) readonly weight!: FontWeight;
 
   get FontSize() {
@@ -56,14 +53,8 @@ export default class Typography extends Vue {
 .placeholder {
   @include placeholder();
 }
-.pointColor {
-  @include pointColor();
-}
 .black {
   @include black();
-}
-.yellow {
-  @include yellow();
 }
 .white {
   @include white();
@@ -79,9 +70,6 @@ export default class Typography extends Vue {
 }
 .textBody {
   @include textBody();
-}
-.textSub {
-  @include textSub();
 }
 .regular {
   @include font-weight-400();
