@@ -14,9 +14,9 @@ type Variant = 'primary' | 'outline-button' | 'rounded-button' | 'black'
 
 export default class Button extends Vue {
   @Prop() readonly label?: string
-  @Prop({default: 'primary'}) readonly variant: Variant
-  @Prop({default: 'button'}) readonly type: ButtonType
-  @Prop() readonly click: () => void
+  @Prop({default: 'primary'}) readonly variant?: Variant
+  @Prop({default: 'button'}) readonly type!: ButtonType
+  @Prop() readonly click!: () => void
 
   get ButtonWrapper() {
     return this.variant
