@@ -30,10 +30,6 @@ export default class Typography extends Vue {
   @Prop({ default: '12' }) readonly size!: FontSize;
   @Prop({ default: 'regular' }) readonly weight!: FontWeight;
 
-  constructor() {
-    super();
-  }
-
   get FontSize() {
     return `font-${this.size}`;
   }

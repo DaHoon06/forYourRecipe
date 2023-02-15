@@ -8,6 +8,9 @@ import Typography from "@/components/common/Typography.vue";
 
 const app = createApp(App)
 
-app.component('font-typography',Typography)
+app.use(router)
+app.use(store)
 
-app.use(store).use(router).mount('#app')
+app.component('TextFont', Typography)
+
+app.mount('#app')
