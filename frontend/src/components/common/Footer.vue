@@ -1,6 +1,5 @@
 <template>
   <footer class="footer">
-    FOOTER
   </footer>
 </template>
 
@@ -13,8 +12,8 @@ export default class Footer extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/css/color";
 .footer {
-  background-color: $textTitle;
+  background-color: #efefef;
+  min-height: 100px;
 }
 </style>

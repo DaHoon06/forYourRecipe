@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-@import "color";
-
 @font-face {
   font-weight: 400;
   font-style: normal;
@@ -22,6 +20,7 @@ $nanum-normal: "Nanum Gothic";
 .option-description--text {
   @include font-style(500, $nanum-normal, 14px, $textTitle);
 }
+
 .option-description--text-red {
   @include font-style(500, $nanum-normal, 12px, $red);
 }
@@ -29,38 +28,51 @@ $nanum-normal: "Nanum Gothic";
 @mixin font-weight-400() {
   font-weight: 400;
 }
+
 @mixin font-weight-500() {
   font-weight: 500;
 }
+
 @mixin font-weight-600() {
   font-weight: 600;
-}@mixin font-weight-700() {
+}
+
+@mixin font-weight-700() {
   font-weight: 700;
 }
+
 @mixin font-weight-800() {
   font-weight: 800;
 }
+
 @mixin white() {
   color: $white;
 }
+
 @mixin black() {
   color: $black;
 }
+
 @mixin red() {
-  color: $red ;
+  color: $red;
 }
+
 @mixin textBody() {
   color: $textBody;
 }
+
 @mixin placeholder() {
   color: $textPlaceholder;
 }
+
 @mixin textTitle() {
   color: $textTitle
 }
+
 @mixin gray() {
   color: $gray1;
 }
+
 @mixin default() {
   letter-spacing: -0.39px;
   font-weight: 400;

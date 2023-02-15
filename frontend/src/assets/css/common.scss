@@ -61,6 +61,36 @@ $total: 100;
     gap: $size + px !important;
   }
 }
+
+.scroll {
+  width: 100%;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* 스크롤바 뒷 배경 설정*/
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* 스크롤바 막대 설정*/
+  &::-webkit-scrollbar-thumb {
+    background-color: #d9d9d9;
+    /* 스크롤바 둥글게 설정  */
+    border-radius: 10px;
+  }
+}
+
+
 .w-100 {
   width: 100%;
+}
+
+.flex {
+  display: flex;
 }

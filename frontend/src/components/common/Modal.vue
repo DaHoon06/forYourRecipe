@@ -26,7 +26,6 @@ export default class Modal extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/css/color";
 
 .modal {
   width: 100vw;
