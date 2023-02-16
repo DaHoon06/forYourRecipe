@@ -1,15 +1,60 @@
 <template>
   <article class="box-container">
-    <section>
-      <img src="@/assets/images/refrigerator.webp" width="600" height="600" alt="냉장고"/>
+    <section class="box__body">
+      <section class="ingredients-box">
+        <div class="ingredients-box--status">
+          <text-font size="20">바구니가 비어있습니다.</text-font>
+          <text-font size="14" color="textSub" class="pt-13">재료를 선택해주세요.</text-font>
+        </div>
+      </section>
+      <section class="ingredients-box--button pt-55">
+        <custom-button type="button" variant="primary" @click="pickUpModal">
+          <img src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>
+          <text-font color="white">재료 담기</text-font>
+        </custom-button>
+      </section>
     </section>
   </article>
+
+  <teleport to="#modal">
+    <Modal ref="modal">
+      재료를 담아보쟈
+    </Modal>
+  </teleport>
 </template>
 
 <script lang="ts">
-import {Vue} from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
+import Modal from "@/components/common/Modal.vue";
+import {Ref} from "vue-property-decorator";
+import {ModalComponent} from "@/types/type";
+import {ins as axios} from "@/lib/axios";
+
+@Options({
+  components: {
+    Modal
+  }
+})
 
 export default class IngredientsBox extends Vue {
+  @Ref('modal') readonly modal!: ModalComponent;
+
+  ingredients = [];
+
+  private async pickUpModal() {
+    this.modal.show();
+    //TODO: 재료 준비
+    try {
+      //TypeError: Property axios does not on type IngredientsBox
+      //const {data} = await this.axios.get('/99999999999asd9sa9d9as');
+
+      // TEMP
+      const {data} = await axios.get('/');
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
 
 }
 </script>
@@ -17,8 +62,48 @@ export default class IngredientsBox extends Vue {
 <style lang="scss" scoped>
 .box-container {
   text-align: center;
-  border: 1px solid $line;
+  padding: 30px 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-height: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.box__body {
+  border: 1px solid $line;
+  border-radius: 30px;
+  max-width: 600px;
+  min-width: 298px;
+  width: 100%;
+  height: 500px;
+  min-height: 290px;
+  //height: 100%;
+  box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.ingredients-box {
+  border: 1px solid $line;
+  border-radius: 50%;
+  width: 310px;
+  height: 310px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &--status {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+
 }
 </style>
