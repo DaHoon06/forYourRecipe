@@ -16,6 +16,7 @@ type FontColor =
   | 'red'
   | 'textBody'
   | 'textTitle'
+  | 'textSub'
   | 'gray'
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
 
@@ -76,6 +77,10 @@ export default class Typography extends Vue {
 
 .textBody {
   @include textBody();
+}
+
+.textSub {
+  @include textSub();
 }
 
 .regular {

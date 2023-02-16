@@ -1,5 +1,5 @@
 <template>
-  <button :class="ButtonWrapper" :type="type" @click="click">
+  <button :class="ButtonWrapper" :type="type">
     {{ label }}
     <slot/>
   </button>
@@ -16,7 +16,6 @@ export default class Button extends Vue {
   @Prop() readonly label?: string
   @Prop({default: 'primary'}) readonly variant?: Variant
   @Prop({default: 'button'}) readonly type!: ButtonType
-  @Prop() readonly click!: () => void
 
   get ButtonWrapper() {
     return this.variant
@@ -27,18 +26,20 @@ export default class Button extends Vue {
 <style scoped lang="scss">
 @mixin defaultButtonOptions() {
   padding: 4px 8px;
-  min-height: 32px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: fit-content;
+  width: 152px;
+  height: 46px;
 }
 
 .icon-button {
   @include defaultButtonOptions();
   padding: 0;
+  width: fit-content;
+  height: auto;
 }
 
 .primary {
