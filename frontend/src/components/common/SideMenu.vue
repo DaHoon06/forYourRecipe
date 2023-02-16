@@ -2,8 +2,77 @@
   <Transition name="slide-fade">
     <aside class="side-menu" v-show="isOpen">
       <nav class="side-menu--items">
-        <ul>
-          <li>로그인</li>
+        <section class="side-menu--top">
+          <section v-if="!isLogin">
+
+            <text-font class="center">
+              로그인을 하면 <br /> 나만의 레시피를 등록할 수 있어요!
+            </text-font>
+
+            <div class="flex justify-center">
+              <custom-button type="button" variant="icon-button" @click="login">
+                <text-font>로그인</text-font>
+              </custom-button>
+              <span>|</span>
+              <custom-button type="button" variant="icon-button">
+                <text-font>회원가입</text-font>
+              </custom-button>
+            </div>
+          </section>
+          <section v-else>
+            <section class="profile--container">
+              <img src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96" />
+              <text-font>전다훈</text-font>
+            </section>
+
+            <div class="flex">
+              <custom-button type="button" variant="icon-button" >
+                <text-font>마이페이지</text-font>
+              </custom-button>
+              <span>|</span>
+              <custom-button type="button" variant="icon-button" @click="logout">
+                <text-font>로그아웃</text-font>
+              </custom-button>
+            </div>
+          </section>
+        </section>
+
+
+        <hr />
+
+        <ul class="side-menu--bottom scroll">
+          <li>
+            <custom-button type="button" variant="icon-button">
+              <div class="side-menu--item">
+                <img src="@/assets/images/icons/home.svg" alt="메인으로 이동" width="32" height="32" class="ml-40 mr-26" />
+                <text-font color="textBody">메인</text-font>
+              </div>
+            </custom-button>
+          </li>
+          <li>
+            <custom-button type="button" variant="icon-button" class="side-menu--item">
+              <div class="side-menu--item">
+                <img src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32" class="ml-40 mr-26" />
+                <text-font color="textBody">레시피 등록</text-font>
+              </div>
+            </custom-button>
+          </li>
+          <li>
+            <custom-button type="button" variant="icon-button">
+              <div class="side-menu--item">
+                <img src="@/assets/images/icons/star.svg" alt="즐겨찾기" width="32" height="32" class="ml-40 mr-26" />
+                <text-font color="textBody">즐겨찾기</text-font>
+              </div>
+            </custom-button>
+          </li>
+          <li>
+            <custom-button type="button" variant="icon-button">
+              <div class="side-menu--item">
+                <img src="@/assets/images/icons/question.svg" alt="공지사항" width="32" height="32" class="ml-40 mr-26" />
+                <text-font color="textBody">공지사항</text-font>
+              </div>
+            </custom-button>
+          </li>
         </ul>
       </nav>
     </aside>
@@ -17,10 +86,21 @@ import {Prop, Watch} from "vue-property-decorator";
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
 
+  // Temp
+  isLogin = false
+
   @Watch('isOpen')
   private disabledScroll() {
     const html = document.querySelector('html');
     if (html) this.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''
+  }
+
+  private login() {
+    this.isLogin = true;
+  }
+
+  private logout() {
+    this.isLogin = false;
   }
 
 }
@@ -46,6 +126,39 @@ export default class SideMenu extends Vue {
     top: 0;
     width: 300px;
     height: 100%;
+  }
+
+  .side-menu--top {
+    width: 100%;
+    height: 254px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .side-menu--bottom {
+
+    li {
+      display: flex;
+      justify-content: flex-end;
+      padding: 16px 0;
+    }
+    .side-menu--item {
+      background-color: $gray4;
+      width: 256px;
+      height: 65px;
+      border-radius: 40px 0 0 40px;
+      border: 1px solid $line;
+      display: flex;
+      align-items: center;
+    }
+  }
+  /* 로그인 후 */
+  .profile--container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
