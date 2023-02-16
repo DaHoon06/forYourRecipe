@@ -4,7 +4,10 @@ import { HydratedDocument } from "mongoose";
 @Schema({collection: 'recipes', versionKey: false})
 export class Recipe {
     @Prop({ type: String, required: true })
-    id: string
+    _id: string
+
+    @Prop({ type: String, required: true })
+    name: string
 
     @Prop({ type: Date, required: true })
     createdAt: Date
@@ -20,48 +23,21 @@ export class Recipe {
         {
             step: number,
             desc: string,
-            img?: URL,
+            img?: string,
         }
     ]
 
+    //재료 검색 가능한지 레시피인지 체크
     @Prop( { type: Boolean, required: true})
     modified: boolean
 
-    @Prop( { type: Array, required: false})
-    ingredients: string[]
-}
+    @Prop({type: String, required: false })
+    profileImage?: string
 
-// interface RecipeInterface {
-//     id: string,
-//     createdAt: Date,
-//     updatedAt: Date,
-//     userId: string,
-//     steps: [
-//         {
-//             step: number,
-//             desc: string,
-//             img?: URL,
-//         }
-//     ]
-//     ingredients?: string[],
-//     modified: boolean,
-// }
-//
-// interface Ingredient {
-//     id: string,
-//     name: string,
-//     img?: URL,
-// }
-//
-// interface User {
-//     id: string,
-//     name: string,
-//     createdAt: Date,
-//     updatedAt: Date,
-//     favoriteRecipe: string[],
-//     MyRecipe: string[],
-//     img?: URL,
-// }
+    //필수 재료
+    @Prop( { type: Array, required: false})
+    ingredients?: string[]
+}
 
 export type RecipeDocument = HydratedDocument<Recipe>
 export const RecipeSchema = SchemaFactory.createForClass(Recipe)
