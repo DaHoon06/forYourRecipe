@@ -1,19 +1,27 @@
 <template>
-  <aside class="side-menu" v-show="isOpen">
-    <nav class="side-menu--items">
-      <ul>
-        <li>로그인</li>
-      </ul>
-    </nav>
-  </aside>
+  <Transition name="slide-fade">
+    <aside class="side-menu" v-show="isOpen">
+      <nav class="side-menu--items">
+        <ul>
+          <li>로그인</li>
+        </ul>
+      </nav>
+    </aside>
+  </Transition>
 </template>
 
 <script lang="ts">
 import {Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
+import {Prop, Watch} from "vue-property-decorator";
 
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
+
+  @Watch('isOpen')
+  private disabledScroll() {
+    const html = document.querySelector('html');
+    if (html) this.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''
+  }
 
 }
 </script>
@@ -39,5 +47,19 @@ export default class SideMenu extends Vue {
     width: 300px;
     height: 100%;
   }
+}
+
+.slide-fade-enter-active {
+  transition: all 0.1s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.1s ease-out;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
