@@ -6,10 +6,12 @@
     </section>
 
     <section class="main__body">
-      <text-font color="black" size="24" weight="bold">오늘의 추천 요리</text-font>
-      <hr/>
-      <section class="flex">
-        <CardUi class="mr-20" v-for="(i) in 4" :key="i"/>
+      <section class="main__body--container">
+        <text-font color="black" size="24" weight="bold">오늘의 추천 요리</text-font>
+        <hr/>
+        <section class="card--wrapper">
+          <CardUi class="mr-20" v-for="(i) in 4" :key="i"/>
+        </section>
       </section>
     </section>
 
@@ -49,6 +51,22 @@ export default class HomeView extends Vue {
 }
 
 .main__body {
+  width: 100%;
+  max-width: 1980px;
   padding: 10px 20px;
+
+
+  &--container {
+    padding: 2rem;
+
+    .card--wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      justify-items: center;
+      row-gap: 1rem;
+    }
+  }
+
+
 }
 </style>
