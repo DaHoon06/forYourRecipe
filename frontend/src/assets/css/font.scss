@@ -1,13 +1,11 @@
 @charset "UTF-8";
 
 @font-face {
-  font-weight: 400;
-  font-style: normal;
-  font-family: "Nanum Gothic";
-  src: url("https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800") format('font-woff2');
+  font-family: 'jua';
+  src: url("@/assets/fonts/Jua-Regular.ttf");
 }
 
-$nanum-normal: "Nanum Gothic";
+$jua: "jua";
 
 @mixin font-style($weight, $type, $size, $color) {
   font-weight: $weight;
@@ -18,11 +16,11 @@ $nanum-normal: "Nanum Gothic";
 }
 
 .option-description--text {
-  @include font-style(500, $nanum-normal, 14px, $textTitle);
+  @include font-style(500, $jua, 14px, $textTitle);
 }
 
 .option-description--text-red {
-  @include font-style(500, $nanum-normal, 12px, $red);
+  @include font-style(500, $jua, 12px, $red);
 }
 
 @mixin font-weight-400() {
@@ -79,5 +77,5 @@ $nanum-normal: "Nanum Gothic";
   font-style: normal;
   font-size: 12px;
   color: $black;
-  font-family: $nanum-normal;
+  font-family: $jua;
 }
