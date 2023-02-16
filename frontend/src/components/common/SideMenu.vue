@@ -25,8 +25,9 @@ export default class SideMenu extends Vue {
   backdrop-filter: blur(1px);
   margin-top: 1rem;
   width: 100%;
-  height: 100vh;
-  position: absolute;
+  min-height: 100%;
+  height: auto;
+  position: fixed;
   right: 0;
   z-index: 99;
 

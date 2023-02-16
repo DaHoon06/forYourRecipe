@@ -1,6 +1,8 @@
 <template>
-  <Header/>
-  <router-view/>
+  <div class="container">
+    <Header/>
+    <router-view/>
+  </div>
   <Footer/>
 </template>
 <script lang="ts">
@@ -13,12 +15,17 @@ import Footer from "@/components/layout/Footer.vue";
   components: {
     Footer,
     Header,
+
   }
 })
 export default class App extends Vue {
 
 }
 </script>
-<style lang="scss">
-
+<style scoped lang="scss">
+.container {
+  height: auto;
+  min-height: 100%;
+  //padding-bottom: 100px;
+}
 </style>

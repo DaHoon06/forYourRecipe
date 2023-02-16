@@ -233,7 +233,8 @@ export default class IngredientsBox extends Vue {
       //const {data} = await this.axios.get('/99999999999asd9sa9d9as');
 
       // TEMP
-      const {data} = await ins.get('/');
+      const {data} = await ins.get('/ingredients/all-ingredients');
+      console.log(data)
     } catch (e) {
       console.log(e)
     }
