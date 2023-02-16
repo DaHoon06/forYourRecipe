@@ -47,13 +47,14 @@ export default class HomeView extends Vue {
   align-items: center;
   width: 100%;
   margin: auto;
-  min-height: 1000px;
+  height: 100%;
 }
 
 .main__body {
   width: 100%;
   max-width: 1980px;
   padding: 10px 20px;
+  height: 100%;
 
 
   &--container {

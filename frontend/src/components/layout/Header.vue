@@ -3,24 +3,32 @@
     <section class="wrapper">
       <img src="@/assets/images/icons/cook.svg" alt="로고">
 
-      <Button type="button" variant="icon-button">
+      <custom-button type="button" variant="icon-button" @click="showSideMenu">
         <img src="@/assets/images/icons/hamburger.svg" alt=""/>
-      </Button>
+      </custom-button>
     </section>
+    <side-menu :isOpen="isOpen"/>
   </header>
 </template>
 
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
-import Button from "@/components/common/Button.vue";
+import SideMenu from "@/components/common/SideMenu.vue";
 
 @Options({
   components: {
-    Button
+    SideMenu
+
   }
 
 })
 export default class Header extends Vue {
+  isOpen = false;
+
+
+  private showSideMenu() {
+    this.isOpen = !this.isOpen;
+  }
 }
 </script>
 
