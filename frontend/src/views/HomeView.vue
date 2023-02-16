@@ -48,6 +48,7 @@ export default class HomeView extends Vue {
   width: 100%;
   margin: auto;
   height: 100%;
+  padding-top: 64px;
 }
 
 .main__body {
