@@ -18,7 +18,34 @@
 
   <teleport to="#modal">
     <Modal ref="modal">
-      재료를 담아보쟈
+      <section class="selected-ingredients--container">
+        <section>
+          <text-font>재료를 선택해주세요.</text-font>
+          <hr/>
+          <select>
+            <option>TEST</option>
+          </select>
+        </section>
+        <section>
+          선택한 재료 보여주기
+
+          <br/>
+
+          클릭했을 경우 disabled 표시 주기
+        </section>
+
+        <section>
+          <text-font>선택한 재료</text-font>
+          <hr/>
+          <text-font size="14">랍스터</text-font>
+        </section>
+        <section>
+          <custom-button type="button" variant="primary">
+            <text-font color="white" size="14">저장</text-font>
+          </custom-button>
+        </section>
+
+      </section>
     </Modal>
   </teleport>
 </template>
@@ -101,6 +128,14 @@ export default class IngredientsBox extends Vue {
     display: flex;
     flex-direction: column;
   }
+}
+
+/* 재료 선택 모달 */
+.selected-ingredients--container {
+  padding: 8px 16px;
+  text-align: left;
+  width: 360px;
+  height: 450px;
 }
 
 @media screen and (max-width: 1080px) {
