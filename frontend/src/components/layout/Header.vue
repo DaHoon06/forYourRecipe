@@ -46,6 +46,7 @@ export default class Header extends Vue {
   padding: 15px 20px;
   position: fixed;
   top: 0;
+  z-index: 99;
 
   .wrapper {
     font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

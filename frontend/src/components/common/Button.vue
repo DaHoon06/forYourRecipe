@@ -10,7 +10,7 @@ import {Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 
 type ButtonType = 'button' | 'reset' | 'submit'
-type Variant = 'primary' | 'outline-button' | 'rounded-button' | 'black' | 'icon-button' | 'gray'
+type Variant = 'primary' | 'primary-square' | 'black' | 'black-square' | 'gray' | 'gray-square' | 'icon-button'
 
 export default class Button extends Vue {
   @Prop() readonly label?: string
@@ -35,49 +35,80 @@ export default class Button extends Vue {
   height: 46px;
 }
 
-.icon-button {
-  @include defaultButtonOptions();
-  padding: 0;
-  width: fit-content !important;
-  height: auto;
-}
-
 .primary {
   @include defaultButtonOptions();
   background-color: $pointColor;
   color: $white;
 
   &:hover {
-    background-color: $pointColor;
+    background-color: #ecb206;
   }
-}
-
-.outline-button {
-  @include defaultButtonOptions();
-  background-color: $white;
-  color: $black;
-  border-color: $pointColor;
-}
-
-.rounded-button {
-  @include defaultButtonOptions();
-  background-color: $pointColor;
-  color: $black;
-  border-radius: 12px;
 }
 
 .black {
   @include defaultButtonOptions();
   background-color: $button_black;
-  color: $black;
-  border-color: transparent;
+  color: $white;
+
+  &:hover {
+    background-color: $black;
+  }
 }
 
 .gray {
   @include defaultButtonOptions();
   background-color: $button_gray;
   color: $gray2;
-  border-color: transparent;
+
+  &:hover {
+    background-color: #d7d7d7;
+  }
+}
+
+.primary-square {
+  @include defaultButtonOptions();
+  border-radius: 4px;
+  background-color: $pointColor;
+  color: $white;
+
+  &:hover {
+    background-color: #ecb206;
+  }
+}
+
+.black-square {
+  @include defaultButtonOptions();
+  border-radius: 4px;
+  background-color: $button_black;
+  color: $white;
+
+  &:hover {
+    background-color: $black;
+  }
+}
+
+.gray-square {
+  @include defaultButtonOptions();
+  border-radius: 4px;
+  background-color: $button_gray;
+  color: $gray2;
+
+  &:hover {
+    background-color: #d7d7d7;
+  }
+}
+
+.icon-button {
+  @include defaultButtonOptions();
+  padding: 0;
+  width: fit-content !important;
+  height: auto;
+  background-color: transparent;
+
+  &:hover {
+    -webkit-filter: brightness(90%);
+    filter: brightness(90%);
+  }
 }
 
 </style>
