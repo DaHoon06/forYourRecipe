@@ -57,7 +57,7 @@
             <span v-for="(value) of selected" :key="value.id"
                   @click="selectedIngredient(value.id)">
               <span :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-              <img src="@/assets/images/icons/ingredients/banana.svg" alt="식재료" width="32" height="32"/>
+              <img src="@/assets/images/icons/ingredients/fruit/banana.svg" alt="식재료" width="32" height="32"/>
               </span>
             </span>
         </section>
