@@ -427,7 +427,18 @@ export default class IngredientsBox extends Vue {
   }
 }
 
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 760px) {
+  .box-container {
+    display: inline-block;
+
+    .box__body {
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid $line;
+      box-shadow: none;
+      max-width: 100%;
+    }
+  }
 
 }
 </style>
