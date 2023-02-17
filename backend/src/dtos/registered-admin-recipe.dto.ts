@@ -1,11 +1,19 @@
-import {IsArray, IsNotEmpty, IsOptional, IsString} from "class-validator";
+import {ArrayMinSize, IsArray, IsNotEmpty, IsOptional, IsString, ValidateNested} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
+import {Type} from "class-transformer";
+import {DetailedIngredientDto} from "./detailed-ingredient.dto";
+
 
 export class RegisteredAdminRecipeDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty({type: String, description: '관리자가 등록할 레시피 이름'})
     readonly name: string
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({type: String, description: '관리자가 등록할 레시피 설명'})
+    readonly desc: string
 
     @IsArray()
     @IsNotEmpty()
@@ -16,6 +24,7 @@ export class RegisteredAdminRecipeDto {
             properties: {
                 step: {type: "number"},
                 desc: {type: "string"},
+                img: {type: "string", description: "optional"},
             }
         },
         description: '관리자가 등록할 레시피 순서'
@@ -23,23 +32,24 @@ export class RegisteredAdminRecipeDto {
     readonly steps: [
         {
             step: number,
-            desc: string
+            desc: string,
+            img?: string,
         }
     ]
 
     @IsArray()
-    @IsNotEmpty()
+    @ArrayMinSize(1)
+    @ValidateNested({ each: true })
+    @Type(() => DetailedIngredientDto )
     @ApiProperty({
-        type: "array",
-        items: {
-            type: "string",
-        },
-        description: '관리자가 등록할 레시피 필수재료'
+        isArray: true,
+        type: DetailedIngredientDto,
+        description:'관리자가 등록할 필수 재료 리스트'
     })
-    readonly ingredients: string[]
+    readonly detailedIngredient: DetailedIngredientDto[]
 
     @IsString()
     @IsOptional()
-    @ApiProperty({type: String, description: '관리자가 등록할 레시피 사진'})
+    @ApiProperty({type: String, description: '관리자가 등록할 레시피 사진', required: false})
     readonly profileImage?: string
 }

@@ -1,5 +1,6 @@
 import {IsArray, IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
+import {DetailedIngredientDto} from "./detailed-ingredient.dto";
 
 export class RecipeDto {
     @IsString()
@@ -57,9 +58,23 @@ export class RecipeDto {
     @ApiProperty({
         type: "array",
         items: {
-            type: "string",
+            type: "object",
+            properties: {
+                _id: {type: "string"},
+                name: {type: "string"},
+                img: {type: "string", description: "optional"}
+            }
         },
-        description:'필수 재료 id 리스트'
+        description: '세부 재료'
     })
-    readonly ingredients?: string[]
+    readonly detailedIngredient: DetailedIngredientDto[]
+
+    @IsString()
+    @IsOptional()
+    @ApiProperty({
+        type: String,
+        description: '레시피 사진',
+        required: false
+    })
+    readonly profileImage?: string
 }

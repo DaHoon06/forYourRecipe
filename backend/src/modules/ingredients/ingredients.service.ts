@@ -4,6 +4,7 @@ import {Ingredient, IngredientDocument} from "../../models/ingredient.model";
 import {Model} from "mongoose";
 import {v4 as uuidv4} from 'uuid';
 import {IngredientDto} from "../../dtos/ingredient.dto";
+import {RegisteredIngredientDto} from "../../dtos/registered-ingredient.dto";
 
 @Injectable()
 export class IngredientsService {
@@ -12,10 +13,20 @@ export class IngredientsService {
     ){}
 
     //재료 등록
-    async setIngredient(name: string): Promise<boolean> {
+    async setIngredient(ingredientDto: RegisteredIngredientDto): Promise<boolean> {
+        console.log(ingredientDto)
+        const { name, detailedIngredient } = ingredientDto
+        const ingredients = detailedIngredient.map( ({name, img}) => {
+            return {
+                _id: uuidv4(),
+                name,
+                img: img ? img : '',
+            }
+        })
         const ingredient = {
             _id: uuidv4(),
-            name
+            name,
+            detailedIngredient: ingredients,
         }
         const registeredIngredient = new this.ingredientModel(ingredient).save()
         if (registeredIngredient) return true

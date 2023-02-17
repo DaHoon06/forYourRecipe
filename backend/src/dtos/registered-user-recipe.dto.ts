@@ -1,14 +1,19 @@
-import {IsArray, IsNotEmpty, IsOptional, IsString} from "class-validator";
+import {ArrayMinSize, IsArray, IsNotEmpty, IsOptional, IsString} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
 
-export class RegisteredRecipeDto {
+export class RegisteredUserRecipeDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty({type: String, description: '회원이 등록할 레시피 이름'})
     readonly name: string
 
-    @IsArray()
+    @IsString()
     @IsNotEmpty()
+    @ApiProperty({type: String, description: '관리자가 등록할 레시피 설명'})
+    readonly desc: string
+
+    @IsArray()
+    @ArrayMinSize(1)
     @ApiProperty({
         type: "array",
         items: {
@@ -16,6 +21,7 @@ export class RegisteredRecipeDto {
             properties: {
                 step: {type: "number"},
                 desc: {type: "string"},
+                img: {type: "string", description: "optional"},
             }
         },
         description: '회원이 등록할 재료 순서'
@@ -24,7 +30,7 @@ export class RegisteredRecipeDto {
         {
             step: number,
             desc: string,
-            img?: URL,
+            img?: string,
         }
     ]
 
@@ -35,6 +41,6 @@ export class RegisteredRecipeDto {
 
     @IsString()
     @IsOptional()
-    @ApiProperty({type: String, description: '회원이 등록할 레시피 사진'})
+    @ApiProperty({type: String, description: '회원이 등록할 레시피 사진', required: false})
     readonly profileImage?: string
 }

@@ -21,7 +21,6 @@ export class IngredientsController {
     @ApiCreatedResponse({description: '재료 등록 후 성공 여부 boolean을 반환한다.', type: Boolean})
     @ApiBody({type: RegisteredIngredientDto, description: '등록할 재료 이름'})
     async registeredIngredient(@Body() ingredientDto: RegisteredIngredientDto) :Promise<boolean> {
-        const { name } = ingredientDto
-        return this.ingredientsService.setIngredient(name)
+        return this.ingredientsService.setIngredient(ingredientDto)
     }
 }

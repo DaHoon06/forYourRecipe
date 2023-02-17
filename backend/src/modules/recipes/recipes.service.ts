@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {Recipe, RecipeDocument} from "../../models/recipe.model";
-import {RegisteredRecipeDto} from "../../dtos/registered-recipe.dto";
+import {RegisteredUserRecipeDto} from "../../dtos/registered-user-recipe.dto";
 import {v4 as uuidv4} from 'uuid';
 import {RecipeDto} from "../../dtos/recipe.dto";
 import {RegisteredAdminRecipeDto} from "../../dtos/registered-admin-recipe.dto";
@@ -24,17 +24,22 @@ export class RecipesService {
     }
 
     //회원 레시피 등록
-    async setRecipe(recipeDto: RegisteredRecipeDto): Promise<boolean> {
-        const { name, steps, user, profileImage } = recipeDto
+    async setRecipe(recipeDto: RegisteredUserRecipeDto): Promise<boolean> {
+        const { name, steps, user, profileImage, desc } = recipeDto
+        const mappedSteps = steps.map( ({step, desc, img}) => {
+            return { step, desc, img: img ? img : ''}
+        })
         const recipe = {
             _id: uuidv4(),
-            name,
             createdAt: new Date(),
             updatedAt: new Date(),
-            user,
-            steps,
-            profileImage,
+            steps: mappedSteps,
+            profileImage: profileImage ? profileImage : '',
+            ingredients: [],
             modified: false,
+            desc,
+            name,
+            user,
         }
         const registeredRecipe = await new this.recipeModel(recipe).save()
         if (registeredRecipe) return true
@@ -43,15 +48,34 @@ export class RecipesService {
 
     //관리자 레시피 등록
     async setAdminRecipe(recipeDto: RegisteredAdminRecipeDto): Promise<boolean> {
-        const { name, steps, ingredients } = recipeDto
+        const { name, steps, desc, detailedIngredient, profileImage } = recipeDto
+
+        const mappedSteps = steps.map( ({step, desc, img}) => {
+            return {
+                step,
+                desc,
+                img: img ? img : ''
+            }
+        })
+
+        const ingredients = detailedIngredient.map( ({_id, name, img}) => {
+            return {
+                _id,
+                name: name,
+                img: img ? img : ''
+            }
+        })
         const recipe = {
             _id: uuidv4(),
             createdAt: new Date(),
             updatedAt: new Date(),
             user: 'admin',
             modified: true,
+            likes: 0,
+            steps: mappedSteps,
+            profileImage: profileImage ? profileImage : '',
             name,
-            steps,
+            desc,
             ingredients,
         }
         const data = await new this.recipeModel(recipe).save()
