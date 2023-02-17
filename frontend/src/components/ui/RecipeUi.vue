@@ -1,0 +1,26 @@
+<template>
+  <section class="recipe">
+    <slot/>
+  </section>
+</template>
+
+<script lang="ts">
+import {Vue} from "vue-class-component";
+
+export default class RecipeUi extends Vue {
+}
+</script>
+
+<style scoped lang="scss">
+.recipe {
+  padding: 50px 36px;
+  border: 1px solid transparent;
+  border-radius: 8px 50px 8px 50px;
+  background-color: #FFFDF4;
+  box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.25);
+  max-width: 100%;
+  height: 100%;
+  //height: auto;
+  margin: auto;
+}
+</style>

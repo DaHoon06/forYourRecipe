@@ -24,7 +24,7 @@
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
 import Modal from "@/components/common/Modal.vue";
-import CardUi from "@/components/CardUi.vue";
+import CardUi from "@/components/ui/CardUi.vue";
 import Button from "@/components/common/Button.vue";
 import IngredientsBox from "@/components/IngredientsBox.vue";
 import {ins} from "@/lib/axios";

@@ -8,7 +8,7 @@
 import {Prop} from "vue-property-decorator";
 import {Vue} from "vue-class-component";
 
-type FontSize = '12' | '13' | '14' | '15' | '16' | '18' | '20' | '22' | '24';
+type FontSize = '12' | '13' | '14' | '15' | '16' | '18' | '20' | '22' | '24' | '25' | '26';
 type FontColor =
   | 'black'
   | 'white'
@@ -18,6 +18,8 @@ type FontColor =
   | 'textTitle'
   | 'textSub'
   | 'gray'
+  | 'gray2'
+  | 'label'
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
 
 export default class Typography extends Vue {
@@ -55,6 +57,10 @@ export default class Typography extends Vue {
   @include placeholder();
 }
 
+.label {
+  @include label();
+}
+
 .black {
   @include black();
 }
@@ -69,6 +75,10 @@ export default class Typography extends Vue {
 
 .gray {
   @include gray();
+}
+
+.gray2 {
+  @include gray2();
 }
 
 .textTitle {

@@ -1,12 +1,12 @@
 <template>
   <Transition name="slide-fade">
-    <aside class="side-menu" v-show="isOpen">
+    <aside class="side-menu" v-show="open">
       <nav class="side-menu--items">
         <section class="side-menu--top">
           <section v-if="!isLogin">
 
             <text-font class="center">
-              로그인을 하면 <br /> 나만의 레시피를 등록할 수 있어요!
+              로그인을 하면 <br/> 나만의 레시피를 등록할 수 있어요!
             </text-font>
 
             <div class="flex justify-center">
@@ -21,12 +21,12 @@
           </section>
           <section v-else>
             <section class="profile--container">
-              <img src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96" />
+              <img src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
               <text-font>전다훈</text-font>
             </section>
 
             <div class="flex">
-              <custom-button type="button" variant="icon-button" >
+              <custom-button type="button" variant="icon-button">
                 <text-font>마이페이지</text-font>
               </custom-button>
               <span>|</span>
@@ -38,37 +38,37 @@
         </section>
 
 
-        <hr />
+        <hr/>
 
         <ul class="side-menu--bottom scroll">
           <li>
-            <custom-button type="button" variant="icon-button">
+            <custom-button type="button" variant="icon-button" @click="redirect('home')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/home.svg" alt="메인으로 이동" width="32" height="32" class="ml-40 mr-26" />
+                <img src="@/assets/images/icons/home.svg" alt="메인으로 이동" width="32" height="32" class="ml-40 mr-26"/>
                 <text-font color="textBody">메인</text-font>
               </div>
             </custom-button>
           </li>
           <li>
-            <custom-button type="button" variant="icon-button" class="side-menu--item">
+            <custom-button type="button" variant="icon-button" class="side-menu--item" @click="redirect('recipe')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32" class="ml-40 mr-26" />
+                <img src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32" class="ml-40 mr-26"/>
                 <text-font color="textBody">레시피 등록</text-font>
               </div>
             </custom-button>
           </li>
           <li>
-            <custom-button type="button" variant="icon-button">
+            <custom-button type="button" variant="icon-button" @click="redirect('favorite')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/star.svg" alt="즐겨찾기" width="32" height="32" class="ml-40 mr-26" />
+                <img src="@/assets/images/icons/star.svg" alt="즐겨찾기" width="32" height="32" class="ml-40 mr-26"/>
                 <text-font color="textBody">즐겨찾기</text-font>
               </div>
             </custom-button>
           </li>
           <li>
-            <custom-button type="button" variant="icon-button">
+            <custom-button type="button" variant="icon-button" @click="redirect('notice')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/question.svg" alt="공지사항" width="32" height="32" class="ml-40 mr-26" />
+                <img src="@/assets/images/icons/question.svg" alt="공지사항" width="32" height="32" class="ml-40 mr-26"/>
                 <text-font color="textBody">공지사항</text-font>
               </div>
             </custom-button>
@@ -81,18 +81,26 @@
 
 <script lang="ts">
 import {Vue} from "vue-class-component";
-import {Prop, Watch} from "vue-property-decorator";
+import {Emit, Prop, Watch} from "vue-property-decorator";
 
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
 
+  open = false;
   // Temp
   isLogin = false
 
   @Watch('isOpen')
   private disabledScroll() {
+    this.open = this.isOpen
     const html = document.querySelector('html');
     if (html) this.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''
+  }
+
+  @Emit('closeMenu')
+  closeMenu() {
+    this.open = false
+    return this.open;
   }
 
   private login() {
@@ -101,6 +109,27 @@ export default class SideMenu extends Vue {
 
   private logout() {
     this.isLogin = false;
+  }
+
+  private redirect(type: string) {
+    this.closeMenu();
+    switch (type) {
+      case 'home':
+        this.$router.push('/')
+        break;
+      case 'recipe':
+        this.$router.push('/recipe/post')
+        break;
+      case 'favorite':
+        this.$router.push('/')
+        break;
+      case 'notice':
+        this.$router.push('/')
+        break;
+      default:
+        this.$router.push('/')
+        break;
+    }
   }
 
 }
@@ -144,6 +173,7 @@ export default class SideMenu extends Vue {
       justify-content: flex-end;
       padding: 16px 0;
     }
+
     .side-menu--item {
       background-color: $gray4;
       width: 256px;
@@ -154,6 +184,7 @@ export default class SideMenu extends Vue {
       align-items: center;
     }
   }
+
   /* 로그인 후 */
   .profile--container {
     display: flex;

@@ -9,7 +9,7 @@
         <img src="@/assets/images/icons/hamburger.svg" alt=""/>
       </custom-button>
     </section>
-    <side-menu :isOpen="isOpen"/>
+    <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
   </header>
 </template>
 
@@ -27,6 +27,9 @@ import SideMenu from "@/components/common/SideMenu.vue";
 export default class Header extends Vue {
   isOpen = false;
 
+  private closeMenu(payload: boolean) {
+    this.isOpen = payload;
+  }
 
   private showSideMenu() {
     this.isOpen = !this.isOpen;
