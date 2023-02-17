@@ -43,16 +43,16 @@ export default class Header extends Vue {
   background-color: $pointColor;
   width: 100%;
   height: 64px;
-  padding: 15px 20px;
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 99;
 
   .wrapper {
-    font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 15px 20px;
   }
 }
 </style>

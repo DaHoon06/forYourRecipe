@@ -35,7 +35,7 @@ export const GraySquare  = Template.bind({})
 GraySquare.args = { variant: 'gray-square', label: 'button', type: 'button' }
 
 export const IconButton  = Template.bind({})
-IconButton.args = { variant: 'icon-button', label: 'icon', type: 'button' }
+IconButton.args = { variant: 'icon-button ', label: 'icon', type: 'button' }
 
 
 
