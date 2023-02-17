@@ -25,21 +25,25 @@ export class RecipesService {
 
     //회원 레시피 등록
     async setRecipe(recipeDto: RegisteredUserRecipeDto): Promise<boolean> {
-        const { name, steps, user, profileImage, desc } = recipeDto
+        const { name, steps, user, profileImage, desc, allIngredient} = recipeDto
+
         const mappedSteps = steps.map( ({step, desc, img}) => {
             return { step, desc, img: img ? img : ''}
         })
-        const recipe = {
+
+        const recipe: Recipe= {
             _id: uuidv4(),
             createdAt: new Date(),
             updatedAt: new Date(),
             steps: mappedSteps,
             profileImage: profileImage ? profileImage : '',
-            ingredients: [],
             modified: false,
+            likes: 0,
             desc,
             name,
             user,
+            allIngredient,
+            detailedIngredient: []
         }
         const registeredRecipe = await new this.recipeModel(recipe).save()
         if (registeredRecipe) return true
@@ -48,7 +52,7 @@ export class RecipesService {
 
     //관리자 레시피 등록
     async setAdminRecipe(recipeDto: RegisteredAdminRecipeDto): Promise<boolean> {
-        const { name, steps, desc, detailedIngredient, profileImage } = recipeDto
+        const { name, steps, desc, detailedIngredient, profileImage, allIngredient } = recipeDto
 
         const mappedSteps = steps.map( ({step, desc, img}) => {
             return {
@@ -65,7 +69,8 @@ export class RecipesService {
                 img: img ? img : ''
             }
         })
-        const recipe = {
+
+        const recipe: Recipe = {
             _id: uuidv4(),
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -76,7 +81,8 @@ export class RecipesService {
             profileImage: profileImage ? profileImage : '',
             name,
             desc,
-            ingredients,
+            detailedIngredient: ingredients,
+            allIngredient,
         }
         const data = await new this.recipeModel(recipe).save()
         if (data) {return true}

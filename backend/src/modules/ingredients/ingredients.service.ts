@@ -14,7 +14,6 @@ export class IngredientsService {
 
     //재료 등록
     async setIngredient(ingredientDto: RegisteredIngredientDto): Promise<boolean> {
-        console.log(ingredientDto)
         const { name, detailedIngredient } = ingredientDto
         const ingredients = detailedIngredient.map( ({name, img}) => {
             return {
@@ -36,5 +35,27 @@ export class IngredientsService {
     //모든 재료 반환
     async findAllIngredient(): Promise<IngredientDto[]>{
        return this.ingredientModel.find()
+    }
+
+    //재료 배열로 한번에 업로드 테스트용
+    async setIngredients(ingredientDtoArr: RegisteredIngredientDto[]) {
+        ingredientDtoArr.forEach( dto => {
+            const { name, detailedIngredient } = dto
+            const ingredients = detailedIngredient.map( ({name, img}) => {
+                return {
+                    _id: uuidv4(),
+                    name,
+                    img: img ? img : '',
+                }
+            })
+            const ingredient = {
+                _id: uuidv4(),
+                name,
+                detailedIngredient: ingredients,
+            }
+            const registeredIngredient = new this.ingredientModel(ingredient).save()
+            if (!registeredIngredient) return false
+        })
+        return true
     }
 }

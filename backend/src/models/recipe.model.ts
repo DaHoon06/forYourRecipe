@@ -39,6 +39,9 @@ export class Recipe {
     @Prop( { type: Boolean, required: true })
     modified: boolean
 
+    @Prop({type: String, required: true})
+    allIngredient: string
+
     @Prop({type: String, required: false })
     profileImage?: string
 
@@ -51,7 +54,7 @@ export class Recipe {
         }],
         required: false
     })
-    ingredients?: DetailedIngredient[]
+    detailedIngredient?: DetailedIngredient[]
 }
 
 export type RecipeDocument = HydratedDocument<Recipe>
