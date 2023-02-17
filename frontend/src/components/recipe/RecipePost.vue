@@ -8,12 +8,21 @@
     <form @submit.prevent="registerRecipe" class="form">
       <recipe-ui>
         <section class="pb-20">
-          <text-font size="22">주재료를 선택해주세요.</text-font>
-          <select>
-            <option>재료1</option>
-            <option>재료2</option>
-            <option>재료3</option>
-          </select>
+          <div class="recipe-post--ingredients">
+            <text-font size="22" class="pr-16">주재료를 선택해주세요.</text-font>
+            <div class="select-box">
+              <select>
+                <option v-for="(i) of 4" :key="i">
+                  <text-font size="12">{{ i }}</text-font>
+                </option>
+              </select>
+              <span class="angle-icons">
+              <img
+                src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
+            </span>
+            </div>
+          </div>
+
           <div class="dotted mt-16"/>
 
         </section>
@@ -101,6 +110,11 @@ export default class RecipePost extends Vue {
   width: 100%;
   margin: auto;
   padding: 5rem;
+
+  .recipe-post--ingredients {
+    display: flex;
+    align-items: center;
+  }
 
   .recipe-post__label {
     display: flex;

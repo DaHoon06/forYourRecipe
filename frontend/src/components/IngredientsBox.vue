@@ -303,67 +303,6 @@ export default class IngredientsBox extends Vue {
   width: 420px;
   height: 500px;
 
-
-  .select-box {
-    position: relative;
-    width: 150px;
-    height: 35px;
-    border-radius: 4px;
-    border: 1px solid $pointColor;
-
-    select::-ms-expand {
-      display: none;
-    }
-
-    select {
-      -o-appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      cursor: pointer;
-      width: inherit;
-      height: inherit;
-      background: transparent;
-      border: 0 none;
-      outline: 0 none;
-      padding: 0 5px;
-      position: relative;
-      z-index: 3; // select가 위로 올라와야 함
-
-
-      option {
-        background: $white;
-        color: $black;
-        padding: 3px 0;
-        font-size: 16px;
-      }
-    }
-
-    .angle-icons {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 1;
-      width: 35px;
-      height: inherit;
-      border-left: 1px solid $pointColor;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      img {
-        width: 50%;
-        transition: .3s; // 부드럽게 회전
-      }
-    }
-
-    select:focus + .angle-icons img {
-      transform: rotate(180deg);
-    }
-
-  }
-
-
   .ingredients-items--container {
     min-height: 200px;
     display: grid;

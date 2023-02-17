@@ -22,6 +22,64 @@
   }
 }
 
+.select-box {
+  position: relative;
+  width: 150px;
+  height: 35px;
+
+  select::-ms-expand {
+    display: none;
+  }
+
+  select {
+    border-radius: 4px;
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    width: inherit;
+    height: inherit;
+    background: transparent;
+    border: 2px solid $button_black;
+    outline: 0 none;
+    padding: 0 5px;
+    position: relative;
+    z-index: 3; // select가 위로 올라와야 함
+
+    option {
+      background: $button_black;
+      color: $white;
+      padding: 3px 0;
+      font-size: 16px;
+    }
+  }
+
+  .angle-icons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: 35px;
+    height: inherit;
+    //border-left: 2px solid $button_black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $button_black;
+    border-radius: 4px;
+
+    img {
+      width: 50%;
+      transition: .3s; // 부드럽게 회전
+    }
+  }
+
+  select:focus + .angle-icons img {
+    transform: rotate(180deg);
+  }
+}
+
 .dotted {
   border: none;
   border-top: 2px dashed #ededed;
