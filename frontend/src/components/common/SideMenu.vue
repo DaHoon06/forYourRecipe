@@ -21,7 +21,7 @@
           </section>
           <section v-else>
             <section class="profile--container">
-              <img src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
+              <img loading="lazy" src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
               <text-font>전다훈</text-font>
             </section>
 
@@ -44,7 +44,8 @@
           <li>
             <custom-button type="button" variant="icon-button" @click="redirect('home')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/home.svg" alt="메인으로 이동" width="32" height="32" class="ml-40 mr-26"/>
+                <img loading="eager" src="@/assets/images/icons/home.svg" alt="메인으로 이동" width="32" height="32"
+                     class="ml-40 mr-26"/>
                 <text-font color="textBody">메인</text-font>
               </div>
             </custom-button>
@@ -52,7 +53,8 @@
           <li>
             <custom-button type="button" variant="icon-button" class="side-menu--item" @click="redirect('recipe')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32" class="ml-40 mr-26"/>
+                <img loading="eager" src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32"
+                     class="ml-40 mr-26"/>
                 <text-font color="textBody">레시피 등록</text-font>
               </div>
             </custom-button>
@@ -60,7 +62,8 @@
           <li>
             <custom-button type="button" variant="icon-button" @click="redirect('favorite')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/star.svg" alt="즐겨찾기" width="32" height="32" class="ml-40 mr-26"/>
+                <img loading="eager" src="@/assets/images/icons/star.svg" alt="즐겨찾기" width="32" height="32"
+                     class="ml-40 mr-26"/>
                 <text-font color="textBody">즐겨찾기</text-font>
               </div>
             </custom-button>
@@ -68,7 +71,8 @@
           <li>
             <custom-button type="button" variant="icon-button" @click="redirect('notice')">
               <div class="side-menu--item">
-                <img src="@/assets/images/icons/question.svg" alt="공지사항" width="32" height="32" class="ml-40 mr-26"/>
+                <img loading="eager" src="@/assets/images/icons/question.svg" alt="공지사항" width="32" height="32"
+                     class="ml-40 mr-26"/>
                 <text-font color="textBody">공지사항</text-font>
               </div>
             </custom-button>

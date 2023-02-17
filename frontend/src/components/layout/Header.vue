@@ -2,11 +2,11 @@
   <header class="header">
     <section class="wrapper">
       <router-link to="/">
-        <img src="@/assets/images/icons/cook.svg" alt="로고">
+        <img loading="eager" width="30" height="30" src="@/assets/images/icons/cook.svg" alt="로고">
       </router-link>
 
       <custom-button type="button" variant="icon-button" @click="showSideMenu">
-        <img src="@/assets/images/icons/hamburger.svg" alt=""/>
+        <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger.svg" alt="햄버거 메뉴"/>
       </custom-button>
     </section>
     <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
