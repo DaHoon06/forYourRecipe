@@ -100,7 +100,7 @@ export default class RecipePost extends Vue {
 .recipe-post--container {
   width: 100%;
   margin: auto;
-  padding: 5rem 0;
+  padding: 5rem;
 
   .recipe-post__label {
     display: flex;
