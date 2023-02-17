@@ -75,6 +75,14 @@ $jua: "jua";
   color: $gray1;
 }
 
+@mixin gray2() {
+  color: $gray2;
+}
+
+@mixin label() {
+  color: $label;
+}
+
 @mixin default() {
   letter-spacing: -0.39px;
   font-weight: 400;

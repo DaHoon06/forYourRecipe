@@ -10,7 +10,7 @@ import {Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 
 type ButtonType = 'button' | 'reset' | 'submit'
-type Variant = 'primary' | 'outline-button' | 'rounded-button' | 'black' | 'icon-button'
+type Variant = 'primary' | 'outline-button' | 'rounded-button' | 'black' | 'icon-button' | 'gray'
 
 export default class Button extends Vue {
   @Prop() readonly label?: string
@@ -38,7 +38,7 @@ export default class Button extends Vue {
 .icon-button {
   @include defaultButtonOptions();
   padding: 0;
-  width: fit-content;
+  width: fit-content !important;
   height: auto;
 }
 
@@ -68,9 +68,16 @@ export default class Button extends Vue {
 
 .black {
   @include defaultButtonOptions();
-  background-color: $white;
+  background-color: $button_black;
   color: $black;
-  border-color: $black;
+  border-color: transparent;
+}
+
+.gray {
+  @include defaultButtonOptions();
+  background-color: $button_gray;
+  color: $gray2;
+  border-color: transparent;
 }
 
 </style>
