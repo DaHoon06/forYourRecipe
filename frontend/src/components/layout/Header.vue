@@ -1,7 +1,9 @@
 <template>
   <header class="header">
     <section class="wrapper">
-      <img src="@/assets/images/icons/cook.svg" alt="로고">
+      <router-link to="/">
+        <img src="@/assets/images/icons/cook.svg" alt="로고">
+      </router-link>
 
       <custom-button type="button" variant="icon-button" @click="showSideMenu">
         <img src="@/assets/images/icons/hamburger.svg" alt=""/>

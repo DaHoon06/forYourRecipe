@@ -1,13 +1,17 @@
 <template>
-$END$
+  <main>
+    <router-view/>
+  </main>
 </template>
 
-<script>
-export default {
-name: "RecipeView"
+<script lang="ts">
+import {Vue} from "vue-class-component";
+
+export default class RecipeView extends Vue {
+
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

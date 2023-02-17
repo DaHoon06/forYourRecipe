@@ -10,7 +10,9 @@
         <text-font color="black" size="24" weight="bold">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
-          <CardUi class="mr-20" v-for="(i) in 4" :key="i"/>
+          <CardUi class="mr-20" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+            <text-font size="14">{{ dish.name }}</text-font>
+          </CardUi>
         </section>
       </section>
     </section>
@@ -25,6 +27,24 @@ import Modal from "@/components/common/Modal.vue";
 import CardUi from "@/components/CardUi.vue";
 import Button from "@/components/common/Button.vue";
 import IngredientsBox from "@/components/IngredientsBox.vue";
+import {ins} from "@/lib/axios";
+
+interface ISteps {
+  _id: string,
+  step: number,
+  desc: string,
+}
+
+interface IRecipe {
+  _id: string,
+  name: string,
+  ingredients: string[],
+  createdAt: Date,
+  updatedAt: Date,
+  modified: boolean,
+  user: string,
+  steps: ISteps[]
+}
 
 
 @Options({
@@ -37,6 +57,25 @@ import IngredientsBox from "@/components/IngredientsBox.vue";
 })
 export default class HomeView extends Vue {
 
+  recipeCards: IRecipe[] = [];
+
+  created() {
+    this.load();
+  }
+
+  private async load() {
+    try {
+      const {data} = await ins.get('/recipes/all-recipes');
+      console.log(data)
+      this.recipeCards = data;
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  private recipeDetail(id: string) {
+    this.$router.push(`/recipe/detail/${id}`)
+  }
 }
 </script>
 
@@ -48,7 +87,6 @@ export default class HomeView extends Vue {
   width: 100%;
   margin: auto;
   height: 100%;
-  padding-top: 64px;
 }
 
 .main__body {

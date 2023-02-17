@@ -1,7 +1,7 @@
 <template>
-  <main>
+  <section>
     post
-  </main>
+  </section>
 </template>
 
 <script lang="ts">
