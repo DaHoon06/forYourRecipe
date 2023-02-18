@@ -1,17 +1,25 @@
 <template>
   <article class="box-container">
     <section class="box__body">
-      <section class="ingredients-box" v-if="!ingredients.length">
-        <div class="ingredients-box--status">
-          <text-font size="20">바구니가 비어있습니다.</text-font>
-          <text-font size="14" color="textSub" class="pt-13">재료를 선택해주세요.</text-font>
-        </div>
-      </section>
-      <div v-else>
-        {{ ingredients }}
+      <div v-if="!ingredients.length">
+        <article class="ingredients-box dark" >
+          <section >
+            <div class="ingredients-box--status">
+              <img src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator" width="210" />
+            </div>
+          </section>
+        </article>
+        <section class="empty__label">
+          <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
+          <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>
+        </section>
       </div>
+      <section v-else>
+        {{ ingredients }}
+      </section>
 
-      <section class="ingredients-box--button pt-55">
+
+      <section class="ingredients-box--button pt-20">
         <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">
           <img src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>
           <text-font color="white">재료 담기</text-font>
@@ -332,8 +340,12 @@ export default class IngredientsBox extends Vue {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
 
+  .empty__label {
+    display: flex;
+    flex-direction: column;
+  }
+}
 
 .ingredients-box {
   border: 1px solid $line;
