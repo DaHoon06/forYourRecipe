@@ -47,7 +47,7 @@
 
           <div class="select-box">
             <select v-model="selected">
-              <option v-for="(category) of mockData" :key="category.id" :value="category.kind">
+              <option v-for="(category) of mockData" :key="category.id" :value="category.kind" :disabled="selectBoxDisabled" >
                 <text-font size="12">{{ category.name }}</text-font>
               </option>
             </select>
@@ -76,16 +76,19 @@
         <section class="selected-items">
           <text-font>선택한 재료</text-font>
           <hr/>
-          <text-font size="14" v-for="(ingredient, index) of ingredients" :key="index">{{
-              ingredient.name
-            }}, &nbsp;
-          </text-font>
+          <div>
+            <text-font size="14" v-for="(ingredient, index) of ingredients" :key="index">{{
+                ingredient.name
+              }}, &nbsp;
+            </text-font>
+          </div>
+          <text-font class="w-100 center" size="13" color="red" v-if="selectBoxDisabled">재료는 최대 3 가지만 고를 수 있습니다.</text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
           <custom-button type="button" variant="gray" @click="cancel">
             <text-font color="white" size="14">취소</text-font>
           </custom-button>
-          <custom-button type="button" variant="primary" @click="save">
+          <custom-button type="button" variant="primary" class="ml-8" @click="save">
             <text-font color="white" size="14">저장</text-font>
           </custom-button>
         </section>
@@ -281,12 +284,17 @@ export default class IngredientsBox extends Vue {
       return id === key;
     });
     this.ingredients.push(...choice);
+    if (this.selectBoxDisabled) return;
 
     this.ingredients = this.ingredients.filter((value) => {
       const {selected} = value
       if (selected) return selected
       return false;
     });
+  }
+
+  get selectBoxDisabled() {
+    return this.ingredients.length === 3;
   }
 
   private cancel() {
@@ -365,7 +373,7 @@ export default class IngredientsBox extends Vue {
 
 /* 재료 선택 모달 */
 .selected-ingredients--container {
-  padding: 8px 16px;
+  padding: 1rem;
   text-align: left;
   width: 420px;
   height: 500px;
