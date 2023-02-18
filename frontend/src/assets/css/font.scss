@@ -2,7 +2,9 @@
 
 @font-face {
   font-family: 'jua';
-  src: url("@/assets/fonts/Jua-Regular.ttf");
+  font-style: normal;
+  src: url("@/assets/fonts/Jua-Regular.woff") format('woff');
+  font-display: swap;
 }
 
 $jua: "jua";

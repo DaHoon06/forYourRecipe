@@ -1,17 +1,32 @@
 <template>
   <article class="box-container">
     <section class="box__body">
-      <section class="ingredients-box">
+      <section class="ingredients-box" v-if="!ingredients.length">
         <div class="ingredients-box--status">
           <text-font size="20">바구니가 비어있습니다.</text-font>
           <text-font size="14" color="textSub" class="pt-13">재료를 선택해주세요.</text-font>
         </div>
       </section>
+      <div v-else>
+        {{ ingredients }}
+      </div>
+
       <section class="ingredients-box--button pt-55">
-        <custom-button type="button" variant="primary" @click="pickUpModal">
+        <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">
           <img src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>
           <text-font color="white">재료 담기</text-font>
         </custom-button>
+        <div class="flex" v-else>
+          <custom-button type="button" variant="gray" @click="reset">
+            <img src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20" height="20" class="mr-6"/>
+            <text-font color="white">초기화</text-font>
+          </custom-button>
+          <custom-button type="button" variant="primary" @click="findRecipe">
+            <img src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20" height="20" class="mr-6"/>
+            <text-font color="white">레시피 검색</text-font>
+          </custom-button>
+        </div>
+
       </section>
     </section>
   </article>
@@ -19,9 +34,9 @@
   <teleport to="#modal">
     <Modal ref="modal">
       <section class="selected-ingredients--container">
-        <section>
+        <section class="select-box--wrapper">
           <text-font>재료를 선택해주세요.</text-font>
-          <hr/>
+
           <div class="select-box">
             <select v-model="selected">
               <option v-for="(category) of mockData" :key="category.id" :value="category.kind">
@@ -34,26 +49,35 @@
             </span>
           </div>
 
-
         </section>
-        <section class="ingredients-items--container scroll">
 
-          <span v-for="(value) of selected" :key="value.id" class="ingredient-icon--wrapper"
-                @click="selectedIngredient(value.id)">
-            <img src="@/assets/images/icons/ingredients/banana.svg" alt="식재료" width="32" height="32"/>
-          </span>
+        <hr/>
 
-
+        <section v-if="selected.length > 0" class="ingredients-items--container scroll">
+            <span v-for="(value) of selected" :key="value.id"
+                  @click="selectedIngredient(value.id)">
+              <span :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
+              <img src="@/assets/images/icons/ingredients/fruit/banana.svg" alt="식재료" width="32" height="32"/>
+              </span>
+            </span>
+        </section>
+        <section class="empty-ingredients" v-else>
+          <text-font>선택된 재료가 없습니다.</text-font>
         </section>
 
         <section class="selected-items">
           <text-font>선택한 재료</text-font>
           <hr/>
-          <text-font size="14">랍스터</text-font>
-          {{ ingredients }}
+          <text-font size="14" v-for="(ingredient, index) of ingredients" :key="index">{{
+              ingredient.name
+            }}, &nbsp;
+          </text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
-          <custom-button type="button" variant="primary">
+          <custom-button type="button" variant="gray" @click="cancel">
+            <text-font color="white" size="14">취소</text-font>
+          </custom-button>
+          <custom-button type="button" variant="primary" @click="save">
             <text-font color="white" size="14">저장</text-font>
           </custom-button>
         </section>
@@ -72,7 +96,8 @@ import {ins} from "@/lib/axios";
 
 interface IngredientType {
   id: number,
-  name: string
+  name: string,
+  selected?: boolean
 }
 
 interface IngredientCategories {
@@ -240,12 +265,42 @@ export default class IngredientsBox extends Vue {
     }
   }
 
+  //TODO: push로 배열을 채우는데 selected false 인 값을 걸러내면???
   private selectedIngredient(key: number) {
     const choice = this.selected.filter((value: IngredientType) => {
-      const {id} = value
+      const {id, selected} = value
+      if (id === key) value.selected = !selected;
       return id === key;
-    })
-    this.ingredients.push(...choice)
+    });
+    this.ingredients.push(...choice);
+
+    this.ingredients = this.ingredients.filter((value) => {
+      const {selected} = value
+      if (selected) return selected
+      return false;
+    });
+  }
+
+  private cancel() {
+    this.reset();
+    this.modal.hide();
+  }
+
+  private save() {
+    this.modal.hide();
+  }
+
+  private async findRecipe() {
+    try {
+      console.log('레시피 검색 중~')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  private reset() {
+    this.ingredients = [];
+    this.selected = [];
   }
 
 
@@ -303,66 +358,18 @@ export default class IngredientsBox extends Vue {
   width: 420px;
   height: 500px;
 
-
-  .select-box {
-    position: relative;
-    width: 150px;
-    height: 35px;
-    border-radius: 4px;
-    border: 1px solid $pointColor;
-
-    select::-ms-expand {
-      display: none;
-    }
-
-    select {
-      -o-appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      cursor: pointer;
-      width: inherit;
-      height: inherit;
-      background: transparent;
-      border: 0 none;
-      outline: 0 none;
-      padding: 0 5px;
-      position: relative;
-      z-index: 3; // select가 위로 올라와야 함
-
-
-      option {
-        background: $white;
-        color: $black;
-        padding: 3px 0;
-        font-size: 16px;
-      }
-    }
-
-    .angle-icons {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 1;
-      width: 35px;
-      height: inherit;
-      border-left: 1px solid $pointColor;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      img {
-        width: 50%;
-        transition: .3s; // 부드럽게 회전
-      }
-    }
-
-    select:focus + .angle-icons img {
-      transform: rotate(180deg);
-    }
-
+  .select-box--wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
+  .empty-ingredients {
+    min-height: 254px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .ingredients-items--container {
     min-height: 200px;
@@ -371,7 +378,7 @@ export default class IngredientsBox extends Vue {
     column-gap: 10px;
     row-gap: 0;
     padding: 10px 0;
-    height: 200px;
+    height: 254px;
     overflow-y: auto;
 
     .ingredient-icon--wrapper {
@@ -385,8 +392,26 @@ export default class IngredientsBox extends Vue {
       align-items: center;
 
       &:hover {
-        border-color: #c2c2c2;
         background-color: rgba(245, 245, 245, 0.5);
+      }
+    }
+
+    /* 재료 아이콘 선택 표시 */
+    .disabled-icon {
+      -webkit-filter: brightness(95%);
+      filter: brightness(95%);
+      background-color: rgba(240, 240, 240, 0.6);
+      width: 52px;
+      height: 52px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        -webkit-filter: brightness(90%);
+        filter: brightness(90%);
       }
     }
   }
@@ -402,7 +427,18 @@ export default class IngredientsBox extends Vue {
   }
 }
 
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 760px) {
+  .box-container {
+    display: inline-block;
+
+    .box__body {
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid $line;
+      box-shadow: none;
+      max-width: 100%;
+    }
+  }
 
 }
 </style>

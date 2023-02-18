@@ -42,6 +42,7 @@ export default class CardUi extends Vue {
     -webkit-filter: brightness(90%);
     filter: brightness(90%);
     background-color: rgba(255, 255, 255, 0.8);
+    z-index: 0;
   }
 }
 </style>

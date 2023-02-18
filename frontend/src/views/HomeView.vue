@@ -7,7 +7,7 @@
 
     <section class="main__body">
       <section class="main__body--container">
-        <text-font color="black" size="24" weight="bold">오늘의 추천 요리</text-font>
+        <text-font color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
           <CardUi class="mr-20" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
@@ -106,7 +106,23 @@ export default class HomeView extends Vue {
       row-gap: 1rem;
     }
   }
+}
 
+@media screen and (max-width: 760px) {
+  .main__body {
+    padding: 0;
 
+    &--container {
+      padding: 0 2rem 2rem;
+
+      p {
+        padding-bottom: 2rem;
+      }
+
+      hr {
+        display: none;
+      }
+    }
+  }
 }
 </style>
