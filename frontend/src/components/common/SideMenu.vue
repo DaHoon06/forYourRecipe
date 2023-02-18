@@ -5,7 +5,7 @@
         <section class="side-menu--top">
           <section v-if="!isLogin">
 
-            <text-font class="center">
+            <text-font class="center pb-32">
               로그인을 하면 <br/> 나만의 레시피를 등록할 수 있어요!
             </text-font>
 
@@ -13,23 +13,23 @@
               <custom-button type="button" variant="icon-button" @click="login">
                 <text-font>로그인</text-font>
               </custom-button>
-              <span>|</span>
+              <span class="division-line">|</span>
               <custom-button type="button" variant="icon-button">
                 <text-font>회원가입</text-font>
               </custom-button>
             </div>
           </section>
           <section v-else>
-            <section class="profile--container">
+            <section class="profile--container pb-32">
               <img loading="lazy" src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
-              <text-font>전다훈</text-font>
+              <text-font class="pt-18">전다훈</text-font>
             </section>
 
             <div class="flex">
               <custom-button type="button" variant="icon-button">
                 <text-font>마이페이지</text-font>
               </custom-button>
-              <span>|</span>
+              <span class="division-line">|</span>
               <custom-button type="button" variant="icon-button" @click="logout">
                 <text-font>로그아웃</text-font>
               </custom-button>
@@ -167,6 +167,11 @@ export default class SideMenu extends Vue {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    .division-line {
+      color: $line;
+      margin: 0 20px;
+    }
   }
 
   .side-menu--bottom {

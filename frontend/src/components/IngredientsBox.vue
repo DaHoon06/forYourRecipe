@@ -45,8 +45,8 @@
         <section class="select-box--wrapper">
           <text-font>재료를 선택해주세요.</text-font>
 
-          <div class="select-box">
-            <select v-model="selected">
+          <div class="select-box" :class="selectBoxDisabled && 'dark'">
+            <select :class="selectBoxDisabled && 'disabled'" v-model="selected">
               <option v-for="(category) of mockData" :key="category.id" :value="category.kind" :disabled="selectBoxDisabled" >
                 <text-font size="12">{{ category.name }}</text-font>
               </option>
