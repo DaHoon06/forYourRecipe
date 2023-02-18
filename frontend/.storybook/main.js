@@ -18,7 +18,7 @@ module.exports = {
         loader: 'sass-loader',
         options: {
           additionalData: `
-						@import "@/assets/css/color.scss";
+						@import "@/assets/css/index.scss";
 					`
         }
       }],

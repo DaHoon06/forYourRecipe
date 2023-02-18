@@ -45,7 +45,7 @@
             <custom-button type="button" variant="icon-button" @click="redirect('home')">
               <div class="side-menu--item">
                 <img loading="eager" src="@/assets/images/icons/home.svg" alt="메인으로 이동" width="32" height="32"
-                     class="ml-40 mr-26"/>
+                     class="ml-40 mr-26 icon"/>
                 <text-font color="textBody">메인</text-font>
               </div>
             </custom-button>
@@ -54,7 +54,7 @@
             <custom-button type="button" variant="icon-button" class="side-menu--item" @click="redirect('recipe')">
               <div class="side-menu--item">
                 <img loading="eager" src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32"
-                     class="ml-40 mr-26"/>
+                     class="ml-40 mr-26 icon"/>
                 <text-font color="textBody">레시피 등록</text-font>
               </div>
             </custom-button>
@@ -63,7 +63,7 @@
             <custom-button type="button" variant="icon-button" @click="redirect('favorite')">
               <div class="side-menu--item">
                 <img loading="eager" src="@/assets/images/icons/star.svg" alt="즐겨찾기" width="32" height="32"
-                     class="ml-40 mr-26"/>
+                     class="ml-40 mr-26 icon"/>
                 <text-font color="textBody">즐겨찾기</text-font>
               </div>
             </custom-button>
@@ -72,7 +72,7 @@
             <custom-button type="button" variant="icon-button" @click="redirect('notice')">
               <div class="side-menu--item">
                 <img loading="eager" src="@/assets/images/icons/question.svg" alt="공지사항" width="32" height="32"
-                     class="ml-40 mr-26"/>
+                     class="ml-40 mr-26 icon"/>
                 <text-font color="textBody">공지사항</text-font>
               </div>
             </custom-button>
@@ -144,7 +144,6 @@ export default class SideMenu extends Vue {
   background-color: rgba(233, 233, 233, 0.44);
   -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
-  margin-top: 1rem;
   width: 100%;
   min-height: 100%;
   height: auto;
@@ -180,12 +179,23 @@ export default class SideMenu extends Vue {
 
     .side-menu--item {
       background-color: $gray4;
+      max-width: 256px;
+      max-height: 65px;
+      height: auto;
+      padding: 1rem 0;
       width: 256px;
-      height: 65px;
       border-radius: 40px 0 0 40px;
       border: 1px solid $line;
       display: flex;
       align-items: center;
+
+
+      .icon {
+        max-width: 32px;
+        max-height: 32px;
+        width: 4vw;
+        height: auto;
+      }
     }
   }
 
@@ -195,6 +205,7 @@ export default class SideMenu extends Vue {
     flex-direction: column;
     align-items: center;
   }
+
 }
 
 .slide-fade-enter-active {
