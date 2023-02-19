@@ -375,7 +375,8 @@ export default class IngredientsBox extends Vue {
 .selected-ingredients--container {
   padding: 1rem;
   text-align: left;
-  width: 420px;
+  max-width: 420px;
+  width: 90vw;
   height: 500px;
 
   .select-box--wrapper {

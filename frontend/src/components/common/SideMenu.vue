@@ -51,7 +51,7 @@
             </custom-button>
           </li>
           <li>
-            <custom-button type="button" variant="icon-button" class="side-menu--item" @click="redirect('recipe')">
+            <custom-button type="button" variant="icon-button" @click="redirect('recipe')">
               <div class="side-menu--item">
                 <img loading="eager" src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32"
                      class="ml-40 mr-26 icon"/>
