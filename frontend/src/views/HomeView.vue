@@ -7,13 +7,13 @@
 
     <section class="main__body">
       <section class="main__body--container">
-        <text-font color="black" size="24">오늘의 추천 요리</text-font>
+        <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
           <CardUi class="mr-20 card-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
             <text-font size="14">{{ dish.name }}</text-font>
           </CardUi>
-          <ListsUi class="mr-20 list-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+          <ListsUi class="list-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
             <text-font size="14">{{ dish.name }}</text-font>
           </ListsUi>
         </section>
@@ -125,8 +125,15 @@ export default class HomeView extends Vue {
     padding: 0;
 
     &--container {
-      //padding: 0 2rem 2rem;
       padding: 0;
+
+      .today-recommended-dishes {
+        padding: 1rem;
+      }
+
+      .card--wrapper {
+        row-gap: 0;
+      }
       p {
         padding-bottom: 2rem;
       }

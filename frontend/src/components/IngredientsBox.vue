@@ -261,7 +261,7 @@ export default class IngredientsBox extends Vue {
   selected = [];
   ingredients = [];
 
-  private async pickUpModal() {
+  private async pickUpModal(): Promise<void> {
     this.modal.show();
     //TODO: 재료 준비
     try {
@@ -276,8 +276,8 @@ export default class IngredientsBox extends Vue {
     }
   }
 
-  //TODO: push로 배열을 채우는데 selected false 인 값을 걸러내면???
-  private selectedIngredient(key: number) {
+  private selectedIngredient(key: number): void {
+    if (this.selectBoxDisabled) return;
     const choice = this.selected.filter((value: IngredientType) => {
       const {id, selected} = value
       if (id === key) value.selected = !selected;
@@ -293,20 +293,20 @@ export default class IngredientsBox extends Vue {
     });
   }
 
-  get selectBoxDisabled() {
+  get selectBoxDisabled(): boolean {
     return this.ingredients.length === 3;
   }
 
-  private cancel() {
+  private cancel(): void {
     this.reset();
     this.modal.hide();
   }
 
-  private save() {
+  private save(): void {
     this.modal.hide();
   }
 
-  private async findRecipe() {
+  private async findRecipe(): Promise<void> {
     try {
       console.log('레시피 검색 중~')
     } catch (e) {
@@ -460,6 +460,11 @@ export default class IngredientsBox extends Vue {
       max-width: 100%;
     }
   }
+}
 
+@media screen and (max-width: 600px){
+  .box-container {
+     padding: 0;
+  }
 }
 </style>
