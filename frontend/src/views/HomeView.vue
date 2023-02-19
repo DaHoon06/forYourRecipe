@@ -10,9 +10,12 @@
         <text-font color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
-          <CardUi class="mr-20" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+          <CardUi class="mr-20 card-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
             <text-font size="14">{{ dish.name }}</text-font>
           </CardUi>
+          <ListsUi class="mr-20 list-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+            <text-font size="14">{{ dish.name }}</text-font>
+          </ListsUi>
         </section>
       </section>
     </section>
@@ -28,6 +31,7 @@ import CardUi from "@/components/ui/CardUi.vue";
 import Button from "@/components/common/Button.vue";
 import IngredientsBox from "@/components/IngredientsBox.vue";
 import {ins} from "@/lib/axios";
+import ListsUi from "@/components/ui/ListsUi.vue";
 
 interface ISteps {
   _id: string,
@@ -49,6 +53,7 @@ interface IRecipe {
 
 @Options({
   components: {
+    ListsUi,
     Button,
     Modal,
     CardUi,
@@ -80,6 +85,13 @@ export default class HomeView extends Vue {
 </script>
 
 <style scoped lang="scss">
+.card-component {
+  display: inline-block;
+}
+.list-component {
+  display: none;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -108,13 +120,13 @@ export default class HomeView extends Vue {
   }
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 600px) {
   .main__body {
     padding: 0;
 
     &--container {
-      padding: 0 2rem 2rem;
-
+      //padding: 0 2rem 2rem;
+      padding: 0;
       p {
         padding-bottom: 2rem;
       }
@@ -123,6 +135,13 @@ export default class HomeView extends Vue {
         display: none;
       }
     }
+  }
+
+  .card-component {
+    display: none;
+  }
+  .list-component {
+    display: inline-block;
   }
 }
 </style>
