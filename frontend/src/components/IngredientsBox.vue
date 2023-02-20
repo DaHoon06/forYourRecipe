@@ -2,11 +2,12 @@
   <article class="box-container">
     <section class="box__body">
       <div v-if="!ingredients.length">
-        <article class="ingredients-box dark" >
-          <section >
-            <div class="ingredients-box--status">
-              <img src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator" width="210" />
-            </div>
+        <article class="ingredients-box dark">
+          <section>
+            <picture class="ingredients-box--status">
+              <img loading="eager" decoding="async" src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator"
+                   width="210"/>
+            </picture>
           </section>
         </article>
         <section class="empty__label">
@@ -21,16 +22,19 @@
 
       <section class="ingredients-box--button pt-20">
         <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">
-          <img src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>
+          <img decoding="async" loading="eager" src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20"
+               class="mr-6"/>
           <text-font color="white">재료 담기</text-font>
         </custom-button>
         <div class="flex" v-else>
           <custom-button type="button" variant="gray" @click="reset">
-            <img src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20" height="20" class="mr-6"/>
+            <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
+                 height="20" class="mr-6"/>
             <text-font color="white">초기화</text-font>
           </custom-button>
           <custom-button type="button" variant="primary" @click="findRecipe">
-            <img src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20" height="20" class="mr-6"/>
+            <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
+                 height="20" class="mr-6"/>
             <text-font color="white">레시피 검색</text-font>
           </custom-button>
         </div>
@@ -47,14 +51,17 @@
 
           <div class="select-box" :class="selectBoxDisabled && 'dark'">
             <select :class="selectBoxDisabled && 'disabled'" v-model="selected">
-              <option v-for="(category) of mockData" :key="category.id" :value="category.kind" :disabled="selectBoxDisabled" >
+              <option v-for="(category) of mockData" :key="category.id" :value="category.kind"
+                      :disabled="selectBoxDisabled">
                 <text-font size="12">{{ category.name }}</text-font>
               </option>
             </select>
-            <span class="angle-icons">
+            <picture class="angle-icons">
               <img
+                loading="lazy"
+                decoding="async"
                 src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
-            </span>
+            </picture>
           </div>
 
         </section>
@@ -64,9 +71,10 @@
         <section v-if="selected.length > 0" class="ingredients-items--container scroll">
             <span v-for="(value) of selected" :key="value.id"
                   @click="selectedIngredient(value.id)">
-              <span :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-              <img src="@/assets/images/icons/ingredients/fruit/banana.svg" alt="식재료" width="32" height="32"/>
-              </span>
+              <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
+                <img loading="lazy" srcset="" src="@/assets/images/icons/ingredients/fruit/banana.svg"
+                     sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+              </picture>
             </span>
         </section>
         <section class="empty-ingredients" v-else>
@@ -82,7 +90,8 @@
               }}, &nbsp;
             </text-font>
           </div>
-          <text-font class="w-100 center" size="13" color="red" v-if="selectBoxDisabled">재료는 최대 3 가지만 고를 수 있습니다.</text-font>
+          <text-font class="w-100 center" size="13" color="red" v-if="selectBoxDisabled">재료는 최대 3 가지만 고를 수 있습니다.
+          </text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
           <custom-button type="button" variant="gray" @click="cancel">
@@ -284,7 +293,6 @@ export default class IngredientsBox extends Vue {
       return id === key;
     });
     this.ingredients.push(...choice);
-    if (this.selectBoxDisabled) return;
 
     this.ingredients = this.ingredients.filter((value) => {
       const {selected} = value
@@ -462,9 +470,9 @@ export default class IngredientsBox extends Vue {
   }
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
   .box-container {
-     padding: 0;
+    padding: 0;
   }
 }
 </style>
