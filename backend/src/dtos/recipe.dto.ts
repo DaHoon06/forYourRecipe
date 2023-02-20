@@ -1,4 +1,4 @@
-import {ArrayNotEmpty, IsArray, IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString} from "class-validator";
+import {ArrayNotEmpty, IsArray, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsOptional, IsString} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
 import {DetailedIngredientDto} from "./detailed-ingredient.dto";
 
@@ -32,6 +32,10 @@ export class RecipeDto {
     @IsNotEmpty()
     @ApiProperty({type: Boolean, description: '재료로 검색 가능 여부'})
     readonly modified: boolean
+    
+    @IsNumber()
+    @ApiProperty({type: Number, description: '레시피 좋아요 수'})
+    readonly likes: number
 
     @IsArray()
     @IsNotEmpty()
