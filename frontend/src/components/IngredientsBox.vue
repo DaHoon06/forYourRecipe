@@ -51,7 +51,7 @@
 
           <div class="select-box" :class="selectBoxDisabled && 'dark'">
             <select :class="selectBoxDisabled && 'disabled'" v-model="selected">
-              <option v-for="(category) of mockData" :key="category.id" :value="category.kind"
+              <option v-for="(category) of ingredientsCategory" :key="category._id" :value="category.detailedIngredient"
                       :disabled="selectBoxDisabled">
                 <text-font size="12">{{ category.name }}</text-font>
               </option>
@@ -69,10 +69,10 @@
         <hr/>
 
         <section v-if="selected.length > 0" class="ingredients-items--container scroll">
-            <span v-for="(value) of selected" :key="value.id"
-                  @click="selectedIngredient(value.id)">
+            <span v-for="(value) of selected" :key="value._id"
+                  @click="selectedIngredient(value._id)">
               <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-                <img loading="lazy" srcset="" src="@/assets/images/icons/ingredients/fruit/banana.svg"
+                <img loading="lazy" :src="value.img"
                      sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
               </picture>
             </span>
@@ -113,18 +113,8 @@ import Modal from "@/components/common/Modal.vue";
 import {Ref} from "vue-property-decorator";
 import {ModalComponent} from "@/types/type";
 import {ins} from "@/lib/axios";
+import {Recipe} from "@/interfaces/recipe";
 
-interface IngredientType {
-  id: number,
-  name: string,
-  selected?: boolean
-}
-
-interface IngredientCategories {
-  id: number,
-  name: string
-  kind: IngredientType[]
-}
 
 @Options({
   components: {
@@ -134,141 +124,9 @@ interface IngredientCategories {
 export default class IngredientsBox extends Vue {
   @Ref('modal') readonly modal!: ModalComponent;
 
-  mockData: IngredientCategories[] = [
-    {
-      id: 1,
-      name: '육류',
-      kind: [
-        {
-          id: 1,
-          name: '소고기'
-        },
-        {
-          id: 2,
-          name: '돼지고기'
-        },
-        {
-          id: 3,
-          name: '닭고기'
-        },
-        {
-          id: 4,
-          name: '소고기'
-        },
-        {
-          id: 5,
-          name: '돼지고기'
-        },
-        {
-          id: 6,
-          name: '닭고기'
-        },
-        {
-          id: 7,
-          name: '소고기'
-        },
-        {
-          id: 8,
-          name: '돼지고기'
-        },
-        {
-          id: 9,
-          name: '닭고기'
-        },
-        {
-          id: 10,
-          name: '닭고기'
-        },
-        {
-          id: 11,
-          name: '소고기'
-        },
-        {
-          id: 12,
-          name: '돼지고기'
-        },
-        {
-          id: 13,
-          name: '닭고기'
-        },
-      ]
-    },
-    {
-      id: 2,
-      name: '해산물',
-      kind: [
-        {
-          id: 1,
-          name: '게'
-        },
-        {
-          id: 2,
-          name: '생선'
-        },
-        {
-          id: 3,
-          name: '조개'
-        },
-      ]
-    },
-    {
-      id: 3,
-      name: '야채',
-      kind: [
-        {
-          id: 1,
-          name: '마늘'
-        },
-        {
-          id: 2,
-          name: '양파'
-        },
-        {
-          id: 3,
-          name: '버섯'
-        },
-      ]
-    },
-    {
-      id: 4,
-      name: '과일',
-      kind: [
-        {
-          id: 1,
-          name: '오렌지'
-        },
-        {
-          id: 2,
-          name: '포도'
-        },
-        {
-          id: 3,
-          name: '사과'
-        },
-      ]
-    },
-    {
-      id: 5,
-      name: '음료',
-      kind: [
-        {
-          id: 1,
-          name: '와인'
-        },
-        {
-          id: 2,
-          name: '맥주'
-        },
-        {
-          id: 3,
-          name: '사이다'
-        },
-      ]
-    },
-  ]
-
+  ingredientsCategory: Recipe.IngredientCategories[] = [];
+  ingredients: Recipe.IngredientType[] = [];
   selected = [];
-  ingredients = [];
 
   private async pickUpModal(): Promise<void> {
     this.modal.show();
@@ -277,9 +135,9 @@ export default class IngredientsBox extends Vue {
       //TypeError: Property axios does not on type IngredientsBox
       //const {data} = await this.axios.get('/99999999999asd9sa9d9as');
 
-      // TEMP
       const {data} = await ins.get('/ingredients/all-ingredients');
       console.log(data)
+      this.ingredientsCategory = data;
     } catch (e) {
       console.log(e)
     }
@@ -287,13 +145,12 @@ export default class IngredientsBox extends Vue {
 
   private selectedIngredient(key: number): void {
     if (this.selectBoxDisabled) return;
-    const choice = this.selected.filter((value: IngredientType) => {
-      const {id, selected} = value
-      if (id === key) value.selected = !selected;
-      return id === key;
+    const choice = this.selected.filter((value: Recipe.IngredientType) => {
+      const {_id, selected} = value
+      if (_id === key) value.selected = !selected;
+      return _id === key;
     });
     this.ingredients.push(...choice);
-
     this.ingredients = this.ingredients.filter((value) => {
       const {selected} = value
       if (selected) return selected
@@ -316,6 +173,12 @@ export default class IngredientsBox extends Vue {
 
   private async findRecipe(): Promise<void> {
     try {
+      const {data} = await ins.get('/recipes/ingredient-recipes', {
+        params: {
+          id: this.ingredients[0]._id
+        }
+      })
+      console.log(data)
       console.log('레시피 검색 중~')
     } catch (e) {
       console.log(e)

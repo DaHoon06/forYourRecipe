@@ -27,6 +27,9 @@ export default class CardUi extends Vue {
 
   .card__body {
     padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   img {
