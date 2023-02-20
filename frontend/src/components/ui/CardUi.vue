@@ -17,6 +17,7 @@ export default class CardUi extends Vue {
 
 <style lang="scss" scoped>
 .card__layout {
+  display: inline-block;
   border: 1px solid $line;
   width: 284px;
   height: 288px;
@@ -27,6 +28,9 @@ export default class CardUi extends Vue {
 
   .card__body {
     padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   img {
@@ -43,6 +47,12 @@ export default class CardUi extends Vue {
     filter: brightness(90%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card__layout {
+    display: none;
   }
 }
 </style>

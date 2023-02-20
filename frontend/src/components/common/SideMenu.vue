@@ -1,7 +1,7 @@
 <template>
   <Transition name="slide-fade">
-    <aside class="side-menu" v-show="open">
-      <nav class="side-menu--items">
+    <aside class="side-menu" v-show="open" @click="outerClickCheck">
+      <nav class="side-menu--items" ref="sideMenu">
         <section class="side-menu--top">
           <section v-if="!isLogin">
 
@@ -89,6 +89,13 @@ import {Emit, Prop, Watch} from "vue-property-decorator";
 
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
+
+  private outerClickCheck(e: Event) {
+    const target = e.target as HTMLElement
+    const nav = this.$refs.sideMenu as HTMLElement;
+    if (nav !== target && !nav.contains(target))
+      this.closeMenu();
+  }
 
   open = false;
   // Temp

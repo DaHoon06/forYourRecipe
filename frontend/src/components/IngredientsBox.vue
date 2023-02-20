@@ -2,11 +2,12 @@
   <article class="box-container">
     <section class="box__body">
       <div v-if="!ingredients.length">
-        <article class="ingredients-box dark" >
-          <section >
-            <div class="ingredients-box--status">
-              <img src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator" width="210" />
-            </div>
+        <article class="ingredients-box dark">
+          <section>
+            <picture class="ingredients-box--status">
+              <img loading="eager" decoding="async" src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator"
+                   width="210"/>
+            </picture>
           </section>
         </article>
         <section class="empty__label">
@@ -14,26 +15,41 @@
           <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>
         </section>
       </div>
-      <section v-else>
-        {{ ingredients }}
+      <section class="w-100" v-else>
+        <text-font>선택한 재료</text-font>
+        <div class="ingredients-box--selected">
+          <span v-for="(value) of ingredients" :key="value._id">
+            <picture class="ingredient-icon--wrapper">
+              <img loading="lazy" :src="value.img"
+                   sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+            </picture>
+            <text-font>
+              {{ value.name }}
+            </text-font>
+          </span>
+        </div>
       </section>
 
 
       <section class="ingredients-box--button pt-20">
         <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">
-          <img src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>
+          <img decoding="async" loading="eager" src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20"
+               class="mr-6"/>
           <text-font color="white">재료 담기</text-font>
         </custom-button>
         <div class="flex" v-else>
           <custom-button type="button" variant="gray" @click="reset">
-            <img src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20" height="20" class="mr-6"/>
+            <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
+                 height="20" class="mr-6"/>
             <text-font color="white">초기화</text-font>
           </custom-button>
-          <custom-button type="button" variant="primary" @click="findRecipe">
-            <img src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20" height="20" class="mr-6"/>
+          <custom-button type="button" variant="primary" class="ml-16" @click="findRecipe">
+            <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
+                 height="20" class="mr-6"/>
             <text-font color="white">레시피 검색</text-font>
           </custom-button>
         </div>
+        {{ testA }}
 
       </section>
     </section>
@@ -47,14 +63,17 @@
 
           <div class="select-box" :class="selectBoxDisabled && 'dark'">
             <select :class="selectBoxDisabled && 'disabled'" v-model="selected">
-              <option v-for="(category) of mockData" :key="category.id" :value="category.kind" :disabled="selectBoxDisabled" >
+              <option v-for="(category) of ingredientsCategory" :key="category._id" :value="category.detailedIngredient"
+                      :disabled="selectBoxDisabled">
                 <text-font size="12">{{ category.name }}</text-font>
               </option>
             </select>
-            <span class="angle-icons">
+            <picture class="angle-icons">
               <img
+                loading="lazy"
+                decoding="async"
                 src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
-            </span>
+            </picture>
           </div>
 
         </section>
@@ -62,11 +81,12 @@
         <hr/>
 
         <section v-if="selected.length > 0" class="ingredients-items--container scroll">
-            <span v-for="(value) of selected" :key="value.id"
-                  @click="selectedIngredient(value.id)">
-              <span :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-              <img src="@/assets/images/icons/ingredients/fruit/banana.svg" alt="식재료" width="32" height="32"/>
-              </span>
+            <span v-for="(value) of selected" :key="value._id"
+                  @click="selectedIngredient(value._id)">
+              <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
+                <img loading="lazy" :src="value.img"
+                     sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+              </picture>
             </span>
         </section>
         <section class="empty-ingredients" v-else>
@@ -82,7 +102,8 @@
               }}, &nbsp;
             </text-font>
           </div>
-          <text-font class="w-100 center" size="13" color="red" v-if="selectBoxDisabled">재료는 최대 3 가지만 고를 수 있습니다.</text-font>
+          <text-font class="w-100 center" size="13" color="red" v-if="selectBoxDisabled">재료는 최대 3 가지만 고를 수 있습니다.
+          </text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
           <custom-button type="button" variant="gray" @click="cancel">
@@ -104,18 +125,9 @@ import Modal from "@/components/common/Modal.vue";
 import {Ref} from "vue-property-decorator";
 import {ModalComponent} from "@/types/type";
 import {ins} from "@/lib/axios";
-
-interface IngredientType {
-  id: number,
-  name: string,
-  selected?: boolean
-}
-
-interface IngredientCategories {
-  id: number,
-  name: string
-  kind: IngredientType[]
-}
+import {Recipe} from "@/interfaces/recipe";
+import {useStore} from "vuex";
+import {computed} from "vue";
 
 @Options({
   components: {
@@ -125,141 +137,13 @@ interface IngredientCategories {
 export default class IngredientsBox extends Vue {
   @Ref('modal') readonly modal!: ModalComponent;
 
-  mockData: IngredientCategories[] = [
-    {
-      id: 1,
-      name: '육류',
-      kind: [
-        {
-          id: 1,
-          name: '소고기'
-        },
-        {
-          id: 2,
-          name: '돼지고기'
-        },
-        {
-          id: 3,
-          name: '닭고기'
-        },
-        {
-          id: 4,
-          name: '소고기'
-        },
-        {
-          id: 5,
-          name: '돼지고기'
-        },
-        {
-          id: 6,
-          name: '닭고기'
-        },
-        {
-          id: 7,
-          name: '소고기'
-        },
-        {
-          id: 8,
-          name: '돼지고기'
-        },
-        {
-          id: 9,
-          name: '닭고기'
-        },
-        {
-          id: 10,
-          name: '닭고기'
-        },
-        {
-          id: 11,
-          name: '소고기'
-        },
-        {
-          id: 12,
-          name: '돼지고기'
-        },
-        {
-          id: 13,
-          name: '닭고기'
-        },
-      ]
-    },
-    {
-      id: 2,
-      name: '해산물',
-      kind: [
-        {
-          id: 1,
-          name: '게'
-        },
-        {
-          id: 2,
-          name: '생선'
-        },
-        {
-          id: 3,
-          name: '조개'
-        },
-      ]
-    },
-    {
-      id: 3,
-      name: '야채',
-      kind: [
-        {
-          id: 1,
-          name: '마늘'
-        },
-        {
-          id: 2,
-          name: '양파'
-        },
-        {
-          id: 3,
-          name: '버섯'
-        },
-      ]
-    },
-    {
-      id: 4,
-      name: '과일',
-      kind: [
-        {
-          id: 1,
-          name: '오렌지'
-        },
-        {
-          id: 2,
-          name: '포도'
-        },
-        {
-          id: 3,
-          name: '사과'
-        },
-      ]
-    },
-    {
-      id: 5,
-      name: '음료',
-      kind: [
-        {
-          id: 1,
-          name: '와인'
-        },
-        {
-          id: 2,
-          name: '맥주'
-        },
-        {
-          id: 3,
-          name: '사이다'
-        },
-      ]
-    },
-  ]
-
+  ingredientsCategory: Recipe.IngredientCategories[] = [];
+  ingredients: Recipe.IngredientType[] = [];
   selected = [];
-  ingredients = [];
+
+
+  store = useStore();
+  testA = computed(() => this.store.getters["recipeModule/getIngredients"]);
 
   private async pickUpModal(): Promise<void> {
     this.modal.show();
@@ -268,29 +152,28 @@ export default class IngredientsBox extends Vue {
       //TypeError: Property axios does not on type IngredientsBox
       //const {data} = await this.axios.get('/99999999999asd9sa9d9as');
 
-      // TEMP
       const {data} = await ins.get('/ingredients/all-ingredients');
-      console.log(data)
+      this.ingredientsCategory = data;
     } catch (e) {
       console.log(e)
     }
   }
 
+  //TODO: 3개까지만 선택 되도록 수정 리턴 부분 잘못됨;;;
   private selectedIngredient(key: number): void {
-    if (this.selectBoxDisabled) return;
-    const choice = this.selected.filter((value: IngredientType) => {
-      const {id, selected} = value
-      if (id === key) value.selected = !selected;
-      return id === key;
-    });
-    this.ingredients.push(...choice);
-    if (this.selectBoxDisabled) return;
-
     this.ingredients = this.ingredients.filter((value) => {
       const {selected} = value
       if (selected) return selected
       return false;
     });
+
+    // if (this.selectBoxDisabled) return;
+    const choice = this.selected.filter((value: Recipe.IngredientType) => {
+      const {_id, selected} = value
+      if (_id === key) value.selected = !selected;
+      return _id === key;
+    });
+    this.ingredients.push(...choice);
   }
 
   get selectBoxDisabled(): boolean {
@@ -303,18 +186,20 @@ export default class IngredientsBox extends Vue {
   }
 
   private save(): void {
+    this.store.commit("recipeModule/saveIngredients", this.ingredients);
     this.modal.hide();
   }
 
-  private async findRecipe(): Promise<void> {
-    try {
-      console.log('레시피 검색 중~')
-    } catch (e) {
-      console.log(e)
-    }
+  private findRecipe(): void {
+    const query = this.ingredients.map((value) => value._id)
+    this.$router.push({
+      path: '/recipe/lists',
+      query: {key: query}
+    })
   }
 
   private reset() {
+    this.store.commit('recipeModule/reset');
     this.ingredients = [];
     this.selected = [];
   }
@@ -353,6 +238,15 @@ export default class IngredientsBox extends Vue {
     display: flex;
     flex-direction: column;
   }
+
+  .ingredients-box--selected {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: 1rem;
+    row-gap: 0;
+  }
 }
 
 .ingredients-box {
@@ -368,6 +262,21 @@ export default class IngredientsBox extends Vue {
   &--status {
     display: flex;
     flex-direction: column;
+  }
+}
+
+.ingredient-icon--wrapper {
+  border: 1px solid $line;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba(245, 245, 245, 0.5);
   }
 }
 
@@ -401,22 +310,6 @@ export default class IngredientsBox extends Vue {
     padding: 10px 0;
     height: 254px;
     overflow-y: auto;
-
-    .ingredient-icon--wrapper {
-      border: 1px solid $line;
-      border-radius: 50%;
-      width: 52px;
-      height: 52px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      &:hover {
-        background-color: rgba(245, 245, 245, 0.5);
-      }
-    }
-
     /* 재료 아이콘 선택 표시 */
     .disabled-icon {
       -webkit-filter: brightness(95%);
@@ -462,9 +355,9 @@ export default class IngredientsBox extends Vue {
   }
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
   .box-container {
-     padding: 0;
+    padding: 0;
   }
 }
 </style>

@@ -10,11 +10,35 @@
         <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
-          <CardUi class="mr-20 card-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
-            <text-font size="14">{{ dish.name }}</text-font>
+          <CardUi class="mr-20" v-for="(dish) in recipeCards" :key="dish._id"
+                  @click="recipeDetail(dish._id)">
+            <section class="card-ui__body">
+              <text-font size="18">{{ dish.name }}</text-font>
+              <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
+              <figure class="recipe-like--wrapper">
+                <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
+                <figcaption>
+                  <text-font size="14">{{ dish.likes }}</text-font>
+                </figcaption>
+              </figure>
+
+              <div class="flex">
+                <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+              </div>
+            </section>
           </CardUi>
-          <ListsUi class="list-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
-            <text-font size="14">{{ dish.name }}</text-font>
+          <ListsUi v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+            <text-font size="18">{{ dish.name }}</text-font>
+            <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
+            <figure class="recipe-like--wrapper">
+              <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
+              <figcaption>
+                <text-font size="14">{{ dish.likes }}</text-font>
+              </figcaption>
+            </figure>
+            <div class="flex">
+              <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+            </div>
           </ListsUi>
         </section>
       </section>
@@ -32,24 +56,7 @@ import Button from "@/components/common/Button.vue";
 import IngredientsBox from "@/components/IngredientsBox.vue";
 import {ins} from "@/lib/axios";
 import ListsUi from "@/components/ui/ListsUi.vue";
-
-interface ISteps {
-  _id: string,
-  step: number,
-  desc: string,
-}
-
-interface IRecipe {
-  _id: string,
-  name: string,
-  ingredients: string[],
-  createdAt: Date,
-  updatedAt: Date,
-  modified: boolean,
-  user: string,
-  steps: ISteps[]
-}
-
+import {Recipe} from "@/interfaces/recipe";
 
 @Options({
   components: {
@@ -62,7 +69,7 @@ interface IRecipe {
 })
 export default class HomeView extends Vue {
 
-  recipeCards: IRecipe[] = [];
+  recipeCards: Recipe.Info[] = [];
 
   created() {
     this.load();
@@ -71,7 +78,6 @@ export default class HomeView extends Vue {
   private async load() {
     try {
       const {data} = await ins.get('/recipes/all-recipes');
-      console.log(data)
       this.recipeCards = data;
     } catch (e) {
       console.log(e)
@@ -85,13 +91,6 @@ export default class HomeView extends Vue {
 </script>
 
 <style scoped lang="scss">
-.card-component {
-  display: inline-block;
-}
-.list-component {
-  display: none;
-}
-
 .main {
   display: flex;
   flex-direction: column;
@@ -134,9 +133,6 @@ export default class HomeView extends Vue {
       .card--wrapper {
         row-gap: 0;
       }
-      p {
-        padding-bottom: 2rem;
-      }
 
       hr {
         display: none;
@@ -144,11 +140,5 @@ export default class HomeView extends Vue {
     }
   }
 
-  .card-component {
-    display: none;
-  }
-  .list-component {
-    display: inline-block;
-  }
 }
 </style>

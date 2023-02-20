@@ -22,6 +22,7 @@ export default class ListsUi extends Vue {
 
 <style scoped lang="scss">
 .list__layout {
+  display: none;
   border-top: 1px solid $line;
   width: 100%;
   max-height: 160px;
@@ -38,20 +39,22 @@ export default class ListsUi extends Vue {
     width: 124px;
     height: auto;
     display: inline-block;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      background-repeat: no-repeat;
+    }
   }
 
   .list__body {
     padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  img {
-    width: 100%;
-    height: 100%;
-    border-right: 4px;
-    //background-position: 50% 50%;
-    //background-size: contain;
-    background-repeat: no-repeat;
-  }
 
   &:hover {
     border-color: rgba(130, 130, 130, 0.4);
@@ -60,6 +63,12 @@ export default class ListsUi extends Vue {
     filter: brightness(90%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .list__layout {
+    display: inline-block;
   }
 }
 </style>
