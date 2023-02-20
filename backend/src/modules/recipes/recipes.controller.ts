@@ -26,7 +26,7 @@ export class RecipesController {
         return this.recipesService.findAllRecipes()
     }
 
-    @Get('/:id')
+    @Get('/detail/:id')
     private async getRecipe(@Param() param) {
         const { id } = param
         return this.recipesService.findRecipeById(id)
@@ -43,6 +43,7 @@ export class RecipesController {
     })
     @ApiQuery({name: 'id', description: '선택한 재료 id들'})
     private async getIngredientRecipes(@Query("id") ingredientIds: string[]) {
+        console.log('!!')
         return this.recipesService.findRecipesByIngredient(ingredientIds)
     }
 
