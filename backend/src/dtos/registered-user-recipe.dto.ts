@@ -9,8 +9,13 @@ export class RegisteredUserRecipeDto {
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty({type: String, description: '관리자가 등록할 레시피 설명'})
+    @ApiProperty({type: String, description: '회원이 등록할 레시피 설명'})
     readonly desc: string
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({type: String, description: '회원이 등록할 레시피 전체 재료'})
+    readonly allIngredient: string
 
     @IsArray()
     @ArrayMinSize(1)
