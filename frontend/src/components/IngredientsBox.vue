@@ -15,8 +15,19 @@
           <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>
         </section>
       </div>
-      <section v-else>
-        {{ ingredients }}
+      <section class="w-100" v-else>
+        <text-font>선택한 재료</text-font>
+        <div class="ingredients-box--selected">
+          <span v-for="(value) of ingredients" :key="value._id">
+            <picture class="ingredient-icon--wrapper">
+              <img loading="lazy" :src="value.img"
+                   sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+            </picture>
+            <text-font>
+              {{ value.name }}
+            </text-font>
+          </span>
+        </div>
       </section>
 
 
@@ -32,7 +43,7 @@
                  height="20" class="mr-6"/>
             <text-font color="white">초기화</text-font>
           </custom-button>
-          <custom-button type="button" variant="primary" @click="findRecipe">
+          <custom-button type="button" variant="primary" class="ml-16" @click="findRecipe">
             <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
                  height="20" class="mr-6"/>
             <text-font color="white">레시피 검색</text-font>
@@ -143,19 +154,22 @@ export default class IngredientsBox extends Vue {
     }
   }
 
+  //TODO: 3개까지만 선택 되도록 수정 리턴 부분 잘못됨;;;
   private selectedIngredient(key: number): void {
-    if (this.selectBoxDisabled) return;
+    this.ingredients = this.ingredients.filter((value) => {
+      const {selected} = value
+      if (selected) return selected
+      return false;
+    });
+
+    // if (this.selectBoxDisabled) return;
     const choice = this.selected.filter((value: Recipe.IngredientType) => {
       const {_id, selected} = value
       if (_id === key) value.selected = !selected;
       return _id === key;
     });
     this.ingredients.push(...choice);
-    this.ingredients = this.ingredients.filter((value) => {
-      const {selected} = value
-      if (selected) return selected
-      return false;
-    });
+
   }
 
   get selectBoxDisabled(): boolean {
@@ -171,18 +185,12 @@ export default class IngredientsBox extends Vue {
     this.modal.hide();
   }
 
-  private async findRecipe(): Promise<void> {
-    try {
-      const {data} = await ins.get('/recipes/ingredient-recipes', {
-        params: {
-          id: this.ingredients[0]._id
-        }
-      })
-      console.log(data)
-      console.log('레시피 검색 중~')
-    } catch (e) {
-      console.log(e)
-    }
+  private findRecipe(): void {
+    const query = this.ingredients.map((value) => value._id)
+    this.$router.push({
+      path: '/recipe/lists',
+      query: {key: query}
+    })
   }
 
   private reset() {
@@ -224,6 +232,15 @@ export default class IngredientsBox extends Vue {
     display: flex;
     flex-direction: column;
   }
+
+  .ingredients-box--selected {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: 1rem;
+    row-gap: 0;
+  }
 }
 
 .ingredients-box {
@@ -239,6 +256,21 @@ export default class IngredientsBox extends Vue {
   &--status {
     display: flex;
     flex-direction: column;
+  }
+}
+
+.ingredient-icon--wrapper {
+  border: 1px solid $line;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba(245, 245, 245, 0.5);
   }
 }
 
@@ -272,22 +304,6 @@ export default class IngredientsBox extends Vue {
     padding: 10px 0;
     height: 254px;
     overflow-y: auto;
-
-    .ingredient-icon--wrapper {
-      border: 1px solid $line;
-      border-radius: 50%;
-      width: 52px;
-      height: 52px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      &:hover {
-        background-color: rgba(245, 245, 245, 0.5);
-      }
-    }
-
     /* 재료 아이콘 선택 표시 */
     .disabled-icon {
       -webkit-filter: brightness(95%);
