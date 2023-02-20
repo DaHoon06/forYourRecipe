@@ -10,7 +10,7 @@
         <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
-          <CardUi class="mr-20 card-component" v-for="(dish) in recipeCards" :key="dish._id"
+          <CardUi class="mr-20" v-for="(dish) in recipeCards" :key="dish._id"
                   @click="recipeDetail(dish._id)">
             <section class="card-ui__body">
               <text-font size="18">{{ dish.name }}</text-font>
@@ -27,7 +27,7 @@
               </div>
             </section>
           </CardUi>
-          <ListsUi class="list-component" v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+          <ListsUi v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
             <text-font size="18">{{ dish.name }}</text-font>
             <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
             <figure class="recipe-like--wrapper">
@@ -78,7 +78,6 @@ export default class HomeView extends Vue {
   private async load() {
     try {
       const {data} = await ins.get('/recipes/all-recipes');
-      console.log(data)
       this.recipeCards = data;
     } catch (e) {
       console.log(e)
@@ -92,14 +91,6 @@ export default class HomeView extends Vue {
 </script>
 
 <style scoped lang="scss">
-.card-component {
-  display: inline-block;
-}
-
-.list-component {
-  display: none;
-}
-
 .main {
   display: flex;
   flex-direction: column;
@@ -128,21 +119,6 @@ export default class HomeView extends Vue {
   }
 }
 
-.tags {
-  border-radius: 4px;
-  width: fit-content;
-  font-family: jua;
-  font-size: 10px;
-  color: #a9a9a9;
-  background-color: #efefef;
-  padding: 2px 10px;
-}
-
-.recipe-like--wrapper {
-  display: flex;
-  align-items: center;
-}
-
 @media screen and (max-width: 600px) {
   .main__body {
     padding: 0;
@@ -164,11 +140,5 @@ export default class HomeView extends Vue {
     }
   }
 
-  .card-component {
-    display: none;
-  }
-  .list-component {
-    display: inline-block;
-  }
 }
 </style>

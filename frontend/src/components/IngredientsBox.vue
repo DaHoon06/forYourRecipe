@@ -49,6 +49,7 @@
             <text-font color="white">레시피 검색</text-font>
           </custom-button>
         </div>
+        {{ testA }}
 
       </section>
     </section>
@@ -125,7 +126,8 @@ import {Ref} from "vue-property-decorator";
 import {ModalComponent} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
-
+import {useStore} from "vuex";
+import {computed} from "vue";
 
 @Options({
   components: {
@@ -139,6 +141,10 @@ export default class IngredientsBox extends Vue {
   ingredients: Recipe.IngredientType[] = [];
   selected = [];
 
+
+  store = useStore();
+  testA = computed(() => this.store.getters["recipeModule/getIngredients"]);
+
   private async pickUpModal(): Promise<void> {
     this.modal.show();
     //TODO: 재료 준비
@@ -147,7 +153,6 @@ export default class IngredientsBox extends Vue {
       //const {data} = await this.axios.get('/99999999999asd9sa9d9as');
 
       const {data} = await ins.get('/ingredients/all-ingredients');
-      console.log(data)
       this.ingredientsCategory = data;
     } catch (e) {
       console.log(e)
@@ -169,7 +174,6 @@ export default class IngredientsBox extends Vue {
       return _id === key;
     });
     this.ingredients.push(...choice);
-
   }
 
   get selectBoxDisabled(): boolean {
@@ -182,6 +186,7 @@ export default class IngredientsBox extends Vue {
   }
 
   private save(): void {
+    this.store.commit("recipeModule/saveIngredients", this.ingredients);
     this.modal.hide();
   }
 
@@ -194,6 +199,7 @@ export default class IngredientsBox extends Vue {
   }
 
   private reset() {
+    this.store.commit('recipeModule/reset');
     this.ingredients = [];
     this.selected = [];
   }

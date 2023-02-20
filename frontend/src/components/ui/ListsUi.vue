@@ -22,6 +22,7 @@ export default class ListsUi extends Vue {
 
 <style scoped lang="scss">
 .list__layout {
+  display: none;
   border-top: 1px solid $line;
   width: 100%;
   max-height: 160px;
@@ -62,6 +63,12 @@ export default class ListsUi extends Vue {
     filter: brightness(90%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .list__layout {
+    display: inline-block;
   }
 }
 </style>
