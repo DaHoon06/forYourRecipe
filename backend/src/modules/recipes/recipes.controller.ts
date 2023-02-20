@@ -4,11 +4,14 @@ import {RecipesService} from "./recipes.service";
 import {RecipeDto} from "../../dtos/recipe.dto";
 import {RegisteredUserRecipeDto} from "../../dtos/registered-user-recipe.dto";
 import {RegisteredAdminRecipeDto} from "../../dtos/registered-admin-recipe.dto";
+import {IngredientsService} from "../ingredients/ingredients.service";
 
 @Controller('recipes')
 @ApiTags('레시피 관련 API')
 export class RecipesController {
-    constructor(private readonly recipesService: RecipesService) {}
+    constructor(
+        private readonly recipesService: RecipesService,
+    ) {}
 
     @Get('/all-recipes')
     @ApiOperation({
@@ -19,7 +22,7 @@ export class RecipesController {
         description: '전체 레시피 리스트를 생성한다.',
         isArray: true, type: RecipeDto
     })
-    private async getAllRecipes(): Promise<RecipeDto[]> {
+    private async getAllRecipes() {
         return this.recipesService.findAllRecipes()
     }
 
@@ -33,7 +36,7 @@ export class RecipesController {
         isArray: true , type: RecipeDto
     })
     @ApiQuery({name: 'id', description: '선택한 재료 id들'})
-    private async getIngredientRecipes(@Query("id") ingredientIds: string[]): Promise<RecipeDto[]> {
+    private async getIngredientRecipes(@Query("id") ingredientIds: string[]) {
         return this.recipesService.findRecipesByIngredient(ingredientIds)
     }
 
@@ -50,7 +53,7 @@ export class RecipesController {
         type: RegisteredUserRecipeDto,
         description: '등록할 회원 레시피 정보'
     })
-    private async registeredRecipe(@Body() recipe: RegisteredUserRecipeDto): Promise<Boolean> {
+    private async registeredRecipe(@Body() recipe: RegisteredUserRecipeDto) {
         return this.recipesService.setRecipe(recipe)
     }
 
@@ -64,7 +67,7 @@ export class RecipesController {
         type: Boolean
     })
     @ApiBody({type: RegisteredAdminRecipeDto, description: '등록할 레시피 정보'})
-    private async registeredAdminRecipe(@Body() recipe: RegisteredAdminRecipeDto): Promise<Boolean> {
+    private async registeredAdminRecipe(@Body() recipe: RegisteredAdminRecipeDto) {
         return this.recipesService.setAdminRecipe(recipe)
     }
 }
