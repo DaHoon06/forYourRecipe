@@ -1,5 +1,5 @@
 import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
-import {ApiBody, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
+import {ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {RecipesService} from "./recipes.service";
 import {RecipeDto} from "../../dtos/recipe.dto";
 import {RegisteredUserRecipeDto} from "../../dtos/registered-user-recipe.dto";
@@ -27,6 +27,15 @@ export class RecipesController {
     }
 
     @Get('/detail/:id')
+    @ApiOperation({
+        summary: '레시피 id로 레시피 조회 API',
+        description: '레시피 id에 해당하는 레시피 조회한다.'
+    })
+    @ApiCreatedResponse({
+        description: '레시피 id에 부합한 레시피 리스트를 생성한다.',
+        isArray: true , type: RecipeDto
+    })
+    @ApiParam({ name: 'id', description: '조회할 레시피 id' })
     private async getRecipe(@Param() param) {
         const { id } = param
         return this.recipesService.findRecipeById(id)
@@ -43,7 +52,6 @@ export class RecipesController {
     })
     @ApiQuery({name: 'id', description: '선택한 재료 id들'})
     private async getIngredientRecipes(@Query("id") ingredientIds: string[]) {
-        console.log('!!')
         return this.recipesService.findRecipesByIngredient(ingredientIds)
     }
 
