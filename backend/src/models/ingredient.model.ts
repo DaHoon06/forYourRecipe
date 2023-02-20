@@ -2,9 +2,9 @@ import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {HydratedDocument} from "mongoose";
 
 export interface DetailedIngredient {
-    _id: String,
-    name: String,
-    img?: String,
+    _id: string,
+    name: string,
+    img?: string,
 }
 
 @Schema({collection: 'ingredients', versionKey: false})

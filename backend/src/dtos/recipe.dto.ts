@@ -1,4 +1,4 @@
-import {IsArray, IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString} from "class-validator";
+import {ArrayNotEmpty, IsArray, IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
 import {DetailedIngredientDto} from "./detailed-ingredient.dto";
 
@@ -46,12 +46,7 @@ export class RecipeDto {
         },
         description:'레시피 순서'
     })
-    readonly steps: [
-        {
-            step: number,
-            desc: string,
-        }
-    ]
+    readonly steps: { step: number, desc: string, img?: string, }[]
 
     @IsArray()
     @IsOptional()

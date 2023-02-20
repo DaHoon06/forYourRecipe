@@ -1,7 +1,7 @@
-import {ArrayMinSize, IsArray, IsNotEmpty, IsOptional, IsString, ValidateNested} from "class-validator";
+import {ArrayNotEmpty, IsArray, IsNotEmpty, IsOptional, IsString} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
-import {Type} from "class-transformer";
-import {DetailedIngredientDto} from "./detailed-ingredient.dto";
+// import {Type} from "class-transformer";
+// import {DetailedIngredientDto} from "./detailed-ingredient.dto";
 
 
 export class RegisteredAdminRecipeDto {
@@ -43,15 +43,25 @@ export class RegisteredAdminRecipeDto {
     ]
 
     @IsArray()
-    @ArrayMinSize(1)
-    @ValidateNested({ each: true })
-    @Type(() => DetailedIngredientDto )
+    @IsString({ each: true })
+    @ArrayNotEmpty()
     @ApiProperty({
         isArray: true,
-        type: DetailedIngredientDto,
-        description:'관리자가 등록할 필수 재료 리스트'
+        type: String,
+        description:'관리자가 등록할 필수 재료 id'
     })
-    readonly detailedIngredient: DetailedIngredientDto[]
+    readonly detailedIngredient: string[]
+
+    // @IsArray()
+    // @ArrayMinSize(1)
+    // @ValidateNested({ each: true })
+    // @Type(() => DetailedIngredientDto )
+    // @ApiProperty({
+    //     isArray: true,
+    //     type: DetailedIngredientDto,
+    //     description:'관리자가 등록할 필수 재료 리스트'
+    // })
+    // readonly detailedIngredient: DetailedIngredientDto[]
 
     @IsString()
     @IsOptional()
