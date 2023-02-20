@@ -13,7 +13,7 @@ export class IngredientsService {
     ){}
 
     //재료 등록
-    async setIngredient(ingredientDto: RegisteredIngredientDto): Promise<boolean> {
+    async setIngredient(ingredientDto: RegisteredIngredientDto) {
         const { name, detailedIngredient } = ingredientDto
         const ingredients = detailedIngredient.map( ({name, img}) => {
             return {
@@ -27,7 +27,7 @@ export class IngredientsService {
             name,
             detailedIngredient: ingredients,
         }
-        const registeredIngredient = new this.ingredientModel(ingredient).save()
+        const registeredIngredient = await new this.ingredientModel(ingredient).save()
         if (registeredIngredient) return true
         return false
     }
@@ -35,6 +35,19 @@ export class IngredientsService {
     //모든 재료 반환
     async findAllIngredient(): Promise<IngredientDto[]>{
        return this.ingredientModel.find()
+    }
+
+    async findIngredientById(id: string[]) {
+        const foundIngredients = await this.ingredientModel.find({detailedIngredient: {$elemMatch: {_id: {$in: id}}}})
+        const detailedIngredients = []
+
+        foundIngredients.map(({detailedIngredient}: Ingredient) => detailedIngredient)
+            .map(ingredients => ingredients.filter(ingredient => id.includes(ingredient._id)))
+            .forEach(ingredients => ingredients.forEach(ingredient => {
+                detailedIngredients.push(ingredient)
+            }))
+
+        return detailedIngredients
     }
 
     //재료 배열로 한번에 업로드 테스트용

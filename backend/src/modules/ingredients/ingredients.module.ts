@@ -9,6 +9,7 @@ import {Ingredient, IngredientSchema} from "../../models/ingredient.model";
     MongooseModule.forFeature([{name: Ingredient.name, schema: IngredientSchema}]),
   ],
   controllers: [IngredientsController],
-  providers: [IngredientsService]
+  providers: [IngredientsService],
+  exports: [IngredientsService, IngredientsModule]
 })
 export class IngredientsModule {}

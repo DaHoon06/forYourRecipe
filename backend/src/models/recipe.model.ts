@@ -1,6 +1,6 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-import {DetailedIngredient} from "./ingredient.model";
+// import {DetailedIngredient} from "./ingredient.model";
 
 @Schema({collection: 'recipes', versionKey: false, _id: false})
 export class Recipe {
@@ -46,15 +46,17 @@ export class Recipe {
     profileImage?: string
 
     //필수 재료
-    @Prop({
-        type: [{
-            _id: {type: String, required: true},
-            name: {type: String, required: true},
-            img: {type: String, required: false},
-        }],
-        required: false
-    })
-    detailedIngredient?: DetailedIngredient[]
+    // @Prop({
+    //     type: [{
+    //         _id: {type: String, required: true},
+    //         name: {type: String, required: true},
+    //         img: {type: String, required: false},
+    //     }],
+    //     required: false
+    // })
+    // detailedIngredient?: DetailedIngredient[]
+    @Prop({type: [String], required: false})
+    detailedIngredient?: string[]
 }
 
 export type RecipeDocument = HydratedDocument<Recipe>
