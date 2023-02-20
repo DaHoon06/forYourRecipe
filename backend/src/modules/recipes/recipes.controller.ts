@@ -32,8 +32,8 @@ export class RecipesController {
         description: '재료 id에 부합한 레시피 리스트를 생성한다.',
         isArray: true , type: RecipeDto
     })
-    @ApiQuery({name: 'ingredientId', description: '선택한 재료 id들'})
-    private async getIngredientRecipes(@Query("ingredientId") ingredientIds: string[]): Promise<RecipeDto[]> {
+    @ApiQuery({name: 'id', description: '선택한 재료 id들'})
+    private async getIngredientRecipes(@Query("id") ingredientIds: string[]): Promise<RecipeDto[]> {
         return this.recipesService.findRecipesByIngredient(ingredientIds)
     }
 
