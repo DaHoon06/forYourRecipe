@@ -20,7 +20,7 @@ export class RecipesService {
 
     //재료로 레시피 찾기
     async findRecipesByIngredient(ingredientIds: string[]): Promise<RecipeDto[]> {
-        return this.recipeModel.find({ingredients: ingredientIds})
+        return this.recipeModel.find({detailedIngredient: { $elemMatch: {_id : ingredientIds}} })
     }
 
     //회원 레시피 등록
