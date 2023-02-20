@@ -20,6 +20,11 @@ export class RecipesService {
         return this.recipeModel.find()
     }
 
+    //해당 id 레시피 반환
+    async findRecipeById(id: string) {
+        return this.recipeModel.findById(id)
+    }
+
     //재료로 레시피 찾기
     async findRecipesByIngredient(ingredientIds: string[]) {
         const foundRecipe = await this.recipeModel.find({detailedIngredient: {$in: ingredientIds}})
@@ -27,7 +32,7 @@ export class RecipesService {
             foundRecipe.map(async (recipe) => {
                     const {detailedIngredient} = recipe
                     const ingredient = await this.ingredientsService.findIngredientById(detailedIngredient)
-                    return {
+                    const recipeDto: RecipeDto = {
                         _id: recipe._id,
                         name: recipe.name,
                         createdAt: recipe.createdAt,
@@ -35,8 +40,11 @@ export class RecipesService {
                         user: recipe.user,
                         modified: recipe.modified,
                         steps: recipe.steps,
+                        likes: recipe.likes,
+                        profileImage: recipe.profileImage,
                         detailedIngredient: ingredient,
                     }
+                    return recipeDto
                 }
                 )
         )

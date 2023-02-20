@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, Query} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
 import {ApiBody, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {RecipesService} from "./recipes.service";
 import {RecipeDto} from "../../dtos/recipe.dto";
@@ -24,6 +24,12 @@ export class RecipesController {
     })
     private async getAllRecipes() {
         return this.recipesService.findAllRecipes()
+    }
+
+    @Get('/:id')
+    private async getRecipe(@Param() param) {
+        const { id } = param
+        return this.recipesService.findRecipeById(id)
     }
 
     @Get('/ingredient-recipes')
