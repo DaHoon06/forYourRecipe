@@ -1,9 +1,32 @@
 <template>
   <section class="recipe-lists--container">
+    <loading-spinner v-if="isLoading"/>
+
+    <section class="recipe-lists__label pb-20">
+      <text-font size="18" class="pr-6 pb-12">선택된 재료</text-font>
+
+      <div class="flex" v-if="selectedIngredients">
+
+        <span v-for="(ingredient) of selectedIngredients" :key="ingredient._id" class="ingredient-icon mr-12">
+
+          <picture class="ingredient-icon--wrapper">
+          <img loading="lazy" :src="ingredient.img"
+               sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+        </picture>
+        <text-font class="pt-6">
+          {{ ingredient.name }}
+        </text-font>
+        </span>
+      </div>
+    </section>
+
+
     <section class="recipe-lists__label">
       <text-font size="18" class="pr-6">검색 결과</text-font>
       <text-font size="16" color="placeholder">{{ total }}</text-font>
     </section>
+    <text-font>
+    </text-font>
     <hr/>
     <section>
       <section class="card--wrapper" v-if="recipeLists.length > 0">
@@ -52,6 +75,9 @@ import {Recipe} from "@/interfaces/recipe";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
 import {LocationQueryValue} from "vue-router";
+import {computed, ComputedRef} from "vue";
+import {useStore} from "vuex";
+import {RecipeState} from "@/store/modules/recipe";
 
 @Options({
   components: {
@@ -59,10 +85,12 @@ import {LocationQueryValue} from "vue-router";
   }
 })
 export default class RecipeLists extends Vue {
+  isLoading = true;
   key: Partial<LocationQueryValue | LocationQueryValue[]> = [];
   total = 0;
-
   recipeLists: Recipe.Info[] = [];
+  store = useStore();
+  selectedIngredients: ComputedRef<RecipeState[]> = computed(() => this.store.getters["recipeModule/getIngredients"]);
 
   created() {
     const {key} = this.$route.query;
@@ -80,6 +108,7 @@ export default class RecipeLists extends Vue {
       })
       this.recipeLists = data;
       this.total = data.length;
+      this.isLoading = false
     } catch (e) {
       console.log(e)
     }
@@ -97,6 +126,12 @@ export default class RecipeLists extends Vue {
   padding: 5vh 5vw;
   width: 100%;
   min-height: 500px;
+}
+
+.ingredient-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media screen and (max-width: 600px) {

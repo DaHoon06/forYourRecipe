@@ -8,23 +8,36 @@ export interface RecipeState {
   selected?: boolean;
 }
 
-export const recipeModule: Module<RecipeState[], RootState> = {
+const getDefaultState = () => {
+  return {
+    ingredients: [],
+  };
+};
+
+interface STATE {
+  ingredients: RecipeState[];
+}
+
+const state = getDefaultState();
+
+export const recipeModule: Module<STATE, RootState> = {
   namespaced: true,
-  state: [],
+  state: state,
   mutations: {
-    saveIngredients(state: RecipeState[], data): void {
+    saveIngredients(state: STATE, data: RecipeState[]): void {
       for (let i = 0; i < data.length; i++) {
-        state.push(data[i]);
+        state.ingredients.push(data[i]);
       }
     },
-    reset(state: RecipeState[], data): void {
-      state = [];
+    reset(state: STATE): void {
+      console.log(getDefaultState(), state);
+      Object.assign(state, getDefaultState());
     },
   },
   actions: {},
   getters: {
-    getIngredients: (state) => {
-      return state;
+    getIngredients: (state: STATE) => {
+      return state.ingredients;
     },
   },
 };

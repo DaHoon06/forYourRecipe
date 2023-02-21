@@ -30,7 +30,6 @@
         </div>
       </section>
 
-
       <section class="ingredients-box--button pt-20">
         <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">
           <img decoding="async" loading="eager" src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20"
@@ -49,7 +48,6 @@
             <text-font color="white">레시피 검색</text-font>
           </custom-button>
         </div>
-        {{ testA }}
 
       </section>
     </section>
@@ -122,7 +120,7 @@
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
 import Modal from "@/components/common/Modal.vue";
-import {Ref} from "vue-property-decorator";
+import {Ref, Watch} from "vue-property-decorator";
 import {ModalComponent} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
@@ -141,13 +139,11 @@ export default class IngredientsBox extends Vue {
   ingredients: Recipe.IngredientType[] = [];
   selected = [];
 
-
   store = useStore();
-  testA = computed(() => this.store.getters["recipeModule/getIngredients"]);
 
   private async pickUpModal(): Promise<void> {
     this.modal.show();
-    //TODO: 재료 준비
+    this.store.commit('recipeModule/reset');
     try {
       //TypeError: Property axios does not on type IngredientsBox
       //const {data} = await this.axios.get('/99999999999asd9sa9d9as');
@@ -262,21 +258,6 @@ export default class IngredientsBox extends Vue {
   &--status {
     display: flex;
     flex-direction: column;
-  }
-}
-
-.ingredient-icon--wrapper {
-  border: 1px solid $line;
-  border-radius: 50%;
-  width: 52px;
-  height: 52px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background-color: rgba(245, 245, 245, 0.5);
   }
 }
 

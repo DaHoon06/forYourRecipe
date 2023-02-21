@@ -1,5 +1,6 @@
 <template>
   <main class="main">
+    <loading-spinner v-if="isLoading"/>
 
     <section class="w-100">
       <IngredientsBox/>
@@ -68,7 +69,7 @@ import {Recipe} from "@/interfaces/recipe";
   }
 })
 export default class HomeView extends Vue {
-
+  isLoading = true;
   recipeCards: Recipe.Info[] = [];
 
   created() {
@@ -79,6 +80,7 @@ export default class HomeView extends Vue {
     try {
       const {data} = await ins.get('/recipes/all-recipes');
       this.recipeCards = data;
+      this.isLoading = false;
     } catch (e) {
       console.log(e)
     }

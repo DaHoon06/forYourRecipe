@@ -1,5 +1,6 @@
 <template>
   <section class="recipe-post--container">
+    <loading-spinner v-if="isLoading"/>
     <section class="recipe-post__label">
       <text-font size="24" class="pb-14">레시피 등록</text-font>
       <text-font color="label" size="16">나만의 레시피를 등록하여 다른 사람에게 공유해보세요!</text-font>
@@ -91,6 +92,15 @@ import Input from "@/components/common/Input.vue";
 })
 export default class RecipePost extends Vue {
 
+  isLoading = true;
+
+  created() {
+    // TEMP
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 500)
+  }
+
   private cancel() {
     this.$router.push('/');
   }
@@ -98,6 +108,7 @@ export default class RecipePost extends Vue {
   private async registerRecipe() {
     try {
       console.log('롸')
+
     } catch (e) {
       console.log(e);
     }
