@@ -164,7 +164,6 @@ import RecipeUi from "@/components/ui/RecipeUi.vue";
 import Input from "@/components/common/Input.vue";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
-import {markRaw} from "vue";
 
 interface Steps {
   step: number;
@@ -240,29 +239,25 @@ export default class AdminRecipePost extends Vue {
   //TODO: 빈 값 체크 후 넘기기
   async registerRecipe() {
     try {
+      this.isLoading = true
       const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
       console.log(data)
-      console.log('롸', this.recipePost)
+      this.isLoading = false;
     } catch (e) {
       console.log(e);
     }
   }
 
   private selectedIngredient(_id: string): void {
-    this.recipePost.detailedIngredient.push(_id)
-    // this.ingredients = this.ingredients.filter((value) => {
-    //   const {selected} = value
-    //   if (selected) return selected
-    //   return false;
-    // });
-    //
-    // // if (this.selectBoxDisabled) return;
-    // const choice = this.selected.filter((value: Recipe.IngredientType) => {
-    //   const {_id, selected} = value
-    //   if (_id === key) value.selected = !selected;
-    //   return _id === key;
-    // });
-    // this.ingredients.push(...choice);
+    const index = this.recipePost.detailedIngredient.findIndex((value) => value === _id)
+    if (index > -1) this.recipePost.detailedIngredient.splice(index, 1);
+    else this.recipePost.detailedIngredient.push(_id)
+
+    this.selected.filter((value: Recipe.IngredientType) => {
+      const {_id: key, selected} = value
+      if (key === _id) value.selected = !selected;
+      return key === _id;
+    });
   }
 
   private addIngredientRows(index: number, arr: Ingredients[]): void {
@@ -331,6 +326,35 @@ export default class AdminRecipePost extends Vue {
     justify-content: center;
     height: 46px;
     color: #222222;
+  }
+
+  .ingredients-items--container {
+    min-height: 5vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+    column-gap: 10px;
+    row-gap: 0;
+    padding: 10px 0;
+    overflow-y: auto;
+
+    /* 재료 아이콘 선택 표시 */
+    .disabled-icon {
+      -webkit-filter: brightness(95%);
+      filter: brightness(95%);
+      background-color: rgba(240, 240, 240, 0.6);
+      width: 54px;
+      height: 54px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        -webkit-filter: brightness(90%);
+        filter: brightness(90%);
+      }
+    }
   }
 }
 

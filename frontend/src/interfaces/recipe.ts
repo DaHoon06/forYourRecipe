@@ -13,7 +13,7 @@ export namespace Recipe {
   }
 
   export interface IngredientType {
-    _id: number;
+    _id: string;
     name: string;
     img: string;
     selected?: boolean;

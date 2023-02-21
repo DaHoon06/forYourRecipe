@@ -151,7 +151,7 @@ export default class IngredientsBox extends Vue {
   }
 
   //TODO: 3개까지만 선택 되도록 수정 리턴 부분 잘못됨;;;
-  private selectedIngredient(key: number): void {
+  private selectedIngredient(key: string): void {
     this.ingredients = this.ingredients.filter((value) => {
       const {selected} = value
       if (selected) return selected
@@ -291,8 +291,8 @@ export default class IngredientsBox extends Vue {
       -webkit-filter: brightness(95%);
       filter: brightness(95%);
       background-color: rgba(240, 240, 240, 0.6);
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       display: flex;
       justify-content: center;
       align-items: center;
