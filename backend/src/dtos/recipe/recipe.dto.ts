@@ -26,6 +26,11 @@ export class RecipeDto {
     @ApiProperty({type: String, description: '레시피 이름'})
     name: string
 
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({type: String, description: '레시피 설명'})
+    desc: string
+
     @IsDate()
     @IsNotEmpty()
     @ApiProperty({type: Date, description: '레시피 생성일'})
@@ -102,6 +107,7 @@ export class RecipeDto {
                 user: string, modified: boolean,
                 likes: number, steps: StepsDto[],
                 allIngredient: AllIngredientDto[],
+                desc: string,
                 detailedIngredient?: DetailedIngredientDto[],
                 profileImage?: string
                  ) {
@@ -114,6 +120,7 @@ export class RecipeDto {
         this.likes = likes
         this.steps = steps
         this.allIngredient = allIngredient
+        this.desc = desc
         this.detailedIngredient = detailedIngredient ? detailedIngredient : []
         this.profileImage = profileImage ? profileImage : ''
     }

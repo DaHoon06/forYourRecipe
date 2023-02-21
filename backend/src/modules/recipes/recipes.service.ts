@@ -79,7 +79,8 @@ export class RecipesService {
             recipe.createdAt, recipe.updatedAt,
             recipe.user, recipe.modified,
             recipe.likes, recipe.steps,
-            recipe.allIngredient, detailedIngredient,
+            recipe.allIngredient, recipe.desc,
+            detailedIngredient,
             recipe.profileImage
         )
     }

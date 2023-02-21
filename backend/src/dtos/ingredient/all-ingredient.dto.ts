@@ -10,7 +10,7 @@ import {Type} from "class-transformer";
 import {IngredientCategory} from "../../enums/IngredientCategory";
 import {ApiProperty} from "@nestjs/swagger";
 
-class IngredientDto {
+class AllIngredientInfoDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty({
@@ -43,12 +43,12 @@ export class AllIngredientDto {
     @IsArray()
     @ArrayNotEmpty()
     @ValidateNested({each: true})
-    @Type(() => IngredientDto)
+    @Type(() => AllIngredientInfoDto)
     @ApiProperty({
+        type: AllIngredientInfoDto,
         isArray: true,
-        type: IngredientDto,
         required: true,
         description: "전체 재료 정보",
     })
-    ingredients: IngredientDto[]
+    ingredients: AllIngredientInfoDto[]
 }
