@@ -162,12 +162,11 @@ export default class RecipePost extends Vue {
 }
 
 .form {
-  height: 974px;
+  height: 100%;
   max-width: 1154px;
   margin: auto;
 }
 
-/* TODO input tag 공통으로 관리 */
 @import "src/assets/css/font";
 
 .input {

@@ -19,13 +19,7 @@
         <text-font>선택한 재료</text-font>
         <div class="ingredients-box--selected">
           <span v-for="(value) of ingredients" :key="value._id">
-            <picture class="ingredient-icon--wrapper">
-              <img loading="lazy" :src="value.img"
-                   sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
-            </picture>
-            <text-font>
-              {{ value.name }}
-            </text-font>
+            <ingredient-icon :src="value.img" :label="value.name"/>
           </span>
         </div>
       </section>
@@ -79,13 +73,12 @@
         <hr/>
 
         <section v-if="selected.length > 0" class="ingredients-items--container scroll">
-            <span v-for="(value) of selected" :key="value._id"
-                  @click="selectedIngredient(value._id)">
-              <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-                <img loading="lazy" :src="value.img"
-                     sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
-              </picture>
-            </span>
+          <span v-for="(value) of selected" :key="value._id" @click="selectedIngredient(value._id)">
+            <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
+              <img loading="lazy" :src="value.img"
+                   sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+            </picture>
+          </span>
         </section>
         <section class="empty-ingredients" v-else>
           <text-font>선택된 재료가 없습니다.</text-font>
@@ -126,10 +119,12 @@ import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import {useStore} from "vuex";
 import {computed} from "vue";
+import IngredientIcon from "@/components/common/IngredientIcon.vue";
 
 @Options({
   components: {
-    Modal
+    Modal,
+    IngredientIcon
   }
 })
 export default class IngredientsBox extends Vue {

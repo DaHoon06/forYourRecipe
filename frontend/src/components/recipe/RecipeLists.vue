@@ -115,7 +115,7 @@ export default class RecipeLists extends Vue {
   }
 
   private recipeDetail(id: string) {
-    this.$router.push(`/recipe/${id}`)
+    this.$router.push(`/recipe/detail/${id}`)
   }
 
 }
