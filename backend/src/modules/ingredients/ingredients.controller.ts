@@ -1,8 +1,8 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {ApiBody, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {IngredientsService} from "./ingredients.service";
-import {RegisteredIngredientDto} from "../../dtos/registered-ingredient.dto";
-import {IngredientDto} from "../../dtos/ingredient.dto";
+import {RegisteredIngredientDto} from "../../dtos/ingredient/registered-ingredient.dto";
+import {IngredientDto} from "../../dtos/ingredient/ingredient.dto";
 
 @Controller('ingredients')
 @ApiTags('재료 관련 API')
