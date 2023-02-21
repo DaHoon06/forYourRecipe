@@ -1,9 +1,9 @@
 import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
 import {ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {RecipesService} from "./recipes.service";
-import {RecipeDto} from "../../dtos/recipe.dto";
-import {RegisteredUserRecipeDto} from "../../dtos/registered-user-recipe.dto";
-import {RegisteredAdminRecipeDto} from "../../dtos/registered-admin-recipe.dto";
+import {RecipeDto} from "../../dtos/recipe/recipe.dto";
+import {RegisteredUserRecipeDto} from "../../dtos/recipe/registered-user-recipe.dto";
+import {RegisteredAdminRecipeDto} from "../../dtos/recipe/registered-admin-recipe.dto";
 import {IngredientsService} from "../ingredients/ingredients.service";
 
 @Controller('recipes')

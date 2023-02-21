@@ -25,4 +25,3 @@ export class IngredientDto {
     })
     readonly detailedIngredient: DetailedIngredientDto[]
 }
-

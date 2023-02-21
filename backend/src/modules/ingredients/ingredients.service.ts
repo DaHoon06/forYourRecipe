@@ -3,8 +3,8 @@ import {InjectModel} from "@nestjs/mongoose";
 import {Ingredient, IngredientDocument} from "../../models/ingredient.model";
 import {Model} from "mongoose";
 import {v4 as uuidv4} from 'uuid';
-import {IngredientDto} from "../../dtos/ingredient.dto";
-import {RegisteredIngredientDto} from "../../dtos/registered-ingredient.dto";
+import {IngredientDto} from "../../dtos/ingredient/ingredient.dto";
+import {RegisteredIngredientDto} from "../../dtos/ingredient/registered-ingredient.dto";
 
 @Injectable()
 export class IngredientsService {

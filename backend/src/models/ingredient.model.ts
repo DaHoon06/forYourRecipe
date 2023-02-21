@@ -1,12 +1,6 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {HydratedDocument} from "mongoose";
 
-export interface DetailedIngredient {
-    _id: string,
-    name: string,
-    img?: string,
-}
-
 @Schema({collection: 'ingredients', versionKey: false})
 export class Ingredient {
     @Prop({type: String, required: true})
@@ -23,7 +17,11 @@ export class Ingredient {
         }],
         required: true
     })
-    detailedIngredient: DetailedIngredient[]
+    detailedIngredient: {
+        _id: string,
+        name: string,
+        img?: string,
+    }[]
 }
 
 export type IngredientDocument = HydratedDocument<Ingredient>
