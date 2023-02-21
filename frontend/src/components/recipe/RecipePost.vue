@@ -8,62 +8,94 @@
 
     <form @submit.prevent="registerRecipe" class="form">
       <recipe-ui>
+
+        <section class="recipe-grid--layout">
+          <text-font size="20" class="pr-16">레시피 제목</text-font>
+          <input type="text" class="input" v-model="recipePost.name"/>
+        </section>
+
+        <div class="dotted mt-16 mb-16"/>
+
+        <section class="recipe-grid--layout">
+          <text-font size="20">레시피 소개</text-font>
+          <textarea class="input scroll textarea" v-model="recipePost.desc"></textarea>
+        </section>
+
+        <div class="dotted mt-16 mb-16"/>
+
         <section class="pb-20">
-          <div class="recipe-post--ingredients">
-            <text-font size="22" class="pr-16">주재료를 선택해주세요.</text-font>
-            <div class="select-box">
-              <select>
-                <option v-for="(i) of 4" :key="i">
-                  <text-font size="12">{{ i }}</text-font>
-                </option>
-              </select>
-              <span class="angle-icons">
-              <img
-                src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
-            </span>
-            </div>
-          </div>
-
-          <div class="dotted mt-16"/>
-
+          <text-font size="20">재료</text-font>
+          <div class="dotted mt-16 mb-16"/>
+          <section class="recipe-grid--layout">
+            <text-font size="16" color="placeholder">사용되는 재료를 입력해주세요.</text-font>
+            <section class="recipe-ingredients__input--container">
+              <input type="text" class="input mr-30" v-model="recipePost.detailedIngredient"/>
+              <input type="text" class="input mr-30"/>
+              <div class="flex">
+                <custom-button variant="icon-button" class="button-black mr-10" type="button">
+                  <img src="@/assets/images/icons/plus.svg" alt="plus"/>
+                </custom-button>
+                <custom-button variant="icon-button" class="button-gray" type="button">
+                  <img src="@/assets/images/icons/minus.svg" alt="minus"/>
+                </custom-button>
+              </div>
+            </section>
+          </section>
         </section>
 
         <section class="pb-20">
-          <text-font size="22">요리의 이름을 적어주세요.</text-font>
-          <div class="dotted mt-16"/>
-          <div class="mt-20">
-            <input type="text" class="input"/>
-          </div>
+          <text-font size="20">양념</text-font>
+          <div class="dotted mt-16 mb-16"/>
+          <section class="recipe-grid--layout">
+            <div/>
+            <section class="recipe-ingredients__input--container">
+              <input type="text" class="input mr-30"/>
+              <input type="text" class="input mr-30"/>
+              <div class="flex">
+                <custom-button variant="icon-button" class="button-black mr-10" type="button">
+                  <img src="@/assets/images/icons/plus.svg" alt="plus"/>
+                </custom-button>
+                <custom-button variant="icon-button" class="button-gray" type="button">
+                  <img src="@/assets/images/icons/minus.svg" alt="minus"/>
+                </custom-button>
+              </div>
+            </section>
+          </section>
         </section>
 
         <section class="pb-20">
-          <div class="recipe--description--label">
-            <text-font size="22">요리를 소개해주세요.</text-font>
 
-            <label :for="`file`" class="input-file--button">
-              <img src="@/assets/images/icons/image-upload.svg" width="24" height="24" alt="이미지 업로드 버튼"/>
-            </label>
-            <input type="file" id="file" style="display: none" accept="jpeg,png,jpg"/>
-          </div>
-          <div class="dotted mt-16"/>
-          <textarea class="input scroll textarea mt-20"></textarea>
-        </section>
+          <text-font size="20">요리 순서</text-font>
 
-        <section class="pb-20">
-          <text-font size="22">요리 방법을 단계별로 등록해주세요.</text-font>
-          <div class="dotted mt-16"/>
-
-          <div class="flex mt-20">
-            <input type="text" class="input"/>
-            <custom-button type="button" variant="black" class="ml-36">
-              <text-font color="white" size="18">요리법 등록</text-font>
+          <div class="dotted mt-16 mb-16"/>
+          <section class="recipe-grid--layout">
+            <div/>
+            <textarea class="input scroll textarea"></textarea>
+          </section>
+          <div class="w-100 recipe-grid--layout pt-24">
+            <div/>
+            <custom-button type="button" variant="black" class="m-auto">
+              <text-font color="white" size="18">추가</text-font>
             </custom-button>
           </div>
+
+
         </section>
 
+
         <section class="pb-20">
-          <text-font size="22">미리보기</text-font>
+          <div class="flex align-center">
+            <text-font size="20" class="mr-14">요리 사진</text-font>
+            <div>
+              <label :for="`file`" class="input-file--button">
+                <img src="@/assets/images/icons/image-upload.svg" width="24" height="24" alt="이미지 업로드 버튼"/>
+              </label>
+              <input type="file" id="file" style="display: none" accept="jpeg,png,jpg"/>
+            </div>
+          </div>
+          <div class="dotted mt-16 mb-16"/>
         </section>
+
       </recipe-ui>
 
       <section class="recipe-post__button--container pt-16">
@@ -83,6 +115,33 @@
 import {Options, Vue} from "vue-class-component";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import Input from "@/components/common/Input.vue";
+import {ins} from "@/lib/axios";
+
+interface Steps {
+  step: number;
+  desc: string;
+  img: string;
+}
+
+interface Ingredient {
+  _id: string;
+  name: string;
+  img: string;
+}
+
+interface DetailedIngredient {
+  ingredient: Ingredient[],
+  condiment: Ingredient[],
+}
+
+interface IRecipePost {
+  name: string;
+  desc: string;
+  steps: Steps[];
+  detailedIngredient: DetailedIngredient[],
+  allIngredient: string;
+  profileImage: string;
+}
 
 @Options({
   components: {
@@ -91,6 +150,14 @@ import Input from "@/components/common/Input.vue";
   }
 })
 export default class RecipePost extends Vue {
+  recipePost: IRecipePost = {
+    name: '',
+    desc: '',
+    steps: [],
+    detailedIngredient: [],
+    allIngredient: '',
+    profileImage: '',
+  }
 
   isLoading = true;
 
@@ -107,11 +174,29 @@ export default class RecipePost extends Vue {
 
   private async registerRecipe() {
     try {
-      console.log('롸')
+      console.log('롸', this.recipePost)
 
     } catch (e) {
       console.log(e);
     }
+  }
+
+
+  // TODO 함수 add, remove 하나씩으로 통합해서 사용하도록 수정
+  addIngredientRows() {
+    console.log('?')
+  }
+
+  removeIngredientRows() {
+    console.log('?')
+  }
+
+  addCondimentRows() {
+    console.log('?')
+  }
+
+  removeCondimentRows() {
+    console.log('?')
   }
 }
 </script>
@@ -121,6 +206,17 @@ export default class RecipePost extends Vue {
   width: 100%;
   margin: auto;
   padding: 5vw;
+
+  .recipe-grid--layout {
+    display: grid;
+    grid-template-columns: 3fr 12fr;
+    align-items: center;
+  }
+
+  .recipe-ingredients__input--container {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .recipe-post--ingredients {
     display: flex;
@@ -135,11 +231,6 @@ export default class RecipePost extends Vue {
     padding-bottom: 36px;
   }
 
-  .recipe--description--label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
 
   .recipe-post__button--container {
     display: flex;
@@ -159,6 +250,28 @@ export default class RecipePost extends Vue {
     height: 46px;
     color: #222222;
   }
+}
+
+@mixin defaultButton() {
+  padding: 4px 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px;
+}
+
+.button-black {
+  @include defaultButton();
+  background-color: #494949;
+}
+
+.button-gray {
+  background-color: #EDEDED;
+  @include defaultButton();
 }
 
 .form {

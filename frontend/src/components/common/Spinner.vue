@@ -15,7 +15,7 @@ export default class Spinner extends Vue {
 
 <style scoped lang="scss">
 .spinner--wrapper {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100vw;

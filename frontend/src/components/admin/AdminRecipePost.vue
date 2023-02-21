@@ -11,21 +11,44 @@
 
         <section class="recipe-grid--layout">
           <text-font size="20" class="pr-16">레시피 제목</text-font>
-          <input type="text" class="input"/>
+          <input type="text" class="input" v-model="recipePost.name"/>
         </section>
 
         <div class="dotted mt-16 mb-16"/>
 
         <section class="recipe-grid--layout">
           <text-font size="20">레시피 소개</text-font>
-          <textarea class="input scroll textarea "></textarea>
+          <textarea class="input scroll textarea" v-model="recipePost.desc"></textarea>
         </section>
 
         <div class="dotted mt-16 mb-16"/>
 
         <section class="recipe-grid--layout">
           <text-font size="20" class="pr-16">메인 재료</text-font>
-          <input type="text" class="input"/>
+
+          <div class="select-box">
+            <select v-model="selected">
+              <option v-for="(category) of ingredientsCategory" :key="category._id"
+                      :value="category.detailedIngredient">
+                <text-font size="12">{{ category.name }}</text-font>
+              </option>
+            </select>
+            <picture class="angle-icons">
+              <img
+                loading="lazy"
+                decoding="async"
+                src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
+            </picture>
+          </div>
+        </section>
+
+        <section v-if="selected.length > 0" class="ingredients-items--container scroll">
+          <span v-for="(value) of selected" :key="value._id" @click="selectedIngredient(value._id)">
+            <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
+              <img loading="lazy" :src="value.img"
+                   sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+            </picture>
+          </span>
         </section>
 
         <div class="dotted mt-16 mb-16"/>
@@ -33,20 +56,29 @@
         <section class="pb-20">
           <text-font size="20">재료</text-font>
           <div class="dotted mt-16 mb-16"/>
+          <text-font size="16" color="placeholder">사용되는 재료를 입력해주세요.</text-font>
+
           <section class="recipe-grid--layout">
-            <text-font size="16" color="placeholder">사용되는 재료를 입력해주세요.</text-font>
+            <div/>
             <section class="recipe-ingredients__input--container">
-              <input type="text" class="input mr-30"/>
-              <input type="text" class="input mr-30"/>
-              <div class="flex">
-                <custom-button variant="icon-button" class="button-black mr-10" type="button">
-                  <img src="@/assets/images/icons/plus.svg" alt="plus"/>
-                </custom-button>
-                <custom-button variant="icon-button" class="button-gray" type="button">
-                  <img src="@/assets/images/icons/minus.svg" alt="minus"/>
-                </custom-button>
+              <div v-for="(ingredientsSection, index) of recipePost.allIngredient[0].ingredients"
+                   :key="index" class="w-100 flex pb-10">
+                <input type="text" class="input mr-30" v-model="ingredientsSection.name"
+                       placeholder="예) 돼지고기"/>
+                <input type="text" class="input mr-30" placeholder="40g" v-model="ingredientsSection.unit"/>
+                <div class="flex">
+                  <custom-button variant="icon-button" class="button-black mr-10" type="button"
+                                 @click="addIngredientRows(index, recipePost.allIngredient[0].ingredients)">
+                    <img src="@/assets/images/icons/plus.svg" alt="plus"/>
+                  </custom-button>
+                  <custom-button variant="icon-button" class="button-gray" type="button"
+                                 @click="removeIngredientRows(index, recipePost.allIngredient[0].ingredients)">
+                    <img src="@/assets/images/icons/minus.svg" alt="minus"/>
+                  </custom-button>
+                </div>
               </div>
             </section>
+
           </section>
         </section>
 
@@ -56,16 +88,22 @@
           <section class="recipe-grid--layout">
             <div/>
             <section class="recipe-ingredients__input--container">
-              <input type="text" class="input mr-30"/>
-              <input type="text" class="input mr-30"/>
-              <div class="flex">
-                <custom-button variant="icon-button" class="button-black mr-10" type="button">
-                  <img src="@/assets/images/icons/plus.svg" alt="plus"/>
-                </custom-button>
-                <custom-button variant="icon-button" class="button-gray" type="button">
-                  <img src="@/assets/images/icons/minus.svg" alt="minus"/>
-                </custom-button>
+              <div v-for="(condimentSection, index) of recipePost.allIngredient[1].ingredients"
+                   :key="index" class="w-100 flex pb-10">
+                <input type="text" class="input mr-30" placeholder="설탕" v-model="condimentSection.name"/>
+                <input type="text" class="input mr-30" placeholder="30g" v-model="condimentSection.unit"/>
+                <div class="flex">
+                  <custom-button variant="icon-button" class="button-black mr-10" type="button"
+                                 @click="addIngredientRows(index, recipePost.allIngredient[1].ingredients)">
+                    <img src="@/assets/images/icons/plus.svg" alt="plus"/>
+                  </custom-button>
+                  <custom-button variant="icon-button" class="button-gray" type="button"
+                                 @click="removeIngredientRows(index, recipePost.allIngredient[1].ingredients)">
+                    <img src="@/assets/images/icons/minus.svg" alt="minus"/>
+                  </custom-button>
+                </div>
               </div>
+
             </section>
           </section>
         </section>
@@ -77,18 +115,20 @@
           <div class="dotted mt-16 mb-16"/>
           <section class="recipe-grid--layout">
             <div/>
-            <textarea class="input scroll textarea"></textarea>
+            <section>
+              <div v-for="(step, index) of recipePost.steps" :key="index">
+                <textarea class="input scroll textarea" v-model="step.desc"></textarea>
+              </div>
+            </section>
+
           </section>
           <div class="w-100 recipe-grid--layout pt-24">
             <div/>
-            <custom-button type="button" variant="black" class="m-auto">
+            <custom-button type="button" variant="black" class="m-auto" @click="addDescRows">
               <text-font color="white" size="18">추가</text-font>
             </custom-button>
           </div>
-
-
         </section>
-
 
         <section class="pb-20">
           <div class="flex align-center">
@@ -122,6 +162,33 @@
 import {Options, Vue} from "vue-class-component";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import Input from "@/components/common/Input.vue";
+import {ins} from "@/lib/axios";
+import {Recipe} from "@/interfaces/recipe";
+
+interface Steps {
+  step: number;
+  desc: string;
+  img: string;
+}
+
+interface Ingredients {
+  name: string,
+  unit: string
+}
+
+interface AllIngredient {
+  category: string,
+  ingredients: Ingredients[]
+}
+
+interface IRecipePost {
+  name: string;
+  desc: string;
+  steps: Steps[];
+  detailedIngredient: string[],
+  allIngredient: AllIngredient[];
+  profileImage: string;
+}
 
 @Options({
   components: {
@@ -130,27 +197,83 @@ import Input from "@/components/common/Input.vue";
   }
 })
 export default class AdminRecipePost extends Vue {
-
+  recipePost: IRecipePost = {
+    name: '',
+    desc: '',
+    steps: [
+      {
+        step: 1,
+        desc: '',
+        img: '',
+      }
+    ],
+    detailedIngredient: [],
+    allIngredient: [
+      {category: '식재료', ingredients: [{name: '', unit: ''}]},
+      {category: '조미료', ingredients: [{name: '', unit: ''}]},
+    ],
+    profileImage: '',
+  }
   isLoading = true;
+  selected = [];
+  ingredientsCategory: Recipe.IngredientCategories[] = [];
 
   created() {
-    // TEMP
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 500)
+    this.loadCategory();
   }
 
-  private cancel() {
+  private async loadCategory() {
+    try {
+      const {data} = await ins.get('/ingredients/all-ingredients');
+      this.ingredientsCategory = data;
+      this.isLoading = false;
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  cancel() {
     this.$router.push('/');
   }
 
-  private async registerRecipe() {
+  //TODO: 빈 값 체크 후 넘기기
+  registerRecipe() {
     try {
-      console.log('롸')
-
+      console.log('롸', this.recipePost)
     } catch (e) {
       console.log(e);
     }
+  }
+
+  // private selectedIngredient(key: number): void {
+  //   this.ingredients = this.ingredients.filter((value) => {
+  //     const {selected} = value
+  //     if (selected) return selected
+  //     return false;
+  //   });
+  //
+  //   // if (this.selectBoxDisabled) return;
+  //   const choice = this.selected.filter((value: Recipe.IngredientType) => {
+  //     const {_id, selected} = value
+  //     if (_id === key) value.selected = !selected;
+  //     return _id === key;
+  //   });
+  //   this.ingredients.push(...choice);
+  // }
+
+  private addIngredientRows(index: number, arr: Ingredients[]): void {
+    if (arr.length === 10) return;
+    arr.push({name: '', unit: ''});
+  }
+
+  private removeIngredientRows(index: number, arr: Ingredients[]): void {
+    if (arr.length === 1) return;
+    arr.splice(index, 1)
+  }
+
+  private addDescRows() {
+    const step = this.recipePost.steps.length;
+    this.recipePost.steps.push({step: step, desc: '', img: ''})
   }
 }
 </script>
@@ -169,6 +292,7 @@ export default class AdminRecipePost extends Vue {
 
   .recipe-ingredients__input--container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
   }
 
@@ -236,6 +360,30 @@ export default class AdminRecipePost extends Vue {
 
 @import "src/assets/css/font";
 
+input::placeholder {
+  color: $textPlaceholder;
+}
+
+input::-webkit-input-placeholder {
+  color: $textPlaceholder;
+}
+
+input:-ms-input-placeholder {
+  color: $textPlaceholder;
+}
+
+textarea::placeholder {
+  color: $textPlaceholder;
+}
+
+textarea::-webkit-input-placeholder {
+  color: $textPlaceholder;
+}
+
+textarea:-ms-input-placeholder {
+  color: $textPlaceholder;
+}
+
 .input {
   box-sizing: border-box;
   font-family: $jua;
@@ -244,7 +392,7 @@ export default class AdminRecipePost extends Vue {
   border-radius: 6px;
   color: $black;
   background-color: $white;
-  min-height: 46px;
+  min-height: 38px;
   padding: 4px 8px;
   width: 100%;
   resize: none;
