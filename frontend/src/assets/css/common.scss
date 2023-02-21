@@ -10,55 +10,55 @@ $total: 100;
 */
 @for $size from 1 to $total {
   .mt-#{$size} {
-    margin-top: $size + px !important;
+    margin-top: $size + px;
   }
   .ml-#{$size} {
-    margin-left: $size + px !important;
+    margin-left: $size + px;
   }
   .mr-#{$size} {
-    margin-right: $size + px !important;
+    margin-right: $size + px;
   }
   .mb-#{$size} {
-    margin-bottom: $size + px !important;
+    margin-bottom: $size + px;
   }
   .m-#{$size} {
-    margin: $size + px !important;
+    margin: $size + px;
   }
   .mx-#{$size} {
-    margin-left: $size + px !important;
-    margin-right: $size + px !important;
+    margin-left: $size + px;
+    margin-right: $size + px;
   }
   .my-#{$size} {
-    margin-top: $size + px !important;
-    margin-bottom: $size + px !important;
+    margin-top: $size + px;
+    margin-bottom: $size + px;
   }
 
   .pt-#{$size} {
-    padding-top: $size + px !important;
+    padding-top: $size + px;
   }
   .pl-#{$size} {
-    padding-left: $size + px !important;
+    padding-left: $size + px;
   }
   .pr-#{$size} {
-    padding-right: $size + px !important;
+    padding-right: $size + px;
   }
   .pb-#{$size} {
-    padding-bottom: $size + px !important;
+    padding-bottom: $size + px;
   }
   .p-#{$size} {
-    margin: $size + px !important;
+    margin: $size + px;
   }
   .px-#{$size} {
-    padding-left: $size + px !important;
-    padding-right: $size + px !important;
+    padding-left: $size + px;
+    padding-right: $size + px;
   }
   .py-#{$size} {
-    padding-top: $size + px !important;
-    padding-bottom: $size + px !important;
+    padding-top: $size + px;
+    padding-bottom: $size + px;
   }
 
   .gap-#{$size} {
-    gap: $size + px !important;
+    gap: $size + px;
   }
 }
 

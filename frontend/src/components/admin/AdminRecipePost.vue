@@ -11,19 +11,19 @@
 
         <section class="recipe-grid--layout">
           <text-font size="20" class="pr-16">레시피 제목</text-font>
-          <input type="text" class="input" v-model="recipePost.name"/>
+          <input type="text" class="input input-text" v-model="recipePost.name"/>
         </section>
 
-        <div class="dotted mt-16 mb-16"/>
+        <div class="dotted my-16"/>
 
         <section class="recipe-grid--layout">
           <text-font size="20">레시피 소개</text-font>
-          <textarea class="input scroll textarea" v-model="recipePost.desc"></textarea>
+          <textarea class="input scroll textarea input-text" v-model="recipePost.desc"></textarea>
         </section>
 
-        <div class="dotted mt-16 mb-16"/>
+        <div class="dotted my-16"/>
 
-        <section class="recipe-grid--layout">
+        <section class="recipe-grid--layout select-box--container">
           <text-font size="20" class="pr-16">메인 재료</text-font>
 
           <div class="select-box">
@@ -51,11 +51,11 @@
           </span>
         </section>
 
-        <div class="dotted mt-16 mb-16"/>
+        <div class="dotted my-16"/>
 
         <section class="pb-20">
           <text-font size="20">재료</text-font>
-          <div class="dotted mt-16 mb-16"/>
+          <div class="dotted my-16"/>
           <text-font size="16" color="placeholder">사용되는 재료를 입력해주세요.</text-font>
 
           <section class="recipe-grid--layout">
@@ -84,13 +84,13 @@
 
         <section class="pb-20">
           <text-font size="20">양념</text-font>
-          <div class="dotted mt-16 mb-16"/>
+          <div class="dotted my-16"/>
           <section class="recipe-grid--layout">
             <div/>
             <section class="recipe-ingredients__input--container">
               <div v-for="(condimentSection, index) of recipePost.allIngredient[1].ingredients"
                    :key="index" class="w-100 flex pb-10">
-                <input type="text" class="input mr-30" placeholder="설탕" v-model="condimentSection.name"/>
+                <input type="text" class="input mr-30" placeholder="예) 설탕" v-model="condimentSection.name"/>
                 <input type="text" class="input mr-30" placeholder="30g" v-model="condimentSection.unit"/>
                 <div class="flex">
                   <custom-button variant="icon-button" class="button-black mr-10" type="button"
@@ -112,7 +112,7 @@
 
           <text-font size="20">요리 순서</text-font>
 
-          <div class="dotted mt-16 mb-16"/>
+          <div class="dotted my-16"/>
           <section class="recipe-grid--layout">
             <div/>
             <section>
@@ -140,7 +140,7 @@
               <input type="file" id="file" style="display: none" accept="jpeg,png,jpg"/>
             </div>
           </div>
-          <div class="dotted mt-16 mb-16"/>
+          <div class="dotted my-16"/>
         </section>
 
       </recipe-ui>
@@ -164,6 +164,7 @@ import RecipeUi from "@/components/ui/RecipeUi.vue";
 import Input from "@/components/common/Input.vue";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
+import {markRaw} from "vue";
 
 interface Steps {
   step: number;
@@ -237,29 +238,32 @@ export default class AdminRecipePost extends Vue {
   }
 
   //TODO: 빈 값 체크 후 넘기기
-  registerRecipe() {
+  async registerRecipe() {
     try {
+      const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
+      console.log(data)
       console.log('롸', this.recipePost)
     } catch (e) {
       console.log(e);
     }
   }
 
-  // private selectedIngredient(key: number): void {
-  //   this.ingredients = this.ingredients.filter((value) => {
-  //     const {selected} = value
-  //     if (selected) return selected
-  //     return false;
-  //   });
-  //
-  //   // if (this.selectBoxDisabled) return;
-  //   const choice = this.selected.filter((value: Recipe.IngredientType) => {
-  //     const {_id, selected} = value
-  //     if (_id === key) value.selected = !selected;
-  //     return _id === key;
-  //   });
-  //   this.ingredients.push(...choice);
-  // }
+  private selectedIngredient(_id: string): void {
+    this.recipePost.detailedIngredient.push(_id)
+    // this.ingredients = this.ingredients.filter((value) => {
+    //   const {selected} = value
+    //   if (selected) return selected
+    //   return false;
+    // });
+    //
+    // // if (this.selectBoxDisabled) return;
+    // const choice = this.selected.filter((value: Recipe.IngredientType) => {
+    //   const {_id, selected} = value
+    //   if (_id === key) value.selected = !selected;
+    //   return _id === key;
+    // });
+    // this.ingredients.push(...choice);
+  }
 
   private addIngredientRows(index: number, arr: Ingredients[]): void {
     if (arr.length === 10) return;
@@ -273,7 +277,7 @@ export default class AdminRecipePost extends Vue {
 
   private addDescRows() {
     const step = this.recipePost.steps.length;
-    this.recipePost.steps.push({step: step, desc: '', img: ''})
+    this.recipePost.steps.push({step: step + 1, desc: '', img: ''})
   }
 }
 </script>
@@ -402,4 +406,27 @@ textarea:-ms-input-placeholder {
   min-height: 100px;
 }
 
+@media screen and (max-width: 600px) {
+  .recipe-post--container {
+    input {
+      margin-right: 5px;
+    }
+
+    .input-text {
+      margin-top: 0.8em;
+    }
+
+    .select-box--container {
+      display: flex !important;
+    }
+
+    .recipe-grid--layout {
+      //display: flex;
+      display: inline-block;
+      padding-top: 1rem;
+      width: 100%;
+    }
+  }
+
+}
 </style>

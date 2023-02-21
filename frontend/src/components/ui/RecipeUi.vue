@@ -23,4 +23,10 @@ export default class RecipeUi extends Vue {
   //height: auto;
   margin: auto;
 }
+
+@media screen and (max-width: 600px) {
+  .recipe {
+    padding: 2rem 0.8rem;
+  }
+}
 </style>
