@@ -51,6 +51,7 @@
             </custom-button>
           </li>
           <li>
+            <!-- TODO: 레시피 등록 화면 1. 관리자, 2. 회원 -->
             <custom-button type="button" variant="icon-button" @click="redirect('recipe')">
               <div class="side-menu--item">
                 <img loading="eager" src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32"
@@ -86,7 +87,7 @@
 <script lang="ts">
 import {Vue} from "vue-class-component";
 import {Emit, Prop, Watch} from "vue-property-decorator";
-
+// TODO: 모바일 화면에서만 햄버거 버튼
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
 
@@ -129,7 +130,8 @@ export default class SideMenu extends Vue {
         this.$router.push('/')
         break;
       case 'recipe':
-        this.$router.push('/recipe/post')
+        // TODO TEMP - ADMIN
+        this.$router.push('/admin/recipe/post')
         break;
       case 'favorite':
         this.$router.push('/')
