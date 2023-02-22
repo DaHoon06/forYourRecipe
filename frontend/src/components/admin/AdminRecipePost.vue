@@ -11,14 +11,15 @@
 
         <section class="recipe-grid--layout">
           <text-font size="20" class="pr-16">레시피 제목</text-font>
-          <input type="text" class="input input-text" v-model="recipePost.name"/>
+          <input ref="recipeName" type="text" class="input input-text" v-model="recipePost.name" tabindex="10"/>
         </section>
 
         <div class="dotted my-16"/>
 
         <section class="recipe-grid--layout">
           <text-font size="20">레시피 소개</text-font>
-          <textarea class="input scroll textarea input-text" v-model="recipePost.desc"></textarea>
+          <textarea ref="recipeDesc" class="input scroll textarea input-text" v-model="recipePost.desc"
+                    tabindex="10"></textarea>
         </section>
 
         <div class="dotted my-16"/>
@@ -73,17 +74,20 @@
             <section class="recipe-ingredients__input--container">
               <div v-for="(ingredientsSection, index) of recipePost.allIngredient[0].ingredients"
                    :key="index" class="w-100 flex pb-10">
-                <input type="text" class="input mr-30" v-model="ingredientsSection.name"
-                       placeholder="예) 돼지고기"/>
-                <input type="text" class="input mr-30" placeholder="40g" v-model="ingredientsSection.unit"/>
-                <div class="flex">
-                  <custom-button variant="icon-button" class="button-black mr-10" type="button"
-                                 @click="addIngredientRows(index, recipePost.allIngredient[0].ingredients)">
-                    <img src="@/assets/images/icons/plus.svg" alt="plus"/>
-                  </custom-button>
-                  <custom-button variant="icon-button" class="button-gray" type="button"
+                <input :ref="`recipeIngredient-${index}`" type="text" class="input mr-10"
+                       v-model="ingredientsSection.name"
+                       placeholder="예) 돼지고기" tabindex="10"/>
+                <input :ref="`recipeIngredientUnit-${index}`" type="text" class="input mr-10" placeholder="40g"
+                       v-model="ingredientsSection.unit" tabindex="10"/>
+                <div class="flex ingredient-button--group">
+                  <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
+                  </custom-button>
+                  <custom-button :class="recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
+                                 variant="icon-button" class="button-black" type="button"
+                                 @click="addIngredientRows(index, recipePost.allIngredient[0].ingredients)">
+                    <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
               </div>
@@ -100,16 +104,19 @@
             <section class="recipe-ingredients__input--container">
               <div v-for="(condimentSection, index) of recipePost.allIngredient[1].ingredients"
                    :key="index" class="w-100 flex pb-10">
-                <input type="text" class="input mr-30" placeholder="예) 설탕" v-model="condimentSection.name"/>
-                <input type="text" class="input mr-30" placeholder="30g" v-model="condimentSection.unit"/>
-                <div class="flex">
-                  <custom-button variant="icon-button" class="button-black mr-10" type="button"
-                                 @click="addIngredientRows(index, recipePost.allIngredient[1].ingredients)">
-                    <img src="@/assets/images/icons/plus.svg" alt="plus"/>
-                  </custom-button>
-                  <custom-button variant="icon-button" class="button-gray" type="button"
+                <input :ref="`recipeCondiment-${index}`" type="text" class="input mr-10" placeholder="예) 설탕"
+                       v-model="condimentSection.name" tabindex="10"/>
+                <input :ref="`recipeCondimentUnit-${index}`" type="text" class="input mr-10" placeholder="30g"
+                       v-model="condimentSection.unit" tabindex="10"/>
+                <div class="flex ingredient-button--group">
+                  <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
+                  </custom-button>
+                  <custom-button :class="recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
+                                 variant="icon-button" class="button-black" type="button"
+                                 @click="addIngredientRows(index, recipePost.allIngredient[1].ingredients)">
+                    <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
               </div>
@@ -123,24 +130,30 @@
           <text-font size="20">요리 순서</text-font>
 
           <div class="dotted my-16"/>
-          <section class="recipe-grid--layout">
-            <div/>
-            <section>
-              <div v-for="(step, index) of recipePost.steps" :key="index">
-                <textarea class="input scroll textarea" v-model="step.desc"></textarea>
-              </div>
-            </section>
-
+          <section>
+            <div v-for="(step, index) of recipePost.steps" :key="index" class="flex mb-12">
+              <section class="recipe-grid--layout w-100">
+                <text-font class="center" size="18">STEP {{ index + 1 }}</text-font>
+                <textarea :ref="`recipeStep-${index}`" class="input scroll textarea" v-model="step.desc"
+                          tabindex="10"></textarea>
+              </section>
+            </div>
           </section>
-          <div class="w-100 recipe-grid--layout pt-24">
+
+          <div class="w-100 recipe-grid--layout">
             <div/>
-            <custom-button type="button" variant="black" class="m-auto" @click="addDescRows">
-              <text-font color="white" size="18">추가</text-font>
-            </custom-button>
+            <div class="flex justify-center">
+              <custom-button type="button" variant="gray" class="mr-30" @click="removeDescRows">
+                <text-font color="gray2" size="18">삭제</text-font>
+              </custom-button>
+              <custom-button type="button" variant="black" class="" @click="addDescRows">
+                <text-font color="white" size="18">추가</text-font>
+              </custom-button>
+            </div>
           </div>
         </section>
 
-        <section class="pb-20">
+        <section class="pb-20 mt-20">
           <div class="flex align-center">
             <text-font size="20" class="mr-14">요리 사진</text-font>
             <div>
@@ -174,6 +187,7 @@ import RecipeUi from "@/components/ui/RecipeUi.vue";
 import Input from "@/components/common/Input.vue";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
+import {Ref} from "vue-property-decorator";
 
 interface Steps {
   step: number;
@@ -207,6 +221,9 @@ interface IRecipePost {
   }
 })
 export default class AdminRecipePost extends Vue {
+  @Ref() readonly recipeName!: HTMLInputElement
+  @Ref() readonly recipeDesc!: HTMLInputElement
+
   recipePost: IRecipePost = {
     name: '',
     desc: '',
@@ -229,6 +246,7 @@ export default class AdminRecipePost extends Vue {
   ingredientsCategory: Recipe.IngredientCategories[] = [];
   ingredients: Recipe.IngredientType[] = [];
 
+
   created() {
     this.loadCategory();
   }
@@ -247,12 +265,75 @@ export default class AdminRecipePost extends Vue {
     this.$router.push('/');
   }
 
-  //TODO: 빈 값 체크 후 넘기기
+  private emptyCheck(): boolean {
+    if (this.recipePost.name.length === 0) {
+      this.$nextTick(() => this.recipeName.focus());
+      return true;
+    }
+
+    if (this.recipePost.desc.length === 0) {
+      this.$nextTick(() => this.recipeDesc.focus());
+      return true;
+    }
+
+    const {ingredients: ingredient} = this.recipePost.allIngredient[0]
+    for (let i = 0; i < ingredient.length; i++) {
+      const {name, unit} = ingredient[i];
+      if (name.length === 0) {
+        this.$nextTick(() => {
+          const refs = `recipeIngredient-${i}`;
+          (this.$refs[refs] as any)[0].focus();
+        })
+        return true;
+      }
+      if (unit.length === 0) {
+        this.$nextTick(() => {
+          const refs = `recipeIngredientUnit-${i}`;
+          (this.$refs[refs] as any)[0].focus();
+        });
+        return true;
+      }
+    }
+
+    const {ingredients: condiment} = this.recipePost.allIngredient[1]
+    for (let i = 0; i < condiment.length; i++) {
+      const {name, unit} = condiment[i];
+      if (name.length === 0) {
+        this.$nextTick(() => {
+          const refs = `recipeCondiment-${i}`;
+          (this.$refs[refs] as any)[0].focus();
+        });
+        return true;
+      }
+      if (unit.length === 0) {
+        this.$nextTick(() => {
+          const refs = `recipeCondimentUnit-${i}`;
+          (this.$refs[refs] as any)[0].focus();
+        });
+        return true;
+      }
+    }
+    for (let i = 0; i < this.recipePost.steps.length; i++) {
+      if (this.recipePost.steps[i].desc.length === 0) {
+        this.$nextTick(() => {
+          const refs = `recipeStep-${i}`;
+          (this.$refs[refs] as any)[0].focus();
+        });
+        return true;
+      }
+    }
+    return false;
+  }
+
   async registerRecipe() {
     try {
+      const result = this.emptyCheck();
+      if (result) return;
       this.isLoading = true
       const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
-      this.isLoading = false;
+      if (data)
+        this.isLoading = false;
+      this.$router.push('/');
     } catch (e) {
       console.log(e);
     }
@@ -288,7 +369,14 @@ export default class AdminRecipePost extends Vue {
 
   private addDescRows() {
     const step = this.recipePost.steps.length;
+    if (step === 10) return;
     this.recipePost.steps.push({step: step + 1, desc: '', img: ''})
+  }
+
+  private removeDescRows() {
+    const step = this.recipePost.steps.length;
+    if (step === 1) return;
+    this.recipePost.steps.splice(step - 1, 1)
   }
 }
 </script>
@@ -300,6 +388,7 @@ export default class AdminRecipePost extends Vue {
   padding: 5vw;
 
   .recipe-grid--layout {
+    padding-top: 0.8em;
     display: grid;
     grid-template-columns: 3fr 12fr;
     align-items: center;
@@ -350,7 +439,7 @@ export default class AdminRecipePost extends Vue {
     grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
     column-gap: 10px;
     row-gap: 0;
-    padding: 10px 0;
+    padding: 1.5em 0;
     overflow-y: auto;
 
     /* 재료 아이콘 선택 표시 */
@@ -440,6 +529,14 @@ textarea:-ms-input-placeholder {
   padding: 4px 8px;
   width: 100%;
   resize: none;
+
+  &:focus {
+    border-color: #494949;
+  }
+}
+
+.ingredient-button--group {
+  min-width: 86px;
 }
 
 .textarea {

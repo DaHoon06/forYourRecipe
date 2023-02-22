@@ -95,3 +95,11 @@ $total: 100;
   flex-direction: column;
   align-items: center;
 }
+
+.show {
+  display: inline-block !important;
+}
+
+.hide {
+  display: none !important;
+}
