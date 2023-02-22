@@ -4,7 +4,6 @@ import {
     IsBoolean,
     IsDate,
     IsNotEmpty,
-    IsNumber,
     IsOptional,
     IsString,
     ValidateNested
@@ -51,10 +50,10 @@ export class RecipeDto {
     @ApiProperty({type: Boolean, description: '재료로 검색 가능 여부'})
     modified: boolean
     
-    @IsNumber()
-    @IsNotEmpty()
-    @ApiProperty({type: Number, description: '레시피 좋아요 수'})
-    likes: number
+    @IsArray()
+    @IsString({each: true})
+    @ApiProperty({type: [String], description: '레시피 좋아요 누른 회원 id'})
+    likes: string[]
 
     @IsArray()
     @ArrayNotEmpty()
@@ -79,6 +78,15 @@ export class RecipeDto {
         description: '레시피 전체재료'
     })
     readonly allIngredient: AllIngredientDto[]
+
+    @IsBoolean()
+    @IsNotEmpty()
+    @ApiProperty({
+        type: Boolean,
+        required: true,
+        description: '삭제 체크'
+    })
+    deleted: boolean
 
     @IsArray()
     @IsOptional()
@@ -105,9 +113,9 @@ export class RecipeDto {
                 id: string, name: string,
                 createdAt: Date, updatedAt: Date,
                 user: string, modified: boolean,
-                likes: number, steps: StepsDto[],
+                likes: string[], steps: StepsDto[],
                 allIngredient: AllIngredientDto[],
-                desc: string,
+                desc: string, deleted: boolean,
                 detailedIngredient?: DetailedIngredientDto[],
                 profileImage?: string
                  ) {
@@ -121,6 +129,7 @@ export class RecipeDto {
         this.steps = steps
         this.allIngredient = allIngredient
         this.desc = desc
+        this.deleted = deleted
         this.detailedIngredient = detailedIngredient ? detailedIngredient : []
         this.profileImage = profileImage ? profileImage : ''
     }

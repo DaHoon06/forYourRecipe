@@ -30,7 +30,6 @@ export const recipeModule: Module<STATE, RootState> = {
       }
     },
     reset(state: STATE): void {
-      console.log(getDefaultState(), state);
       Object.assign(state, getDefaultState());
     },
   },

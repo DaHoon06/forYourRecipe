@@ -7,7 +7,7 @@ import {
     ValidateNested
 } from "class-validator";
 import {Type} from "class-transformer";
-import {IngredientCategory} from "../../enums/IngredientCategory";
+import {IngredientCategory} from "../../enums/ingredientCategory";
 import {ApiProperty} from "@nestjs/swagger";
 
 class AllIngredientInfoDto {

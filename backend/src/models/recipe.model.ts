@@ -1,30 +1,30 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {HydratedDocument} from "mongoose";
-import {IngredientCategory} from "../enums/IngredientCategory";
+import {IngredientCategory} from "../enums/ingredientCategory";
 import {v4 as uuidv4} from 'uuid';
-import {Role} from "../enums/Role";
+import {Role} from "../enums/role";
 
 @Schema({collection: 'recipes', versionKey: false, _id: false})
 export class Recipe {
-    @Prop({ type: String, required: true })
+    @Prop({ type: String, required: true})
     _id: string
 
-    @Prop({ type: String, required: true })
+    @Prop({ type: String, required: true, index: true })
     name: string
 
     @Prop({ type: String, required: true })
     desc: string
 
-    @Prop({type: Number, required: false})
-    likes: number
+    @Prop({type: [String], required: true, default: []})
+    likes: string[]
 
-    @Prop({ type: Date, required: true })
+    @Prop({ type: Date, required: true, default: Date.now() })
     createdAt: Date
 
-    @Prop({ type: Date, required: true })
+    @Prop({ type: Date, required: true, default: Date.now() })
     updatedAt: Date
 
-    @Prop({ type: String, required: true})
+    @Prop({ type: String, required: true })
     user: string
 
     @Prop({
@@ -35,10 +35,14 @@ export class Recipe {
         }],
         required: true
     })
-    steps: { step: number, desc: string, img?: string }[]
+    steps: {
+        step: number,
+        desc: string,
+        img?: string
+    }[]
 
     //재료 검색 가능한지 레시피인지 체크
-    @Prop( { type: Boolean, required: true })
+    @Prop( { type: Boolean, required: true, default: true })
     modified: boolean
 
     @Prop({
@@ -55,48 +59,48 @@ export class Recipe {
     })
     allIngredient: {
         category: IngredientCategory,
-        ingredients: {name: string, unit?: string}[]
+        ingredients: {
+            name: string,
+            unit?: string
+        }[]
     }[]
 
-    @Prop({type: String, required: false })
-    profileImage?: string
+    @Prop({type: Boolean, required: true, default: true})
+    deleted: boolean
 
-    @Prop({type: [String], required: false})
-    detailedIngredient?: string[]
+    @Prop({type: [String], required: true, default: []})
+    detailedIngredient: string[]
+
+    @Prop({type: String, required: true, default: ' '})
+    profileImage: string
 
     constructor(
-                roll: Role,
-                steps: {step, desc, img}[],
-                name: string, desc: string,
-                profileImage: string,
-                allIngredient: {
-                    category: IngredientCategory,
-                    ingredients: {name: string, unit?: string}[]
-                }[],
-                user: string,
-                detailedIngredient?: string[],
+                    roll: Role,
+                    steps: {step: number, desc: string, img?: string}[],
+                    name: string, desc: string,
+                    profileImage: string,
+                    allIngredient: {
+                        category: IngredientCategory,
+                        ingredients: {name: string, unit?: string}[]
+                    }[],
+                    user: string,
+                    detailedIngredient?: string[],
                 ) {
         this._id = uuidv4()
-        this.likes = 0
-        this.createdAt = new Date()
-        this.updatedAt = new Date()
         this.steps = steps
         this.allIngredient = allIngredient
         this.name = name
-        this.profileImage = profileImage ? profileImage : ''
+        this.profileImage = profileImage
         this.desc = desc
+        this.user = user
 
         switch (roll) {
             case Role.ADMIN: {
-                this.modified = true
-                this.user = user
                 this.detailedIngredient = detailedIngredient
                 break
             }
             case Role.USER: {
                 this.modified = false
-                this.user = user
-                this.detailedIngredient = []
                 break
             }
         }
