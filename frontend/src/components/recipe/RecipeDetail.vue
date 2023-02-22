@@ -11,7 +11,7 @@
         </picture>
         <div v-if="recipe.detailedIngredient.length > 0" class="pt-6">
           <span class="tags mr-6" v-for="(tag, index) of recipe.detailedIngredient" :key="index">
-            {{ tag }}
+            {{ tag.name }}
           </span>
         </div>
       </section>

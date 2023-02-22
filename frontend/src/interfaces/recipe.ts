@@ -2,7 +2,7 @@ export namespace Recipe {
   export interface Info {
     _id: string;
     name: string;
-    detailedIngredient: string[];
+    detailedIngredient: IngredientType[];
     createdAt: Date;
     updatedAt: Date;
     modified: boolean;
