@@ -6,8 +6,12 @@ import {RegisteredUserRecipeDto} from "../../dtos/recipe/registered-user-recipe.
 import {RegisteredAdminRecipeDto} from "../../dtos/recipe/registered-admin-recipe.dto";
 import {IngredientsService} from "../ingredients/ingredients.service";
 import {RecipeDto} from "../../dtos/recipe/recipe.dto";
-import {Role} from "../../enums/Role";
+import {Role} from "../../enums/role";
 import {StepsDto} from "../../dtos/recipe/steps.dto";
+import {UpdatedAdminRecipeDto} from "../../dtos/recipe/updated-admin-recipe.dto";
+import {DeletedRecipeDto} from "../../dtos/recipe/deleted-recipe.dto";
+import {UpdatedUserRecipeDto} from "../../dtos/recipe/updated-user-recipe.dto";
+import {UpdatedRecipeLikeDto} from "../../dtos/recipe/updated-recipe-like.dto";
 
 @Injectable()
 export class RecipesService {
@@ -18,42 +22,57 @@ export class RecipesService {
     }
 
     //전체 레시피 반환
-    async findAllRecipes() {
-        const foundRecipe = await this.recipeModel.find()
-        return Promise.all(
-            foundRecipe.map(async (recipe) => {
-                return this.getRecipeDto(recipe)
-            })
-        )
+    async findAll(): Promise<RecipeDto[]> {
+        const foundRecipes = await this.recipeModel.find()
+        return this.getRecipeDtoArr(foundRecipes)
     }
 
     //해당 id 레시피 반환
-    async findRecipeById(id: string) {
+    async findRecipeById(id: string): Promise<RecipeDto> {
         const foundRecipe = await this.recipeModel.findById(id)
         return this.getRecipeDto(foundRecipe)
     }
 
     //재료로 레시피 찾기
-    async findRecipesByIngredient(ingredientIds: string[]) {
-        const foundRecipe = await this.recipeModel.find({detailedIngredient: {$in: ingredientIds}})
-        return Promise.all(
-            foundRecipe.map(async (recipe) => {
-                return this.getRecipeDto(recipe)
-            })
-        )
+    async findRecipesByIngredient(ingredientIds: string[]): Promise<RecipeDto[]> {
+        const foundRecipes = await this.recipeModel.find({detailedIngredient: {$in: ingredientIds}})
+        return this.getRecipeDtoArr(foundRecipes)
+    }
+
+    //제목으로 레시피 찾기
+    async findRecipeByKeyword(keyword: string): Promise<RecipeDto[]> {
+        const regex = new RegExp(`.*${keyword}.*`)
+        const foundRecipes = await this.recipeModel.find({name: {$regex: regex}})
+        return this.getRecipeDtoArr(foundRecipes)
     }
 
     //회원 레시피 등록
-    async setRecipe(recipeDto: RegisteredUserRecipeDto) {
+    async setRecipe(recipeDto: RegisteredUserRecipeDto): Promise<boolean> {
         const {name, steps, user, profileImage, desc, allIngredient} = recipeDto
+        console.log(profileImage)
         const recipe = new Recipe(Role.USER, this.getSteps(steps), name, desc, profileImage, allIngredient, user)
         const registeredRecipe = await new this.recipeModel(recipe).save()
         if (registeredRecipe) return true
         return false
     }
+    
+    //회원 레시피 수정
+    async updateRecipe(recipe: UpdatedUserRecipeDto): Promise<boolean> {
+        const { id, name, user, desc, allIngredient, steps, profileImage } = recipe
+        const { acknowledged } = await this.recipeModel.updateOne({ _id: id }, { $set: {
+                name: name,
+                desc: desc,
+                user: user,
+                updatedAt: new Date(),
+                allIngredient: allIngredient,
+                steps: steps,
+                profileImage: profileImage
+            }})
+        return acknowledged
+    }
 
     //관리자 레시피 등록
-    async setAdminRecipe(recipeDto: RegisteredAdminRecipeDto) {
+    async setAdminRecipe(recipeDto: RegisteredAdminRecipeDto): Promise<boolean> {
         const {name, steps, desc, profileImage, allIngredient, detailedIngredient} = recipeDto
         const recipe = new Recipe(Role.ADMIN, this.getSteps(steps), name, desc, profileImage, allIngredient, Role.ADMIN, detailedIngredient)
         const data = await new this.recipeModel(recipe).save()
@@ -63,7 +82,44 @@ export class RecipesService {
         return false
     }
 
-    private getSteps(steps: StepsDto[]) {
+    //관리자 레시피 수정
+    async updateAdminRecipe(recipe: UpdatedAdminRecipeDto): Promise<boolean> {
+        const { id, name, desc, allIngredient, steps, detailedIngredient, profileImage } = recipe
+        const { acknowledged } = await this.recipeModel.updateOne({ _id: id }, { $set: {
+                name: name,
+                desc: desc,
+                updatedAt: new Date(),
+                allIngredient: allIngredient,
+                steps: steps,
+                detailedIngredient: detailedIngredient,
+                profileImage: profileImage
+            }})
+        return acknowledged
+    }
+    
+    // TODO: 회원 컬렉션 생성 후 회원 좋아요 리스트에도 저장 및 수정 구현 
+    async updateLike(recipe: UpdatedRecipeLikeDto): Promise<number> {
+        const { id, user } = recipe
+        const { likes } = await this.recipeModel.findById(id)
+
+        const index = likes.indexOf(user)
+        if (index > -1) {
+            likes.splice(index, 1)
+        } else {
+            likes.push(user)
+        }
+        await this.recipeModel.updateOne({_id: id}, { $set: {likes: likes}})
+        return likes.length
+    }
+
+    //레시피 삭제
+    async deleteRecipe(recipe: DeletedRecipeDto): Promise<boolean> {
+        const { id, deleted } = recipe
+        const { acknowledged } = await this.recipeModel.updateOne({ _id: id }, { $set: { deleted: deleted }})
+        return acknowledged
+    }
+
+    private getSteps(steps: StepsDto[]): StepsDto[] {
         return steps.map(({step, desc, img}) => {
             return {
                 step, desc,
@@ -72,7 +128,7 @@ export class RecipesService {
         })
     }
 
-    private async getRecipeDto(recipe: Recipe) {
+    private async getRecipeDto(recipe: Recipe): Promise<RecipeDto> {
         const detailedIngredient = await this.ingredientsService.findIngredientById(recipe.detailedIngredient)
         return new RecipeDto(
             recipe._id, recipe.name,
@@ -80,8 +136,17 @@ export class RecipesService {
             recipe.user, recipe.modified,
             recipe.likes, recipe.steps,
             recipe.allIngredient, recipe.desc,
+            recipe.deleted,
             detailedIngredient,
             recipe.profileImage
+        )
+    }
+
+    private async getRecipeDtoArr(recipes: Recipe[]): Promise<RecipeDto[]> {
+        return Promise.all(
+            recipes.map(async (recipe) => {
+                return this.getRecipeDto(recipe)
+            })
         )
     }
 }
