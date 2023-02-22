@@ -563,6 +563,10 @@ textarea:-ms-input-placeholder {
       padding-top: 1rem;
       width: 100%;
     }
+
+    .recipe-post__button--container {
+      justify-content: center
+    }
   }
 
 }

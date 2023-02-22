@@ -2,7 +2,10 @@ import axios, { AxiosStatic } from "axios";
 import store from "@/store/index";
 import router from "@/router/index";
 
-const baseURL = "/api";
+const baseURL =
+  process.env.VUE_APP_PRODUCT === "development"
+    ? "/api"
+    : "https://api.no1recipe.com/api";
 const instance = axios.create({
   baseURL,
   headers: {
