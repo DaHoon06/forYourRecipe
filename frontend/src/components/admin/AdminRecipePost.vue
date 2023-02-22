@@ -43,13 +43,23 @@
         </section>
 
         <section v-if="selected.length > 0" class="ingredients-items--container scroll">
-          <span v-for="(value) of selected" :key="value._id" @click="selectedIngredient(value._id)">
+          <span v-for="(value) of selected" :key="value._id" @click="selectedIngredient(value._id)"
+                class="flex-column-center">
             <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
               <img loading="lazy" :src="value.img"
                    sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
             </picture>
+            <text-font class="pt-10" size="12">{{ value.name }}</text-font>
           </span>
         </section>
+        <text-font>
+          선택된 재료 :
+          <span v-for="(ingredient, index) of ingredients" :key="index">
+            <text-font size="12" color="gray">
+            {{ ingredient.name }},
+          </text-font>
+          </span>
+        </text-font>
 
         <div class="dotted my-16"/>
 
@@ -217,6 +227,7 @@ export default class AdminRecipePost extends Vue {
   isLoading = true;
   selected = [];
   ingredientsCategory: Recipe.IngredientCategories[] = [];
+  ingredients: Recipe.IngredientType[] = [];
 
   created() {
     this.loadCategory();
@@ -241,7 +252,6 @@ export default class AdminRecipePost extends Vue {
     try {
       this.isLoading = true
       const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
-      console.log(data)
       this.isLoading = false;
     } catch (e) {
       console.log(e);
@@ -253,10 +263,16 @@ export default class AdminRecipePost extends Vue {
     if (index > -1) this.recipePost.detailedIngredient.splice(index, 1);
     else this.recipePost.detailedIngredient.push(_id)
 
-    this.selected.filter((value: Recipe.IngredientType) => {
+    const choice = this.selected.filter((value: Recipe.IngredientType) => {
       const {_id: key, selected} = value
       if (key === _id) value.selected = !selected;
       return key === _id;
+    });
+    this.ingredients.push(...choice)
+    this.ingredients = this.ingredients.filter((value) => {
+      const {selected} = value
+      if (selected) return selected
+      return false;
     });
   }
 

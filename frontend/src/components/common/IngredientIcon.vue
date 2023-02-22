@@ -3,7 +3,7 @@
     <img loading="lazy" :src="src"
          sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
   </picture>
-  <text-font size="12">
+  <text-font class="pt-10" size="12">
     {{ label }}
   </text-font>
 </template>
