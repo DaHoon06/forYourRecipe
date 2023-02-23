@@ -30,7 +30,7 @@
     <hr/>
     <section>
       <section class="card--wrapper" v-if="recipeLists.length > 0">
-        <CardUi class="mr-20 card-component" v-for="(dish) in recipeLists" :key="dish._id"
+        <CardUi class="mr-20 card-component" v-for="(dish) in recipeLists" :src="dish.profileImage" :key="dish._id"
                 @click="recipeDetail(dish._id)">
           <section class="card-ui__body">
             <text-font size="18">{{ dish.name }}</text-font>
@@ -47,7 +47,8 @@
             </div>
           </section>
         </CardUi>
-        <ListsUi class="list-component" v-for="(dish) in recipeLists" :key="dish._id" @click="recipeDetail(dish._id)">
+        <ListsUi class="list-component" v-for="(dish) in recipeLists" :key="dish._id" :src="dish.profileImage"
+                 @click="recipeDetail(dish._id)">
           <text-font size="18">{{ dish.name }}</text-font>
           <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
           <figure class="recipe-like--wrapper">

@@ -1,6 +1,6 @@
 <template>
   <article class="card__layout scroll">
-    <img src="https://picsum.photos/400/400" width="284" height="177" alt="test-img"/>
+    <img :src="src" width="284" height="177" alt="음식 이미지" loading="lazy"/>
     <section class="card__body">
       <slot/>
     </section>
@@ -9,9 +9,10 @@
 
 <script lang="ts">
 import {Vue} from "vue-class-component";
+import {Prop} from "vue-property-decorator";
 
 export default class CardUi extends Vue {
-
+  @Prop({default: '@/assets/images/default.jpg'}) readonly src?: string;
 }
 </script>
 

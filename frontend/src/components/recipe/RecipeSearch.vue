@@ -1,6 +1,5 @@
 <template>
   <loading-spinner v-if="isLoading"/>
-  TEST
   {{ recipeList }}
 </template>
 

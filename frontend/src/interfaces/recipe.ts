@@ -3,6 +3,7 @@ export namespace Recipe {
     _id: string;
     name: string;
     detailedIngredient: IngredientType[];
+    profileImage: string;
     createdAt: Date;
     updatedAt: Date;
     modified: boolean;

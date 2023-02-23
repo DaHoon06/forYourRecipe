@@ -11,7 +11,7 @@
         <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
-          <CardUi class="mr-20" v-for="(dish) in recipeCards" :key="dish._id"
+          <CardUi class="mr-20" v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
                   @click="recipeDetail(dish._id)">
             <section class="card-ui__body">
               <text-font size="18">{{ dish.name }}</text-font>
@@ -28,7 +28,8 @@
               </div>
             </section>
           </CardUi>
-          <ListsUi v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+          <ListsUi v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
+                   @click="recipeDetail(dish._id)">
             <text-font size="18">{{ dish.name }}</text-font>
             <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
             <figure class="recipe-like--wrapper">
