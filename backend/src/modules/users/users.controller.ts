@@ -13,7 +13,7 @@ export class UsersController {
     }
 
     @Post('/sign-in')
-    private async signIn(@Body() user: RegisteredUserDto): Promise<boolean> {
+    private async signIn(@Body() user: RegisteredUserDto): Promise<UserDto> {
         return this.userService.setUser(user)
     }
 }
