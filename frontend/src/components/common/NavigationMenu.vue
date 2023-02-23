@@ -23,12 +23,12 @@
 <script lang="ts">
 import {Vue} from "vue-class-component";
 import {NAVIGATION} from "@/constant/navigation.href";
-import {computed} from "vue";
+import {computed, ComputedRef} from "vue";
 import {useStore} from "vuex";
 
 export default class NavigationMenu extends Vue {
   store = useStore();
-  currentMenu: number = computed(() => this.store.getters["utilModule/currentPath"]);
+  currentMenu: ComputedRef<number> = computed(() => this.store.getters["utilModule/currentPath"]);
 
   private redirect(type: string) {
     switch (type) {

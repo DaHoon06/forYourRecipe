@@ -1,21 +1,25 @@
 import { createStore } from "vuex";
-import { recipeModule, RecipeState } from "@/store/modules/recipe";
-import { utilModule, UtilState } from "@/store/modules/util";
+import { recipeModule } from "@/store/modules/recipe";
+import { utilModule } from "@/store/modules/util";
 import createPersistedState from "vuex-persistedstate";
+import { STORE } from "@/interfaces/store";
+import { userModule } from "@/store/modules/user";
 
 export interface RootState {
-  Recipe: RecipeState;
-  Util: UtilState;
+  Recipe: STORE.RecipeState;
+  Util: STORE.UtilState;
+  User: STORE.UserState;
 }
 
 export default createStore({
   plugins: [
     createPersistedState({
-      paths: ["utilModule"],
+      paths: ["utilModule", "userModule"],
     }),
   ],
   modules: {
     recipeModule,
     utilModule,
+    userModule,
   },
 });

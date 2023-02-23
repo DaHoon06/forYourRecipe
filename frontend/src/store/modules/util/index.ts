@@ -1,9 +1,6 @@
 import { Module } from "vuex";
 import { RootState } from "@/store";
-
-export interface UtilState {
-  currentPath: number;
-}
+import { STORE } from "@/interfaces/store";
 
 const getDefaultState = () => {
   return {
@@ -13,17 +10,17 @@ const getDefaultState = () => {
 
 const state = getDefaultState();
 
-export const utilModule: Module<UtilState, RootState> = {
+export const utilModule: Module<STORE.UtilState, RootState> = {
   namespaced: true,
   state: state,
   mutations: {
-    setCurrentPath(state: UtilState, data: number): void {
+    setCurrentPath(state: STORE.UtilState, data: number): void {
       state.currentPath = data;
     },
   },
   actions: {},
   getters: {
-    currentPath: (state: UtilState) => {
+    currentPath: (state: STORE.UtilState) => {
       return state.currentPath;
     },
   },

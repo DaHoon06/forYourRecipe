@@ -1,16 +1,16 @@
-import { initializeApp } from "firebase/app"
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyB3bzaBjiqekazj1mndDY4rhIsCE-Vcfjs",
-    authDomain: "no1recipe-aea4c.firebaseapp.com",
-    projectId: "no1recipe-aea4c",
-    storageBucket: "no1recipe-aea4c.appspot.com",
-    messagingSenderId: "847292256844",
-    appId: "1:847292256844:web:0a8125cf24785386981ae9"
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_APP_ID,
 };
 
-const firebaseApp  = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
-export const authService = getAuth(firebaseApp)
-export default firebaseApp
+export const authService = getAuth(firebaseApp);
+export default firebaseApp;

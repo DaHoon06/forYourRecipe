@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="search" class="search__input--wrapper">
-    <input class="search__input" type="text" placeholder="Search..." v-model="keyword" @click="keywordReset"/>
+    <input class="search__input" type="text" placeholder="Search..." v-model="keyword"/>
     <custom-button variant="icon-button" type="submit" @submit="search">
       <img src="@/assets/images/icons/search.svg" alt="검색 버튼" width="22" height="22" loading="eager"/>
     </custom-button>
@@ -9,9 +9,15 @@
 
 <script lang="ts">
 import {Vue} from "vue-class-component";
+import {Watch} from "vue-property-decorator";
 
 export default class SearchInput extends Vue {
   keyword = '';
+
+  @Watch('$route')
+  removeKeyword() {
+    this.keywordReset();
+  }
 
   private async search(): Promise<void> {
     try {
