@@ -58,8 +58,6 @@ export const userModule: Module<STORE.UserState, RootState> = {
           img,
         };
         await context.commit("setUserData", userData);
-
-        console.log(data);
       } catch (e) {
         console.log(e);
       }
