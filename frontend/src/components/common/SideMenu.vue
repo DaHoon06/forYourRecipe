@@ -22,7 +22,7 @@
           <section v-else>
             <section class="profile--container pb-32">
               <img loading="lazy" src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
-              <text-font class="pt-18">전다훈</text-font>
+              <text-font class="pt-18">{{user.displayName}}</text-font>
             </section>
 
             <div class="flex">
@@ -89,6 +89,9 @@ import {Vue} from "vue-class-component";
 import {Emit, Prop, Watch} from "vue-property-decorator";
 import {NAVIGATION} from "@/constant/navigation.href";
 import {useStore} from "vuex";
+import {authService} from "@/lib/fbase";
+import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+
 // TODO: 모바일 화면에서만 햄버거 버튼
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
@@ -118,11 +121,19 @@ export default class SideMenu extends Vue {
     return this.open;
   }
 
-  private login() {
+  user: any = {}
+
+  private async login() {
+    const provider = new GoogleAuthProvider()
+    const data = await signInWithPopup(authService, provider)
+    console.log(data)
+    this.user = authService.currentUser
     this.isLogin = true;
   }
 
   private logout() {
+    authService.signOut()
+    this.user = authService.currentUser
     this.isLogin = false;
   }
 

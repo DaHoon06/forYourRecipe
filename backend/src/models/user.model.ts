@@ -5,10 +5,13 @@ import {HydratedDocument} from "mongoose";
 export class User {
 
     @Prop({type: String, required: true})
-    _id: String
+    _id: string
 
     @Prop({type: String, required: true})
-    name: String
+    name: string
+
+    @Prop({type: String, requre: true})
+    email: string
 
     @Prop({type: Date, required: true})
     createdAt: Date
@@ -17,13 +20,13 @@ export class User {
     updatedAt: Date
 
     @Prop({type: Array, required: true, default: []})
-    favoriteRecipes: String[]
+    favoriteRecipes: string[]
 
     @Prop({type: Array, required: true, default: []})
-    myRecipes: String[]
+    myRecipes: string[]
 
     @Prop({type: String, required: true, default: ' '})
-    img: String
+    img: string
 }
 
 export type UserDocument = HydratedDocument<User>

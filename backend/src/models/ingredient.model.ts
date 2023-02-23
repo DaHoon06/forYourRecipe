@@ -4,10 +4,10 @@ import {HydratedDocument} from "mongoose";
 @Schema({collection: 'ingredients', versionKey: false})
 export class Ingredient {
     @Prop({type: String, required: true})
-    _id: String
+    _id: string
 
     @Prop({type: String, required: true})
-    name: String
+    name: string
 
     @Prop({
         type: [{
@@ -20,7 +20,7 @@ export class Ingredient {
     detailedIngredient: {
         _id: string,
         name: string,
-        img: string,
+        img: string
     }[]
 }
 
