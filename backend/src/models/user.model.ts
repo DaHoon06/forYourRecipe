@@ -5,25 +5,34 @@ import {HydratedDocument} from "mongoose";
 export class User {
 
     @Prop({type: String, required: true})
-    _id: String
+    _id: string
 
     @Prop({type: String, required: true})
-    name: String
+    name: string
 
-    @Prop({type: Date, required: true})
+    @Prop({type: String, required: true})
+    email: string
+
+    @Prop({type: Date, required: true, default: new Date()})
     createdAt: Date
 
-    @Prop({type: Date, required: true})
+    @Prop({type: Date, required: true, default: new Date()})
     updatedAt: Date
 
     @Prop({type: Array, required: true, default: []})
-    favoriteRecipes: String[]
+    favoriteRecipes: string[]
 
     @Prop({type: Array, required: true, default: []})
-    myRecipes: String[]
+    myRecipes: string[]
 
-    @Prop({type: String, required: true, default: ' '})
-    img: String
+    @Prop({type: String, required: true, default: 'https://4u-recipe.s3.ap-northeast-2.amazonaws.com/profile/profile.svg'})
+    img: string
+
+    constructor (id: string, name: string, email: string) {
+        this._id = id
+        this.name = name
+        this.email = email
+    }
 }
 
 export type UserDocument = HydratedDocument<User>

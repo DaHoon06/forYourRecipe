@@ -2,7 +2,7 @@
   <main class="main">
     <loading-spinner v-if="isLoading"/>
 
-    <section class="w-100">
+    <section class="main__top">
       <IngredientsBox/>
     </section>
 
@@ -11,7 +11,7 @@
         <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
-          <CardUi class="mr-20" v-for="(dish) in recipeCards" :key="dish._id"
+          <CardUi class="mr-20" v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
                   @click="recipeDetail(dish._id)">
             <section class="card-ui__body">
               <text-font size="18">{{ dish.name }}</text-font>
@@ -19,7 +19,7 @@
               <figure class="recipe-like--wrapper">
                 <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
                 <figcaption>
-                  <text-font size="14">{{ dish.likes }}</text-font>
+                  <text-font size="14">{{ dish.likes.length }}</text-font>
                 </figcaption>
               </figure>
 
@@ -28,13 +28,14 @@
               </div>
             </section>
           </CardUi>
-          <ListsUi v-for="(dish) in recipeCards" :key="dish._id" @click="recipeDetail(dish._id)">
+          <ListsUi v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
+                   @click="recipeDetail(dish._id)">
             <text-font size="18">{{ dish.name }}</text-font>
             <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
             <figure class="recipe-like--wrapper">
               <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
               <figcaption>
-                <text-font size="14">{{ dish.likes }}</text-font>
+                <text-font size="14">{{ dish.likes.length }}</text-font>
               </figcaption>
             </figure>
             <div class="flex">
@@ -100,7 +101,12 @@ export default class HomeView extends Vue {
   width: 100%;
   margin: auto;
   height: 100%;
+
+  .main__top {
+    width: 100%;
+  }
 }
+
 
 .main__body {
   width: 100%;
@@ -141,6 +147,7 @@ export default class HomeView extends Vue {
       }
     }
   }
-
 }
+
+
 </style>

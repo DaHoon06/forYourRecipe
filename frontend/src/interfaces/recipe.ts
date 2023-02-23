@@ -3,13 +3,14 @@ export namespace Recipe {
     _id: string;
     name: string;
     detailedIngredient: IngredientType[];
+    profileImage: string;
     createdAt: Date;
     updatedAt: Date;
     modified: boolean;
     user: string;
     steps: Steps[];
     desc: string;
-    likes: number;
+    likes: string[];
   }
 
   export interface IngredientType {

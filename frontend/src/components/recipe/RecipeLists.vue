@@ -30,7 +30,7 @@
     <hr/>
     <section>
       <section class="card--wrapper" v-if="recipeLists.length > 0">
-        <CardUi class="mr-20 card-component" v-for="(dish) in recipeLists" :key="dish._id"
+        <CardUi class="mr-20 card-component" v-for="(dish) in recipeLists" :src="dish.profileImage" :key="dish._id"
                 @click="recipeDetail(dish._id)">
           <section class="card-ui__body">
             <text-font size="18">{{ dish.name }}</text-font>
@@ -38,7 +38,7 @@
             <figure class="recipe-like--wrapper">
               <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
               <figcaption>
-                <text-font size="14">{{ dish.likes }}</text-font>
+                <text-font size="14">{{ dish.likes.length }}</text-font>
               </figcaption>
             </figure>
 
@@ -47,7 +47,8 @@
             </div>
           </section>
         </CardUi>
-        <ListsUi class="list-component" v-for="(dish) in recipeLists" :key="dish._id" @click="recipeDetail(dish._id)">
+        <ListsUi class="list-component" v-for="(dish) in recipeLists" :key="dish._id" :src="dish.profileImage"
+                 @click="recipeDetail(dish._id)">
           <text-font size="18">{{ dish.name }}</text-font>
           <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
           <figure class="recipe-like--wrapper">
@@ -77,7 +78,7 @@ import CardUi from "@/components/ui/CardUi.vue";
 import {LocationQueryValue} from "vue-router";
 import {computed, ComputedRef} from "vue";
 import {useStore} from "vuex";
-import {RecipeState} from "@/store/modules/recipe";
+import {STORE} from "@/interfaces/store";
 
 @Options({
   components: {
@@ -90,7 +91,7 @@ export default class RecipeLists extends Vue {
   total = 0;
   recipeLists: Recipe.Info[] = [];
   store = useStore();
-  selectedIngredients: ComputedRef<RecipeState[]> = computed(() => this.store.getters["recipeModule/getIngredients"]);
+  selectedIngredients: ComputedRef<STORE.RecipeState[]> = computed(() => this.store.getters["recipeModule/getIngredients"]);
 
   created() {
     const {key} = this.$route.query;

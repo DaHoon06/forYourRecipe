@@ -2,7 +2,7 @@
   <article class="list__layout scroll">
     <article class="list__container">
       <div class="list-img--wrapper">
-        <img src="https://picsum.photos/400/400" width="284" height="177" alt="test-img"/>
+        <img :src="src" width="284" height="177" alt="test-img" loading="lazy"/>
       </div>
       <section class="list__body w-100">
         <slot/>
@@ -14,9 +14,10 @@
 
 <script lang="ts">
 import {Vue} from "vue-class-component";
+import {Prop} from "vue-property-decorator";
 
 export default class ListsUi extends Vue {
-
+  @Prop({default: '@/assets/images/default.jpg'}) readonly src?: string;
 }
 </script>
 

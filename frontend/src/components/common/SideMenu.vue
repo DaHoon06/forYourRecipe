@@ -10,19 +10,17 @@
             </text-font>
 
             <div class="flex justify-center">
-              <custom-button type="button" variant="icon-button" @click="login">
-                <text-font>로그인</text-font>
-              </custom-button>
-              <span class="division-line">|</span>
-              <custom-button type="button" variant="icon-button">
-                <text-font>회원가입</text-font>
+              <custom-button type="button" variant="primary-square" @click="login">
+                <text-font color="white" class="pr-8">Login with</text-font>
+                <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
               </custom-button>
             </div>
           </section>
           <section v-else>
             <section class="profile--container pb-32">
-              <img loading="lazy" src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
-              <text-font class="pt-18">전다훈</text-font>
+              <img loading="lazy" :src="userProfile"
+                   alt="프로필 이미지" width="96" height="96"/>
+              <text-font class="pt-18">{{ userName.value }}</text-font>
             </section>
 
             <div class="flex">
@@ -87,9 +85,22 @@
 <script lang="ts">
 import {Vue} from "vue-class-component";
 import {Emit, Prop, Watch} from "vue-property-decorator";
+import {NAVIGATION} from "@/constant/navigation.href";
+import {useStore} from "vuex";
+import {authService} from "@/lib/fbase";
+import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {computed, ComputedRef} from "vue";
+
 // TODO: 모바일 화면에서만 햄버거 버튼
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
+
+  open = false;
+  isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
+  userName: ComputedRef<string> = computed(() => this.store.getters["userModule/getName"]);
+  userProfile: ComputedRef<string> = computed(() => this.store.getters["userModule/getProfileImg"]) || '@/assets/images/icons/profile.svg';
+  store = useStore();
+  user: any = {}
 
   private outerClickCheck(e: Event) {
     const target = e.target as HTMLElement
@@ -97,10 +108,6 @@ export default class SideMenu extends Vue {
     if (nav !== target && !nav.contains(target))
       this.closeMenu();
   }
-
-  open = false;
-  // Temp
-  isLogin = false
 
   @Watch('isOpen')
   private disabledScroll() {
@@ -115,32 +122,45 @@ export default class SideMenu extends Vue {
     return this.open;
   }
 
-  private login() {
-    this.isLogin = true;
+  private async login() {
+    const provider = new GoogleAuthProvider()
+    await signInWithPopup(authService, provider)
+    this.user = authService.currentUser
+    if (this.user) {
+      await this.store.dispatch('userModule/login', this.user);
+      await this.store.commit("utilModule/setIsLogin", true);
+    }
   }
 
-  private logout() {
-    this.isLogin = false;
+  private async logout() {
+    await authService.signOut()
+    await this.store.commit("userModule/resetUserData");
+    await this.store.commit('utilModule/setIsLogin', false);
   }
 
   private redirect(type: string) {
     this.closeMenu();
     switch (type) {
       case 'home':
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 0);
+        this.$router.push(NAVIGATION.HOME)
         break;
       case 'recipe':
         // TODO TEMP - ADMIN
-        this.$router.push('/admin/recipe/post')
+        this.store.commit("utilModule/setCurrentPath", 1);
+        this.$router.push(NAVIGATION.RECIPE_POST_ADMIN)
         break;
       case 'favorite':
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 2);
+        this.$router.push(NAVIGATION.FAVORITE)
         break;
       case 'notice':
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 3);
+        this.$router.push(NAVIGATION.NOTICE)
         break;
       default:
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 0);
+        this.$router.push(NAVIGATION.HOME)
         break;
     }
   }
@@ -159,6 +179,7 @@ export default class SideMenu extends Vue {
   position: fixed;
   right: 0;
   z-index: 99;
+  top: 63px;
 
   &--items {
     background-color: $white;

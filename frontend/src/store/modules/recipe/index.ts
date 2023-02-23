@@ -1,12 +1,6 @@
 import { Module } from "vuex";
 import { RootState } from "@/store";
-
-export interface RecipeState {
-  _id: string;
-  name: string;
-  img: string;
-  selected?: boolean;
-}
+import { STORE } from "@/interfaces/store";
 
 const getDefaultState = () => {
   return {
@@ -15,7 +9,7 @@ const getDefaultState = () => {
 };
 
 interface STATE {
-  ingredients: RecipeState[];
+  ingredients: STORE.RecipeState[];
 }
 
 const state = getDefaultState();
@@ -24,7 +18,7 @@ export const recipeModule: Module<STATE, RootState> = {
   namespaced: true,
   state: state,
   mutations: {
-    saveIngredients(state: STATE, data: RecipeState[]): void {
+    saveIngredients(state: STATE, data: STORE.RecipeState[]): void {
       for (let i = 0; i < data.length; i++) {
         state.ingredients.push(data[i]);
       }

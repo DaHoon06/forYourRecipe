@@ -7,7 +7,9 @@
         <text-font size="22">{{ recipe.name }}</text-font>
         <div class="dotted mt-16 mb-16"/>
         <picture>
-          <img src="https://picsum.photos/400/400" width="284" height="177" alt="음식 이미지 1"/>
+          <img :src="recipe.profileImage.length ? recipe.profileImage : '@/assets/images/default.jpg'" loading="lazy"
+               width="284"
+               height="177" alt="음식 이미지"/>
         </picture>
         <div v-if="recipe.detailedIngredient.length > 0" class="pt-6">
           <span class="tags mr-6" v-for="(tag, index) of recipe.detailedIngredient" :key="index">
@@ -67,7 +69,8 @@ export default class RecipeDetail extends Vue {
     desc: '',
     createdAt: new Date(),
     detailedIngredient: [],
-    likes: 0,
+    likes: [],
+    profileImage: '',
     name: '',
     modified: false,
     steps: [],

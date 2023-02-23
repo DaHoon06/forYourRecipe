@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import * as path from "path";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "post",
         name: "recipePost",
         component: () => import("@/components/recipe/RecipePost.vue"),
+      },
+      {
+        path: "search/:keyword",
+        name: "recipeSearch",
+        component: () => import("@/components/recipe/RecipeSearch.vue"),
       },
     ],
   },
