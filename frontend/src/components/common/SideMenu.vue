@@ -10,19 +10,16 @@
             </text-font>
 
             <div class="flex justify-center">
-              <custom-button type="button" variant="icon-button" @click="login">
-                <text-font>로그인</text-font>
-              </custom-button>
-              <span class="division-line">|</span>
-              <custom-button type="button" variant="icon-button">
-                <text-font>회원가입</text-font>
+              <custom-button type="button" variant="primary-square" @click="login">
+                <text-font color="white" class="pr-8">Login with</text-font>
+                <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
               </custom-button>
             </div>
           </section>
           <section v-else>
             <section class="profile--container pb-32">
               <img loading="lazy" src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
-              <text-font class="pt-18">{{user.displayName}}</text-font>
+              <text-font class="pt-18">{{ user.displayName }}</text-font>
             </section>
 
             <div class="flex">
@@ -96,17 +93,18 @@ import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
 
+  open = false;
+  // Temp
+  isLogin = false
+  store = useStore();
+  user: any = {}
+
   private outerClickCheck(e: Event) {
     const target = e.target as HTMLElement
     const nav = this.$refs.sideMenu as HTMLElement;
     if (nav !== target && !nav.contains(target))
       this.closeMenu();
   }
-
-  open = false;
-  // Temp
-  isLogin = false
-  store = useStore();
 
   @Watch('isOpen')
   private disabledScroll() {
@@ -121,12 +119,9 @@ export default class SideMenu extends Vue {
     return this.open;
   }
 
-  user: any = {}
-
   private async login() {
     const provider = new GoogleAuthProvider()
-    const data = await signInWithPopup(authService, provider)
-    console.log(data)
+    await signInWithPopup(authService, provider)
     this.user = authService.currentUser
     this.isLogin = true;
   }

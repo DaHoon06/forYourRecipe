@@ -9,7 +9,7 @@ export namespace Recipe {
     user: string;
     steps: Steps[];
     desc: string;
-    likes: number;
+    likes: string[];
   }
 
   export interface IngredientType {

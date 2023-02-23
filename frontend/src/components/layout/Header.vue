@@ -6,7 +6,15 @@
       </custom-button>
       <section class="header--side">
         <search-input/>
-        <text-font color="white">Login</text-font>
+        <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!isLogin">
+          <text-font color="white" class="pr-6">Login</text-font>
+          <text-font color="white" class="pr-8">with</text-font>
+          <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
+        </custom-button>
+        <custom-button type="button" variant="icon-button" @click="logout" v-else>
+          <text-font color="white">Logout</text-font>
+        </custom-button>
+
       </section>
       <section class="hamburger--side">
         <custom-button type="button" variant="icon-button" @click="showSideMenu">
@@ -26,6 +34,8 @@ import SearchInput from "@/components/common/SearchInput.vue";
 import NavigationMenu from "@/components/common/NavigationMenu.vue";
 import {useStore} from "vuex";
 import {NAVIGATION} from "@/constant/navigation.href";
+import {authService} from "@/lib/fbase";
+import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 
 @Options({
   components: {
@@ -37,10 +47,25 @@ import {NAVIGATION} from "@/constant/navigation.href";
 export default class Header extends Vue {
   isOpen = false;
   store = useStore();
+  user: any = {}
+  isLogin = false
 
   private redirectHome(): void {
     this.store.commit("utilModule/setCurrentPath", 0);
     this.$router.push(NAVIGATION.HOME);
+  }
+
+  private async login() {
+    const provider = new GoogleAuthProvider()
+    await signInWithPopup(authService, provider)
+    this.user = authService.currentUser
+    this.isLogin = true;
+  }
+
+  private logout() {
+    authService.signOut()
+    this.user = authService.currentUser
+    this.isLogin = false;
   }
 
   private closeMenu(payload: boolean): void {

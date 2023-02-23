@@ -38,7 +38,7 @@
             <figure class="recipe-like--wrapper">
               <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
               <figcaption>
-                <text-font size="14">{{ dish.likes }}</text-font>
+                <text-font size="14">{{ dish.likes.length }}</text-font>
               </figcaption>
             </figure>
 

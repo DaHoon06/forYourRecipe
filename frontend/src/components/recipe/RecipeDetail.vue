@@ -67,7 +67,7 @@ export default class RecipeDetail extends Vue {
     desc: '',
     createdAt: new Date(),
     detailedIngredient: [],
-    likes: 0,
+    likes: [],
     name: '',
     modified: false,
     steps: [],
