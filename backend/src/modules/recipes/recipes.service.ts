@@ -12,12 +12,14 @@ import {UpdatedAdminRecipeDto} from "../../dtos/recipe/updated-admin-recipe.dto"
 import {DeletedRecipeDto} from "../../dtos/recipe/deleted-recipe.dto";
 import {UpdatedUserRecipeDto} from "../../dtos/recipe/updated-user-recipe.dto";
 import {UpdatedRecipeLikeDto} from "../../dtos/recipe/updated-recipe-like.dto";
+import {UsersService} from "../users/users.service";
 
 @Injectable()
 export class RecipesService {
     constructor(
         @InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>,
-        private readonly ingredientsService: IngredientsService
+        private readonly ingredientsService: IngredientsService,
+        private readonly userService: UsersService
     ) {
     }
 
@@ -97,7 +99,7 @@ export class RecipesService {
         return acknowledged
     }
     
-    // TODO: 회원 컬렉션 생성 후 회원 좋아요 리스트에도 저장 및 수정 구현 
+    //회원 즐겨찾는 레시피에 추가
     async updateLike(recipe: UpdatedRecipeLikeDto): Promise<number> {
         const { id, user } = recipe
         const { likes } = await this.recipeModel.findById(id)
@@ -109,6 +111,7 @@ export class RecipesService {
             likes.push(user)
         }
         await this.recipeModel.updateOne({_id: id}, { $set: {likes: likes}})
+        await this.userService.setFavoriteRecipes(id, user)
         return likes.length
     }
 

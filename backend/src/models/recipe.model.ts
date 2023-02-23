@@ -71,7 +71,7 @@ export class Recipe {
     @Prop({type: [String], required: true, default: []})
     detailedIngredient: string[]
 
-    @Prop({type: String, required: true, default: ' '})
+    @Prop({type: String, required: true, default: 'https://4u-recipe.s3.ap-northeast-2.amazonaws.com/foods/default.jpg'})
     profileImage: string
 
     constructor(
