@@ -12,9 +12,7 @@ import {UpdatedRecipeLikeDto} from "../../dtos/recipe/updated-recipe-like.dto";
 @Controller('recipes')
 @ApiTags('레시피 관련 API')
 export class RecipesController {
-    constructor(
-        private readonly recipesService: RecipesService,
-    ) {}
+    constructor(private readonly recipesService: RecipesService) {}
 
     @Get('/all-recipes')
     @ApiOperation({
@@ -102,6 +100,7 @@ export class RecipesController {
         return this.recipesService.setAdminRecipe(recipe)
     }
 
+    @Put('/update-admin-recipe')
     @ApiOperation({
         summary: '관리자 전용 레시피 수정 API',
         description: '관리자 레시피 수정한다.'
@@ -110,11 +109,12 @@ export class RecipesController {
         description: '레시피 수정 후 성공 여부 boolean을 반환한다. 성공: true 실패: false',
         type: Boolean
     })
-    @Put('/update-admin-recipe')
+    @ApiBody({type: UpdatedAdminRecipeDto, description: '수정할 관리자 레시피 정보'})
     private async updateAdminRecipe(@Body() recipe: UpdatedAdminRecipeDto): Promise<boolean> {
         return this.recipesService.updateAdminRecipe(recipe)
     }
 
+    @Put('/update-recipe')
     @ApiOperation({
         summary: '회원 전용 레시피 수정 API',
         description: '회원 레시피 수정한다.'
@@ -123,16 +123,26 @@ export class RecipesController {
         description: '레시피 수정 후 성공 여부 boolean을 반환한다. 성공: true 실패: false',
         type: Boolean
     })
-    @Put('/update-recipe')
+    @ApiBody({type: UpdatedUserRecipeDto, description: '수정할 회원 레시피 정보'})
     private async updateRecipe(@Body() recipe: UpdatedUserRecipeDto): Promise<boolean> {
         return this.recipesService.updateRecipe(recipe)
     }
 
     @Patch('/update-like')
+    @ApiOperation({
+        summary: '회원의 즐겨찾기에 레시피 추가, 제거 API',
+        description: '회원의 즐겨찾기에 레시피를 추가 및 제거한다.(등록 -> 미등록, 미등록 -> 등록)'
+    })
+    @ApiCreatedResponse({
+        description: '회원의 즐겨찾기에 레시피 추가 후 해당 레시피가 줄겨찾기에 등록된 수(좋아요 수)를 반환한다.',
+        type: Number
+    })
+    @ApiBody({type: UpdatedRecipeLikeDto, description: '추가할 레시피 아이디와 추가하려는 회원 아이디'})
     private async updateLike(@Body() recipe: UpdatedRecipeLikeDto): Promise<number> {
         return this.recipesService.updateLike(recipe)
     }
 
+    @Delete('/delete-recipe')
     @ApiOperation({
         summary: '레시피 삭제 API',
         description: '레시피 삭제한다.'
@@ -141,7 +151,7 @@ export class RecipesController {
         description: '레시피 삭제 후 성공 여부 boolean을 반환한다. 성공: true 실패: false',
         type: Boolean
     })
-    @Delete('/delete-recipe')
+    @ApiBody({type: DeletedRecipeDto, description: '삭제 여부 boolean'})
     private async deleteRecipe(@Body() recipe: DeletedRecipeDto): Promise<boolean> {
         return this.recipesService.deleteRecipe(recipe)
     }
