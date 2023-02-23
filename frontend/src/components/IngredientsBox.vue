@@ -5,8 +5,8 @@
         <article class="ingredients-box dark">
           <section>
             <picture class="ingredients-box--status">
-              <img loading="eager" decoding="async" src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator"
-                   width="210"/>
+              <img loading="lazy" decoding="async" src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator"
+                   width="210" height="234"/>
             </picture>
           </section>
         </article>

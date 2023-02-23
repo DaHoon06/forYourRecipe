@@ -56,15 +56,20 @@ export default class Header extends Vue {
   }
 
   private async login() {
-    const provider = new GoogleAuthProvider()
-    await signInWithPopup(authService, provider)
-    this.user = authService.currentUser
-    this.isLogin = true;
+    try {
+      const provider = new GoogleAuthProvider()
+      await signInWithPopup(authService, provider)
+      this.user = authService.currentUser
+      if (this.user) await this.store.dispatch('userModule/login', this.user);
+      this.isLogin = true;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   private logout() {
     authService.signOut()
-    this.user = authService.currentUser
+    this.store.commit("userModule/resetUserData");
     this.isLogin = false;
   }
 
