@@ -2,7 +2,7 @@
   <main class="main">
     <loading-spinner v-if="isLoading"/>
 
-    <section class="w-100">
+    <section class="main__top">
       <IngredientsBox/>
     </section>
 
@@ -100,7 +100,12 @@ export default class HomeView extends Vue {
   width: 100%;
   margin: auto;
   height: 100%;
+
+  .main__top {
+    width: 100%;
+  }
 }
+
 
 .main__body {
   width: 100%;
@@ -141,6 +146,7 @@ export default class HomeView extends Vue {
       }
     }
   }
-
 }
+
+
 </style>

@@ -87,6 +87,8 @@
 <script lang="ts">
 import {Vue} from "vue-class-component";
 import {Emit, Prop, Watch} from "vue-property-decorator";
+import {NAVIGATION} from "@/constant/navigation.href";
+import {useStore} from "vuex";
 // TODO: 모바일 화면에서만 햄버거 버튼
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
@@ -101,6 +103,7 @@ export default class SideMenu extends Vue {
   open = false;
   // Temp
   isLogin = false
+  store = useStore();
 
   @Watch('isOpen')
   private disabledScroll() {
@@ -127,20 +130,25 @@ export default class SideMenu extends Vue {
     this.closeMenu();
     switch (type) {
       case 'home':
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 0);
+        this.$router.push(NAVIGATION.HOME)
         break;
       case 'recipe':
         // TODO TEMP - ADMIN
-        this.$router.push('/admin/recipe/post')
+        this.store.commit("utilModule/setCurrentPath", 1);
+        this.$router.push(NAVIGATION.RECIPE_POST_ADMIN)
         break;
       case 'favorite':
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 2);
+        this.$router.push(NAVIGATION.FAVORITE)
         break;
       case 'notice':
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 3);
+        this.$router.push(NAVIGATION.NOTICE)
         break;
       default:
-        this.$router.push('/')
+        this.store.commit("utilModule/setCurrentPath", 0);
+        this.$router.push(NAVIGATION.HOME)
         break;
     }
   }

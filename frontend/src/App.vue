@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header/>
-    <router-view class="pt-64"/>
+    <router-view class="app"/>
   </div>
   <Footer/>
 </template>
@@ -26,6 +26,16 @@ export default class App extends Vue {
 .container {
   height: auto;
   min-height: 100%;
-  //padding-bottom: 100px;
 }
+
+.app {
+  padding-top: 128px;
+}
+
+@media screen and (max-width: 767px) {
+  .app {
+    padding-top: 64px !important;
+  }
+}
+
 </style>

@@ -1,9 +1,9 @@
 <template>
   <header class="header">
     <section class="wrapper">
-      <router-link to="/">
+      <custom-button variant="icon-button" type="button" @click="redirectHome">
         <img loading="eager" width="30" height="30" src="@/assets/images/icons/cook.svg" alt="로고">
-      </router-link>
+      </custom-button>
       <section class="header--side">
         <search-input/>
         <text-font color="white">Login</text-font>
@@ -15,6 +15,7 @@
         <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
       </section>
     </section>
+    <navigation-menu/>
   </header>
 </template>
 
@@ -22,21 +23,31 @@
 import {Options, Vue} from "vue-class-component";
 import SideMenu from "@/components/common/SideMenu.vue";
 import SearchInput from "@/components/common/SearchInput.vue";
+import NavigationMenu from "@/components/common/NavigationMenu.vue";
+import {useStore} from "vuex";
+import {NAVIGATION} from "@/constant/navigation.href";
 
 @Options({
   components: {
     SideMenu,
+    NavigationMenu,
     SearchInput
   }
 })
 export default class Header extends Vue {
   isOpen = false;
+  store = useStore();
 
-  private closeMenu(payload: boolean) {
+  private redirectHome(): void {
+    this.store.commit("utilModule/setCurrentPath", 0);
+    this.$router.push(NAVIGATION.HOME);
+  }
+
+  private closeMenu(payload: boolean): void {
     this.isOpen = payload;
   }
 
-  private showSideMenu() {
+  private showSideMenu(): void {
     this.isOpen = !this.isOpen;
   }
 }
