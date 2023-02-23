@@ -13,14 +13,14 @@ export class Ingredient {
         type: [{
             _id: {type: String, required: true},
             name: {type: String, required: true},
-            img: {type: String, required: false},
+            img: {type: String, required: true, default: ' '},
         }],
         required: true
     })
     detailedIngredient: {
         _id: string,
         name: string,
-        img?: string,
+        img: string,
     }[]
 }
 

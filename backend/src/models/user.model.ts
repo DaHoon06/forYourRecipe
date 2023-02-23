@@ -16,14 +16,14 @@ export class User {
     @Prop({type: Date, required: true})
     updatedAt: Date
 
-    @Prop({type: Array, required: false})
-    favoriteRecipes?: String[]
+    @Prop({type: Array, required: true, default: []})
+    favoriteRecipes: String[]
 
-    @Prop({type: Array, required: false})
-    myRecipes?: String[]
+    @Prop({type: Array, required: true, default: []})
+    myRecipes: String[]
 
-    // @Prop({type: String, required: false})
-    // img?: String
+    @Prop({type: String, required: true, default: ' '})
+    img: String
 }
 
 export type UserDocument = HydratedDocument<User>
