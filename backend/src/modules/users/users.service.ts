@@ -15,12 +15,16 @@ export class UsersService {
         return this.userModel.findById(id)
     }
 
-    async setUser(user: RegisteredUserDto): Promise<boolean> {
+    async setUser(user: RegisteredUserDto): Promise<UserDto> {
         const { id, name, email } = user
-        const newUser = new User(id, name, email)
-        const registeredUser = await new this.userModel(newUser).save()
-        if (registeredUser) {return true}
-        return false
+        const foundUser = await this.userModel.findById(id)
+        if (!foundUser) {
+            const newUser = new User(id, name, email)
+            const registeredUser = await new this.userModel(newUser).save()
+
+            return this.getUserDto(registeredUser)
+        }
+        return this.getUserDto(foundUser)
     }
 
     async setFavoriteRecipes(recipeId: string, userId: string): Promise<boolean> {
@@ -34,4 +38,14 @@ export class UsersService {
         const { acknowledged } = await this.userModel.updateOne({_id: userId},{ $set: { favoriteRecipes: favoriteRecipes }})
         return acknowledged
     }
+
+    private getUserDto (user: User): UserDto{
+        return new UserDto(
+            user._id, user.name,
+            user.email, user.createdAt,
+            user.updatedAt, user.img,
+            user.favoriteRecipes, user.myRecipes
+        )
+    }
 }
+
