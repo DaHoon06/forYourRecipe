@@ -28,6 +28,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "recipePost",
         component: () => import("@/components/recipe/RecipePost.vue"),
       },
+      {
+        path: "search/:keyword",
+        name: "recipeSearch",
+        component: () => import("@/components/recipe/RecipeSearch.vue"),
+      },
     ],
   },
   {
