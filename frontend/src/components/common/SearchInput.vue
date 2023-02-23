@@ -42,7 +42,8 @@ export default class SearchInput extends Vue {
     outline: none;
     background-color: $white;
     //border-radius: 50px;
-    border: 1px solid #D2D2D2;
+    //border: 1px solid #D2D2D2;
+    border: 1px solid #A3A3A3;
     font-family: jua;
     font-size: 15px;
     padding: 8px 2em 8px 0.8em;

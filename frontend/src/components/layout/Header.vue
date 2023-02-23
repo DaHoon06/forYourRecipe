@@ -2,7 +2,7 @@
   <header class="header">
     <section class="wrapper">
       <custom-button variant="icon-button" type="button" @click="redirectHome">
-        <h1 style="font-size: 22px; margin-left: 20px">FAST FIND FAST COOK</h1>
+        <h1 style="font-size: 22px; margin-left: 20px">FAST FIND EASY COOK</h1>
 <!--        <img loading="eager" width="30" height="30" src="@/assets/images/icons/cook.svg" alt="로고">-->
       </custom-button>
       <section class="header--side">
@@ -101,7 +101,6 @@ export default class Header extends Vue {
   top: 0;
   left: 0;
   z-index: 99;
-  border-bottom: solid 1px #A3A3A3;
 
   .wrapper {
     display: flex;

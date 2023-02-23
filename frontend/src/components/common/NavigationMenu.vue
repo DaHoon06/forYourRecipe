@@ -4,19 +4,19 @@
       <li :class="currentMenu === 1 && 'current-path'">
         <custom-button variant="icon-button" type="button" @click="redirect('recipe')">
 <!--          <text-font color="textTitle" size="18">레시피 등록</text-font>-->
-          <text-font color="white" size="18">레시피 등록</text-font>
+          <text-font color="black" size="18">레시피 등록</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 2 && 'current-path'">
         <custom-button variant="icon-button" type="button" @click="redirect('favorite')">
 <!--          <text-font color="textTitle" size="18">즐겨찾기</text-font>-->
-          <text-font color="white" size="18">즐겨찾기</text-font>
+          <text-font color="black" size="18">즐겨찾기</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 3 && 'current-path'">
         <custom-button variant="icon-button" type="button" @click="redirect('notice')">
 <!--          <text-font color="textTitle" size="18">공지사항</text-font>-->
-          <text-font color="white" size="18">공지사항</text-font>
+          <text-font color="black" size="18">공지사항</text-font>
         </custom-button>
       </li>
     </ul>
@@ -69,7 +69,9 @@ export default class NavigationMenu extends Vue {
   width: 100%;
   height: 62px;
   //background-color: rgba(235, 235, 235, 0.6);
-  background-color: #aaaaaa;
+  background-color: white;
+  border-top: #A3A3A3 solid 1px;
+  border-bottom: #A3A3A3 solid 1px;
 
   ul {
     width: 900px;
@@ -86,16 +88,16 @@ export default class NavigationMenu extends Vue {
 
     &:hover {
       //border-color: $pointColor;
-      border-color: $black;
 
       button p {
-        color: $black;
+        color: $gray3;
       }
     }
   }
 
   .current-path {
-    border-color: $pointColor;
+    //border-color: $pointColor;
+    border-color: $black;
 
     button p {
       color: $black;
