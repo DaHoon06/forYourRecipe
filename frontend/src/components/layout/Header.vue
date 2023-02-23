@@ -36,6 +36,7 @@ import {useStore} from "vuex";
 import {NAVIGATION} from "@/constant/navigation.href";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {computed, ComputedRef} from "vue";
 
 @Options({
   components: {
@@ -48,7 +49,7 @@ export default class Header extends Vue {
   isOpen = false;
   store = useStore();
   user: any = {}
-  isLogin = false
+  isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
 
   private redirectHome(): void {
     this.store.commit("utilModule/setCurrentPath", 0);
@@ -60,8 +61,10 @@ export default class Header extends Vue {
       const provider = new GoogleAuthProvider()
       await signInWithPopup(authService, provider)
       this.user = authService.currentUser
-      if (this.user) await this.store.dispatch('userModule/login', this.user);
-      this.isLogin = true;
+      if (this.user) {
+        await this.store.dispatch('userModule/login', this.user);
+        this.store.commit("utilModule/setIsLogin", true);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -70,7 +73,7 @@ export default class Header extends Vue {
   private logout() {
     authService.signOut()
     this.store.commit("userModule/resetUserData");
-    this.isLogin = false;
+    this.store.commit('utilModule/setIsLogin', false);
   }
 
   private closeMenu(payload: boolean): void {

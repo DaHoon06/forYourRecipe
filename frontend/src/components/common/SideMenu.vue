@@ -18,8 +18,9 @@
           </section>
           <section v-else>
             <section class="profile--container pb-32">
-              <img loading="lazy" src="@/assets/images/icons/profile.svg" alt="프로필 이미지" width="96" height="96"/>
-              <text-font class="pt-18">{{ user.displayName }}</text-font>
+              <img loading="lazy" :src="userProfile"
+                   alt="프로필 이미지" width="96" height="96"/>
+              <text-font class="pt-18">{{ userName.value }}</text-font>
             </section>
 
             <div class="flex">
@@ -88,14 +89,16 @@ import {NAVIGATION} from "@/constant/navigation.href";
 import {useStore} from "vuex";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {computed, ComputedRef} from "vue";
 
 // TODO: 모바일 화면에서만 햄버거 버튼
 export default class SideMenu extends Vue {
   @Prop({default: false}) isOpen!: boolean;
 
   open = false;
-  // Temp
-  isLogin = false
+  isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
+  userName: ComputedRef<string> = computed(() => this.store.getters["userModule/getName"]);
+  userProfile: ComputedRef<string> = computed(() => this.store.getters["userModule/getProfileImg"]) || '@/assets/images/icons/profile.svg';
   store = useStore();
   user: any = {}
 
@@ -123,14 +126,16 @@ export default class SideMenu extends Vue {
     const provider = new GoogleAuthProvider()
     await signInWithPopup(authService, provider)
     this.user = authService.currentUser
-    if (this.user) await this.store.dispatch('userModule/login', this.user);
-    this.isLogin = true;
+    if (this.user) {
+      await this.store.dispatch('userModule/login', this.user);
+      await this.store.commit("utilModule/setIsLogin", true);
+    }
   }
 
-  private logout() {
-    authService.signOut()
-    this.store.commit("userModule/resetUserData");
-    this.isLogin = false;
+  private async logout() {
+    await authService.signOut()
+    await this.store.commit("userModule/resetUserData");
+    await this.store.commit('utilModule/setIsLogin', false);
   }
 
   private redirect(type: string) {

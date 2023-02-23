@@ -20,6 +20,7 @@ const getDefaultState = () => {
     accessToken: "",
     refreshToken: "",
     name: "",
+    img: "",
   };
 };
 const state = getDefaultState();
@@ -31,6 +32,7 @@ export const userModule: Module<STORE.UserState, RootState> = {
       state.name = payload.name;
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
+      state.img = payload.img;
     },
     resetUserData: (state: STORE.UserState) => {
       Object.assign(state, getDefaultState());
@@ -41,19 +43,22 @@ export const userModule: Module<STORE.UserState, RootState> = {
       try {
         const { stsTokenManager, email, displayName, uid } = payload;
         const { refreshToken, accessToken } = stsTokenManager;
-        const userData = {
-          accessToken,
-          refreshToken,
-          name: displayName,
-        };
 
-        await context.commit("setUserData", userData);
         const sendData = {
           name: displayName,
           id: uid,
           email,
         };
         const { data } = await ins.post("/users/sign-in", sendData);
+        const { name, img } = data;
+        const userData = {
+          accessToken,
+          refreshToken,
+          name,
+          img,
+        };
+        await context.commit("setUserData", userData);
+
         console.log(data);
       } catch (e) {
         console.log(e);
@@ -69,6 +74,9 @@ export const userModule: Module<STORE.UserState, RootState> = {
     },
     getName: (state: STORE.UserState) => {
       return state.name;
+    },
+    getProfileImg: (state: STORE.UserState) => {
+      return state.img;
     },
   },
 };

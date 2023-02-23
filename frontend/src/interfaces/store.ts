@@ -8,11 +8,13 @@ export namespace STORE {
 
   export interface UtilState {
     currentPath: number;
+    isLogin: boolean;
   }
 
   export interface UserState {
     accessToken: string;
     refreshToken: string;
     name: string;
+    img: string;
   }
 }
