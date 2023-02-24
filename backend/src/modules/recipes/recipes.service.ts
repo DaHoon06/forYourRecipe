@@ -24,9 +24,17 @@ export class RecipesService {
     }
 
     //전체 레시피 반환
-    async findAll(): Promise<RecipeDto[]> {
-        const foundRecipes = await this.recipeModel.find()
+    async findAll(page: number): Promise<RecipeDto[]> {
+        const currentPage = (page - 1) * 8
+        const foundRecipes = await this.recipeModel.find().sort({updatedAt: 1}).limit(8).skip(currentPage)
+        foundRecipes.forEach(recipe => console.log(recipe.name))
         return this.getRecipeDtoArr(foundRecipes)
+    }
+
+    //랜덤(추천) 레시피 반환
+    async findRandom(): Promise<RecipeDto[]> {
+        const recipe = await this.recipeModel.aggregate([{$sample: {size: 6}}])
+        return this.getRecipeDtoArr(recipe)
     }
 
     //해당 id 레시피 반환

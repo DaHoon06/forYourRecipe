@@ -1,4 +1,15 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Query} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get, HttpStatus,
+    Param,
+    Patch,
+    Post,
+    Put,
+    Query,
+    Res
+} from '@nestjs/common';
 import {ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {RecipesService} from "./recipes.service";
 import {RecipeDto} from "../../dtos/recipe/recipe.dto";
@@ -8,6 +19,7 @@ import {UpdatedAdminRecipeDto} from "../../dtos/recipe/updated-admin-recipe.dto"
 import {DeletedRecipeDto} from "../../dtos/recipe/deleted-recipe.dto";
 import {UpdatedUserRecipeDto} from "../../dtos/recipe/updated-user-recipe.dto";
 import {UpdatedRecipeLikeDto} from "../../dtos/recipe/updated-recipe-like.dto";
+import { Response } from 'express';
 
 @Controller('recipes')
 @ApiTags('레시피 관련 API')
@@ -23,8 +35,22 @@ export class RecipesController {
         description: '전체 레시피 리스트를 생성한다.',
         isArray: true, type: RecipeDto
     })
-    private async getAllRecipes(): Promise<RecipeDto[]> {
-        return this.recipesService.findAll()
+    @ApiQuery({name: 'page', type: Number, description: '페이지'})
+    private async getAllRecipes(@Query('page') page: number, @Res() res: Response) {
+        return this.validatePage(page, res, (page: number) => this.recipesService.findAll(page))
+    }
+
+    @Get('/random-recipes')
+    @ApiOperation({
+        summary: '랜덤으로 추천 레시피 조회 API',
+        description: '추천 레시피를 조회한다.'
+    })
+    @ApiCreatedResponse({
+        description: '랜덤으로 레시피 리스트를 생성한다.',
+        isArray: true, type: RecipeDto
+    })
+    private async getRandomRecipes(): Promise<RecipeDto[]>{
+            return this.recipesService.findRandom()
     }
 
     @Get('/detail/:id')
@@ -51,7 +77,9 @@ export class RecipesController {
         isArray: true , type: RecipeDto
     })
     @ApiQuery({name: 'id', description: '선택한 재료 id들', type: [String] })
-    private async getIngredientRecipes(@Query("id") ingredientIds: string[]): Promise<RecipeDto[]> {
+    //TODO: 콜백처리하기
+    private async getIngredientRecipes(@Query("id") ingredientIds: string[], @Query("page") page: number, @Res() res: Response): Promise<RecipeDto[]> {
+        // this.validatePage(page, res, (page: number) => this.recipesService.findAll(page))
         return this.recipesService.findRecipesByIngredient(ingredientIds)
     }
 
@@ -154,5 +182,17 @@ export class RecipesController {
     @ApiBody({type: DeletedRecipeDto, description: '삭제 여부 boolean'})
     private async deleteRecipe(@Body() recipe: DeletedRecipeDto): Promise<boolean> {
         return this.recipesService.deleteRecipe(recipe)
+    }
+
+    private async validatePage(page: number, res: Response, callback: (page: number) => Promise<RecipeDto[]>) {
+        if(page < 1 || isNaN(page)) {
+            return res
+                .status(HttpStatus.BAD_REQUEST)
+                .json({message: 'page가 없거나 page는 숫자 또는 1보다 작을 수 없습니다.'})
+                .send()
+        } else {
+            const data = await callback(page)
+            return res.status(HttpStatus.OK).json(data).send()
+        }
     }
 }
