@@ -93,6 +93,11 @@ export default class SideMenu extends Vue {
   store = useStore();
   user: any = {}
 
+  @Watch('$route')
+  routeCheck() {
+    this.closeMenu();
+  }
+
   private outerClickCheck(e: Event) {
     const target = e.target as HTMLElement
     const nav = this.$refs.sideMenu as HTMLElement;

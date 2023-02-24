@@ -1,4 +1,5 @@
 <template>
+  <loading-spinner v-if="isLoading" />
   <div class="container">
     <Header/>
     <router-view class="app"/>
@@ -19,7 +20,11 @@ import Footer from "@/components/layout/Footer.vue";
   }
 })
 export default class App extends Vue {
+  isLoading = true;
 
+  mounted() {
+    this.isLoading = false
+  }
 }
 </script>
 <style scoped lang="scss">

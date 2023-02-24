@@ -1,6 +1,6 @@
 <template>
   <div class="modal" v-show="isOpen">
-    <section class="modal__body scroll">
+    <section class="modal__body" :class="scroll && 'scroll'">
       <slot/>
     </section>
   </div>
@@ -8,10 +8,12 @@
 
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
-import {Watch} from "vue-property-decorator";
+import {Prop, Watch} from "vue-property-decorator";
 
 @Options({})
 export default class Modal extends Vue {
+  @Prop({default: true}) scroll!: boolean;
+
   isOpen = false;
 
   @Watch('isOpen')

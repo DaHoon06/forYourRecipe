@@ -267,6 +267,7 @@ export default class IngredientsBox extends Vue {
 @media screen and (max-width: 760px) {
   .box-container {
     display: inline-block;
+    margin-top: 0;
 
     .box__body {
       border: none;
@@ -281,7 +282,6 @@ export default class IngredientsBox extends Vue {
 @media screen and (max-width: 600px) {
   .box-container {
     padding: 0;
-    margin-top: 0;
 
     .box__body {
       height: 400px;

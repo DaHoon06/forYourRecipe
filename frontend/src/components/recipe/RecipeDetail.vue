@@ -4,7 +4,19 @@
 
     <recipe-ui class="recipe-form--wrapper">
       <section>
-        <text-font size="22">{{ recipe.name }}</text-font>
+        <div class="recipe-form--label">
+          <text-font size="22">{{ recipe.name }}</text-font>
+          <div class="flex">
+            <!-- 내가 작성한 글일 경우에만 -->
+            <custom-button variant="icon-button" @click="recipeUpdate" class="mr-10">
+              <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy" />
+            </custom-button>
+            <custom-button variant="icon-button" @click="this.modal.show()">
+              <img src="@/assets/images/icons/trash.svg" alt="recipe-delete" width="24" height="24" loading="lazy" />
+            </custom-button>
+          </div>
+        </div>
+
         <div class="dotted mt-16 mb-16"/>
         <picture>
           <img :src="recipe.profileImage.length ? recipe.profileImage : '@/assets/images/default.jpg'" loading="lazy"
@@ -47,6 +59,21 @@
       </custom-button>
     </section>
 
+    <teleport to="#modal">
+      <Modal :scroll="false" ref="modal">
+        <section class="modal__body">
+          <text-font class="delete-warning-message">레시피를 삭제하겠습니까?</text-font>
+          <section class="flex justify-content-around">
+            <custom-button variant="gray" @click="this.modal.hide()">
+              <text-font color="gray2">취소</text-font>
+            </custom-button>
+            <custom-button variant="black" @click="recipeDelete">
+              <text-font color="white">삭제</text-font>
+            </custom-button>
+          </section>
+        </section>
+      </Modal>
+    </teleport>
   </article>
 </template>
 
@@ -56,13 +83,19 @@ import {ins} from "@/lib/axios";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {Recipe} from "@/interfaces/recipe";
 import Spinner from "@/components/common/Spinner.vue";
-
+import {markRaw} from "vue";
+import Modal from "@/components/common/Modal.vue";
+import {Ref} from "vue-property-decorator";
+import {ModalComponent} from "@/types/type";
 @Options({
   components: {
     RecipeUi,
+    Modal
   }
 })
 export default class RecipeDetail extends Vue {
+  @Ref('modal') readonly modal!: ModalComponent;
+
   isLoading = true;
   recipe: Recipe.Info = {
     _id: '',
@@ -100,6 +133,26 @@ export default class RecipeDetail extends Vue {
     this.$router.go(-1);
   }
 
+  private recipeUpdate() {
+    console.log('작성 페이지로 이동');
+  }
+
+  private async recipeDelete() {
+    try {
+      const { _id } = this.recipe;
+      const sendData = {
+        id: _id,
+        deleted: true,
+      }
+      const { data } = await ins.delete('/recipes/delete-recipe', {
+        data: sendData
+      });
+      if (data) this.$router.push('/');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 }
 </script>
 
@@ -111,6 +164,11 @@ export default class RecipeDetail extends Vue {
   .recipe-form--wrapper {
     margin: auto;
     max-width: 1000px;
+
+    .recipe-form--label {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   .recipe-detail--desc {
@@ -141,6 +199,17 @@ export default class RecipeDetail extends Vue {
     max-width: 1000px;
     justify-content: center;
     margin: auto;
+  }
+}
+
+.modal__body {
+  width: 350px;
+  height: 120px;
+  padding-top: 10px;
+
+  .delete-warning-message {
+    width: 100%;
+    padding: 1rem;
   }
 }
 </style>
