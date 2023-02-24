@@ -14,7 +14,7 @@ export interface RootState {
 export default createStore({
   plugins: [
     createPersistedState({
-      paths: ["utilModule", "userModule"],
+      paths: ["recipeModule", "utilModule", "userModule"],
     }),
   ],
   modules: {

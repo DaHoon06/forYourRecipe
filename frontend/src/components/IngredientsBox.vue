@@ -26,11 +26,9 @@
         </custom-button>
         <div class="flex" v-else>
           <custom-button type="button" variant="gray" @click="reset">
-            <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
-                 height="20" class="mr-6"/>
             <text-font color="white">초기화</text-font>
           </custom-button>
-          <custom-button type="button" variant="primary" class="ml-16" @click="findRecipe">
+          <custom-button type="button" variant="black" class="ml-16" @click="findRecipe">
             <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
                  height="20" class="mr-6"/>
             <text-font color="white">레시피 검색</text-font>
