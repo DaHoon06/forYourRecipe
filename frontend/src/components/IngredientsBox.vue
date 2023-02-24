@@ -248,6 +248,7 @@ export default class IngredientsBox extends Vue {
   }
 
   .selected-items {
+    padding-top: 1rem;
     height: 100px;
   }
 

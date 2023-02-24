@@ -79,7 +79,7 @@
                        placeholder="예) 돼지고기" tabindex="10"/>
                 <input :ref="`recipeIngredientUnit-${index}`" type="text" class="input mr-10" placeholder="40g"
                        v-model="ingredientsSection.unit" tabindex="10"/>
-                <div class="flex ingredient-button--group">
+                <div class="ingredient-button--group">
                   <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
@@ -108,7 +108,7 @@
                        v-model="condimentSection.name" tabindex="10"/>
                 <input :ref="`recipeCondimentUnit-${index}`" type="text" class="input mr-10" placeholder="30g"
                        v-model="condimentSection.unit" tabindex="10"/>
-                <div class="flex ingredient-button--group">
+                <div class="ingredient-button--group">
                   <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
@@ -465,15 +465,15 @@ export default class AdminRecipePost extends Vue {
 }
 
 @mixin defaultButton() {
-  padding: 4px 8px;
+  background-color: #EDEDED;
   cursor: pointer;
   border: 1px solid transparent;
-  border-radius: 12px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px !important;
-  height: 40px;
+  width: 30px !important;
+  height: 30px;
 }
 
 .button-black {
@@ -520,7 +520,7 @@ textarea:-ms-input-placeholder {
   box-sizing: border-box;
   font-family: $kor;
   outline: none;
-  border: 1px solid #e2e2e2;
+  border: 1px solid $line;
   border-radius: 6px;
   color: $black;
   background-color: $white;
@@ -535,6 +535,8 @@ textarea:-ms-input-placeholder {
 }
 
 .ingredient-button--group {
+  display: flex;
+  align-items: center;
   min-width: 86px;
 }
 
@@ -557,7 +559,6 @@ textarea:-ms-input-placeholder {
     }
 
     .recipe-grid--layout {
-      //display: flex;
       display: inline-block;
       padding-top: 1rem;
       width: 100%;
