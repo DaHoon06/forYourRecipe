@@ -24,7 +24,7 @@ export default class ListsUi extends Vue {
 <style scoped lang="scss">
 .list__layout {
   display: none;
-  border-top: 1px solid $line;
+  border-bottom: 1px solid $line;
   width: 100%;
   max-height: 160px;
   height: 100%;

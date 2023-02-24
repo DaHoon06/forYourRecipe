@@ -9,8 +9,7 @@
     <section class="main__body">
       <section class="main__body--container">
         <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
-<!--        <hr/>-->
-        <div style=" border-bottom: 1px solid #A3A3A3; margin-top: 20px"></div>
+        <hr/>
         <section class="card--wrapper">
           <CardUi class="mr-20" v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
                   @click="recipeDetail(dish._id)">
@@ -95,6 +94,11 @@ export default class HomeView extends Vue {
 </script>
 
 <style scoped lang="scss">
+hr {
+  margin: 0;
+  border-color: #A3A3A3;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -119,6 +123,10 @@ export default class HomeView extends Vue {
   &--container {
     padding: 2rem;
 
+    .today-recommended-dishes {
+      padding-bottom: 1rem;
+    }
+
     .card--wrapper {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -141,11 +149,8 @@ export default class HomeView extends Vue {
       }
 
       .card--wrapper {
+        margin-top: 0;
         row-gap: 0;
-      }
-
-      hr {
-        display: none;
       }
     }
   }

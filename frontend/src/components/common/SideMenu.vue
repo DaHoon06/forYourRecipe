@@ -179,7 +179,7 @@ export default class SideMenu extends Vue {
   position: fixed;
   right: 0;
   z-index: 99;
-  top: 63px;
+  top: 90px;
 
   &--items {
     background-color: $white;
