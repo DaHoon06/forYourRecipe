@@ -2,7 +2,7 @@ const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   chainWebpack: (config) => {
     config.plugin("html").tap((args) => {
-      args[0].title = "Recipe";
+      args[0].title = "No.1 Recipe";
       return args;
     });
   },
