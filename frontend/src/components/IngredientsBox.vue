@@ -35,8 +35,8 @@
 <!--          <img decoding="async" loading="eager" src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>-->
 <!--          <text-font color="white">재료 담기</text-font>-->
 <!--        </custom-button>-->
-        <custom-button type="button" variant="white" @click="pickUpModal" v-if="!ingredients.length">
-          <text-font color="black">재료 담기</text-font>
+        <custom-button type="button" variant="black" @click="pickUpModal" v-if="!ingredients.length">
+          <text-font color="white">재료 담기</text-font>
         </custom-button>
         <div class="flex" v-else>
           <custom-button type="button" variant="gray" @click="reset">
@@ -109,11 +109,17 @@
           </text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
-          <custom-button type="button" variant="gray" @click="cancel">
-            <text-font color="white" size="14">취소</text-font>
+<!--          <custom-button type="button" variant="gray" @click="cancel">-->
+<!--            <text-font color="white" size="14">취소</text-font>-->
+<!--          </custom-button>-->
+<!--          <custom-button type="button" variant="primary" class="ml-8" @click="save">-->
+<!--            <text-font color="white" size="14">저장</text-font>-->
+<!--          </custom-button>-->
+          <custom-button type="button" variant="primary" @click="cancel">
+            <text-font color="black" size="14">취소</text-font>
           </custom-button>
           <custom-button type="button" variant="primary" class="ml-8" @click="save">
-            <text-font color="white" size="14">저장</text-font>
+            <text-font color="black" size="14">저장</text-font>
           </custom-button>
         </section>
 
@@ -225,7 +231,7 @@ export default class IngredientsBox extends Vue {
 
 .box__body {
   //border: 1px solid $line;
-  border: 2px solid #A3A3A3;
+  border: 1px solid #A3A3A3;
   //border-radius: 30px;
   max-width: 600px;
   min-width: 298px;

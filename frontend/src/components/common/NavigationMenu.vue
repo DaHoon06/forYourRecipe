@@ -64,20 +64,21 @@ export default class NavigationMenu extends Vue {
 <style lang="scss" scoped>
 .navigation {
   display: flex;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
   width: 100%;
   height: 62px;
   //background-color: rgba(235, 235, 235, 0.6);
   background-color: white;
-  border-top: #A3A3A3 solid 1px;
+  //border-top: #A3A3A3 solid 1px;
   border-bottom: #A3A3A3 solid 1px;
+  padding-left: 40px;
 
   ul {
     width: 900px;
-    margin: auto;
+    //margin: auto;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
   }
 

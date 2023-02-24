@@ -2,7 +2,7 @@
   <header class="header">
     <section class="wrapper">
       <custom-button variant="icon-button" type="button" @click="redirectHome">
-        <h1 style="font-size: 22px; margin-left: 20px">FAST FIND EASY COOK</h1>
+        <h1><div>FAST FIND</div><div>EASY COOK</div></h1>
 <!--        <img loading="eager" width="30" height="30" src="@/assets/images/icons/cook.svg" alt="로고">-->
       </custom-button>
       <section class="header--side">
@@ -92,6 +92,7 @@ export default class Header extends Vue {
 </script>
 
 <style scoped lang="scss">
+
 .header {
   background-color: $pointColor;
   width: 100%;
@@ -102,11 +103,23 @@ export default class Header extends Vue {
   left: 0;
   z-index: 99;
 
+  h1 {
+    font-size: 22px;
+    //margin-left: 20px;
+    display: grid;
+    justify-items: start;
+    color: #222222;
+    font-weight: 700;
+    font-family: $eng;
+  }
+
   .wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 20px;
+    margin: auto;
+    max-width: 1980px;
+    padding: 15px 52px;
     height: 100%;
   }
 
