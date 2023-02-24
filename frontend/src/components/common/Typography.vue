@@ -1,5 +1,5 @@
 <template>
-  <p class="default" :class="[FontSize, FontColor, FontWeight]">
+  <p class="default" :class="[FontSize, FontColor, FontWeight, FontType]">
     <slot/>
   </p>
 </template>
@@ -21,11 +21,12 @@ type FontColor =
   | 'gray2'
   | 'label'
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
-
+type FontType = 'kor' | 'eng';
 export default class Typography extends Vue {
   @Prop({default: 'black'}) readonly color!: FontColor;
   @Prop({default: '14'}) readonly size!: FontSize;
   @Prop({default: 'regular'}) readonly weight!: FontWeight;
+  @Prop({default: 'kor'}) readonly type!: FontType;
 
   get FontSize() {
     return `font-${this.size}`;
@@ -38,16 +39,25 @@ export default class Typography extends Vue {
   get FontWeight() {
     return this.weight;
   }
+
+  get FontType() {
+    return this.type;
+  }
 }
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/css/font";
-
 .font {
   @include default();
 }
 
+.kor {
+  font-family: $kor;
+}
+
+.eng {
+  font-family: $eng !important;
+}
 .default {
   display: inline-block;
   @include default();

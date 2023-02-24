@@ -10,8 +10,8 @@
             </text-font>
 
             <div class="flex justify-center">
-              <custom-button type="button" variant="primary-square" @click="login">
-                <text-font color="white" class="pr-8">Login with</text-font>
+              <custom-button type="button" variant="black" @click="login">
+                <text-font color="white" type="eng" class="pr-8">Login with</text-font>
                 <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
               </custom-button>
             </div>
@@ -35,46 +35,37 @@
           </section>
         </section>
 
-
         <hr/>
 
         <ul class="side-menu--bottom scroll">
           <li>
-            <custom-button type="button" variant="icon-button" @click="redirect('home')">
-              <div class="side-menu--item">
-                <img loading="eager" src="@/assets/images/icons/home.svg" alt="메인으로 이동" width="32" height="32"
-                     class="ml-40 mr-26 icon"/>
-                <text-font color="textBody">메인</text-font>
-              </div>
-            </custom-button>
+            <div class="w-100 text-right">
+              <custom-button class="side-menu--button" variant="" @click="redirect('home')">
+                <text-font class="w-100 text-left" color="textBody">메인</text-font>
+              </custom-button>
+            </div>
           </li>
           <li>
             <!-- TODO: 레시피 등록 화면 1. 관리자, 2. 회원 -->
-            <custom-button type="button" variant="icon-button" @click="redirect('recipe')">
-              <div class="side-menu--item">
-                <img loading="eager" src="@/assets/images/icons/register.svg" alt="레시피 등록" width="32" height="32"
-                     class="ml-40 mr-26 icon"/>
-                <text-font color="textBody">레시피 등록</text-font>
-              </div>
-            </custom-button>
+            <div class="w-100 text-right">
+              <custom-button class="side-menu--button" variant="" @click="redirect('recipe')">
+                <text-font class="w-100 text-left" color="textBody">레시피 등록</text-font>
+              </custom-button>
+            </div>
           </li>
           <li>
-            <custom-button type="button" variant="icon-button" @click="redirect('favorite')">
-              <div class="side-menu--item">
-                <img loading="eager" src="@/assets/images/icons/star.svg" alt="즐겨찾기" width="32" height="32"
-                     class="ml-40 mr-26 icon"/>
-                <text-font color="textBody">즐겨찾기</text-font>
-              </div>
-            </custom-button>
+            <div class="w-100 text-right">
+              <custom-button class="side-menu--button" variant="" @click="redirect('favorite')">
+                <text-font class="w-100 text-left" color="textBody">즐겨찾기</text-font>
+              </custom-button>
+            </div>
           </li>
           <li>
-            <custom-button type="button" variant="icon-button" @click="redirect('notice')">
-              <div class="side-menu--item">
-                <img loading="eager" src="@/assets/images/icons/question.svg" alt="공지사항" width="32" height="32"
-                     class="ml-40 mr-26 icon"/>
-                <text-font color="textBody">공지사항</text-font>
-              </div>
-            </custom-button>
+            <div class="w-100 text-right">
+              <custom-button class="side-menu--button" variant="" @click="redirect('notice')">
+                <text-font class="w-100 text-left" color="textBody">공지사항</text-font>
+              </custom-button>
+            </div>
           </li>
         </ul>
       </nav>
@@ -205,6 +196,19 @@ export default class SideMenu extends Vue {
   }
 
   .side-menu--bottom {
+
+    .side-menu--button {
+      width: 35%;
+      border-bottom: 1.5px solid $line;
+
+      &:hover {
+        border-color: $black;
+
+        p {
+          color: $black;
+        }
+      }
+    }
 
     li {
       display: flex;

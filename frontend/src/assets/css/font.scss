@@ -4,9 +4,6 @@
   font-family: 'kor';
   font-style: normal;
   src: url("@/assets/fonts/KoPubWorld-Dotum-Light.woff") format('woff');
-  //src: url("@/assets/fonts/Jua-Regular.woff") format('woff');
-  //src: url("@/assets/fonts/MapoGoldenPier.woff") format('woff');
-  //src: url("@/assets/fonts/KimjungchulMyungjo-Light.woff") format('woff');
   font-display: swap;
 }
 
@@ -17,23 +14,23 @@
   font-display: swap;
 }
 
-$jua: "kor";
+$kor: "kor";
 $eng: "EBGaramond";
 
 @mixin font-style($weight, $type, $size, $color) {
   font-weight: $weight;
   font-style: normal;
-  font-size: $size;
+  font-size: max(3vw, $size);
   color: $color;
   font-family: $type;
 }
 
 .option-description--text {
-  @include font-style(500, $jua, 14px, $textTitle);
+  @include font-style(500, $kor, 14px, $textTitle);
 }
 
 .option-description--text-red {
-  @include font-style(500, $jua, 12px, $red);
+  @include font-style(500, $kor, 12px, $red);
 }
 
 @mixin font-weight-400() {
@@ -89,7 +86,7 @@ $eng: "EBGaramond";
 }
 
 @mixin gray2() {
-  color: $gray2;
+  color: $line;
 }
 
 @mixin label() {
@@ -100,7 +97,7 @@ $eng: "EBGaramond";
   letter-spacing: -0.39px;
   font-weight: 400;
   font-style: normal;
-  font-size: 12px;
+  font-size: max(3vw, 12px);
   color: $black;
-  font-family: $jua;
+  font-family: $kor;
 }

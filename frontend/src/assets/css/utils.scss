@@ -120,11 +120,10 @@
 
 .dotted {
   border: none;
-  border-top: 2px dashed #ededed;
+  border-top: 2px dashed $line;
   height: 5px;
   width: 100%;
 }
-
 
 .recipe-like--wrapper {
   display: flex;

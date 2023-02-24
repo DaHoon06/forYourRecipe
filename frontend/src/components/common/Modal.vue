@@ -43,8 +43,8 @@ export default class Modal extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 20;
-  
+  z-index: 999;
+
   & .modal__body {
     position: absolute;
     top: 50%;
@@ -53,7 +53,7 @@ export default class Modal extends Vue {
     height: auto;
     text-align: center;
     background-color: $white;
-    border-radius: 10px;
+    border-radius: 1px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
     transform: translateX(-50%) translateY(-50%);
     overflow-x: hidden;

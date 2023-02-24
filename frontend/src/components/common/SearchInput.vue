@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="search" class="search__input--wrapper">
     <input class="search__input" type="text" placeholder="Search..." v-model="keyword"/>
-    <custom-button variant="icon-button" type="submit" @submit="search">
+    <custom-button class="search__button" variant="icon-button" type="submit" @submit="search">
       <img src="@/assets/images/icons/search.svg" alt="검색 버튼" width="22" height="22" loading="eager"/>
     </custom-button>
   </form>
@@ -37,6 +37,7 @@ export default class SearchInput extends Vue {
 .search__input--wrapper {
   display: flex;
   width: 100%;
+  align-items: center;
 
   .search__input {
     outline: none;
@@ -44,7 +45,7 @@ export default class SearchInput extends Vue {
     //border-radius: 50px;
     //border: 1px solid #D2D2D2;
     border: 1px solid #A3A3A3;
-    font-family: jua;
+    font-family: $kor;
     font-size: 15px;
     padding: 8px 2em 8px 0.8em;
     color: #A3A3A3;
@@ -57,7 +58,7 @@ export default class SearchInput extends Vue {
     }
   }
 
-  button {
+  .search__button {
     position: relative;
     right: 2rem;
   }

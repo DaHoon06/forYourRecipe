@@ -14,13 +14,12 @@ export default class RecipeUi extends Vue {
 <style scoped lang="scss">
 .recipe {
   padding: 25px 36px;
-  border: 1px solid transparent;
+  border: 1px solid $line;
   border-radius: 8px 50px 8px 50px;
-  background-color: #FFFDF4;
+  background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.25);
   max-width: 100%;
   height: 100%;
-  //height: auto;
   margin: auto;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <picture class="ingredient-icon--wrapper">
+  <picture :class="selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
     <img loading="lazy" :src="src"
          sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
   </picture>
@@ -15,6 +15,7 @@ import {Prop} from "vue-property-decorator";
 export default class IngredientIcon extends Vue {
   @Prop() src!: string;
   @Prop() label!: string;
+  @Prop() selected!: boolean;
 }
 </script>
 
@@ -31,6 +32,25 @@ export default class IngredientIcon extends Vue {
 
   &:hover {
     background-color: rgba(245, 245, 245, 0.5);
+  }
+}
+
+/* 재료 아이콘 선택 표시 */
+.disabled-icon {
+  -webkit-filter: brightness(95%);
+  filter: brightness(95%);
+  background-color: rgba(240, 240, 240, 0.6);
+  width: 54px;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    -webkit-filter: brightness(90%);
+    filter: brightness(90%);
   }
 }
 </style>

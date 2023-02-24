@@ -10,11 +10,11 @@ import {Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 
 type ButtonType = 'button' | 'reset' | 'submit'
-type Variant = 'primary' | 'primary-square' | 'black' | 'black-square' | 'gray' | 'gray-square' | 'icon-button'
+type Variant = 'black' | 'black-square' | 'gray' | 'gray-square' | 'icon-button'
 
 export default class Button extends Vue {
   @Prop() readonly label?: string
-  @Prop({default: 'primary'}) readonly variant?: Variant
+  @Prop({default: 'black'}) readonly variant?: Variant
   @Prop({default: 'button'}) readonly type!: ButtonType
 
   get ButtonWrapper() {
@@ -27,22 +27,11 @@ export default class Button extends Vue {
 @mixin defaultButtonOptions() {
   padding: 4px 8px;
   border: 1px solid transparent;
-  //border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 152px;
   height: 46px;
-}
-
-.primary {
-  @include defaultButtonOptions();
-  background-color: $pointColor;
-  color: $white;
-
-  &:hover {
-    //background-color: #ecb206;
-  }
 }
 
 .black {
@@ -58,21 +47,10 @@ export default class Button extends Vue {
 .gray {
   @include defaultButtonOptions();
   background-color: $button_gray;
-  color: $gray2;
+  color: $line;
 
   &:hover {
     background-color: #d7d7d7;
-  }
-}
-
-.primary-square {
-  @include defaultButtonOptions();
-  border-radius: 4px;
-  background-color: $pointColor;
-  color: $white;
-
-  &:hover {
-    background-color: #ecb206;
   }
 }
 
@@ -91,7 +69,7 @@ export default class Button extends Vue {
   @include defaultButtonOptions();
   border-radius: 4px;
   background-color: $button_gray;
-  color: $gray2;
+  color: $line;
 
   &:hover {
     background-color: #d7d7d7;

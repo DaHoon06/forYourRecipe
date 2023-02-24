@@ -25,9 +25,9 @@
       <text-font size="18" class="pr-6">검색 결과</text-font>
       <text-font size="16" color="placeholder">{{ total }}</text-font>
     </section>
-    <text-font>
-    </text-font>
+
     <hr/>
+
     <section>
       <section class="card--wrapper" v-if="recipeLists.length > 0">
         <CardUi class="mr-20 card-component" v-for="(dish) in recipeLists" :src="dish.profileImage" :key="dish._id"
@@ -54,7 +54,7 @@
           <figure class="recipe-like--wrapper">
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
-              <text-font size="14">{{ dish.likes }}</text-font>
+              <text-font size="14">{{ dish.likes.length }}</text-font>
             </figcaption>
           </figure>
           <div class="flex">
@@ -123,10 +123,21 @@ export default class RecipeLists extends Vue {
 </script>
 
 <style lang="scss" scoped>
+hr {
+  margin: 0;
+}
 .recipe-lists--container {
   padding: 5vh 5vw;
   width: 100%;
   min-height: 500px;
+
+  .card--wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-items: center;
+    row-gap: 1rem;
+    margin-top: 70px; //새로 추가
+  }
 }
 
 .ingredient-icon {
@@ -142,9 +153,9 @@ export default class RecipeLists extends Vue {
     .recipe-lists__label {
       padding: 1rem;
     }
-
-    hr {
-      display: none;
+    .card--wrapper {
+      row-gap: 0;
+      margin-top: 0;
     }
   }
 

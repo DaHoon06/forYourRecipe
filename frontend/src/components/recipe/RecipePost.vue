@@ -280,11 +280,9 @@ export default class RecipePost extends Vue {
   margin: auto;
 }
 
-@import "src/assets/css/font";
-
 .input {
   box-sizing: border-box;
-  font-family: $jua;
+  font-family: $kor;
   outline: none;
   border: 1px solid #e2e2e2;
   border-radius: 6px;
