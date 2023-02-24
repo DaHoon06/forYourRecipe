@@ -210,6 +210,11 @@ export default class IngredientsBox extends Vue {
   }
 }
 
+.empty__label {
+  display: flex;
+  flex-direction: column;
+}
+
 /* 재료 선택 모달 */
 .selected-ingredients--container {
   padding: 1rem;
