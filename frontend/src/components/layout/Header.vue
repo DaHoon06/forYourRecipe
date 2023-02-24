@@ -1,31 +1,28 @@
 <template>
   <header class="header">
     <section class="wrapper">
-      <custom-button variant="icon-button" type="button" @click="redirectHome">
-        <h1>
-          <div>FAST FIND</div>
-          <div>EASY COOK</div>
-        </h1>
-        <!--        <img loading="eager" width="30" height="30" src="@/assets/images/icons/cook.svg" alt="로고">-->
+      <custom-button variant="icon-button" type="button" class="flex-column-center text-left" @click="redirectHome">
+        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
+          FAST FIND
+        </text-font>
+        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
+          EASY COOK
+        </text-font>
       </custom-button>
       <section class="header--side">
         <search-input/>
         <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!isLogin">
-          <!--          <text-font color="white" class="pr-6">Login</text-font>-->
-          <!--          <text-font color="white" class="pr-8">with</text-font>-->
-          <!--          <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>-->
-          <text-font color="black" class="pr-6">Login</text-font>
-          <text-font color="black" class="pr-8">with</text-font>
+          <text-font color="black" class="pr-6" type="eng">Login</text-font>
+          <text-font color="black" class="pr-8" type="eng">with</text-font>
           <img src="@/assets/images/icons/google-black.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
         </custom-button>
         <custom-button type="button" variant="icon-button" @click="logout" v-else>
-          <text-font color="white">Logout</text-font>
+          <text-font color="black">Logout</text-font>
         </custom-button>
 
       </section>
       <section class="hamburger--side">
         <custom-button type="button" variant="icon-button" @click="showSideMenu">
-          <!--          <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger.svg" alt="햄버거 메뉴"/>-->
           <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger-black.svg" alt="햄버거 메뉴"/>
         </custom-button>
         <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
@@ -103,7 +100,6 @@ export default class Header extends Vue {
   top: 0;
   left: 0;
   z-index: 99;
-  box-shadow: 0 4px 10px 0 rgb(241 241 241 / 80%);
   border-bottom: #b3b3b3 solid 1px;
 
   h1 {

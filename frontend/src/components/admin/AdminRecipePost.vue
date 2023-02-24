@@ -492,8 +492,6 @@ export default class AdminRecipePost extends Vue {
   margin: auto;
 }
 
-@import "src/assets/css/font";
-
 input::placeholder {
   color: $textPlaceholder;
 }
@@ -520,7 +518,7 @@ textarea:-ms-input-placeholder {
 
 .input {
   box-sizing: border-box;
-  font-family: $jua;
+  font-family: $kor;
   outline: none;
   border: 1px solid #e2e2e2;
   border-radius: 6px;
