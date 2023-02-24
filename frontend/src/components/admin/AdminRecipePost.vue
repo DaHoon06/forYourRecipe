@@ -144,10 +144,10 @@
             <div/>
             <div class="flex justify-center">
               <custom-button type="button" variant="gray" class="mr-30" @click="removeDescRows">
-                <text-font color="gray2" size="18">삭제</text-font>
+                <text-font color="gray2">삭제</text-font>
               </custom-button>
               <custom-button type="button" variant="black" class="" @click="addDescRows">
-                <text-font color="white" size="18">추가</text-font>
+                <text-font color="white">추가</text-font>
               </custom-button>
             </div>
           </div>
@@ -173,7 +173,8 @@
           <text-font color="gray2">취소</text-font>
         </custom-button>
         <custom-button type="submit">
-          <text-font color="white">레시피 등록</text-font>
+          <text-font color="white" v-if="recipeId.length > 0">수정</text-font>
+          <text-font color="white" v-else>레시피 등록</text-font>
         </custom-button>
       </section>
     </form>
@@ -206,6 +207,7 @@ interface AllIngredient {
 }
 
 interface IRecipePost {
+  id?: string;
   name: string;
   desc: string;
   steps: Steps[];
@@ -225,6 +227,7 @@ export default class AdminRecipePost extends Vue {
   @Ref() readonly recipeDesc!: HTMLInputElement
 
   recipePost: IRecipePost = {
+    id: '',
     name: '',
     desc: '',
     steps: [
@@ -245,17 +248,30 @@ export default class AdminRecipePost extends Vue {
   selected = [];
   ingredientsCategory: Recipe.IngredientCategories[] = [];
   ingredients: Recipe.IngredientType[] = [];
-
+  recipeId = '';
 
   created() {
+    this.recipeId = this.$route.params.id as  string;
+    if (this.recipeId.length > 0) this.load();
     this.loadCategory();
+    this.isLoading = false;
   }
+
+  private async load(): Promise<void> {
+    try {
+      const { data } = await ins(`/recipes/detail/${this.recipeId}`)
+      this.recipePost = data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+
 
   private async loadCategory() {
     try {
       const {data} = await ins.get('/ingredients/all-ingredients');
       this.ingredientsCategory = data;
-      this.isLoading = false;
     } catch (e) {
       console.log(e)
     }
@@ -330,10 +346,19 @@ export default class AdminRecipePost extends Vue {
       const result = this.emptyCheck();
       if (result) return;
       this.isLoading = true
-      console.log(this.recipePost)
-      const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
-      if (data)
-        this.isLoading = false;
+      if (this.recipeId.length > 0) {
+        const sendData = {
+          id: this.recipeId,
+          ...this.recipePost
+        }
+        console.log(sendData)
+        const { data} = await ins.put('/recipes/update-admin-recipe', sendData);
+        if (data) this.isLoading = false;
+      } else {
+        const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
+        if (data)
+          this.isLoading = false;
+      }
       this.$router.push('/');
     } catch (e) {
       console.log(e);

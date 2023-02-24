@@ -162,7 +162,7 @@ export default class RecipePost extends Vue {
   isLoading = true;
 
   created() {
-    // TEMP
+
     setTimeout(() => {
       this.isLoading = false;
     }, 500)

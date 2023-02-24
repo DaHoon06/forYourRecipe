@@ -19,7 +19,7 @@
 
         <div class="dotted mt-16 mb-16"/>
         <picture>
-          <img :src="recipe.profileImage.length ? recipe.profileImage : '@/assets/images/default.jpg'" loading="lazy"
+          <img :src="recipe.profileImage" loading="lazy"
                width="284"
                height="177" alt="음식 이미지"/>
         </picture>
@@ -134,7 +134,8 @@ export default class RecipeDetail extends Vue {
   }
 
   private recipeUpdate() {
-    console.log('작성 페이지로 이동');
+    const { _id } = this.recipe;
+    this.$router.push(`/admin/recipe/post/${_id}`)
   }
 
   private async recipeDelete() {

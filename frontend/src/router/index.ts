@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/components/recipe/RecipeDetail.vue"),
       },
       {
-        path: "post",
+        path: "post/:id?",
         name: "recipePost",
         component: () => import("@/components/recipe/RecipePost.vue"),
       },
@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/admin/AdminView.vue"),
     children: [
       {
-        path: "recipe/post",
+        path: "recipe/post/:id?",
         name: "adminRecipePost",
         component: () => import("@/components/admin/AdminRecipePost.vue"),
       },
