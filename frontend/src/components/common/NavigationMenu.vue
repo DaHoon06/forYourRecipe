@@ -74,7 +74,7 @@ export default class NavigationMenu extends Vue {
 
   ul > li {
     float: left;
-    padding: 0 10px 0.5em 0;
+    padding: 0 0.5em 0.5em 0;
     border-bottom: 2px solid transparent;
 
     button p {

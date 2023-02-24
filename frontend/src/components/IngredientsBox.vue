@@ -44,42 +44,18 @@
   <teleport to="#modal">
     <Modal ref="modal">
       <section class="selected-ingredients--container">
-        <section class="select-box--wrapper">
-          <text-font>재료를 선택해주세요.</text-font>
+        <text-font class="pb-14">재료를 선택해주세요.</text-font>
 
-          <div class="select-box" :class="selectBoxDisabled && 'dark'">
-            <select :class="selectBoxDisabled && 'disabled'" v-model="selected">
-              <option v-for="(category) of ingredientsCategory" :key="category._id" :value="category.detailedIngredient"
-                      :disabled="selectBoxDisabled">
-                <text-font size="12">{{ category.name }}</text-font>
-              </option>
-            </select>
-            <picture class="angle-icons">
-              <img
-                loading="lazy"
-                decoding="async"
-                src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
-            </picture>
+        <section class="ingredients-items--box scroll" >
+          <div v-for="(value) of ingredientsCategory" :key="value._id" class="pb-10">
+            <text-font size="18" weight="bold">{{value.name}}</text-font>
+            <hr />
+            <section class="ingredients-icon--wrapper">
+              <div v-for="(items) of value.detailedIngredient" :key="items._id"  @click="selectedIngredient(items)" class="flex-column-center">
+                <ingredient-icon :selected="items.selected" :src="items.img" :label="items.name" />
+              </div>
+            </section>
           </div>
-
-        </section>
-
-        <hr/>
-
-        <section class="ingredients-items--box" v-if="selected.length > 0">
-          <div class="ingredients-items--container scroll">
-            <span v-for="(value) of selected" :key="value._id" @click="selectedIngredient(value._id)"
-                  class="flex-column-center">
-              <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-                <img loading="lazy" :src="value.img"
-                     sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
-              </picture>
-               <text-font class="pt-10" size="12">{{ value.name }}</text-font>
-            </span>
-          </div>
-        </section>
-        <section class="empty-ingredients" v-else>
-          <text-font>선택된 재료가 없습니다.</text-font>
         </section>
 
         <section class="selected-items">
@@ -145,20 +121,13 @@ export default class IngredientsBox extends Vue {
     }
   }
 
-  //TODO: 3개까지만 선택 되도록 수정 리턴 부분 잘못됨;;;
-  private selectedIngredient(key: string): void {
-    this.ingredients = this.ingredients.filter((value) => {
-      const {selected} = value
-      if (selected) return selected
-      return false;
-    });
-
-    const choice = this.selected.filter((value: Recipe.IngredientType) => {
-      const {_id, selected} = value
-      if (_id === key) value.selected = !selected;
-      return _id === key;
-    });
-    this.ingredients.push(...choice);
+  private selectedIngredient(ingredient: Recipe.IngredientType): void {
+    const { selected } = ingredient;
+    if (selected) ingredient.selected = !selected;
+    else  ingredient.selected = true;
+    const index = this.ingredients.findIndex((item) => item._id === ingredient._id);
+    if (index < 0) this.ingredients.push(ingredient)
+    else this.ingredients.splice(index, 1);
   }
 
   get selectBoxDisabled(): boolean {
@@ -212,16 +181,10 @@ export default class IngredientsBox extends Vue {
   width: 100%;
   height: 500px;
   min-height: 290px;
-  //height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  .empty__label {
-    display: flex;
-    flex-direction: column;
-  }
 
   .ingredients-box--selected {
     display: flex;
@@ -257,12 +220,6 @@ export default class IngredientsBox extends Vue {
   width: 90vw;
   height: 500px;
 
-  .select-box--wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
   .empty-ingredients {
     min-height: 254px;
     display: flex;
@@ -271,9 +228,17 @@ export default class IngredientsBox extends Vue {
   }
 
   .ingredients-items--box {
-    padding: 10px 0;
+    padding: 10px;
     min-height: 200px;
     height: 254px;
+    border: 1px solid $line;
+
+    .ingredients-icon--wrapper {
+      display: flex;
+      column-gap: 10px;
+      row-gap: 4px;
+      width: 100%;
+    }
 
     .ingredients-items--container {
       display: grid;
@@ -281,24 +246,6 @@ export default class IngredientsBox extends Vue {
       column-gap: 10px;
       row-gap: 0;
       overflow-y: auto;
-      /* 재료 아이콘 선택 표시 */
-      .disabled-icon {
-        -webkit-filter: brightness(95%);
-        filter: brightness(95%);
-        background-color: rgba(240, 240, 240, 0.6);
-        width: 54px;
-        height: 54px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        cursor: pointer;
-
-        &:hover {
-          -webkit-filter: brightness(90%);
-          filter: brightness(90%);
-        }
-      }
     }
   }
 
