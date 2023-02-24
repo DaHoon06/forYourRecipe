@@ -71,7 +71,7 @@ export class Recipe {
     @Prop({type: [String], required: true, default: []})
     detailedIngredient: string[]
 
-    @Prop({type: String, required: true, default: 'https://4u-recipe.s3.ap-northeast-2.amazonaws.com/foods/default.jpg'})
+    @Prop({type: String, required: true})
     profileImage: string
 
     constructor(
@@ -90,7 +90,7 @@ export class Recipe {
         this.steps = steps
         this.allIngredient = allIngredient
         this.name = name
-        this.profileImage = profileImage
+        this.profileImage = profileImage ? profileImage : 'https://4u-recipe.s3.ap-northeast-2.amazonaws.com/foods/default.jpg'
         this.desc = desc
         this.user = user
 

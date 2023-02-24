@@ -51,7 +51,6 @@ export class RecipesService {
     //회원 레시피 등록
     async setRecipe(recipeDto: RegisteredUserRecipeDto): Promise<boolean> {
         const {name, steps, user, profileImage, desc, allIngredient} = recipeDto
-        console.log(profileImage)
         const recipe = new Recipe(Role.USER, this.getSteps(steps), name, desc, profileImage, allIngredient, user)
         const registeredRecipe = await new this.recipeModel(recipe).save()
         if (registeredRecipe) return true

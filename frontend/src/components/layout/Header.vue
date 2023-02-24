@@ -2,15 +2,18 @@
   <header class="header">
     <section class="wrapper">
       <custom-button variant="icon-button" type="button" @click="redirectHome">
-        <h1><div>FAST FIND</div><div>EASY COOK</div></h1>
-<!--        <img loading="eager" width="30" height="30" src="@/assets/images/icons/cook.svg" alt="로고">-->
+        <h1>
+          <div>FAST FIND</div>
+          <div>EASY COOK</div>
+        </h1>
+        <!--        <img loading="eager" width="30" height="30" src="@/assets/images/icons/cook.svg" alt="로고">-->
       </custom-button>
       <section class="header--side">
         <search-input/>
         <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!isLogin">
-<!--          <text-font color="white" class="pr-6">Login</text-font>-->
-<!--          <text-font color="white" class="pr-8">with</text-font>-->
-<!--          <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>-->
+          <!--          <text-font color="white" class="pr-6">Login</text-font>-->
+          <!--          <text-font color="white" class="pr-8">with</text-font>-->
+          <!--          <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>-->
           <text-font color="black" class="pr-6">Login</text-font>
           <text-font color="black" class="pr-8">with</text-font>
           <img src="@/assets/images/icons/google-black.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
@@ -22,7 +25,7 @@
       </section>
       <section class="hamburger--side">
         <custom-button type="button" variant="icon-button" @click="showSideMenu">
-<!--          <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger.svg" alt="햄버거 메뉴"/>-->
+          <!--          <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger.svg" alt="햄버거 메뉴"/>-->
           <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger-black.svg" alt="햄버거 메뉴"/>
         </custom-button>
         <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
@@ -96,12 +99,12 @@ export default class Header extends Vue {
 .header {
   background-color: $pointColor;
   width: 100%;
-  //height: 64px;
-  height: 80px;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 99;
+  box-shadow: 0 4px 10px 0 rgb(241 241 241 / 80%);
+  border-bottom: #b3b3b3 solid 1px;
 
   h1 {
     font-size: 22px;
@@ -119,7 +122,7 @@ export default class Header extends Vue {
     justify-content: space-between;
     margin: auto;
     max-width: 1980px;
-    padding: 15px 52px;
+    padding: 15px 52px 25px 52px;
     height: 100%;
   }
 
@@ -146,6 +149,11 @@ export default class Header extends Vue {
 
 @media screen and (max-width: 767px) {
   .header {
+
+    .wrapper {
+      padding: 15px;
+    }
+
     .header--side {
       display: none;
     }
@@ -155,4 +163,5 @@ export default class Header extends Vue {
     }
   }
 }
+
 </style>
