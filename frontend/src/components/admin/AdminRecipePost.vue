@@ -330,6 +330,7 @@ export default class AdminRecipePost extends Vue {
       const result = this.emptyCheck();
       if (result) return;
       this.isLoading = true
+      console.log(this.recipePost)
       const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
       if (data)
         this.isLoading = false;

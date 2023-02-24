@@ -9,7 +9,8 @@
     <section class="main__body">
       <section class="main__body--container">
         <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
-        <hr/>
+<!--        <hr/>-->
+        <div style=" border-bottom: 1px solid #A3A3A3; margin-top: 20px"></div>
         <section class="card--wrapper">
           <CardUi class="mr-20" v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
                   @click="recipeDetail(dish._id)">
@@ -123,6 +124,7 @@ export default class HomeView extends Vue {
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       justify-items: center;
       row-gap: 1rem;
+      margin-top: 70px; //새로 추가
     }
   }
 }

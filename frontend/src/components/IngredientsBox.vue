@@ -2,18 +2,24 @@
   <article class="box-container">
     <section class="box__body">
       <div v-if="!ingredients.length">
-        <article class="ingredients-box dark">
+<!--        <article class="ingredients-box dark">-->
+        <article class="ingredients-box">
           <section>
-            <picture class="ingredients-box--status">
-              <img loading="lazy" decoding="async" src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator"
-                   width="210" height="234"/>
-            </picture>
+            <section class="empty__label">
+              <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
+<!--              <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>-->
+              <text-font size="14" color="textBody" class="pt-6">재료를 선택해주세요.</text-font>
+            </section>
+<!--            <picture class="ingredients-box&#45;&#45;status">-->
+<!--              <img loading="lazy" decoding="async" src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator"-->
+<!--                   width="210" height="234"/>-->
+<!--            </picture>-->
           </section>
         </article>
-        <section class="empty__label">
-          <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
-          <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>
-        </section>
+<!--        <section class="empty__label">-->
+<!--          <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>-->
+<!--          <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>-->
+<!--        </section>-->
       </div>
       <section class="w-100" v-else>
         <text-font>선택한 재료</text-font>
@@ -25,9 +31,11 @@
       </section>
 
       <section class="ingredients-box--button pt-20">
-        <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">
-          <img decoding="async" loading="eager" src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20"
-               class="mr-6"/>
+<!--        <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">-->
+<!--          <img decoding="async" loading="eager" src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>-->
+<!--          <text-font color="white">재료 담기</text-font>-->
+<!--        </custom-button>-->
+        <custom-button type="button" variant="black" @click="pickUpModal" v-if="!ingredients.length">
           <text-font color="white">재료 담기</text-font>
         </custom-button>
         <div class="flex" v-else>
@@ -101,11 +109,17 @@
           </text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
-          <custom-button type="button" variant="gray" @click="cancel">
-            <text-font color="white" size="14">취소</text-font>
+<!--          <custom-button type="button" variant="gray" @click="cancel">-->
+<!--            <text-font color="white" size="14">취소</text-font>-->
+<!--          </custom-button>-->
+<!--          <custom-button type="button" variant="primary" class="ml-8" @click="save">-->
+<!--            <text-font color="white" size="14">저장</text-font>-->
+<!--          </custom-button>-->
+          <custom-button type="button" variant="primary" @click="cancel">
+            <text-font color="black" size="14">취소</text-font>
           </custom-button>
           <custom-button type="button" variant="primary" class="ml-8" @click="save">
-            <text-font color="white" size="14">저장</text-font>
+            <text-font color="black" size="14">저장</text-font>
           </custom-button>
         </section>
 
@@ -212,18 +226,20 @@ export default class IngredientsBox extends Vue {
   max-height: 600px;
   display: flex;
   justify-content: center;
+  margin-top: 40px; //새로 추가
 }
 
 .box__body {
-  border: 1px solid $line;
-  border-radius: 30px;
+  //border: 1px solid $line;
+  border: 1px solid #A3A3A3;
+  //border-radius: 30px;
   max-width: 600px;
   min-width: 298px;
   width: 100%;
   height: 500px;
   min-height: 290px;
   //height: 100%;
-  box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.6);
+  //box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,10 +261,13 @@ export default class IngredientsBox extends Vue {
 }
 
 .ingredients-box {
-  border: 1px solid $line;
-  border-radius: 50%;
+  //border: 1px solid $line;
+  border-top: 1px solid #A3A3A3;
+  border-bottom: 1px solid #A3A3A3;
+  //border-radius: 50%;
   width: 310px;
-  height: 310px;
+  //height: 310px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;

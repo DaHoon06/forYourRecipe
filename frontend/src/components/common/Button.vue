@@ -27,7 +27,7 @@ export default class Button extends Vue {
 @mixin defaultButtonOptions() {
   padding: 4px 8px;
   border: 1px solid transparent;
-  border-radius: 12px;
+  //border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,7 +41,7 @@ export default class Button extends Vue {
   color: $white;
 
   &:hover {
-    background-color: #ecb206;
+    //background-color: #ecb206;
   }
 }
 

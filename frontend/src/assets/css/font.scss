@@ -1,13 +1,24 @@
 @charset "UTF-8";
 
 @font-face {
-  font-family: 'jua';
+  font-family: 'kor';
   font-style: normal;
-  src: url("@/assets/fonts/Jua-Regular.woff") format('woff');
+  src: url("@/assets/fonts/KoPubWorld-Dotum-Light.woff") format('woff');
+  //src: url("@/assets/fonts/Jua-Regular.woff") format('woff');
+  //src: url("@/assets/fonts/MapoGoldenPier.woff") format('woff');
+  //src: url("@/assets/fonts/KimjungchulMyungjo-Light.woff") format('woff');
   font-display: swap;
 }
 
-$jua: "jua";
+@font-face {
+  font-family: 'EBGaramond';
+  font-style: normal;
+  src: url("@/assets/fonts/EBGaramond-Medium.woff") format('woff');
+  font-display: swap;
+}
+
+$jua: "kor";
+$eng: "EBGaramond";
 
 @mixin font-style($weight, $type, $size, $color) {
   font-weight: $weight;
