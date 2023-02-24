@@ -2,24 +2,14 @@
   <article class="box-container">
     <section class="box__body">
       <div v-if="!ingredients.length">
-<!--        <article class="ingredients-box dark">-->
         <article class="ingredients-box">
           <section>
             <section class="empty__label">
               <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
-<!--              <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>-->
               <text-font size="14" color="textBody" class="pt-6">재료를 선택해주세요.</text-font>
             </section>
-<!--            <picture class="ingredients-box&#45;&#45;status">-->
-<!--              <img loading="lazy" decoding="async" src="@/assets/images/refrigerator.svg" alt="open_door_refrigerator"-->
-<!--                   width="210" height="234"/>-->
-<!--            </picture>-->
           </section>
         </article>
-<!--        <section class="empty__label">-->
-<!--          <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>-->
-<!--          <text-font size="14" color="textSub" class="pt-6">재료를 선택해주세요.</text-font>-->
-<!--        </section>-->
       </div>
       <section class="w-100" v-else>
         <text-font>선택한 재료</text-font>
@@ -31,10 +21,6 @@
       </section>
 
       <section class="ingredients-box--button pt-20">
-<!--        <custom-button type="button" variant="primary" @click="pickUpModal" v-if="!ingredients.length">-->
-<!--          <img decoding="async" loading="eager" src="@/assets/images/icons/basket.svg" alt="재료담기" width="20" height="20" class="mr-6"/>-->
-<!--          <text-font color="white">재료 담기</text-font>-->
-<!--        </custom-button>-->
         <custom-button type="button" variant="black" @click="pickUpModal" v-if="!ingredients.length">
           <text-font color="white">재료 담기</text-font>
         </custom-button>
@@ -109,17 +95,11 @@
           </text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
-<!--          <custom-button type="button" variant="gray" @click="cancel">-->
-<!--            <text-font color="white" size="14">취소</text-font>-->
-<!--          </custom-button>-->
-<!--          <custom-button type="button" variant="primary" class="ml-8" @click="save">-->
-<!--            <text-font color="white" size="14">저장</text-font>-->
-<!--          </custom-button>-->
-          <custom-button type="button" variant="primary" @click="cancel">
-            <text-font color="black" size="14">취소</text-font>
+          <custom-button type="button" variant="gray" @click="cancel">
+            <text-font color="gray2" size="14">취소</text-font>
           </custom-button>
-          <custom-button type="button" variant="primary" class="ml-8" @click="save">
-            <text-font color="black" size="14">저장</text-font>
+          <custom-button type="button" variant="black" class="ml-8" @click="save">
+            <text-font color="white" size="14">저장</text-font>
           </custom-button>
         </section>
 
@@ -158,9 +138,6 @@ export default class IngredientsBox extends Vue {
     this.modal.show();
     this.store.commit('recipeModule/reset');
     try {
-      //TypeError: Property axios does not on type IngredientsBox
-      //const {data} = await this.axios.get('/99999999999asd9sa9d9as');
-
       const {data} = await ins.get('/ingredients/all-ingredients');
       this.ingredientsCategory = data;
     } catch (e) {
@@ -176,7 +153,6 @@ export default class IngredientsBox extends Vue {
       return false;
     });
 
-    // if (this.selectBoxDisabled) return;
     const choice = this.selected.filter((value: Recipe.IngredientType) => {
       const {_id, selected} = value
       if (_id === key) value.selected = !selected;
@@ -230,16 +206,13 @@ export default class IngredientsBox extends Vue {
 }
 
 .box__body {
-  //border: 1px solid $line;
-  border: 1px solid #A3A3A3;
-  //border-radius: 30px;
+  border: 1px solid $line;
   max-width: 600px;
   min-width: 298px;
   width: 100%;
   height: 500px;
   min-height: 290px;
   //height: 100%;
-  //box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -261,12 +234,9 @@ export default class IngredientsBox extends Vue {
 }
 
 .ingredients-box {
-  //border: 1px solid $line;
-  border-top: 1px solid #A3A3A3;
-  border-bottom: 1px solid #A3A3A3;
-  //border-radius: 50%;
+  border-top: 1px solid $line;
+  border-bottom: 1px solid $line;
   width: 310px;
-  //height: 310px;
   height: 200px;
   display: flex;
   flex-direction: column;
@@ -332,7 +302,6 @@ export default class IngredientsBox extends Vue {
     }
   }
 
-
   .selected-items {
     height: 100px;
   }
@@ -361,6 +330,11 @@ export default class IngredientsBox extends Vue {
 @media screen and (max-width: 600px) {
   .box-container {
     padding: 0;
+    margin-top: 0;
+
+    .box__body {
+      height: 400px;
+    }
   }
 }
 </style>

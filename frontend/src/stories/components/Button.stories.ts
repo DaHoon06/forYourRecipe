@@ -20,15 +20,11 @@ const Template: Story<Prop> = (args: Prop) => ({
   template: '<Button :variant="variant" :label="label" :type="type" />'
 })
 
-export const Primary = Template.bind({})
-Primary.args = { variant: 'primary', label: 'button', type: 'button' }
 export const Black = Template.bind({})
 Black.args = { variant: 'black', label: 'button', type: 'button' }
 export const Gray = Template.bind({})
 Gray.args = { variant: 'gray', label: 'button', type: 'button' }
 
-export const PrimarySquare = Template.bind({})
-PrimarySquare.args = { variant: 'primary-square', label: 'button', type: 'button' }
 export const BlackSquare = Template.bind({})
 BlackSquare.args = { variant: 'black-square', label: 'button', type: 'button' }
 export const GraySquare  = Template.bind({})

@@ -19,6 +19,8 @@ module.exports = {
         options: {
           additionalData: `
 						@import "@/assets/css/index.scss";
+						@import "@/assets/css/font.scss";
+						@import "@/assets/css/color.scss";
 					`
         }
       }],

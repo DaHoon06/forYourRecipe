@@ -94,7 +94,7 @@ export default class Header extends Vue {
 <style scoped lang="scss">
 
 .header {
-  background-color: $pointColor;
+  background-color: $white;
   width: 100%;
   position: fixed;
   top: 0;

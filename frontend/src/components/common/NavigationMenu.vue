@@ -3,20 +3,17 @@
     <ul>
       <li :class="currentMenu === 1 && 'current-path'" class="mr-30">
         <custom-button variant="icon-button" type="button" @click="redirect('recipe')">
-          <!--          <text-font color="textTitle" size="18">레시피 등록</text-font>-->
-          <text-font color="black" size="18">레시피 등록</text-font>
+          <text-font color="black" size="16">레시피 등록</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 2 && 'current-path'" class="mr-30">
         <custom-button variant="icon-button" type="button" @click="redirect('favorite')">
-          <!--          <text-font color="textTitle" size="18">즐겨찾기</text-font>-->
-          <text-font color="black" size="18">즐겨찾기</text-font>
+          <text-font color="black" size="16">즐겨찾기</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 3 && 'current-path'">
         <custom-button variant="icon-button" type="button" @click="redirect('notice')">
-          <!--          <text-font color="textTitle" size="18">공지사항</text-font>-->
-          <text-font color="black" size="18">공지사항</text-font>
+          <text-font color="black" size="16">공지사항</text-font>
         </custom-button>
       </li>
     </ul>
@@ -81,7 +78,7 @@ export default class NavigationMenu extends Vue {
     border-bottom: 2px solid transparent;
 
     button p {
-      color: $gray2;
+      color: $line;
 
       &:hover {
         color: $gray1;
