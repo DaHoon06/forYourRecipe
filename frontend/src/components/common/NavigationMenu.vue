@@ -72,6 +72,7 @@ export default class NavigationMenu extends Vue {
     max-width: 1980px;
     width: 100%;
     padding-left: 52px;
+    margin: auto;
   }
 
   ul > li {
