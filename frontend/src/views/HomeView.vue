@@ -79,7 +79,7 @@ export default class HomeView extends Vue {
 
   private async load() {
     try {
-      const {data} = await ins.get('/recipes/all-recipes');
+      const {data} = await ins.get('/recipes/random-recipes');
       this.recipeCards = data;
       this.isLoading = false;
     } catch (e) {
