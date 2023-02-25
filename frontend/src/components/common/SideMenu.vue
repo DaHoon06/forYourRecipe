@@ -20,10 +20,10 @@
             <section class="profile--container pb-32">
               <img loading="lazy" :src="userProfile"
                    alt="프로필 이미지" width="96" height="96"/>
-              <text-font class="pt-18">{{ userName.value }}</text-font>
+              <text-font class="pt-18">{{ userName }}</text-font>
             </section>
 
-            <div class="flex">
+            <div class="flex align-center">
               <custom-button type="button" variant="icon-button">
                 <text-font>마이페이지</text-font>
               </custom-button>
@@ -165,6 +165,12 @@ export default class SideMenu extends Vue {
 </script>
 
 <style scoped lang="scss">
+hr {
+  margin: 0;
+  border: none;
+  background-color: $line;
+  height: 1px;
+}
 .side-menu {
   background-color: rgba(233, 233, 233, 0.44);
   -webkit-backdrop-filter: blur(1px);
@@ -182,7 +188,7 @@ export default class SideMenu extends Vue {
     position: absolute;
     right: 0;
     top: 0;
-    width: 300px;
+    width: 250px;
     height: 100%;
   }
 
@@ -203,14 +209,18 @@ export default class SideMenu extends Vue {
   .side-menu--bottom {
 
     .side-menu--button {
-      width: 35%;
+      width: 100%;
       border-bottom: 1.5px solid $line;
 
+      p{
+        padding: 1rem;
+      }
       &:hover {
         border-color: $black;
 
         p {
           color: $black;
+          font-weight: 700;
         }
       }
     }
@@ -218,7 +228,6 @@ export default class SideMenu extends Vue {
     li {
       display: flex;
       justify-content: flex-end;
-      padding: 16px 0;
     }
 
     .side-menu--item {
