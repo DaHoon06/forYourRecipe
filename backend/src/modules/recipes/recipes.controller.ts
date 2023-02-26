@@ -8,7 +8,7 @@ import {
     Post,
     Put,
     Query,
-    Res
+    Res, UseFilters
 } from '@nestjs/common';
 import {ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {RecipesService} from "./recipes.service";
@@ -20,7 +20,9 @@ import {DeletedRecipeDto} from "../../dtos/recipe/deleted-recipe.dto";
 import {UpdatedUserRecipeDto} from "../../dtos/recipe/updated-user-recipe.dto";
 import {UpdatedRecipeLikeDto} from "../../dtos/recipe/updated-recipe-like.dto";
 import { Response } from 'express';
+import {GlobalFilter} from "../../lib/global.filter";
 
+@UseFilters(new GlobalFilter())
 @Controller('recipes')
 @ApiTags('레시피 관련 API')
 export class RecipesController {

@@ -1,8 +1,10 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, UseFilters} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {RegisteredUserDto} from "../../dtos/user/registered-user.dto";
 import {UserDto} from "../../dtos/user/user.dto";
+import {GlobalFilter} from "../../lib/global.filter";
 
+@UseFilters(new GlobalFilter())
 @Controller('users')
 export class UsersController {
     constructor(private readonly userService: UsersService) {}

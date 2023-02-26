@@ -1,14 +1,16 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Post, UseFilters} from '@nestjs/common';
 import {ApiBody, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {IngredientsService} from "./ingredients.service";
 import {RegisteredIngredientDto} from "../../dtos/ingredient/registered-ingredient.dto";
 import {IngredientDto} from "../../dtos/ingredient/ingredient.dto";
+import {GlobalFilter} from "../../lib/global.filter";
 
+@UseFilters(new GlobalFilter())
 @Controller('ingredients')
 @ApiTags('재료 관련 API')
 export class IngredientsController {
     constructor(private readonly ingredientsService: IngredientsService) {}
-    
+
     @Get('/all-ingredients')
     @ApiOperation({
         summary: '전체 재료 조회 API',

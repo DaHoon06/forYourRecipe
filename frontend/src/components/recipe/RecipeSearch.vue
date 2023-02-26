@@ -1,12 +1,25 @@
 <template>
   <loading-spinner v-if="isLoading"/>
-  {{ recipeList }}
+  <card-ui :src="item.profileImage" v-for="(item, index) of recipeList" :key="index">
+     {{item.name}}
+  </card-ui>
+  <lists-ui :src="item.profileImage" v-for="(item, index) of recipeList" :key="index">
+    {{item.name}}
+  </lists-ui>
 </template>
 
 <script lang="ts">
-import {Vue} from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import {ins} from "@/lib/axios";
+import CardUi from "@/components/ui/CardUi.vue";
+import ListsUi from "@/components/ui/ListsUi.vue";
 
+@Options({
+  components: {
+    CardUi,
+    ListsUi
+  }
+})
 export default class RecipeSearch extends Vue {
   keyword = '';
   isLoading = true;

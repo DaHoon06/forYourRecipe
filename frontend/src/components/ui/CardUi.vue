@@ -1,6 +1,5 @@
 <template>
   <article class="card__layout scroll">
-<!--    <img :src="src" width="284" height="177" alt="음식 이미지" loading="lazy"/>-->
     <img :src="src" width="284" height="200" alt="음식 이미지" loading="lazy"/>
     <section class="card__body">
       <slot/>
@@ -20,15 +19,11 @@ export default class CardUi extends Vue {
 <style lang="scss" scoped>
 .card__layout {
   display: inline-block;
-  //border: 1px solid $line;
-  border: 1px solid #A3A3A3;
+  border: 1px solid $line;
   width: 284px;
-  //height: 288px;
   height: 350px;
   overflow-y: auto;
   overflow-x: hidden;
-  //border-radius: 8px;
-  //box-shadow: 0 2px 4px 0 rgba(2, 2, 2, 0.25);
 
   .card__body {
     padding: 8px 12px;
