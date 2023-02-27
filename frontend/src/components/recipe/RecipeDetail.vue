@@ -9,10 +9,10 @@
           <div class="flex">
             <!-- 내가 작성한 글일 경우에만 -->
             <custom-button variant="icon-button" @click="recipeUpdate" class="mr-10">
-              <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy" />
+              <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy"/>
             </custom-button>
             <custom-button variant="icon-button" @click="this.modal.show()">
-              <img src="@/assets/images/icons/trash.svg" alt="recipe-delete" width="24" height="24" loading="lazy" />
+              <img src="@/assets/images/icons/trash.svg" alt="recipe-delete" width="24" height="24" loading="lazy"/>
             </custom-button>
           </div>
         </div>
@@ -61,7 +61,7 @@
 
     <teleport to="#modal">
       <Modal :scroll="false" ref="modal">
-        <section class="modal__body">
+        <section class="modal--message-box">
           <text-font class="delete-warning-message">레시피를 삭제하겠습니까?</text-font>
           <section class="flex justify-content-around">
             <custom-button variant="gray" @click="this.modal.hide()">
@@ -87,6 +87,7 @@ import {markRaw} from "vue";
 import Modal from "@/components/common/Modal.vue";
 import {Ref} from "vue-property-decorator";
 import {ModalComponent} from "@/types/type";
+
 @Options({
   components: {
     RecipeUi,
@@ -134,21 +135,22 @@ export default class RecipeDetail extends Vue {
   }
 
   private recipeUpdate() {
-    const { _id } = this.recipe;
+    const {_id} = this.recipe;
     this.$router.push(`/admin/recipe/post/${_id}`)
   }
 
   private async recipeDelete() {
     try {
-      const { _id } = this.recipe;
-      const sendData = {
-        id: _id,
-        deleted: true,
-      }
-      const { data } = await ins.delete('/recipes/delete-recipe', {
-        data: sendData
+      this.isLoading = true;
+      const {_id} = this.recipe;
+      const {data} = await ins.delete('/recipes/delete-recipe', {
+        data: {id: _id,}
       });
-      if (data) this.$router.push('/');
+      this.isLoading = false;
+      if (data) {
+        this.modal.hide()
+        await this.$nextTick(() => this.$router.push('/'));
+      }
     } catch (e) {
       console.log(e);
     }
@@ -203,7 +205,7 @@ export default class RecipeDetail extends Vue {
   }
 }
 
-.modal__body {
+.modal--message-box {
   width: 350px;
   height: 120px;
   padding-top: 10px;

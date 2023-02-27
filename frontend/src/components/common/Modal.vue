@@ -58,8 +58,6 @@ export default class Modal extends Vue {
     border-radius: 1px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
     transform: translateX(-50%) translateY(-50%);
-    overflow-x: hidden;
-    overflow-y: scroll;
   }
 
 }
