@@ -1,11 +1,9 @@
 <template>
   <loading-spinner v-if="isLoading"/>
-  <card-ui :src="item.profileImage" v-for="(item, index) of recipeList" :key="index">
-     {{item.name}}
-  </card-ui>
-  <lists-ui :src="item.profileImage" v-for="(item, index) of recipeList" :key="index">
-    {{item.name}}
-  </lists-ui>
+  <div class="w-100" v-for="(dish) of recipeList" :key="dish._id">
+    <card-ui :card-item="dish"/>
+    <lists-ui :list-item="dish"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,7 +21,7 @@ import ListsUi from "@/components/ui/ListsUi.vue";
 export default class RecipeSearch extends Vue {
   keyword = '';
   isLoading = true;
-
+  page = 1;
   recipeList = []
 
   created() {
@@ -33,7 +31,11 @@ export default class RecipeSearch extends Vue {
 
   private async load(): Promise<void> {
     try {
-      const {data} = await ins.get(`/recipes/search/${this.keyword}`)
+      const {data} = await ins.get(`/recipes/search/${this.keyword}`, {
+        params: {
+          page: this.page
+        }
+      })
       this.recipeList = data;
       this.isLoading = false;
     } catch (e) {

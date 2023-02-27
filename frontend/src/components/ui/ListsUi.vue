@@ -2,22 +2,32 @@
   <article class="list__layout scroll">
     <article class="list__container">
       <div class="list-img--wrapper">
-        <img :src="src" width="284" height="177" alt="test-img" loading="lazy"/>
+        <img :src="listItem.profileImage" width="284" height="177" alt="음식 이미지" loading="lazy"/>
       </div>
       <section class="list__body w-100">
-        <slot/>
+        <text-font size="18">{{ listItem.name }}</text-font>
+        <text-font size="14" color="placeholder">{{ listItem.desc }}</text-font>
+        <figure class="recipe-like--wrapper">
+          <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
+          <figcaption>
+            <text-font size="14">{{ listItem.likes.length }}</text-font>
+          </figcaption>
+        </figure>
+        <div class="flex">
+          <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+        </div>
       </section>
     </article>
-
   </article>
 </template>
 
 <script lang="ts">
 import {Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
+import {Recipe} from "@/interfaces/recipe";
 
 export default class ListsUi extends Vue {
-  @Prop({default: '@/assets/images/default.jpg'}) readonly src?: string;
+  @Prop() readonly listItem!: Recipe.Info;
 }
 </script>
 
