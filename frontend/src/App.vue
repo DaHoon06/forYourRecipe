@@ -34,7 +34,7 @@ export default class App extends Vue {
 }
 
 .app {
-  padding-top: 140px;
+  padding-top: 136px;
 }
 
 @media screen and (max-width: 767px) {

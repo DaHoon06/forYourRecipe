@@ -15,7 +15,7 @@ export default class RecipeUi extends Vue {
 .recipe {
   padding: 25px 36px;
   border: 1px solid $line;
-  border-radius: 8px 50px 8px 50px;
+  border-radius: 1px;
   background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.25);
   max-width: 100%;

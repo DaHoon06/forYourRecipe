@@ -140,7 +140,7 @@ export default class Header extends Vue {
 
     .header-search--container {
       display: flex;
-      width: calc(100% - 120px);
+      width: calc(100% - 150px);
       max-width: 1000px;
     }
   }
