@@ -39,7 +39,10 @@ export class RecipesController {
     })
     @ApiQuery({name: 'page', type: Number, description: '페이지'})
     private async getAllRecipes(@Query('page') page: number, @Res() res: Response) {
-        return this.validatePage(page, res, (page: number) => this.recipesService.findAll(page))
+        if (!this.validatePage(page, res)) {
+            const data = await this.recipesService.findAll(page)
+            return res.status(HttpStatus.OK).json(data).send()
+        }
     }
 
     @Get('/random-recipes')
@@ -79,13 +82,15 @@ export class RecipesController {
         isArray: true , type: RecipeDto
     })
     @ApiQuery({name: 'id', description: '선택한 재료 id들', type: [String] })
-    //TODO: 콜백처리하기
-    private async getIngredientRecipes(@Query("id") ingredientIds: string[], @Query("page") page: number, @Res() res: Response): Promise<RecipeDto[]> {
-        // this.validatePage(page, res, (page: number) => this.recipesService.findAll(page))
-        return this.recipesService.findRecipesByIngredient(ingredientIds)
+    @ApiQuery({name: 'page', type: Number, description: '페이지'})
+    private async getIngredientRecipes(@Query("id") ingredientIds: string[], @Query("page") page: number, @Res() res: Response) {
+        if (!this.validatePage(page, res)) {
+            const data = await this.recipesService.findRecipesByIngredient(page, ingredientIds)
+            return res.status(HttpStatus.OK).json(data).send()
+        }
     }
 
-    @Get('/search/:keyword')
+    @Get('/search')
     @ApiOperation({
         summary: '재료 제목으로 레시피 조회 API',
         description: '제목에 검색어가 포함된 레시피 조회한다.'
@@ -94,9 +99,13 @@ export class RecipesController {
         description: '검색어에 부합한 레시피 리스트를 생성한다.',
         isArray: true , type: RecipeDto
     })
-    @ApiParam({name: 'keyword', description: '검색어', type: String })
-    private async getRecipeByKeyword(@Param('keyword') keyword: string): Promise<RecipeDto[]> {
-        return this.recipesService.findRecipeByKeyword(keyword)
+    @ApiQuery({name: 'keyword', description: '검색어', type: String })
+    @ApiQuery({name: 'page', type: Number, description: '페이지'})
+    private async getRecipeByKeyword(@Query('keyword') keyword: string, @Query("page") page: number, @Res() res: Response) {
+        if (!this.validatePage(page, res)) {
+            const data = await this.recipesService.findRecipeByKeyword(page, keyword)
+            return res.status(HttpStatus.OK).json(data).send()
+        }
     }
 
     @Post('/register-recipe')
@@ -186,15 +195,12 @@ export class RecipesController {
         return this.recipesService.deleteRecipe(recipe)
     }
 
-    private async validatePage(page: number, res: Response, callback: (page: number) => Promise<RecipeDto[]>) {
+    private validatePage(page: number, res: Response) {
         if(page < 1 || isNaN(page)) {
             return res
                 .status(HttpStatus.BAD_REQUEST)
-                .json({message: 'page가 없거나 page는 숫자 또는 1보다 작을 수 없습니다.'})
+                .json({message: 'page가 없거나 숫자가 아닙니다. page는 1보다 작을 수 없습니다.'})
                 .send()
-        } else {
-            const data = await callback(page)
-            return res.status(HttpStatus.OK).json(data).send()
         }
     }
 }
