@@ -16,7 +16,6 @@ import {RecipeDto} from "../../dtos/recipe/recipe.dto";
 import {RegisteredUserRecipeDto} from "../../dtos/recipe/registered-user-recipe.dto";
 import {RegisteredAdminRecipeDto} from "../../dtos/recipe/registered-admin-recipe.dto";
 import {UpdatedAdminRecipeDto} from "../../dtos/recipe/updated-admin-recipe.dto";
-import {DeletedRecipeDto} from "../../dtos/recipe/deleted-recipe.dto";
 import {UpdatedUserRecipeDto} from "../../dtos/recipe/updated-user-recipe.dto";
 import {UpdatedRecipeLikeDto} from "../../dtos/recipe/updated-recipe-like.dto";
 import { Response } from 'express';
@@ -181,18 +180,18 @@ export class RecipesController {
         return this.recipesService.updateLike(recipe)
     }
 
-    @Delete('/delete-recipe')
+    @Delete('/delete-recipe/:id')
     @ApiOperation({
         summary: '레시피 삭제 API',
         description: '레시피 삭제한다.'
     })
     @ApiCreatedResponse({
-        description: '레시피 삭제 후 성공 여부 boolean을 반환한다. 성공: true 실패: false',
+        description: '레시피 삭제 후 삭제 여부 boolean을 반환한다. 삭제: true 개시: false',
         type: Boolean
     })
-    @ApiBody({type: DeletedRecipeDto, description: '삭제 여부 boolean'})
-    private async deleteRecipe(@Body() recipe: DeletedRecipeDto): Promise<boolean> {
-        return this.recipesService.deleteRecipe(recipe)
+    @ApiParam({ name: 'id', description: '조회할 레시피 id', type: String})
+    private async deleteRecipe(@Param('id') id: String): Promise<boolean> {
+        return this.recipesService.deleteRecipe(id)
     }
 
     private validatePage(page: number, res: Response) {

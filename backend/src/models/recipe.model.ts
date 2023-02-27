@@ -65,7 +65,7 @@ export class Recipe {
         }[]
     }[]
 
-    @Prop({type: Boolean, required: true, default: true})
+    @Prop({type: Boolean, required: true, default: false})
     deleted: boolean
 
     @Prop({type: [String], required: true, default: []})
