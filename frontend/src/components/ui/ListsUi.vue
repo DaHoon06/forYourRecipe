@@ -5,15 +5,15 @@
         <img :src="listItem.profileImage" width="284" height="177" alt="음식 이미지" loading="lazy"/>
       </div>
       <section class="list__body w-100">
-        <text-font size="18">{{ listItem.name }}</text-font>
-        <text-font size="14" color="placeholder">{{ listItem.desc }}</text-font>
+        <text-font size="16" class="recipe--title">{{ listItem.name }}</text-font>
+        <text-font size="12" color="placeholder" class="recipe--description">{{ listItem.desc }}</text-font>
         <figure class="recipe-like--wrapper">
           <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
           <figcaption>
             <text-font size="14">{{ listItem.likes.length }}</text-font>
           </figcaption>
         </figure>
-        <div class="flex">
+        <div class="flex mt-6">
           <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
         </div>
       </section>
@@ -64,6 +64,43 @@ export default class ListsUi extends Vue {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    .recipe--title {
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      line-height: 1.2;
+      height: 35px;
+      text-align: left;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .recipe--description {
+      margin-top: 6px;
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      line-height: 1.2;
+      height: 1em;
+      text-align: left;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .recipe-like--wrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 6px;
+    }
   }
 
 

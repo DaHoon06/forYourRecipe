@@ -1,23 +1,25 @@
 <template>
-  <article class="card__layout scroll">
-    <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지" loading="lazy"/>
-    <section class="card__body">
-      <section class="card-ui__body">
-        <text-font size="18" class="recipe--title">{{ cardItem.name }}</text-font>
-        <text-font size="14" color="placeholder" class="recipe--description">{{ cardItem.desc }}</text-font>
-        <figure class="recipe-like--wrapper">
-          <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
-          <figcaption>
-            <text-font size="14">{{ cardItem.likes.length }}</text-font>
-          </figcaption>
-        </figure>
+  <div class="card__layout--container">
+    <article class="card__layout scroll">
+      <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지" loading="lazy"/>
+      <section class="card__body">
+        <section class="card-ui__body">
+          <text-font size="18" class="recipe--title">{{ cardItem.name }}</text-font>
+          <text-font size="14" color="placeholder" class="recipe--description">{{ cardItem.desc }}</text-font>
+          <figure class="recipe-like--wrapper">
+            <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
+            <figcaption>
+              <text-font size="14">{{ cardItem.likes.length }}</text-font>
+            </figcaption>
+          </figure>
 
-        <div class="flex mt-10">
-          <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
-        </div>
+          <div class="flex mt-10">
+            <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+          </div>
+        </section>
       </section>
-    </section>
-  </article>
+    </article>
+  </div>
 </template>
 
 <script lang="ts">
@@ -31,6 +33,11 @@ export default class CardUi extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.card__layout--container {
+  display: flex;
+  justify-content: center;
+}
+
 .card__layout {
   display: inline-block;
   border: 1px solid $line;
@@ -103,6 +110,13 @@ export default class CardUi extends Vue {
     filter: brightness(90%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
+  }
+}
+
+@media screen and (max-width: 727px) {
+  .card__layout--container {
+    flex-direction: column;
+    align-items: center;
   }
 }
 

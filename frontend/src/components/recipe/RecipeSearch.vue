@@ -31,8 +31,9 @@ export default class RecipeSearch extends Vue {
 
   private async load(): Promise<void> {
     try {
-      const {data} = await ins.get(`/recipes/search/${this.keyword}`, {
+      const {data} = await ins.get(`/recipes/search`, {
         params: {
+          keyword: this.keyword,
           page: this.page
         }
       })

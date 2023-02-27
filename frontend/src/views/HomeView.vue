@@ -117,7 +117,7 @@ hr {
     padding: 0;
 
     &--container {
-      padding: 0 0 10rem 0;
+      padding: 0 0 7rem 0;
 
       .today-recommended-dishes {
         padding: 1rem;
