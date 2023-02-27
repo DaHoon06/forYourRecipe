@@ -9,7 +9,6 @@ import {RecipeDto} from "../../dtos/recipe/recipe.dto";
 import {Role} from "../../enums/role";
 import {StepsDto} from "../../dtos/recipe/steps.dto";
 import {UpdatedAdminRecipeDto} from "../../dtos/recipe/updated-admin-recipe.dto";
-import {DeletedRecipeDto} from "../../dtos/recipe/deleted-recipe.dto";
 import {UpdatedUserRecipeDto} from "../../dtos/recipe/updated-user-recipe.dto";
 import {UpdatedRecipeLikeDto} from "../../dtos/recipe/updated-recipe-like.dto";
 import {UsersService} from "../users/users.service";
@@ -121,10 +120,10 @@ export class RecipesService {
     }
 
     //레시피 삭제
-    async deleteRecipe(recipe: DeletedRecipeDto): Promise<boolean> {
-        const { id, deleted } = recipe
-        const { acknowledged } = await this.recipeModel.updateOne({ _id: id }, { $set: { deleted: deleted }})
-        return acknowledged
+    async deleteRecipe(id: String): Promise<boolean> {
+        const { deleted } = await this.recipeModel.findById(id)
+        await this.recipeModel.updateOne({ _id: id }, { $set: { deleted: !deleted }})
+        return !deleted
     }
 
     private getSteps(steps: StepsDto[]): StepsDto[] {
