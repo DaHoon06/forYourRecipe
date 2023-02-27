@@ -38,12 +38,11 @@ export default class SearchInput extends Vue {
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: flex-end;
 
   .search__input {
     outline: none;
     background-color: $white;
-    //border-radius: 50px;
-    //border: 1px solid #D2D2D2;
     border: 1px solid #A3A3A3;
     font-family: $kor;
     font-size: 15px;
@@ -54,13 +53,21 @@ export default class SearchInput extends Vue {
     height: 18px;
 
     &:focus {
-      border-color: #8f8f8f;
+      border-color: $black;
+      color: $black;
     }
   }
 
   .search__button {
     position: relative;
     right: 2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .search__input {
+    max-width: 180px !important;
+    width: 100%;
   }
 }
 </style>
