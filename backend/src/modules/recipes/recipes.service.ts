@@ -25,9 +25,7 @@ export class RecipesService {
 
     //전체 레시피 반환
     async findAll(page: number): Promise<RecipeDto[]> {
-        const currentPage = (page - 1) * 8
-        const foundRecipes = await this.recipeModel.find().sort({updatedAt: 1}).limit(8).skip(currentPage)
-        foundRecipes.forEach(recipe => console.log(recipe.name))
+        const foundRecipes = await this.recipeModel.find().sort({updatedAt: 1}).limit(8).skip(this.currentPage(page))
         return this.getRecipeDtoArr(foundRecipes)
     }
 
@@ -44,15 +42,15 @@ export class RecipesService {
     }
 
     //재료로 레시피 찾기
-    async findRecipesByIngredient(ingredientIds: string[]): Promise<RecipeDto[]> {
-        const foundRecipes = await this.recipeModel.find({detailedIngredient: {$in: ingredientIds}})
+    async findRecipesByIngredient(page: number, ingredientIds: string[]): Promise<RecipeDto[]> {
+        const foundRecipes = await this.recipeModel.find({detailedIngredient: {$in: ingredientIds}}).sort({updatedAt: 1}).limit(8).skip(this.currentPage(page))
         return this.getRecipeDtoArr(foundRecipes)
     }
 
     //제목으로 레시피 찾기
-    async findRecipeByKeyword(keyword: string): Promise<RecipeDto[]> {
+    async findRecipeByKeyword(page: number, keyword: string): Promise<RecipeDto[]> {
         const regex = new RegExp(`.*${keyword}.*`)
-        const foundRecipes = await this.recipeModel.find({name: {$regex: regex}})
+        const foundRecipes = await this.recipeModel.find({name: {$regex: regex}}).sort({updatedAt: 1}).limit(8).skip(this.currentPage(page))
         return this.getRecipeDtoArr(foundRecipes)
     }
 
@@ -158,6 +156,10 @@ export class RecipesService {
                 return this.getRecipeDto(recipe)
             })
         )
+    }
+
+    private currentPage(page: number) {
+        return (page - 1) * 8
     }
 }
 
