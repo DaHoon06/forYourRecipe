@@ -105,8 +105,10 @@ export default class RecipeLists extends Vue {
       const {data} = await ins.get('/recipes/ingredient-recipes', {
         params: {
           id: this.key,
+          page: 1,
         }
       })
+      console.log(data)
       this.recipeLists = data;
       this.total = data.length;
       this.isLoading = false
@@ -126,6 +128,7 @@ export default class RecipeLists extends Vue {
 hr {
   margin: 0;
 }
+
 .recipe-lists--container {
   padding: 5vh 5vw;
   width: 100%;
@@ -153,6 +156,7 @@ hr {
     .recipe-lists__label {
       padding: 1rem;
     }
+
     .card--wrapper {
       row-gap: 0;
       margin-top: 0;
