@@ -43,8 +43,7 @@ export default class CardUi extends Vue {
   border: 1px solid $line;
   width: 284px;
   height: 350px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
 
   .card__body {
     padding: 8px 12px;

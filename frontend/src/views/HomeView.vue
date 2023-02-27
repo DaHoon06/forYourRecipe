@@ -121,6 +121,7 @@ hr {
 
       .today-recommended-dishes {
         padding: 1rem;
+        font-size: 18px !important;
       }
 
       .card--wrapper {
