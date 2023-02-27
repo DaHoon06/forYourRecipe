@@ -171,6 +171,7 @@ hr {
   background-color: $line;
   height: 1px;
 }
+
 .side-menu {
   background-color: rgba(233, 233, 233, 0.44);
   -webkit-backdrop-filter: blur(1px);
@@ -212,9 +213,10 @@ hr {
       width: 100%;
       border-bottom: 1.5px solid $line;
 
-      p{
+      p {
         padding: 1rem;
       }
+
       &:hover {
         border-color: $black;
 

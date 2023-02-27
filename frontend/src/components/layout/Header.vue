@@ -56,9 +56,21 @@ export default class Header extends Vue {
   user: any = {}
   isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
 
+  mounted() {
+    this.browserResizeCheck();
+  }
+
   private redirectHome(): void {
     this.store.commit("utilModule/setCurrentPath", 0);
     this.$router.push(NAVIGATION.HOME);
+  }
+
+  private browserResizeCheck() {
+    const header = document.querySelector('.header');
+    window.addEventListener('resize', () => {
+      const width = header?.getBoundingClientRect().width;
+      if (width && width >= 767 && this.isOpen) this.isOpen = !this.isOpen;
+    })
   }
 
   private async login() {
