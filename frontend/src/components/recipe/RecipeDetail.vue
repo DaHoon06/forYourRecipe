@@ -65,7 +65,7 @@
     </section>
 
     <teleport to="#modal">
-      <Modal :scroll="false" ref="modal">
+      <Modal ref="modal">
         <section class="modal--message-box">
           <text-font class="delete-warning-message">레시피를 삭제하겠습니까?</text-font>
           <section class="flex justify-content-around">

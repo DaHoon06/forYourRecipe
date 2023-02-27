@@ -29,7 +29,7 @@
               </custom-button>
               <span class="division-line">|</span>
               <custom-button type="button" variant="icon-button" @click="logout">
-                <text-font>로그아웃</text-font>
+                <text-font color="placeholder">로그아웃</text-font>
               </custom-button>
             </div>
           </section>
@@ -211,7 +211,7 @@ hr {
 
     .side-menu--button {
       width: 100%;
-      border-bottom: 1.5px solid $line;
+      border-bottom: 1px solid $line;
 
       p {
         padding: 1rem;
