@@ -65,10 +65,6 @@ $eng: "EBGaramond";
   color: $red;
 }
 
-@mixin textBody() {
-  color: $textBody;
-}
-
 @mixin placeholder() {
   color: $textPlaceholder;
 }

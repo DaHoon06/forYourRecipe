@@ -233,7 +233,7 @@ hr {
     }
 
     .side-menu--item {
-      background-color: $gray4;
+      background-color: $gray3;
       max-width: 256px;
       max-height: 65px;
       height: auto;
