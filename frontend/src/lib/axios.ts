@@ -31,8 +31,10 @@ instance.interceptors.response.use(
     const { data, status } = response;
     const { message } = data;
 
-    if (status === 401) {
-      return router.replace({ path: "/" }).catch(() => ({}));
+    console.log(message, response);
+
+    if (status !== 200) {
+      return router.replace({ path: "/404" }).catch(() => ({}));
     }
 
     return response;
