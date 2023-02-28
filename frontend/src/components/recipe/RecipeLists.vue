@@ -28,44 +28,16 @@
 
     <hr/>
 
-    <section>
-      <section class="card--wrapper" v-if="recipeLists.length > 0">
-        <CardUi class="mr-20 card-component" v-for="(dish) in recipeLists" :src="dish.profileImage" :key="dish._id"
-                @click="recipeDetail(dish._id)">
-          <section class="card-ui__body">
-            <text-font size="18">{{ dish.name }}</text-font>
-            <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
-            <figure class="recipe-like--wrapper">
-              <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
-              <figcaption>
-                <text-font size="14">{{ dish.likes.length }}</text-font>
-              </figcaption>
-            </figure>
-
-            <div class="flex">
-              <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
-            </div>
-          </section>
-        </CardUi>
-        <ListsUi class="list-component" v-for="(dish) in recipeLists" :key="dish._id" :src="dish.profileImage"
-                 @click="recipeDetail(dish._id)">
-          <text-font size="18">{{ dish.name }}</text-font>
-          <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
-          <figure class="recipe-like--wrapper">
-            <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
-            <figcaption>
-              <text-font size="14">{{ dish.likes.length }}</text-font>
-            </figcaption>
-          </figure>
-          <div class="flex">
-            <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
-          </div>
-        </ListsUi>
-      </section>
-      <div class="w-100 center pt-20" v-else>
-        <text-font size="18">검색된 레시피가 없습니다.</text-font>
+    <section class="card--wrapper" v-if="recipeLists.length > 0">
+      <div v-for="(dish) in recipeLists" :key="dish._id" class="w-100">
+        <CardUi class="mr-20 card-component" :card-item="dish" @click="recipeDetail(dish._id)"/>
+        <ListsUi class="list-component" :list-item="dish" @click="recipeDetail(dish._id)"/>
       </div>
     </section>
+    <div class="w-100 center pt-20" v-else>
+      <text-font size="18">검색된 레시피가 없습니다.</text-font>
+    </div>
+
   </section>
 </template>
 
@@ -92,6 +64,7 @@ export default class RecipeLists extends Vue {
   recipeLists: Recipe.Info[] = [];
   store = useStore();
   selectedIngredients: ComputedRef<STORE.RecipeState[]> = computed(() => this.store.getters["recipeModule/getIngredients"]);
+  page = 1;
 
   created() {
     const {key} = this.$route.query;
@@ -105,8 +78,10 @@ export default class RecipeLists extends Vue {
       const {data} = await ins.get('/recipes/ingredient-recipes', {
         params: {
           id: this.key,
+          page: this.page,
         }
       })
+      console.log(data)
       this.recipeLists = data;
       this.total = data.length;
       this.isLoading = false
@@ -126,6 +101,7 @@ export default class RecipeLists extends Vue {
 hr {
   margin: 0;
 }
+
 .recipe-lists--container {
   padding: 5vh 5vw;
   width: 100%;
@@ -153,6 +129,7 @@ hr {
     .recipe-lists__label {
       padding: 1rem;
     }
+
     .card--wrapper {
       row-gap: 0;
       margin-top: 0;

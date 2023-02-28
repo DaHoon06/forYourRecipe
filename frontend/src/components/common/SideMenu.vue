@@ -29,7 +29,7 @@
               </custom-button>
               <span class="division-line">|</span>
               <custom-button type="button" variant="icon-button" @click="logout">
-                <text-font>로그아웃</text-font>
+                <text-font color="placeholder">로그아웃</text-font>
               </custom-button>
             </div>
           </section>
@@ -171,6 +171,7 @@ hr {
   background-color: $line;
   height: 1px;
 }
+
 .side-menu {
   background-color: rgba(233, 233, 233, 0.44);
   -webkit-backdrop-filter: blur(1px);
@@ -210,11 +211,12 @@ hr {
 
     .side-menu--button {
       width: 100%;
-      border-bottom: 1.5px solid $line;
+      border-bottom: 1px solid $line;
 
-      p{
+      p {
         padding: 1rem;
       }
+
       &:hover {
         border-color: $black;
 
@@ -231,7 +233,7 @@ hr {
     }
 
     .side-menu--item {
-      background-color: $gray4;
+      background-color: $gray3;
       max-width: 256px;
       max-height: 65px;
       height: auto;

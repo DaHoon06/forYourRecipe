@@ -1,4 +1,5 @@
 <template>
+  <loading-spinner v-if="isLoading"/>
   <article class="box-container">
     <section class="box__body">
       <div v-if="!ingredients.length">
@@ -44,13 +45,14 @@
       <section class="selected-ingredients--container">
         <text-font class="pb-14">재료를 선택해주세요.</text-font>
 
-        <section class="ingredients-items--box scroll" >
+        <section class="ingredients-items--box scroll">
           <div v-for="(value) of ingredientsCategory" :key="value._id" class="pb-10">
-            <text-font size="18" weight="bold">{{value.name}}</text-font>
-            <hr />
+            <text-font size="18" weight="bold">{{ value.name }}</text-font>
+            <hr/>
             <section class="ingredients-icon--wrapper">
-              <div v-for="(items) of value.detailedIngredient" :key="items._id"  @click="selectedIngredient(items)" class="flex-column-center">
-                <ingredient-icon :selected="items.selected" :src="items.img" :label="items.name" />
+              <div v-for="(items) of value.detailedIngredient" :key="items._id" @click="selectedIngredient(items)"
+                   class="flex-column-center">
+                <ingredient-icon :selected="items.selected" :src="items.img" :label="items.name"/>
               </div>
             </section>
           </div>
@@ -101,28 +103,34 @@ import IngredientIcon from "@/components/common/IngredientIcon.vue";
 })
 export default class IngredientsBox extends Vue {
   @Ref('modal') readonly modal!: ModalComponent;
-
+  isLoading = true;
   ingredientsCategory: Recipe.IngredientCategories[] = [];
   ingredients: Recipe.IngredientType[] = [];
   selected = [];
 
   store = useStore();
 
+  mounted() {
+    this.isLoading = false;
+  }
+
   private async pickUpModal(): Promise<void> {
+    this.isLoading = true;
     this.modal.show();
     this.store.commit('recipeModule/reset');
     try {
       const {data} = await ins.get('/ingredients/all-ingredients');
       this.ingredientsCategory = data;
+      this.isLoading = false;
     } catch (e) {
       console.log(e)
     }
   }
 
   private selectedIngredient(ingredient: Recipe.IngredientType): void {
-    const { selected } = ingredient;
+    const {selected} = ingredient;
     if (selected) ingredient.selected = !selected;
-    else  ingredient.selected = true;
+    else ingredient.selected = true;
     const index = this.ingredients.findIndex((item) => item._id === ingredient._id);
     if (index < 0) this.ingredients.push(ingredient)
     else this.ingredients.splice(index, 1);
@@ -138,8 +146,10 @@ export default class IngredientsBox extends Vue {
   }
 
   private save(): void {
+    this.isLoading = true;
     this.store.commit("recipeModule/saveIngredients", this.ingredients);
     this.modal.hide();
+    this.isLoading = false;
   }
 
   private findRecipe(): void {

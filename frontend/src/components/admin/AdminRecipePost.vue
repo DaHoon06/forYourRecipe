@@ -251,7 +251,7 @@ export default class AdminRecipePost extends Vue {
   recipeId = '';
 
   created() {
-    this.recipeId = this.$route.params.id as  string;
+    this.recipeId = this.$route.params.id as string;
     if (this.recipeId.length > 0) this.load();
     this.loadCategory();
     this.isLoading = false;
@@ -259,13 +259,12 @@ export default class AdminRecipePost extends Vue {
 
   private async load(): Promise<void> {
     try {
-      const { data } = await ins(`/recipes/detail/${this.recipeId}`)
+      const {data} = await ins(`/recipes/detail/${this.recipeId}`)
       this.recipePost = data;
     } catch (e) {
       console.log(e);
     }
   }
-
 
 
   private async loadCategory() {
@@ -347,12 +346,17 @@ export default class AdminRecipePost extends Vue {
       if (result) return;
       this.isLoading = true
       if (this.recipeId.length > 0) {
+        const {name, desc, profileImage, steps, detailedIngredient, allIngredient} = this.recipePost;
+        const ingredientsIdArr = detailedIngredient.map((value: any) => value._id)
         const sendData = {
           id: this.recipeId,
-          ...this.recipePost
+          name,
+          desc,
+          profileImage,
+          steps, allIngredient,
+          detailedIngredient: ingredientsIdArr
         }
-        console.log(sendData)
-        const { data} = await ins.put('/recipes/update-admin-recipe', sendData);
+        const {data} = await ins.put('/recipes/update-admin-recipe', sendData);
         if (data) this.isLoading = false;
       } else {
         const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);

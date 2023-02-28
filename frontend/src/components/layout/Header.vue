@@ -9,23 +9,27 @@
           EASY COOK
         </text-font>
       </custom-button>
-      <section class="header--side">
+      <section class="header-search--container">
         <search-input/>
-        <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!isLogin">
-          <text-font color="black" class="pr-6" type="eng">Login</text-font>
-          <text-font color="black" class="pr-8" type="eng">with</text-font>
-          <img src="@/assets/images/icons/google-black.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
-        </custom-button>
-        <custom-button type="button" variant="icon-button" @click="logout" v-else>
-          <text-font color="black">Logout</text-font>
-        </custom-button>
-
-      </section>
-      <section class="hamburger--side">
-        <custom-button type="button" variant="icon-button" @click="showSideMenu">
-          <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger-black.svg" alt="햄버거 메뉴"/>
-        </custom-button>
-        <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
+        <section class="header--side">
+          <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!isLogin">
+            <text-font color="black" class="pr-6" type="eng">Login</text-font>
+            <text-font color="black" class="pr-8" type="eng">with</text-font>
+            <img src="@/assets/images/icons/google-black.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
+          </custom-button>
+          <div class="header-logout-box" v-else>
+            <text-font size="14" color="black" weight="semiBold" class="pr-10">{{ userName }} 님</text-font>
+            <custom-button type="button" variant="icon-button" @click="logout">
+              <text-font color="placeholder">Logout</text-font>
+            </custom-button>
+          </div>
+        </section>
+        <section class="hamburger--side">
+          <custom-button type="button" variant="icon-button" @click="showSideMenu">
+            <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger-black.svg" alt="햄버거 메뉴"/>
+          </custom-button>
+          <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
+        </section>
       </section>
     </section>
     <navigation-menu/>
@@ -55,10 +59,23 @@ export default class Header extends Vue {
   store = useStore();
   user: any = {}
   isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
+  userName: ComputedRef<string> = computed(() => this.store.getters["userModule/getName"]);
+
+  mounted() {
+    this.browserResizeCheck();
+  }
 
   private redirectHome(): void {
     this.store.commit("utilModule/setCurrentPath", 0);
     this.$router.push(NAVIGATION.HOME);
+  }
+
+  private browserResizeCheck() {
+    const header = document.querySelector('.header');
+    window.addEventListener('resize', () => {
+      const width = header?.getBoundingClientRect().width;
+      if (width && width >= 767 && this.isOpen) this.isOpen = !this.isOpen;
+    })
   }
 
   private async login() {
@@ -120,14 +137,25 @@ export default class Header extends Vue {
     max-width: 1980px;
     padding: 15px 52px 25px 52px;
     height: 100%;
+
+    .header-search--container {
+      display: flex;
+      width: calc(100% - 150px);
+      max-width: 1000px;
+    }
   }
 
   .header--side {
+    width: 25%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 30%;
-    max-width: 400px;
+    justify-content: flex-end;
+
+    .header-logout-box {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+    }
   }
 
   .hamburger--side {
@@ -138,7 +166,7 @@ export default class Header extends Vue {
 @media screen and (max-width: 1080px) {
   .header {
     .header--side {
-      width: 40vw;
+      //width: 40vw;
     }
   }
 }

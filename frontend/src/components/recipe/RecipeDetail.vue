@@ -5,14 +5,14 @@
     <recipe-ui class="recipe-form--wrapper">
       <section>
         <div class="recipe-form--label">
-          <text-font size="22">{{ recipe.name }}</text-font>
+          <text-font size="22" class="recipe-detail__label">{{ recipe.name }}</text-font>
           <div class="flex">
             <!-- 내가 작성한 글일 경우에만 -->
             <custom-button variant="icon-button" @click="recipeUpdate" class="mr-10">
-              <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy" />
+              <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy"/>
             </custom-button>
             <custom-button variant="icon-button" @click="this.modal.show()">
-              <img src="@/assets/images/icons/trash.svg" alt="recipe-delete" width="24" height="24" loading="lazy" />
+              <img src="@/assets/images/icons/trash.svg" alt="recipe-delete" width="24" height="24" loading="lazy"/>
             </custom-button>
           </div>
         </div>
@@ -33,7 +33,7 @@
       <div class="dotted mt-16 mb-16"/>
 
       <section>
-        <text-font size="20">요리 소개</text-font>
+        <text-font size="20" weight="semiBold" class="recipe-detail__label">요리 소개</text-font>
         <div class="dotted mt-16 mb-16"/>
 
         <text-font v-text="recipe.desc" class="recipe-detail--desc"/>
@@ -43,13 +43,18 @@
       <div class="dotted mt-16 mb-16"/>
 
       <section>
-        <text-font size="20">조리법</text-font>
+        <text-font size="20" weight="semiBold" class="recipe-detail__label">요리순서</text-font>
         <div class="dotted mt-16 mb-16"/>
-        <section v-if="recipe.steps.length > 0" class="recipe-detail">
-          <text-font v-for="(item) of recipe.steps" :key="item._id" class="pb-10">
-            {{ item.desc }}
-          </text-font>
-        </section>
+
+        <div v-if="recipe.steps.length > 0">
+          <section v-for="(item) of recipe.steps" :key="item._id" class="pb-10 flex">
+            <text-font size="20" type="eng" class="recipe-detail-desc--steps">STEP {{item.step}}</text-font>
+            <div class="recipe-detail--desc">
+              <text-font>{{ item.desc }}</text-font>
+            </div>
+
+          </section>
+        </div>
       </section>
 
     </recipe-ui>
@@ -60,8 +65,8 @@
     </section>
 
     <teleport to="#modal">
-      <Modal :scroll="false" ref="modal">
-        <section class="modal__body">
+      <Modal ref="modal">
+        <section class="modal--message-box">
           <text-font class="delete-warning-message">레시피를 삭제하겠습니까?</text-font>
           <section class="flex justify-content-around">
             <custom-button variant="gray" @click="this.modal.hide()">
@@ -87,6 +92,7 @@ import {markRaw} from "vue";
 import Modal from "@/components/common/Modal.vue";
 import {Ref} from "vue-property-decorator";
 import {ModalComponent} from "@/types/type";
+
 @Options({
   components: {
     RecipeUi,
@@ -134,21 +140,22 @@ export default class RecipeDetail extends Vue {
   }
 
   private recipeUpdate() {
-    const { _id } = this.recipe;
+    const {_id} = this.recipe;
     this.$router.push(`/admin/recipe/post/${_id}`)
   }
 
   private async recipeDelete() {
     try {
-      const { _id } = this.recipe;
-      const sendData = {
-        id: _id,
-        deleted: true,
-      }
-      const { data } = await ins.delete('/recipes/delete-recipe', {
-        data: sendData
+      this.isLoading = true;
+      const {_id} = this.recipe;
+      const {data} = await ins.delete('/recipes/delete-recipe', {
+        data: {id: _id,}
       });
-      if (data) this.$router.push('/');
+      this.isLoading = false;
+      if (data) {
+        this.modal.hide()
+        await this.$nextTick(() => this.$router.push('/'));
+      }
     } catch (e) {
       console.log(e);
     }
@@ -177,9 +184,16 @@ export default class RecipeDetail extends Vue {
     min-height: 100px;
     height: 100%;
     background-color: $white;
-    border: 1px solid $line;
-    border-radius: 8px;
-    padding: 1em;
+    border: 1px solid $gray2;
+    padding: 0.5em;
+    letter-spacing: 1.2px;
+  }
+  .recipe-detail-desc--steps {
+    width: 15%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .recipe-detail {
@@ -189,8 +203,7 @@ export default class RecipeDetail extends Vue {
     min-height: 200px;
     height: 100%;
     background-color: $white;
-    border: 1px solid $line;
-    border-radius: 8px;
+    border: 1px solid $gray2;
     padding: 1em;
   }
 
@@ -203,7 +216,7 @@ export default class RecipeDetail extends Vue {
   }
 }
 
-.modal__body {
+.modal--message-box {
   width: 350px;
   height: 120px;
   padding-top: 10px;
@@ -212,5 +225,19 @@ export default class RecipeDetail extends Vue {
     width: 100%;
     padding: 1rem;
   }
+}
+
+@media screen and (max-width: 600px){
+  .recipe-detail__label {
+    font-size: 16px !important;
+  }
+  .recipe-detail-desc--steps {
+    font-size: 14px !important;
+    margin-right: 1rem;
+  }
+  .recipe-detail--container {
+    padding: 1rem;
+  }
+
 }
 </style>

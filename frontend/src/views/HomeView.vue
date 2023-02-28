@@ -11,42 +11,13 @@
         <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
         <hr/>
         <section class="card--wrapper">
-          <CardUi class="mr-20" v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
-                  @click="recipeDetail(dish._id)">
-            <section class="card-ui__body">
-              <text-font size="18">{{ dish.name }}</text-font>
-              <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
-              <figure class="recipe-like--wrapper">
-                <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
-                <figcaption>
-                  <text-font size="14">{{ dish.likes.length }}</text-font>
-                </figcaption>
-              </figure>
-
-              <div class="flex">
-                <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
-              </div>
-            </section>
-          </CardUi>
-          <ListsUi v-for="(dish) in recipeCards" :src="dish.profileImage" :key="dish._id"
-                   @click="recipeDetail(dish._id)">
-            <text-font size="18">{{ dish.name }}</text-font>
-            <text-font size="14" color="placeholder">{{ dish.desc }}</text-font>
-            <figure class="recipe-like--wrapper">
-              <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
-              <figcaption>
-                <text-font size="14">{{ dish.likes.length }}</text-font>
-              </figcaption>
-            </figure>
-            <div class="flex">
-              <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
-            </div>
-          </ListsUi>
+          <div v-for="(dish) in recipeCards" :key="dish._id" class="w-100">
+            <card-ui :card-item="dish" @click="recipeDetail(dish._id)"/>
+            <lists-ui :list-item="dish" @click="recipeDetail(dish._id)"/>
+          </div>
         </section>
       </section>
     </section>
-
-
   </main>
 </template>
 
@@ -116,12 +87,16 @@ hr {
 .main__body {
   width: 100%;
   max-width: 1980px;
-  padding: 10px 20px;
+  padding: 10px 20px 10rem 20px;
   height: 100%;
 
 
   &--container {
     padding: 2rem;
+
+    .card--wrapper {
+      column-gap: 18px;
+    }
 
     .today-recommended-dishes {
       padding-bottom: 1rem;
@@ -142,15 +117,17 @@ hr {
     padding: 0;
 
     &--container {
-      padding: 0;
+      padding: 0 0 7rem 0;
 
       .today-recommended-dishes {
         padding: 1rem;
+        font-size: 18px !important;
       }
 
       .card--wrapper {
         margin-top: 0;
         row-gap: 0;
+        column-gap: 0;
       }
     }
   }

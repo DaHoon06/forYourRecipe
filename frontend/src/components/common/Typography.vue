@@ -14,12 +14,10 @@ type FontColor =
   | 'white'
   | 'placeholder'
   | 'red'
-  | 'textBody'
   | 'textTitle'
   | 'textSub'
   | 'gray'
   | 'gray2'
-  | 'label'
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
 type FontType = 'kor' | 'eng';
 export default class Typography extends Vue {
@@ -58,6 +56,7 @@ export default class Typography extends Vue {
 .eng {
   font-family: $eng !important;
 }
+
 .default {
   display: inline-block;
   @include default();
@@ -65,10 +64,6 @@ export default class Typography extends Vue {
 
 .placeholder {
   @include placeholder();
-}
-
-.label {
-  @include label();
 }
 
 .black {
@@ -93,10 +88,6 @@ export default class Typography extends Vue {
 
 .textTitle {
   @include textTitle();
-}
-
-.textBody {
-  @include textBody();
 }
 
 .textSub {
