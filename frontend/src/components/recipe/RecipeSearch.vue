@@ -1,9 +1,16 @@
 <template>
   <loading-spinner v-if="isLoading"/>
-  <div class="w-100" v-for="(dish) of recipeList" :key="dish._id">
-    <card-ui :card-item="dish"/>
-    <lists-ui :list-item="dish"/>
-  </div>
+  <article>
+    <section class="search-result__label">
+      <text-font size="16" weight="medium">검색 결과</text-font>
+    </section>
+    <hr/>
+    <section class="w-100" v-for="(dish) of recipeList" :key="dish._id">
+      <card-ui :card-item="dish"/>
+      <lists-ui :list-item="dish"/>
+    </section>
+  </article>
+
 </template>
 
 <script lang="ts">
@@ -47,5 +54,14 @@ export default class RecipeSearch extends Vue {
 </script>
 
 <style scoped lang="scss">
+hr {
+  margin: 0;
+  border: none;
+  height: 1px;
+  background-color: $line;
+}
 
+.search-result__label {
+  padding: 1rem 0.8rem;
+}
 </style>

@@ -46,11 +46,25 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("@/views/NotFound.vue"),
+    meta: { unauthorized: true },
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/404",
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  return next();
 });
 
 export default router;

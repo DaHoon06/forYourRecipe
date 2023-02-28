@@ -71,7 +71,7 @@ export default class ListsUi extends Vue {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
-      line-height: 1.2;
+      line-height: 1;
       max-height: 35px;
       height: auto;
       text-align: left;
