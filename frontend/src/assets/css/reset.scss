@@ -108,12 +108,17 @@ section {
   display: block;
 }
 
+html, body, #app {
+  min-height: 100%;
+  height: auto;
+}
+
 body {
   line-height: 1;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
 }
 
 ol,

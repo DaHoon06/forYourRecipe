@@ -1,15 +1,13 @@
 <template>
   <footer class="footer pt-40">
-    <hr/>
-
     <section class="footer-copyright">
       <text-font color="white" type='eng'>
         © 2023. &nbsp;
-        <a href="https://github.com/DaHoon06" target="_blank">Dahoon06</a> &nbsp; & &nbsp; <a href="https://github.com/hprl" target="_blank">Hyperreal</a>.
+        <a href="https://github.com/DaHoon06" target="_blank">Dahoon06</a> &nbsp; & &nbsp; <a
+        href="https://github.com/hprl" target="_blank">Hyperreal</a>.
         &nbsp; All Rights Reserved.
       </text-font>
     </section>
-
 
 
   </footer>
@@ -28,6 +26,7 @@ a {
   text-decoration: none;
   color: $white;
 }
+
 .footer {
   background-color: $black;
   height: 140px;
@@ -35,6 +34,7 @@ a {
   position: relative;
 
   .footer-copyright {
+    border-top: 1px solid $line;
     width: 100%;
     text-align: center;
     height: 100%;
@@ -44,10 +44,4 @@ a {
   }
 }
 
-hr {
-  border: none;
-  background-color: $line;
-  height: 1px;
-  margin: 0;
-}
 </style>
