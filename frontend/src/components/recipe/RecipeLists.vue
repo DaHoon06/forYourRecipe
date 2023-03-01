@@ -62,7 +62,6 @@ import {useStore} from "vuex";
 import {STORE} from "@/interfaces/store";
 import InfiniteLoading from 'infinite-loading-vue3-ts';
 
-
 @Options({
   components: {
     ListsUi, CardUi,

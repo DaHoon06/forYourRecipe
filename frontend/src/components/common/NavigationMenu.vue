@@ -1,6 +1,11 @@
 <template>
   <nav class="navigation">
     <ul>
+      <li :class="currentMenu === 4 && 'current-path'" class="mr-30">
+        <custom-button variant="icon-button" type="button" @click="redirect('all-recipe')">
+          <text-font color="black" size="16">전체 레시피</text-font>
+        </custom-button>
+      </li>
       <li :class="currentMenu === 1 && 'current-path'" class="mr-30">
         <custom-button variant="icon-button" type="button" @click="redirect('recipe')">
           <text-font color="black" size="16">레시피 등록</text-font>
@@ -49,8 +54,12 @@ export default class NavigationMenu extends Vue {
         this.store.commit("utilModule/setCurrentPath", 3);
         this.$router.push(NAVIGATION.NOTICE)
         break;
-      default:
+      case 'all-recipe':
         this.store.commit("utilModule/setCurrentPath", 4);
+        this.$router.push(NAVIGATION.ALL_RECIPE)
+        break;
+      default:
+        this.store.commit("utilModule/setCurrentPath", 0);
         this.$router.push(NAVIGATION.HOME)
         break;
     }

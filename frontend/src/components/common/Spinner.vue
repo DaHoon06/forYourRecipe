@@ -9,7 +9,6 @@
 import {Vue} from "vue-class-component";
 
 export default class Spinner extends Vue {
-
 }
 </script>
 

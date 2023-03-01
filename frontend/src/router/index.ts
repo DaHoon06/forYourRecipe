@@ -12,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/recipe/RecipeView.vue"),
     children: [
       {
+        path: 'all',
+        name: 'all-recipe',
+        component: () => import('@/components/recipe/AllRecipeLists.vue'),
+      },
+      {
         path: "lists",
         name: "recipeLists",
         props: true,
