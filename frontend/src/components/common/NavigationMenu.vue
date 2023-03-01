@@ -6,18 +6,18 @@
           <text-font color="black" size="16">전체 레시피</text-font>
         </custom-button>
       </li>
-      <li :class="currentMenu === 1 && 'current-path'" class="mr-30">
+      <li :class="currentMenu === 1 && 'current-path'" class="mr-30" v-if="isLogin">
         <custom-button variant="icon-button" type="button" @click="redirect('recipe')">
           <text-font color="black" size="16">레시피 등록</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 2 && 'current-path'" class="mr-30">
-        <custom-button variant="icon-button" type="button" @click="redirect('favorite')">
+        <custom-button :disabled="true"  variant="icon-button" type="button" @click="redirect('favorite')">
           <text-font color="black" size="16">즐겨찾기</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 3 && 'current-path'">
-        <custom-button variant="icon-button" type="button" @click="redirect('notice')">
+        <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('notice')">
           <text-font color="black" size="16">공지사항</text-font>
         </custom-button>
       </li>
@@ -34,6 +34,7 @@ import {useStore} from "vuex";
 export default class NavigationMenu extends Vue {
   store = useStore();
   currentMenu: ComputedRef<number> = computed(() => this.store.getters["utilModule/currentPath"]);
+  isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
 
   private redirect(type: string) {
     switch (type) {

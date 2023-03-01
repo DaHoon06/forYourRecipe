@@ -40,19 +40,19 @@
         <ul class="side-menu--bottom scroll">
           <li>
             <div class="w-100 text-right">
-              <custom-button class="side-menu--button" variant="" @click="redirect('all-recipe')">
-                <text-font class="w-100 text-left" color="textBody">전체 레시피</text-font>
-              </custom-button>
-            </div>
-          </li>
-          <li>
-            <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('home')">
                 <text-font class="w-100 text-left" color="textBody">메인</text-font>
               </custom-button>
             </div>
           </li>
           <li>
+            <div class="w-100 text-right">
+              <custom-button class="side-menu--button" variant="" @click="redirect('all-recipe')">
+                <text-font class="w-100 text-left" color="textBody">레시피</text-font>
+              </custom-button>
+            </div>
+          </li>
+          <li v-if="isLogin">
             <!-- TODO: 레시피 등록 화면 1. 관리자, 2. 회원 -->
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('recipe')">
