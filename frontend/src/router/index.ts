@@ -12,9 +12,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/recipe/RecipeView.vue"),
     children: [
       {
-        path: 'all',
-        name: 'all-recipe',
-        component: () => import('@/components/recipe/AllRecipeLists.vue'),
+        path: "all",
+        name: "all-recipe",
+        component: () => import("@/components/recipe/AllRecipeLists.vue"),
       },
       {
         path: "lists",
@@ -52,14 +52,14 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/404",
-    name: "404",
+    path: "/not-found-page",
+    name: "not-found-page",
     component: () => import("@/views/NotFound.vue"),
     meta: { unauthorized: true },
   },
   {
     path: "/:pathMatch(.*)*",
-    redirect: "/404",
+    redirect: "/not-found-page",
   },
 ];
 

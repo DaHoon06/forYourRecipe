@@ -31,10 +31,8 @@ instance.interceptors.response.use(
     const { data, status } = response;
     const { message } = data;
 
-    console.log(message, response);
-
     if (status !== 200) {
-      return router.replace({ path: "/404" }).catch(() => ({}));
+      return router.replace({ path: "/not-found-page" }).catch(() => ({}));
     }
 
     return response;
