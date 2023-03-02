@@ -12,9 +12,8 @@
               <text-font size="14">{{ cardItem.likes.length }}</text-font>
             </figcaption>
           </figure>
-
           <div class="flex mt-10">
-            <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+            <span v-for="ingredient of cardItem.detailedIngredient" :key="ingredient._id" class="tags mr-4">{{ ingredient.name }}</span>
           </div>
         </section>
       </section>

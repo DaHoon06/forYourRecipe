@@ -14,7 +14,7 @@
           </figcaption>
         </figure>
         <div class="flex mt-6">
-          <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+          <span v-for="ingredient of listItem.detailedIngredient" :key="ingredient._id" class="tags mr-4">{{ ingredient.name }}</span>
         </div>
       </section>
     </article>
