@@ -8,6 +8,7 @@ import Typography from "@/components/common/Typography.vue";
 import Button from "@/components/common/Button.vue";
 import { ins } from "@/lib/axios";
 import Spinner from "@/components/common/Spinner.vue";
+import InfiniteLoading from "infinite-loading-vue3-ts";
 
 const app = createApp(App);
 

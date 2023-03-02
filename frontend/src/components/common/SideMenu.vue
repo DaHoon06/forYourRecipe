@@ -46,6 +46,13 @@
             </div>
           </li>
           <li>
+            <div class="w-100 text-right">
+              <custom-button class="side-menu--button" variant="" @click="redirect('all-recipe')">
+                <text-font class="w-100 text-left" color="textBody">레시피</text-font>
+              </custom-button>
+            </div>
+          </li>
+          <li v-if="isLogin">
             <!-- TODO: 레시피 등록 화면 1. 관리자, 2. 회원 -->
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('recipe')">
@@ -153,6 +160,10 @@ export default class SideMenu extends Vue {
       case 'notice':
         this.store.commit("utilModule/setCurrentPath", 3);
         this.$router.push(NAVIGATION.NOTICE)
+        break;
+      case 'all-recipe':
+        this.store.commit("utilModule/setCurrentPath", 4);
+        this.$router.push(NAVIGATION.ALL_RECIPE)
         break;
       default:
         this.store.commit("utilModule/setCurrentPath", 0);

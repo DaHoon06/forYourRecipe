@@ -36,7 +36,7 @@ export class RecipesService {
 
   //랜덤(추천) 레시피 반환
   async findRandom(): Promise<RecipeDto[]> {
-    const recipe = await this.recipeModel.aggregate([{ $sample: { size: 6 } }]);
+    const recipe = await this.recipeModel.aggregate([{ $sample: { size: 8 } }]);
     return this.getRecipeDtoArr(recipe);
   }
 

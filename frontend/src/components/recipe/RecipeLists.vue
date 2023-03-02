@@ -20,7 +20,6 @@
       </div>
     </section>
 
-
     <section class="recipe-lists__label">
       <text-font size="18" class="pr-6">검색 결과</text-font>
       <text-font size="16" color="placeholder">{{ total }}</text-font>
@@ -28,17 +27,27 @@
 
     <hr/>
 
-    <section class="card--wrapper" v-if="recipeLists.length > 0">
+    <section class="card--wrapper">
       <div v-for="(dish) in recipeLists" :key="dish._id" class="w-100">
         <CardUi class="mr-20 card-component" :card-item="dish" @click="recipeDetail(dish._id)"/>
         <ListsUi class="list-component" :list-item="dish" @click="recipeDetail(dish._id)"/>
       </div>
     </section>
-    <div class="w-100 center pt-20" v-else>
-      <text-font size="18">검색된 레시피가 없습니다.</text-font>
-    </div>
 
+    <infinite-loading @infinite="infiniteHandler">
+      <template #spinner>
+        <span style="display: none;"/>
+      </template>
+      <template #no-more>
+        <span style="display: none;"/>
+      </template>
+      <template #no-results>
+        <text-font size="18">검색된 레시피가 없습니다.</text-font>
+      </template>
+    </infinite-loading>
   </section>
+
+
 </template>
 
 <script lang="ts">
@@ -51,10 +60,12 @@ import {LocationQueryValue} from "vue-router";
 import {computed, ComputedRef} from "vue";
 import {useStore} from "vuex";
 import {STORE} from "@/interfaces/store";
+import InfiniteLoading from 'infinite-loading-vue3-ts';
 
 @Options({
   components: {
-    ListsUi, CardUi
+    ListsUi, CardUi,
+    InfiniteLoading
   }
 })
 export default class RecipeLists extends Vue {
@@ -69,8 +80,37 @@ export default class RecipeLists extends Vue {
   created() {
     const {key} = this.$route.query;
     this.key = key;
+    this.page = 1;
+    // this.load();
+  }
 
-    this.load();
+  private async infiniteHandler($state: any): Promise<void> {
+    try {
+      this.isLoading = true;
+      const {data} = await ins.get('/recipes/ingredient-recipes', {
+        params: {
+          id: this.key,
+          page: this.page,
+        }
+      })
+      console.log(data, this.page)
+
+      if (data.length) {
+
+        for (let i = 0; i < data.length; i++) {
+          this.recipeLists.push({...data[i]});
+        }
+        this.total += data.length;
+        this.page += 1;
+        $state.loaded();
+        this.isLoading = false;
+      } else {
+        $state.complete();
+        this.isLoading = false;
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   private async load(): Promise<void> {
@@ -81,8 +121,8 @@ export default class RecipeLists extends Vue {
           page: this.page,
         }
       })
-      console.log(data)
       this.recipeLists = data;
+      console.log(data)
       this.total = data.length;
       this.isLoading = false
     } catch (e) {

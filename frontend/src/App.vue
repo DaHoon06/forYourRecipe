@@ -1,5 +1,5 @@
 <template>
-  <loading-spinner v-if="isLoading" />
+  <loading-spinner v-if="isLoading"/>
   <div class="container">
     <Header/>
     <router-view class="app"/>
@@ -35,6 +35,8 @@ export default class App extends Vue {
 
 .app {
   padding-top: 136px;
+  max-width: 1600px;
+  margin: auto;
 }
 
 @media screen and (max-width: 767px) {

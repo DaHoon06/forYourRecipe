@@ -31,7 +31,7 @@ export default class NotFound extends Vue {
   height: 100%;
 
   &--container {
-    padding-top: 35%;
+    padding-top: 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
