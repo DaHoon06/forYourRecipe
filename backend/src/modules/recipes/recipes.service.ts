@@ -42,7 +42,7 @@ export class RecipesService {
 
   //해당 id 레시피 반환
   async findRecipeById(id: string): Promise<RecipeDto> {
-    const foundRecipe = await this.recipeModel.findById(id);
+    const foundRecipe = await this.recipeModel.findOne({ _id: id });
     return this.getRecipeDto(foundRecipe);
   }
 

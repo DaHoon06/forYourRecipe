@@ -5,7 +5,7 @@
     <section class="recipe-lists__label pb-20">
       <text-font size="18" class="pr-6 pb-12">선택된 재료</text-font>
 
-      <div class="flex" v-if="selectedIngredients">
+      <div class="selected-ingredients" v-if="selectedIngredients">
 
         <span v-for="(ingredient) of selectedIngredients" :key="ingredient._id" class="ingredient-icon mr-12">
 
@@ -91,10 +91,7 @@ export default class RecipeLists extends Vue {
           page: this.page,
         }
       })
-      console.log(data, this.page)
-
       if (data.length) {
-
         for (let i = 0; i < data.length; i++) {
           this.recipeLists.push({...data[i]});
         }
@@ -106,23 +103,6 @@ export default class RecipeLists extends Vue {
         $state.complete();
         this.isLoading = false;
       }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  private async load(): Promise<void> {
-    try {
-      const {data} = await ins.get('/recipes/ingredient-recipes', {
-        params: {
-          id: this.key,
-          page: this.page,
-        }
-      })
-      this.recipeLists = data;
-      console.log(data)
-      this.total = data.length;
-      this.isLoading = false
     } catch (e) {
       console.log(e)
     }
@@ -144,6 +124,12 @@ hr {
   padding: 5vh 5vw;
   width: 100%;
   min-height: 500px;
+
+  .selected-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+  }
 
   .card--wrapper {
     display: grid;
