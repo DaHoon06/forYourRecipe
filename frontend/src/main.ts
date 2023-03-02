@@ -16,6 +16,7 @@ app.config.globalProperties.axios = ins;
 
 app.use(router);
 app.use(store);
+app.component("infinite-loading", InfiniteLoading);
 app.component("TextFont", Typography);
 app.component("CustomButton", Button);
 app.component("LoadingSpinner", Spinner);

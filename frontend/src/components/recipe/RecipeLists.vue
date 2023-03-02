@@ -60,12 +60,10 @@ import {LocationQueryValue} from "vue-router";
 import {computed, ComputedRef} from "vue";
 import {useStore} from "vuex";
 import {STORE} from "@/interfaces/store";
-import InfiniteLoading from 'infinite-loading-vue3-ts';
 
 @Options({
   components: {
     ListsUi, CardUi,
-    InfiniteLoading
   }
 })
 export default class RecipeLists extends Vue {
