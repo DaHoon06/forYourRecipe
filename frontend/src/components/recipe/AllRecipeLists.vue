@@ -49,7 +49,6 @@ export default class AllRecipeLists extends Vue {
 
   private async infiniteHandler($state: any): Promise<void> {
     try {
-      this.isLoading = true;
       const {data} = await ins.get('/recipes/all-recipes', {
         params: {
           page: this.page

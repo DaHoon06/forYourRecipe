@@ -79,12 +79,10 @@ export default class RecipeLists extends Vue {
     const {key} = this.$route.query;
     this.key = key;
     this.page = 1;
-    // this.load();
   }
 
   private async infiniteHandler($state: any): Promise<void> {
     try {
-      this.isLoading = true;
       const {data} = await ins.get('/recipes/ingredient-recipes', {
         params: {
           id: this.key,
