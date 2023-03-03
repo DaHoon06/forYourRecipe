@@ -1,10 +1,10 @@
 <template>
   <article class="list__layout scroll">
     <article class="list__container">
-      <div class="list-img--wrapper">
+      <div class="list-img--wrapper" @click.once="recipeDetail">
         <img :src="listItem.profileImage" width="284" height="177" alt="음식 이미지" loading="lazy"/>
       </div>
-      <section class="list__body w-100">
+      <section class="list__body w-100" @click.once="recipeDetail">
         <text-font size="16" class="recipe--title">{{ listItem.name }}</text-font>
         <text-font size="12" color="placeholder" class="recipe--description">{{ listItem.desc }}</text-font>
         <figure class="recipe-like--wrapper">
@@ -14,20 +14,29 @@
           </figcaption>
         </figure>
         <div class="flex mt-6">
-          <span v-for="ingredient of listItem.detailedIngredient" :key="ingredient._id" class="tags mr-4">{{ ingredient.name }}</span>
+          <span v-for="ingredient of listItem.detailedIngredient" :key="ingredient._id"
+                class="tags mr-4">{{ ingredient.name }}</span>
         </div>
       </section>
+      <hearts/>
     </article>
   </article>
 </template>
 
 <script lang="ts">
-import {Vue} from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
+import Hearts from "@/components/icons/Hearts.vue";
 
+@Options({
+  components: {
+    Hearts
+  }
+})
 export default class ListsUi extends Vue {
   @Prop() readonly listItem!: Recipe.Info;
+  @Prop() readonly recipeDetail?: (payload: string) => void;
 }
 </script>
 
@@ -108,8 +117,8 @@ export default class ListsUi extends Vue {
   &:hover {
     border-color: rgba(130, 130, 130, 0.4);
     cursor: pointer;
-    -webkit-filter: brightness(90%);
-    filter: brightness(90%);
+    -webkit-filter: brightness(95%);
+    filter: brightness(95%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
   }

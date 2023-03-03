@@ -12,14 +12,14 @@
           <text-font class="today-recommended-dishes" color="black" size="20" weight="medium">오늘의 추천 요리</text-font>
           <custom-button type="button" variant="icon-button" class="redirect-all-recipe" @click="findAllRecipe">
             <text-font color="black" size="14" class="pr-6" weight="medium">전체보기</text-font>
-            <img src="@/assets/images/icons/redirect.svg" width="24" height="24" alt="all recipe" />
+            <img src="@/assets/images/icons/redirect.svg" width="24" height="24" alt="all recipe"/>
           </custom-button>
         </div>
         <hr/>
         <section class="card--wrapper">
           <div v-for="(dish) in recipeCards" :key="dish._id" class="w-100">
-            <card-ui :card-item="dish" @click="recipeDetail(dish._id)"/>
-            <lists-ui :list-item="dish" @click="recipeDetail(dish._id)"/>
+            <card-ui :recipe-detail="() => recipeDetail(dish._id)" :card-item="dish"/>
+            <lists-ui :recipe-detail="() => recipeDetail(dish._id)" :list-item="dish"/>
           </div>
         </section>
       </section>

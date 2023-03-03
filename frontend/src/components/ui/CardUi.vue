@@ -1,33 +1,47 @@
 <template>
-  <div class="card__layout--container">
+  <article class="card__layout--container">
     <article class="card__layout scroll">
-      <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지" loading="lazy"/>
+      <div @click.once="recipeDetail">
+        <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지" loading="lazy"/>
+      </div>
       <section class="card__body">
         <section class="card-ui__body">
-          <text-font size="18" class="recipe--title">{{ cardItem.name }}</text-font>
-          <text-font size="14" color="placeholder" class="recipe--description">{{ cardItem.desc }}</text-font>
+          <text-font size="18" class="recipe--title" @click.once="recipeDetail">{{ cardItem.name }}</text-font>
+          <text-font size="14" color="placeholder" class="recipe--description" @click.once="recipeDetail">
+            {{ cardItem.desc }}
+          </text-font>
           <figure class="recipe-like--wrapper">
+            <hearts class="mr-8"/>
+
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
               <text-font size="14">{{ cardItem.likes.length }}</text-font>
             </figcaption>
           </figure>
-          <div class="flex mt-10">
-            <span v-for="ingredient of cardItem.detailedIngredient" :key="ingredient._id" class="tags mr-4">{{ ingredient.name }}</span>
+          <div class="flex w-100 mt-10" @click.once="recipeDetail">
+            <span v-for="ingredient of cardItem.detailedIngredient" :key="ingredient._id"
+                  class="tags mr-4">{{ ingredient.name }}</span>
           </div>
         </section>
       </section>
     </article>
-  </div>
+  </article>
 </template>
 
 <script lang="ts">
-import {Vue} from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
+import Hearts from "@/components/icons/Hearts.vue";
 
+@Options({
+  components: {
+    Hearts
+  }
+})
 export default class CardUi extends Vue {
   @Prop() readonly cardItem!: Recipe.Info;
+  @Prop() readonly recipeDetail?: (payload: string) => void;
 }
 </script>
 
@@ -104,8 +118,8 @@ export default class CardUi extends Vue {
   &:hover {
     border-color: rgba(130, 130, 130, 0.4);
     cursor: pointer;
-    -webkit-filter: brightness(90%);
-    filter: brightness(90%);
+    -webkit-filter: brightness(95%);
+    filter: brightness(95%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
   }
