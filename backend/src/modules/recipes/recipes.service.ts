@@ -170,15 +170,14 @@ export class RecipesService {
   //회원 즐겨찾는 레시피에 추가
   async updateLike(recipe: UpdatedRecipeLikeDto): Promise<number> {
     const { id, user } = recipe;
-    const { likes } = await this.recipeModel.findById(id);
-
+    const { likes } = await this.recipeModel.findOne({ _id: id });
     const index = likes.indexOf(user);
     if (index > -1) {
       likes.splice(index, 1);
     } else {
       likes.push(user);
     }
-    await this.recipeModel.updateOne({ _id: id }, { $set: { likes: likes } });
+    await this.recipeModel.updateOne({ _id: id }, { $set: { likes } });
     await this.userService.setFavoriteRecipes(id, user);
     return likes.length;
   }

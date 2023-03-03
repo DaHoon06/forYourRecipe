@@ -13,21 +13,24 @@
             <text-font size="14">{{ listItem.likes.length }}</text-font>
           </figcaption>
         </figure>
-        <div class="flex mt-6">
+        <div class="tags--wrapper mt-6">
           <span v-for="ingredient of listItem.detailedIngredient" :key="ingredient._id"
                 class="tags mr-4">{{ ingredient.name }}</span>
         </div>
       </section>
-      <hearts/>
+      <hearts :like="favorite" @click="favoriteRecipe(listItem._id)"/>
     </article>
   </article>
 </template>
 
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
+import {Prop, Watch} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
 import Hearts from "@/components/icons/Hearts.vue";
+import {ins} from "@/lib/axios";
+import {useStore} from "vuex";
+import {computed, ComputedRef} from "vue";
 
 @Options({
   components: {
@@ -37,6 +40,37 @@ import Hearts from "@/components/icons/Hearts.vue";
 export default class ListsUi extends Vue {
   @Prop() readonly listItem!: Recipe.Info;
   @Prop() readonly recipeDetail?: (payload: string) => void;
+
+  store = useStore();
+  favoriteLists: string[] = this.store.getters["userModule/getFavoriteRecipe"];
+  test: string[] = [];
+
+  @Watch('favoriteLists')
+  testFunction() {
+    console.log('?')
+  }
+
+  private get favorite() {
+    return this.favoriteLists.indexOf(this.listItem._id) > -1;
+  }
+
+  private async favoriteRecipe(id: string) {
+    try {
+      const user = this.store.getters["userModule/getUid"];
+      if (user) {
+        const body = {
+          id,
+          user
+        }
+        const {data} = await ins.patch('/recipes/update-like', body);
+        console.log(data)
+      } else {
+        alert('로그인 해롸~')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 
@@ -63,6 +97,7 @@ export default class ListsUi extends Vue {
     img {
       width: 100%;
       height: 100%;
+      max-height: 96px;
       border-radius: 8px;
       background-repeat: no-repeat;
     }

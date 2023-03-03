@@ -11,14 +11,14 @@
             {{ cardItem.desc }}
           </text-font>
           <figure class="recipe-like--wrapper">
-            <hearts class="mr-8"/>
+            <hearts @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
 
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
               <text-font size="14">{{ cardItem.likes.length }}</text-font>
             </figcaption>
           </figure>
-          <div class="flex w-100 mt-10" @click.once="recipeDetail">
+          <div class="tags--wrapper w-100 mt-10" @click.once="recipeDetail">
             <span v-for="ingredient of cardItem.detailedIngredient" :key="ingredient._id"
                   class="tags mr-4">{{ ingredient.name }}</span>
           </div>
@@ -33,6 +33,8 @@ import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
 import Hearts from "@/components/icons/Hearts.vue";
+import {useStore} from "vuex";
+import {ins} from "@/lib/axios";
 
 @Options({
   components: {
@@ -42,6 +44,26 @@ import Hearts from "@/components/icons/Hearts.vue";
 export default class CardUi extends Vue {
   @Prop() readonly cardItem!: Recipe.Info;
   @Prop() readonly recipeDetail?: (payload: string) => void;
+
+  store = useStore();
+
+  private async favoriteRecipe(id: string) {
+    try {
+      const user = this.store.getters["userModule/getUid"];
+      if (user) {
+        const body = {
+          id,
+          user
+        }
+        const {data} = await ins.patch('/recipes/update-like', body);
+        console.log(data)
+      } else {
+        alert('로그인 해롸~')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 

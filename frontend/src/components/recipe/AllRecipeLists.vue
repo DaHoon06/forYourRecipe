@@ -10,8 +10,8 @@
 
     <section class="card--wrapper">
       <div v-for="(dish) in recipeLists" :key="dish._id" class="w-100">
-        <CardUi class="mr-20 card-component" :card-item="dish" @click="recipeDetail(dish._id)"/>
-        <ListsUi class="list-component" :list-item="dish" @click="recipeDetail(dish._id)"/>
+        <CardUi :recipe-detail="() => recipeDetail(dish._id)" class="mr-20 card-component" :card-item="dish"/>
+        <ListsUi :recipe-detail="() => recipeDetail(dish._id)" class="list-component" :list-item="dish"/>
       </div>
     </section>
 
