@@ -18,7 +18,7 @@
                 class="tags mr-4">{{ ingredient.name }}</span>
         </div>
       </section>
-      <hearts :like="favorite" @click="favoriteRecipe(listItem._id)"/>
+      <hearts-icon :like="favorite" @click="favoriteRecipe(listItem._id)"/>
     </article>
   </article>
 </template>
@@ -27,14 +27,14 @@
 import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
-import Hearts from "@/components/icons/Hearts.vue";
+import HeartsIcon from "@/components/icons/HeartsIcon.vue";
 import {ins} from "@/lib/axios";
 import {useStore} from "vuex";
 import {computed} from "vue";
 
 @Options({
   components: {
-    Hearts
+    HeartsIcon
   }
 })
 export default class ListsUi extends Vue {

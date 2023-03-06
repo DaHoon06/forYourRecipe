@@ -57,12 +57,12 @@ interface HeaderState {
 const store = useStore();
 const router = useRouter();
 
-const state = reactive({
+const state: HeaderState = reactive({
   isOpen: false,
   user: null,
   isLogin: computed(() => store.getters["utilModule/isLogin"]),
   userName: computed(() => store.getters["userModule/getName"]),
-}) as HeaderState
+});
 
 const redirectHome = (): void => {
   store.commit("utilModule/setCurrentPath", 0);
@@ -120,7 +120,6 @@ const showSideMenu = (): void => {
 
   h1 {
     font-size: 22px;
-    //margin-left: 20px;
     display: grid;
     justify-items: start;
     color: #222222;
@@ -159,14 +158,6 @@ const showSideMenu = (): void => {
 
   .hamburger--side {
     display: none;
-  }
-}
-
-@media screen and (max-width: 1080px) {
-  .header {
-    .header--side {
-      //width: 40vw;
-    }
   }
 }
 

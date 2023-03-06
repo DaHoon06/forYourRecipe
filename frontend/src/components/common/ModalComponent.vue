@@ -6,6 +6,29 @@
   </div>
 </template>
 
+<!--<script lang="ts" setup>-->
+<!--import {withDefaults, defineProps, ref, Ref, watchEffect} from "vue";-->
+
+<!--const props = withDefaults(defineProps<{ scroll?: boolean }>(), {scroll: false})-->
+
+<!--const isOpen: Ref<boolean> = ref(false);-->
+
+
+<!--const disabledScroll = () => {-->
+<!--  const html = document.querySelector('html');-->
+<!--  if (html) isOpen.value ? html.style.overflow = 'hidden' : html.style.overflow = ''-->
+<!--}-->
+<!--watchEffect(() => disabledScroll());-->
+
+<!--const show = () => {-->
+<!--  isOpen.value = true;-->
+<!--}-->
+
+<!--const hide = () => {-->
+<!--  isOpen.value = false;-->
+<!--}-->
+<!--</script>-->
+
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
 import {Prop, Watch} from "vue-property-decorator";

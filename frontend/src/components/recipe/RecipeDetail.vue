@@ -65,7 +65,7 @@
     </section>
 
     <teleport to="#modal">
-      <Modal ref="modal">
+      <modal-component ref="modal">
         <section class="modal--message-box">
           <text-font class="delete-warning-message">레시피를 삭제하겠습니까?</text-font>
           <section class="flex justify-content-around">
@@ -77,7 +77,7 @@
             </custom-button>
           </section>
         </section>
-      </Modal>
+      </modal-component>
     </teleport>
   </article>
 </template>
@@ -88,19 +88,18 @@ import {ins} from "@/lib/axios";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {Recipe} from "@/interfaces/recipe";
 import Spinner from "@/components/common/Spinner.vue";
-import {markRaw} from "vue";
-import Modal from "@/components/common/Modal.vue";
+import ModalComponent from "@/components/common/ModalComponent.vue";
 import {Ref} from "vue-property-decorator";
-import {ModalComponent} from "@/types/type";
+import {ModalComponentType} from "@/types/type";
 
 @Options({
   components: {
     RecipeUi,
-    Modal
+    ModalComponent
   }
 })
 export default class RecipeDetail extends Vue {
-  @Ref('modal') readonly modal!: ModalComponent;
+  @Ref('modal') readonly modal!: ModalComponentType;
 
   isLoading = true;
   recipe: Recipe.Info = {

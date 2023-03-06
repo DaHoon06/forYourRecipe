@@ -11,7 +11,7 @@
             {{ cardItem.desc }}
           </text-font>
           <figure class="recipe-like--wrapper">
-            <hearts :like="favorite" @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
+            <hearts-icon :like="favorite" @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
 
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
@@ -32,14 +32,14 @@
 import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
-import Hearts from "@/components/icons/Hearts.vue";
+import HeartsIcon from "@/components/icons/HeartsIcon.vue";
 import {useStore} from "vuex";
 import {ins} from "@/lib/axios";
 import {computed} from "vue";
 
 @Options({
   components: {
-    Hearts
+    HeartsIcon
   }
 })
 export default class CardUi extends Vue {

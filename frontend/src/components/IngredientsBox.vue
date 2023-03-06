@@ -41,7 +41,7 @@
   </article>
   <!-- TODO: 재료 선택 컴포넌트 분리 작업 -->
   <teleport to="#modal">
-    <Modal ref="modal">
+    <modal-component ref="modal">
       <section class="selected-ingredients--container">
         <text-font class="pb-14">재료를 선택해주세요.</text-font>
 
@@ -80,29 +80,28 @@
         </section>
 
       </section>
-    </Modal>
+    </modal-component>
   </teleport>
 </template>
 
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
-import Modal from "@/components/common/Modal.vue";
-import {Ref, Watch} from "vue-property-decorator";
-import {ModalComponent} from "@/types/type";
+import ModalComponent from "@/components/common/ModalComponent.vue";
+import {Ref} from "vue-property-decorator";
+import {ModalComponentType} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import {useStore} from "vuex";
-import {computed} from "vue";
 import IngredientIcon from "@/components/common/IngredientIcon.vue";
 
 @Options({
   components: {
-    Modal,
+    ModalComponent,
     IngredientIcon
   }
 })
 export default class IngredientsBox extends Vue {
-  @Ref('modal') readonly modal!: ModalComponent;
+  @Ref('modal') readonly modal!: ModalComponentType;
   isLoading = true;
   ingredientsCategory: Recipe.IngredientCategories[] = [];
   ingredients: Recipe.IngredientType[] = [];

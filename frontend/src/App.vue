@@ -1,31 +1,16 @@
 <template>
-  <loading-spinner v-if="isLoading"/>
   <div class="container">
     <header-component/>
     <router-view class="app"/>
   </div>
-  <Footer/>
+  <footer-component/>
 </template>
-<script lang="ts">
 
-import {Options, Vue} from "vue-class-component";
+<script lang="ts" setup>
 import HeaderComponent from "@/components/layout/HeaderComponent.vue";
-import Footer from "@/components/layout/Footer.vue";
-
-@Options({
-  components: {
-    Footer,
-    HeaderComponent,
-  }
-})
-export default class App extends Vue {
-  isLoading = true;
-
-  mounted() {
-    this.isLoading = false
-  }
-}
+import FooterComponent from "@/components/layout/FooterComponent.vue";
 </script>
+
 <style scoped lang="scss">
 .container {
   height: auto;
