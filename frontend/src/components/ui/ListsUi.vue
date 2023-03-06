@@ -25,12 +25,12 @@
 
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
-import {Prop, Watch} from "vue-property-decorator";
+import {Prop} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
 import Hearts from "@/components/icons/Hearts.vue";
 import {ins} from "@/lib/axios";
 import {useStore} from "vuex";
-import {computed, ComputedRef} from "vue";
+import {computed} from "vue";
 
 @Options({
   components: {
@@ -42,13 +42,7 @@ export default class ListsUi extends Vue {
   @Prop() readonly recipeDetail?: (payload: string) => void;
 
   store = useStore();
-  favoriteLists: string[] = this.store.getters["userModule/getFavoriteRecipe"];
-  test: string[] = [];
-
-  @Watch('favoriteLists')
-  testFunction() {
-    console.log('?')
-  }
+  favoriteLists: any = computed(() => this.store.getters["userModule/getFavoriteRecipe"]);
 
   private get favorite() {
     return this.favoriteLists.indexOf(this.listItem._id) > -1;
@@ -63,7 +57,7 @@ export default class ListsUi extends Vue {
           user
         }
         const {data} = await ins.patch('/recipes/update-like', body);
-        console.log(data)
+        this.store.commit("userModule/setFavoriteLists", data);
       } else {
         alert('로그인 해롸~')
       }

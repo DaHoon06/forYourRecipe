@@ -11,7 +11,7 @@
             {{ cardItem.desc }}
           </text-font>
           <figure class="recipe-like--wrapper">
-            <hearts @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
+            <hearts :like="favorite" @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
 
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
@@ -35,6 +35,7 @@ import {Recipe} from "@/interfaces/recipe";
 import Hearts from "@/components/icons/Hearts.vue";
 import {useStore} from "vuex";
 import {ins} from "@/lib/axios";
+import {computed} from "vue";
 
 @Options({
   components: {
@@ -46,6 +47,7 @@ export default class CardUi extends Vue {
   @Prop() readonly recipeDetail?: (payload: string) => void;
 
   store = useStore();
+  favoriteLists: any = computed(() => this.store.getters["userModule/getFavoriteRecipe"]);
 
   private async favoriteRecipe(id: string) {
     try {
@@ -56,13 +58,17 @@ export default class CardUi extends Vue {
           user
         }
         const {data} = await ins.patch('/recipes/update-like', body);
-        console.log(data)
+        this.store.commit("userModule/setFavoriteLists", data);
       } else {
         alert('로그인 해롸~')
       }
     } catch (e) {
       console.log(e)
     }
+  }
+
+  private get favorite() {
+    return this.favoriteLists.indexOf(this.cardItem._id) > -1;
   }
 }
 </script>

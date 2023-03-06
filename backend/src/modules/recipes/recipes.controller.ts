@@ -215,7 +215,7 @@ export class RecipesController {
   })
   private async updateLike(
     @Body() recipe: UpdatedRecipeLikeDto,
-  ): Promise<number> {
+  ): Promise<string[]> {
     return this.recipesService.updateLike(recipe);
   }
 
