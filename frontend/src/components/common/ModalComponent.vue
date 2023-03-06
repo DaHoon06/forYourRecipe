@@ -38,6 +38,33 @@ export default defineComponent({
 
 </script>
 
+<!--<script lang="ts">-->
+<!--import {Options, Vue} from "vue-class-component";-->
+<!--import {Prop, Watch} from "vue-property-decorator";-->
+
+<!--@Options({})-->
+<!--export default class Modal extends Vue {-->
+<!--  @Prop({default: true}) scroll!: boolean;-->
+
+<!--  isOpen = false;-->
+
+<!--  @Watch('isOpen')-->
+<!--  private disabledScroll() {-->
+<!--    const html = document.querySelector('html');-->
+<!--    if (html) this.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''-->
+<!--  }-->
+
+<!--  show() {-->
+<!--    this.isOpen = true;-->
+<!--  }-->
+
+<!--  hide() {-->
+<!--    this.isOpen = false;-->
+<!--  }-->
+
+<!--}-->
+<!--</script>-->
+
 <style scoped lang="scss">
 
 .modal {

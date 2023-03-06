@@ -62,53 +62,6 @@ const recipeDetail = (id: string): void => {
 load();
 </script>
 
-<!--<script lang="ts">-->
-<!--import {Options, Vue} from "vue-class-component";-->
-<!--import Modal from "@/components/common/ModalComponent.vue";-->
-<!--import CardUi from "@/components/ui/CardUi.vue";-->
-<!--import Button from "@/components/common/CustomButton.vue";-->
-<!--import IngredientsBox from "@/components/IngredientsBox.vue";-->
-<!--import {ins} from "@/lib/axios";-->
-<!--import ListsUi from "@/components/ui/ListsUi.vue";-->
-<!--import {Recipe} from "@/interfaces/recipe";-->
-
-<!--@Options({-->
-<!--  components: {-->
-<!--    ListsUi,-->
-<!--    Button,-->
-<!--    Modal,-->
-<!--    CardUi,-->
-<!--    IngredientsBox-->
-<!--  }-->
-<!--})-->
-<!--export default class HomeView extends Vue {-->
-<!--  isLoading = true;-->
-<!--  recipeCards: Recipe.Info[] = [];-->
-
-<!--  created() {-->
-<!--    this.load();-->
-<!--  }-->
-
-<!--  private findAllRecipe(): void {-->
-<!--    this.$router.push('/recipe/all')-->
-<!--  }-->
-
-<!--  private async load(): Promise<void> {-->
-<!--    try {-->
-<!--      const {data} = await ins.get('/recipes/random-recipes');-->
-<!--      this.recipeCards = data;-->
-<!--      this.isLoading = false;-->
-<!--    } catch (e) {-->
-<!--      console.log(e)-->
-<!--    }-->
-<!--  }-->
-
-<!--  private recipeDetail(id: string) {-->
-<!--    this.$router.push(`/recipe/detail/${id}`)-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
-
 <style scoped lang="scss">
 hr {
   margin: 0;

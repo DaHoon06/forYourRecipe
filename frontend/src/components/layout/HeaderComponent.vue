@@ -41,7 +41,7 @@ import {useStore} from "vuex";
 import {NAVIGATION} from "@/constant/navigation.href";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
-import {computed, ComputedRef, reactive} from "vue";
+import {computed, ComputedRef, onMounted, reactive} from "vue";
 import {useRouter} from "vue-router";
 import NavigationMenu from "@/components/common/NavigationMenu.vue";
 import SearchInput from "@/components/common/SearchInput.vue";
@@ -56,6 +56,10 @@ interface HeaderState {
 
 const store = useStore();
 const router = useRouter();
+
+onMounted(() => {
+  browserResizeCheck();
+})
 
 const state: HeaderState = reactive({
   isOpen: false,

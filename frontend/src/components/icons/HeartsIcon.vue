@@ -12,13 +12,9 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps} from 'vue';
+import {withDefaults, defineProps} from 'vue';
 
-interface Props {
-  like: boolean
-}
-
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<{ like: boolean }>(), {like: false})
 </script>
 
 <style scoped lang="scss">

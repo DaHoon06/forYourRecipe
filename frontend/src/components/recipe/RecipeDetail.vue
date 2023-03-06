@@ -87,7 +87,7 @@ import {Options, Vue} from "vue-class-component";
 import {ins} from "@/lib/axios";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {Recipe} from "@/interfaces/recipe";
-import Spinner from "@/components/common/Spinner.vue";
+import Spinner from "@/components/common/LoadingSpinner.vue";
 import ModalComponent from "@/components/common/ModalComponent.vue";
 import {Ref} from "vue-property-decorator";
 import {ModalComponentType} from "@/types/type";
