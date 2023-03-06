@@ -1,10 +1,10 @@
 <template>
   <article class="list__layout scroll">
     <article class="list__container">
-      <div class="list-img--wrapper">
+      <div class="list-img--wrapper" @click.once="recipeDetail">
         <img :src="listItem.profileImage" width="284" height="177" alt="음식 이미지" loading="lazy"/>
       </div>
-      <section class="list__body w-100">
+      <section class="list__body w-100" @click.once="recipeDetail">
         <text-font size="16" class="recipe--title">{{ listItem.name }}</text-font>
         <text-font size="12" color="placeholder" class="recipe--description">{{ listItem.desc }}</text-font>
         <figure class="recipe-like--wrapper">
@@ -13,21 +13,58 @@
             <text-font size="14">{{ listItem.likes.length }}</text-font>
           </figcaption>
         </figure>
-        <div class="flex mt-6">
-          <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+        <div class="tags--wrapper mt-6">
+          <span v-for="ingredient of listItem.detailedIngredient" :key="ingredient._id"
+                class="tags mr-4">{{ ingredient.name }}</span>
         </div>
       </section>
+      <hearts :like="favorite" @click="favoriteRecipe(listItem._id)"/>
     </article>
   </article>
 </template>
 
 <script lang="ts">
-import {Vue} from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import {Recipe} from "@/interfaces/recipe";
+import Hearts from "@/components/icons/Hearts.vue";
+import {ins} from "@/lib/axios";
+import {useStore} from "vuex";
+import {computed} from "vue";
 
+@Options({
+  components: {
+    Hearts
+  }
+})
 export default class ListsUi extends Vue {
   @Prop() readonly listItem!: Recipe.Info;
+  @Prop() readonly recipeDetail?: (payload: string) => void;
+
+  store = useStore();
+  favoriteLists: any = computed(() => this.store.getters["userModule/getFavoriteRecipe"]);
+
+  private get favorite() {
+    return this.favoriteLists.indexOf(this.listItem._id) > -1;
+  }
+
+  private async favoriteRecipe(id: string) {
+    try {
+      const user = this.store.getters["userModule/getUid"];
+      if (user) {
+        const body = {
+          id,
+          user
+        }
+        const {data} = await ins.patch('/recipes/update-like', body);
+        this.store.commit("userModule/setFavoriteLists", data);
+      } else {
+        alert('로그인 해롸~')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 
@@ -54,6 +91,7 @@ export default class ListsUi extends Vue {
     img {
       width: 100%;
       height: 100%;
+      max-height: 96px;
       border-radius: 8px;
       background-repeat: no-repeat;
     }
@@ -108,8 +146,8 @@ export default class ListsUi extends Vue {
   &:hover {
     border-color: rgba(130, 130, 130, 0.4);
     cursor: pointer;
-    -webkit-filter: brightness(90%);
-    filter: brightness(90%);
+    -webkit-filter: brightness(95%);
+    filter: brightness(95%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
   }

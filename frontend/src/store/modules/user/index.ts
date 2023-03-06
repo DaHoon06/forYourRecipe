@@ -21,6 +21,8 @@ const getDefaultState = () => {
     refreshToken: "",
     name: "",
     img: "",
+    uid: "",
+    favoriteRecipes: [],
   };
 };
 const state = getDefaultState();
@@ -33,9 +35,14 @@ export const userModule: Module<STORE.UserState, RootState> = {
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
       state.img = payload.img;
+      state.uid = payload.uid;
+      state.favoriteRecipes = payload.favoriteRecipes;
     },
     resetUserData: (state: STORE.UserState) => {
       Object.assign(state, getDefaultState());
+    },
+    setFavoriteLists: (state: STORE.UserState, payload: string[]) => {
+      state.favoriteRecipes = payload;
     },
   },
   actions: {
@@ -50,12 +57,14 @@ export const userModule: Module<STORE.UserState, RootState> = {
           email,
         };
         const { data } = await ins.post("/users/sign-in", sendData);
-        const { name, img } = data;
+        const { name, img, favoriteRecipes } = data;
         const userData = {
           accessToken,
           refreshToken,
           name,
           img,
+          uid,
+          favoriteRecipes,
         };
         await context.commit("setUserData", userData);
       } catch (e) {
@@ -64,17 +73,23 @@ export const userModule: Module<STORE.UserState, RootState> = {
     },
   },
   getters: {
-    getAccessToken: (state: STORE.UserState) => {
+    getAccessToken: (state: STORE.UserState): string => {
       return state.accessToken;
     },
-    getRefreshToken: (state: STORE.UserState) => {
+    getRefreshToken: (state: STORE.UserState): string => {
       return state.refreshToken;
     },
-    getName: (state: STORE.UserState) => {
+    getName: (state: STORE.UserState): string => {
       return state.name;
     },
-    getProfileImg: (state: STORE.UserState) => {
+    getProfileImg: (state: STORE.UserState): string => {
       return state.img;
+    },
+    getUid: (state: STORE.UserState): string => {
+      return state.uid;
+    },
+    getFavoriteRecipe: (state: STORE.UserState): string[] => {
+      return state.favoriteRecipes;
     },
   },
 };

@@ -6,8 +6,8 @@
     </section>
     <hr/>
     <section class="w-100" v-for="(dish) of recipeList" :key="dish._id">
-      <card-ui :card-item="dish"/>
-      <lists-ui :list-item="dish"/>
+      <card-ui :recipe-detail="() => recipeDetail(dish._id)" :card-item="dish"/>
+      <lists-ui :recipe-detail="() => recipeDetail(dish._id)" :list-item="dish"/>
     </section>
   </article>
 
@@ -49,6 +49,10 @@ export default class RecipeSearch extends Vue {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  private recipeDetail(id: string) {
+    this.$router.push(`/recipe/detail/${id}`)
   }
 }
 </script>

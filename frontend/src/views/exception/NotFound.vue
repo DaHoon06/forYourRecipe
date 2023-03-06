@@ -14,14 +14,13 @@
   </article>
 </template>
 
-<script lang="ts">
-import {Vue} from "vue-class-component";
+<script lang="ts" setup>
+import {useRouter} from "vue-router";
 
-export default class NotFound extends Vue {
+const router = useRouter();
 
-  private redirectHome(): void {
-    this.$router.push('/');
-  }
+const redirectHome = (): void => {
+  router.push('/');
 }
 </script>
 
@@ -31,7 +30,7 @@ export default class NotFound extends Vue {
   height: 100%;
 
   &--container {
-    padding-top: 35%;
+    padding-top: 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;

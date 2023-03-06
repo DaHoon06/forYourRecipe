@@ -16,5 +16,7 @@ export namespace STORE {
     refreshToken: string;
     name: string;
     img: string;
+    uid: string;
+    favoriteRecipes: string[];
   }
 }

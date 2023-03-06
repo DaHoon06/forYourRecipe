@@ -48,7 +48,7 @@
 
         <div v-if="recipe.steps.length > 0">
           <section v-for="(item) of recipe.steps" :key="item._id" class="pb-10 flex">
-            <text-font size="20" type="eng" class="recipe-detail-desc--steps">STEP {{item.step}}</text-font>
+            <text-font size="20" type="eng" class="recipe-detail-desc--steps">STEP {{ item.step }}</text-font>
             <div class="recipe-detail--desc">
               <text-font>{{ item.desc }}</text-font>
             </div>
@@ -56,10 +56,10 @@
           </section>
         </div>
       </section>
-
     </recipe-ui>
+
     <section class="recipe-detail__button--wrapper">
-      <custom-button variant="primary" @click="historyBack">
+      <custom-button variant="black" @click="historyBack">
         <text-font color="white">목록</text-font>
       </custom-button>
     </section>
@@ -116,8 +116,6 @@ export default class RecipeDetail extends Vue {
     user: '',
     updatedAt: new Date()
   };
-
-
   recipeId = '';
 
   created() {
@@ -188,6 +186,7 @@ export default class RecipeDetail extends Vue {
     padding: 0.5em;
     letter-spacing: 1.2px;
   }
+
   .recipe-detail-desc--steps {
     width: 15%;
     text-align: center;
@@ -211,7 +210,7 @@ export default class RecipeDetail extends Vue {
     padding-top: 20px;
     display: flex;
     max-width: 1000px;
-    justify-content: center;
+    justify-content: flex-end;
     margin: auto;
   }
 }
@@ -227,7 +226,7 @@ export default class RecipeDetail extends Vue {
   }
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
   .recipe-detail__label {
     font-size: 16px !important;
   }
@@ -237,7 +236,10 @@ export default class RecipeDetail extends Vue {
   }
   .recipe-detail--container {
     padding: 1rem;
-  }
 
+    .recipe-detail__button--wrapper {
+      justify-content: center;
+    }
+  }
 }
 </style>

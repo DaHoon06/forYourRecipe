@@ -11,15 +11,16 @@
 
         <section class="recipe-grid--layout">
           <text-font size="20" class="pr-16">레시피 제목</text-font>
-          <input ref="recipeName" type="text" class="input input-text" v-model="recipePost.name" tabindex="10"/>
+          <input ref="recipeName" maxlength="120" type="text" class="input input-text" v-model="recipePost.name"
+                 tabindex="10"/>
         </section>
 
         <div class="dotted my-16"/>
 
         <section class="recipe-grid--layout">
           <text-font size="20">레시피 소개</text-font>
-          <textarea ref="recipeDesc" class="input scroll textarea input-text" v-model="recipePost.desc"
-                    tabindex="10"></textarea>
+          <textarea ref="recipeDesc" class="input scroll textarea input-text"
+                    tabindex="10" v-model="recipePost.desc"></textarea>
         </section>
 
         <div class="dotted my-16"/>
@@ -76,9 +77,9 @@
                    :key="index" class="w-100 flex pb-10">
                 <input :ref="`recipeIngredient-${index}`" type="text" class="input mr-10"
                        v-model="ingredientsSection.name"
-                       placeholder="예) 돼지고기" tabindex="10"/>
+                       placeholder="예) 돼지고기" tabindex="10" maxlength="100"/>
                 <input :ref="`recipeIngredientUnit-${index}`" type="text" class="input mr-10" placeholder="40g"
-                       v-model="ingredientsSection.unit" tabindex="10"/>
+                       v-model="ingredientsSection.unit" tabindex="10" maxlength="100"/>
                 <div class="ingredient-button--group">
                   <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, recipePost.allIngredient[0].ingredients)">
@@ -105,9 +106,9 @@
               <div v-for="(condimentSection, index) of recipePost.allIngredient[1].ingredients"
                    :key="index" class="w-100 flex pb-10">
                 <input :ref="`recipeCondiment-${index}`" type="text" class="input mr-10" placeholder="예) 설탕"
-                       v-model="condimentSection.name" tabindex="10"/>
+                       v-model="condimentSection.name" tabindex="10" maxlength="100"/>
                 <input :ref="`recipeCondimentUnit-${index}`" type="text" class="input mr-10" placeholder="30g"
-                       v-model="condimentSection.unit" tabindex="10"/>
+                       v-model="condimentSection.unit" tabindex="10" maxlength="100"/>
                 <div class="ingredient-button--group">
                   <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, recipePost.allIngredient[1].ingredients)">
@@ -255,6 +256,13 @@ export default class AdminRecipePost extends Vue {
     if (this.recipeId.length > 0) this.load();
     this.loadCategory();
     this.isLoading = false;
+  }
+
+  textareaMaxLengthCheck(e: Event): string {
+    const {value} = e.target as any;
+    console.log(value.length)
+    if (value.length >= 120) return value.substring(0, 121);
+    return value;
   }
 
   private async load(): Promise<void> {

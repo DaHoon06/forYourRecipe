@@ -8,12 +8,18 @@
 
     <section class="main__body">
       <section class="main__body--container">
-        <text-font class="today-recommended-dishes" color="black" size="24">오늘의 추천 요리</text-font>
+        <div class="main__label--wrapper">
+          <text-font class="today-recommended-dishes" color="black" size="20" weight="medium">오늘의 추천 요리</text-font>
+          <custom-button type="button" variant="icon-button" class="redirect-all-recipe" @click="findAllRecipe">
+            <text-font color="black" size="14" class="pr-6" weight="medium">전체보기</text-font>
+            <img src="@/assets/images/icons/redirect.svg" width="24" height="24" alt="all recipe"/>
+          </custom-button>
+        </div>
         <hr/>
         <section class="card--wrapper">
           <div v-for="(dish) in recipeCards" :key="dish._id" class="w-100">
-            <card-ui :card-item="dish" @click="recipeDetail(dish._id)"/>
-            <lists-ui :list-item="dish" @click="recipeDetail(dish._id)"/>
+            <card-ui :recipe-detail="() => recipeDetail(dish._id)" :card-item="dish"/>
+            <lists-ui :recipe-detail="() => recipeDetail(dish._id)" :list-item="dish"/>
           </div>
         </section>
       </section>
@@ -48,7 +54,11 @@ export default class HomeView extends Vue {
     this.load();
   }
 
-  private async load() {
+  private findAllRecipe(): void {
+    this.$router.push('/recipe/all')
+  }
+
+  private async load(): Promise<void> {
     try {
       const {data} = await ins.get('/recipes/random-recipes');
       this.recipeCards = data;
@@ -90,16 +100,11 @@ hr {
   padding: 10px 20px 10rem 20px;
   height: 100%;
 
-
   &--container {
     padding: 2rem;
 
     .card--wrapper {
       column-gap: 18px;
-    }
-
-    .today-recommended-dishes {
-      padding-bottom: 1rem;
     }
 
     .card--wrapper {
@@ -108,6 +113,23 @@ hr {
       justify-items: center;
       row-gap: 1rem;
       margin-top: 70px; //새로 추가
+    }
+  }
+
+  .main__label--wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .redirect-all-recipe {
+    display: flex;;
+    align-items: center;
+
+    &:hover {
+      p {
+        color: $gray1;
+      }
     }
   }
 }
@@ -119,8 +141,11 @@ hr {
     &--container {
       padding: 0 0 4rem 0;
 
-      .today-recommended-dishes {
+      .main__label--wrapper {
         padding: 1rem;
+      }
+
+      .today-recommended-dishes {
         font-size: 18px !important;
       }
 

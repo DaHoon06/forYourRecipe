@@ -1,5 +1,5 @@
 <template>
-  <button :class="ButtonWrapper" :type="type">
+  <button :disabled="disabled" :class="[ButtonWrapper,{'disabled' : disabled}]" :type="type">
     {{ label }}
     <slot/>
   </button>
@@ -16,6 +16,7 @@ export default class Button extends Vue {
   @Prop() readonly label?: string
   @Prop({default: 'black'}) readonly variant?: Variant
   @Prop({default: 'button'}) readonly type!: ButtonType
+  @Prop({default: false}) readonly disabled?: boolean;
 
   get ButtonWrapper() {
     return this.variant
@@ -33,7 +34,13 @@ export default class Button extends Vue {
   width: 152px;
   height: 46px;
 }
+.disabled {
+  cursor: default;
 
+  p {
+    color: $white !important;
+  }
+}
 .black {
   @include defaultButtonOptions();
   background-color: $button_black;
