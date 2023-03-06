@@ -168,7 +168,7 @@ export class RecipesService {
   }
 
   //회원 즐겨찾는 레시피에 추가
-  async updateLike(recipe: UpdatedRecipeLikeDto): Promise<number> {
+  async updateLike(recipe: UpdatedRecipeLikeDto): Promise<string[]> {
     const { id, user } = recipe;
     const { likes } = await this.recipeModel.findOne({ _id: id });
     const index = likes.indexOf(user);
@@ -178,8 +178,7 @@ export class RecipesService {
       likes.push(user);
     }
     await this.recipeModel.updateOne({ _id: id }, { $set: { likes } });
-    await this.userService.setFavoriteRecipes(id, user);
-    return likes.length;
+    return this.userService.setFavoriteRecipes(id, user);
   }
 
   //레시피 삭제

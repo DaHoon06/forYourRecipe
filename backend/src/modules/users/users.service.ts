@@ -27,7 +27,10 @@ export class UsersService {
     return this.getUserDto(foundUser);
   }
 
-  async setFavoriteRecipes(recipeId: string, userId: string): Promise<boolean> {
+  async setFavoriteRecipes(
+    recipeId: string,
+    userId: string,
+  ): Promise<string[]> {
     const { favoriteRecipes } = await this.userModel.findById(userId);
     const index = favoriteRecipes.indexOf(recipeId);
     if (index > -1) {
@@ -35,11 +38,11 @@ export class UsersService {
     } else {
       favoriteRecipes.push(recipeId);
     }
-    const { acknowledged } = await this.userModel.updateOne(
+    await this.userModel.updateOne(
       { _id: userId },
       { $set: { favoriteRecipes: favoriteRecipes } },
     );
-    return acknowledged;
+    return favoriteRecipes;
   }
 
   private getUserDto(user: User): UserDto {

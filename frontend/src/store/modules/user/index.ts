@@ -41,6 +41,9 @@ export const userModule: Module<STORE.UserState, RootState> = {
     resetUserData: (state: STORE.UserState) => {
       Object.assign(state, getDefaultState());
     },
+    setFavoriteLists: (state: STORE.UserState, payload: string[]) => {
+      state.favoriteRecipes = payload;
+    },
   },
   actions: {
     login: async (context, payload: UserImpl) => {
