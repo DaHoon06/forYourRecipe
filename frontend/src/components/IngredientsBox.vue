@@ -84,88 +84,75 @@
   </teleport>
 </template>
 
-<script lang="ts">
-import {Options, Vue} from "vue-class-component";
+<script lang="ts" setup>
 import ModalComponent from "@/components/common/ModalComponent.vue";
-import {Ref} from "vue-property-decorator";
 import {ModalComponentType} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import {useStore} from "vuex";
 import IngredientIcon from "@/components/common/IngredientIcon.vue";
+import {computed, onMounted, Ref, ref} from "vue";
+import {useRouter} from "vue-router";
 
-@Options({
-  components: {
-    ModalComponent,
-    IngredientIcon
+const modal: Ref<ModalComponentType> = ref(null);
+const isLoading: Ref<boolean> = ref(true);
+const ingredientsCategory: Ref<Recipe.IngredientCategories[]> = ref([]);
+const ingredients: Ref<Recipe.IngredientType[]> = ref([]);
+const selected: Ref<any[]> = ref([]);
+const selectBoxDisabled = computed(() => ingredients.value.length === 3);
+const store = useStore();
+const router = useRouter();
+
+onMounted(() => isLoading.value = false);
+
+const pickUpModal = async (): Promise<void> => {
+  isLoading.value = true;
+  modal.value.show();
+  store.commit('recipeModule/reset');
+  try {
+    const {data} = await ins.get('/ingredients/all-ingredients');
+    ingredientsCategory.value = data;
+    isLoading.value = false;
+  } catch (e) {
+    console.log(e)
   }
-})
-export default class IngredientsBox extends Vue {
-  @Ref('modal') readonly modal!: ModalComponentType;
-  isLoading = true;
-  ingredientsCategory: Recipe.IngredientCategories[] = [];
-  ingredients: Recipe.IngredientType[] = [];
-  selected = [];
+}
 
-  store = useStore();
-
-  mounted() {
-    this.isLoading = false;
-  }
-
-  private async pickUpModal(): Promise<void> {
-    this.isLoading = true;
-    this.modal.show();
-    this.store.commit('recipeModule/reset');
-    try {
-      const {data} = await ins.get('/ingredients/all-ingredients');
-      this.ingredientsCategory = data;
-      this.isLoading = false;
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  private selectedIngredient(ingredient: Recipe.IngredientType): void {
+const selectedIngredient =
+  (ingredient: Recipe.IngredientType): void => {
     const {selected} = ingredient;
     if (selected) ingredient.selected = !selected;
     else ingredient.selected = true;
-    const index = this.ingredients.findIndex((item) => item._id === ingredient._id);
-    if (index < 0) this.ingredients.push(ingredient)
-    else this.ingredients.splice(index, 1);
-  }
-
-  get selectBoxDisabled(): boolean {
-    return this.ingredients.length === 3;
-  }
-
-  private cancel(): void {
-    this.reset();
-    this.modal.hide();
-  }
-
-  private save(): void {
-    this.isLoading = true;
-    this.store.commit("recipeModule/saveIngredients", this.ingredients);
-    this.modal.hide();
-    this.isLoading = false;
-  }
-
-  private findRecipe(): void {
-    const query = this.ingredients.map((value) => value._id)
-    this.$router.push({
-      path: '/recipe/lists',
-      query: {key: query}
-    })
-  }
-
-  private reset() {
-    this.store.commit('recipeModule/reset');
-    this.ingredients = [];
-    this.selected = [];
+    const index = ingredients.value.findIndex((item) => item._id === ingredient._id);
+    if (index < 0) ingredients.value.push(ingredient)
+    else ingredients.value.splice(index, 1);
   }
 
 
+const cancel = (): void => {
+  reset();
+  modal.value.hide();
+}
+
+const save = (): void => {
+  isLoading.value = true;
+  store.commit("recipeModule/saveIngredients", ingredients);
+  modal.value.hide();
+  isLoading.value = false;
+}
+
+const findRecipe = (): void => {
+  const query = ingredients.value.map((value) => value._id)
+  router.push({
+    path: '/recipe/lists',
+    query: {key: query}
+  })
+}
+
+const reset = (): void => {
+  store.commit('recipeModule/reset');
+  ingredients.value = [];
+  selected.value = [];
 }
 </script>
 

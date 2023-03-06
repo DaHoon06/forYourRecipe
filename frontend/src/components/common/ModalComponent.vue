@@ -6,54 +6,36 @@
   </div>
 </template>
 
-<!--<script lang="ts" setup>-->
-<!--import {withDefaults, defineProps, ref, Ref, watchEffect} from "vue";-->
-
-<!--const props = withDefaults(defineProps<{ scroll?: boolean }>(), {scroll: false})-->
-
-<!--const isOpen: Ref<boolean> = ref(false);-->
-
-
-<!--const disabledScroll = () => {-->
-<!--  const html = document.querySelector('html');-->
-<!--  if (html) isOpen.value ? html.style.overflow = 'hidden' : html.style.overflow = ''-->
-<!--}-->
-<!--watchEffect(() => disabledScroll());-->
-
-<!--const show = () => {-->
-<!--  isOpen.value = true;-->
-<!--}-->
-
-<!--const hide = () => {-->
-<!--  isOpen.value = false;-->
-<!--}-->
-<!--</script>-->
-
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
-import {Prop, Watch} from "vue-property-decorator";
+import {ref, Ref, watchEffect, defineComponent} from "vue";
 
-@Options({})
-export default class Modal extends Vue {
-  @Prop({default: true}) scroll!: boolean;
+export default defineComponent({
+  props: [
+    'scroll'
+  ],
+  setup(props) {
+    const isOpen: Ref<boolean> = ref(false);
+    
+    const disabledScroll = () => {
+      const html = document.querySelector('html');
+      if (html) isOpen.value ? html.style.overflow = 'hidden' : html.style.overflow = ''
+    }
+    watchEffect(() => disabledScroll());
 
-  isOpen = false;
+    const show = () => {
+      isOpen.value = true;
+    }
 
-  @Watch('isOpen')
-  private disabledScroll() {
-    const html = document.querySelector('html');
-    if (html) this.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''
+    const hide = () => {
+      isOpen.value = false;
+    }
+    return {
+      show, hide, props, isOpen
+    }
   }
+})
 
-  show() {
-    this.isOpen = true;
-  }
 
-  hide() {
-    this.isOpen = false;
-  }
-
-}
 </script>
 
 <style scoped lang="scss">
