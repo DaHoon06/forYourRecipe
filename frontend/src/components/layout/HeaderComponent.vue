@@ -12,13 +12,13 @@
       <section class="header-search--container">
         <search-input/>
         <section class="header--side">
-          <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!isLogin">
+          <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!state.isLogin">
             <text-font color="black" class="pr-6" type="eng">Login</text-font>
             <text-font color="black" class="pr-8" type="eng">with</text-font>
             <img src="@/assets/images/icons/google-black.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
           </custom-button>
           <div class="header-logout-box" v-else>
-            <text-font size="14" color="black" weight="semiBold" class="pr-10">{{ userName }} 님</text-font>
+            <text-font size="14" color="black" weight="semiBold" class="pr-10">{{ state.userName }} 님</text-font>
             <custom-button type="button" variant="icon-button" @click="logout">
               <text-font color="placeholder">Logout</text-font>
             </custom-button>
@@ -28,7 +28,7 @@
           <custom-button type="button" variant="icon-button" @click="showSideMenu">
             <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger-black.svg" alt="햄버거 메뉴"/>
           </custom-button>
-          <side-menu :isOpen="isOpen" @closeMenu="closeMenu"/>
+          <side-menu :isOpen="state.isOpen" @closeMenu="closeMenu"/>
         </section>
       </section>
     </section>
@@ -36,77 +36,76 @@
   </header>
 </template>
 
-<script lang="ts">
-import {Options, Vue} from "vue-class-component";
-import SideMenu from "@/components/common/SideMenu.vue";
-import SearchInput from "@/components/common/SearchInput.vue";
-import NavigationMenu from "@/components/common/NavigationMenu.vue";
+<script lang="ts" setup>
 import {useStore} from "vuex";
 import {NAVIGATION} from "@/constant/navigation.href";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
-import {computed, ComputedRef} from "vue";
+import {computed, ComputedRef, reactive} from "vue";
+import {useRouter} from "vue-router";
+import NavigationMenu from "@/components/common/NavigationMenu.vue";
+import SearchInput from "@/components/common/SearchInput.vue";
+import SideMenu from "@/components/common/SideMenu.vue";
 
-@Options({
-  components: {
-    SideMenu,
-    NavigationMenu,
-    SearchInput
-  }
-})
-export default class Header extends Vue {
-  isOpen = false;
-  store = useStore();
-  user: any = {}
-  isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
-  userName: ComputedRef<string> = computed(() => this.store.getters["userModule/getName"]);
+interface HeaderState {
+  isOpen: boolean,
+  user: any,
+  isLogin: ComputedRef<boolean>,
+  userName: ComputedRef<string>
+}
 
-  mounted() {
-    this.browserResizeCheck();
-  }
+const store = useStore();
+const router = useRouter();
 
-  private redirectHome(): void {
-    this.store.commit("utilModule/setCurrentPath", 0);
-    this.$router.push(NAVIGATION.HOME);
-  }
+const state = reactive({
+  isOpen: false,
+  user: null,
+  isLogin: computed(() => store.getters["utilModule/isLogin"]),
+  userName: computed(() => store.getters["userModule/getName"]),
+}) as HeaderState
 
-  private browserResizeCheck() {
-    const header = document.querySelector('.header');
-    window.addEventListener('resize', () => {
-      const width = header?.getBoundingClientRect().width;
-      if (width && width >= 767 && this.isOpen) this.isOpen = !this.isOpen;
-    })
-  }
+const redirectHome = (): void => {
+  store.commit("utilModule/setCurrentPath", 0);
+  router.push(NAVIGATION.HOME);
+}
 
-  private async login() {
-    try {
-      const provider = new GoogleAuthProvider()
-      await signInWithPopup(authService, provider)
-      this.user = authService.currentUser
-      if (this.user) {
-        await this.store.dispatch('userModule/login', this.user);
-        this.store.commit("utilModule/setIsLogin", true);
-      }
-    } catch (e) {
-      console.log(e);
+const browserResizeCheck = (): void => {
+  const header = document.querySelector('.header');
+  window.addEventListener('resize', () => {
+    const width = header?.getBoundingClientRect().width;
+    if (width && width >= 767 && state.isOpen) state.isOpen = !state.isOpen;
+  })
+}
+
+const login = async (): Promise<void> => {
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(authService, provider);
+    state.user = authService.currentUser;
+    if (state.user) {
+      await store.dispatch('userModule/login', state.user);
+      store.commit("utilModule/setIsLogin", true);
     }
-  }
-
-  private logout() {
-    authService.signOut()
-    this.store.commit("userModule/resetUserData");
-    this.store.commit('utilModule/setIsLogin', false);
-  }
-
-  private closeMenu(payload: boolean): void {
-    this.isOpen = payload;
-  }
-
-  private showSideMenu(): void {
-    this.isOpen = !this.isOpen;
+  } catch (e) {
+    console.log(e);
   }
 }
+
+const logout = (): void => {
+  authService.signOut();
+  store.commit("userModule/resetUserData");
+  store.commit('utilModule/setIsLogin', false);
+}
+
+const closeMenu = (payload: boolean): void => {
+  state.isOpen = payload;
+}
+
+const showSideMenu = (): void => {
+  state.isOpen = !state.isOpen;
+}
 </script>
+
 
 <style scoped lang="scss">
 

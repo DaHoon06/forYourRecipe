@@ -1,7 +1,7 @@
 <template>
   <loading-spinner v-if="isLoading"/>
   <div class="container">
-    <Header/>
+    <header-component/>
     <router-view class="app"/>
   </div>
   <Footer/>
@@ -9,14 +9,13 @@
 <script lang="ts">
 
 import {Options, Vue} from "vue-class-component";
-import Header from "@/components/layout/Header.vue";
+import HeaderComponent from "@/components/layout/HeaderComponent.vue";
 import Footer from "@/components/layout/Footer.vue";
 
 @Options({
   components: {
     Footer,
-    Header,
-
+    HeaderComponent,
   }
 })
 export default class App extends Vue {
