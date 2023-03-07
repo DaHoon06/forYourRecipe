@@ -18,7 +18,7 @@
                 class="tags mr-4">{{ ingredient.name }}</span>
         </div>
       </section>
-      <hearts-icon :like="favorite" @click.once="favoriteRecipe(listItem._id)"/>
+      <hearts-icon :like="favorite" @click="favoriteRecipe(listItem._id)"/>
     </article>
   </article>
 </template>
