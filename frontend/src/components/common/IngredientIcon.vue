@@ -1,22 +1,23 @@
 <template>
-  <picture :class="selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-    <img loading="lazy" :src="src"
+  <picture :class="props.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
+    <img loading="lazy" :src="props.src"
          sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
   </picture>
   <text-font class="pt-10" size="12">
-    {{ label }}
+    {{ props.label }}
   </text-font>
 </template>
 
-<script lang="ts">
-import {Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
+<script lang="ts" setup>
+import {defineProps} from "vue";
 
-export default class IngredientIcon extends Vue {
-  @Prop() src!: string;
-  @Prop() label!: string;
-  @Prop() selected!: boolean;
+interface Props {
+  src?: string,
+  label?: string,
+  selected?: boolean,
 }
+
+const props = defineProps<Props>();
 </script>
 
 <style scoped lang="scss">

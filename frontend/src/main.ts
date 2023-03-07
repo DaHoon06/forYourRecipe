@@ -4,10 +4,10 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import "./assets/css/index.scss";
-import Typography from "@/components/common/Typography.vue";
-import Button from "@/components/common/Button.vue";
+import Typography from "@/components/common/CustomFont.vue";
+import CustomButton from "@/components/common/CustomButton.vue";
 import { ins } from "@/lib/axios";
-import Spinner from "@/components/common/Spinner.vue";
+import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import InfiniteLoading from "infinite-loading-vue3-ts";
 import { useStore } from "vuex";
 
@@ -22,7 +22,7 @@ app.use(router);
 app.use(store);
 app.component("infinite-loading", InfiniteLoading);
 app.component("TextFont", Typography);
-app.component("CustomButton", Button);
-app.component("LoadingSpinner", Spinner);
+app.component("CustomButton", CustomButton);
+app.component("LoadingSpinner", LoadingSpinner);
 
 app.mount("#app");

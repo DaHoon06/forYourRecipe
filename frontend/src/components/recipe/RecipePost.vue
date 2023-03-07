@@ -114,7 +114,6 @@
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
-import Input from "@/components/common/Input.vue";
 import {ins} from "@/lib/axios";
 
 interface Steps {
@@ -146,7 +145,6 @@ interface IRecipePost {
 @Options({
   components: {
     RecipeUi,
-    Input
   }
 })
 export default class RecipePost extends Vue {

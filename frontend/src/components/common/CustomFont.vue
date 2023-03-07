@@ -1,12 +1,11 @@
 <template>
-  <p class="default" :class="[FontSize, FontColor, FontWeight, FontType]">
+  <p class="default" :class="[getFontSize, getFontColor, getFontWeight, getFontType]">
     <slot/>
   </p>
 </template>
 
-<script lang="ts">
-import {Prop} from "vue-property-decorator";
-import {Vue} from "vue-class-component";
+<script lang="ts" setup>
+import {withDefaults, defineProps, computed} from 'vue';
 
 type FontSize = '12' | '13' | '14' | '15' | '16' | '18' | '20' | '22' | '24' | '25' | '26';
 type FontColor =
@@ -20,28 +19,24 @@ type FontColor =
   | 'gray2'
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
 type FontType = 'kor' | 'eng';
-export default class Typography extends Vue {
-  @Prop({default: 'black'}) readonly color!: FontColor;
-  @Prop({default: '14'}) readonly size!: FontSize;
-  @Prop({default: 'regular'}) readonly weight!: FontWeight;
-  @Prop({default: 'kor'}) readonly type!: FontType;
 
-  get FontSize() {
-    return `font-${this.size}`;
-  }
-
-  get FontColor() {
-    return this.color;
-  }
-
-  get FontWeight() {
-    return this.weight;
-  }
-
-  get FontType() {
-    return this.type;
-  }
+interface Props {
+  color?: FontColor,
+  size?: FontSize,
+  weight?: FontWeight,
+  type?: FontType
 }
+
+const props = withDefaults(defineProps<Props>(), {
+  color: 'black',
+  size: '14',
+  weight: 'regular',
+  type: 'kor'
+});
+const getFontSize = computed(() => `font-${props.size}`);
+const getFontColor = computed(() => props.color);
+const getFontWeight = computed(() => props.weight);
+const getFontType = computed(() => props.type);
 </script>
 
 <style scoped lang="scss">

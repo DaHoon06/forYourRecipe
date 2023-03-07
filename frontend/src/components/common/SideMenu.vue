@@ -80,6 +80,94 @@
   </Transition>
 </template>
 
+<!--<script lang="ts" setup>-->
+<!--import {NAVIGATION} from "@/constant/navigation.href";-->
+<!--import {useStore} from "vuex";-->
+<!--import {authService} from "@/lib/fbase";-->
+<!--import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";-->
+<!--import {computed, ComputedRef, defineProps, ref, watch, withDefaults, defineEmits} from "vue";-->
+<!--import {useRouter} from "vue-router";-->
+
+<!--// TODO: 모바일 화면에서만 햄버거 버튼-->
+<!--const props = withDefaults(defineProps<{ isOpen: boolean }>(), {isOpen: false})-->
+<!--const open = ref(false);-->
+<!--const isLogin: ComputedRef<boolean> = computed(() => store.getters["utilModule/isLogin"]);-->
+<!--const userName: ComputedRef<string> = computed(() => store.getters["userModule/getName"]);-->
+<!--const userProfile: ComputedRef<string> = computed(() => store.getters["userModule/getProfileImg"]) || '@/assets/images/icons/profile.svg';-->
+<!--const store = useStore();-->
+<!--const router = useRouter();-->
+<!--const user: any = {} || null-->
+
+<!--const sideMenu = ref(null);-->
+
+<!--watch(router, () => closeMenu());-->
+<!--watch(props, () => {-->
+<!--  open.value = props.isOpen-->
+<!--  const html = document.querySelector('html');-->
+<!--  if (html) props.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''-->
+<!--});-->
+
+<!--const outerClickCheck = (e: Event) => {-->
+<!--  const target = e.target as HTMLElement-->
+<!--  const nav = sideMenu as HTMLElement;-->
+<!--  if (nav !== target && !nav.contains(target))-->
+<!--    closeMenu();-->
+<!--}-->
+
+<!--const closeMenu = defineEmits('closeMenu', () => {-->
+<!--  open.value = false-->
+<!--  return open;-->
+<!--})-->
+
+<!--const login = async () => {-->
+<!--  const provider = new GoogleAuthProvider()-->
+<!--  await signInWithPopup(authService, provider)-->
+<!--  user.value = authService.currentUser-->
+<!--  if (user) {-->
+<!--    await store.dispatch('userModule/login', user);-->
+<!--    await store.commit("utilModule/setIsLogin", true);-->
+<!--  }-->
+<!--}-->
+
+<!--const logout = async () => {-->
+<!--  await authService.signOut()-->
+<!--  await store.commit("userModule/resetUserData");-->
+<!--  await store.commit('utilModule/setIsLogin', false);-->
+<!--}-->
+
+<!--const redirect = (type: string): void => {-->
+<!--  closeMenu();-->
+<!--  switch (type) {-->
+<!--    case 'home':-->
+<!--      store.commit("utilModule/setCurrentPath", 0);-->
+<!--      router.push(NAVIGATION.HOME)-->
+<!--      break;-->
+<!--    case 'recipe':-->
+<!--      // TODO TEMP - ADMIN-->
+<!--      store.commit("utilModule/setCurrentPath", 1);-->
+<!--      router.push(NAVIGATION.RECIPE_POST_ADMIN)-->
+<!--      break;-->
+<!--    case 'favorite':-->
+<!--      store.commit("utilModule/setCurrentPath", 2);-->
+<!--      router.push(NAVIGATION.FAVORITE)-->
+<!--      break;-->
+<!--    case 'notice':-->
+<!--      store.commit("utilModule/setCurrentPath", 3);-->
+<!--      router.push(NAVIGATION.NOTICE)-->
+<!--      break;-->
+<!--    case 'all-recipe':-->
+<!--      store.commit("utilModule/setCurrentPath", 4);-->
+<!--      router.push(NAVIGATION.ALL_RECIPE)-->
+<!--      break;-->
+<!--    default:-->
+<!--      store.commit("utilModule/setCurrentPath", 0);-->
+<!--      router.push(NAVIGATION.HOME)-->
+<!--      break;-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+
+
 <script lang="ts">
 import {Vue} from "vue-class-component";
 import {Emit, Prop, Watch} from "vue-property-decorator";

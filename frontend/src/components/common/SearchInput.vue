@@ -7,30 +7,24 @@
   </form>
 </template>
 
-<script lang="ts">
-import {Vue} from "vue-class-component";
-import {Watch} from "vue-property-decorator";
+<script lang="ts" setup>
+import {ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
 
-export default class SearchInput extends Vue {
-  keyword = '';
+const keyword = ref('');
+const router = useRouter();
+const route = useRoute();
 
-  @Watch('$route')
-  removeKeyword() {
-    this.keywordReset();
-  }
+watch(route, () => keyword.value = '', {deep: true, immediate: false})
 
-  private async search(): Promise<void> {
-    try {
-      this.$router.push(`/recipe/search/${this.keyword}`)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  private keywordReset(): void {
-    this.keyword = '';
+const search = async (): Promise<void> => {
+  try {
+    await router.push(`/recipe/search/${keyword.value}`)
+  } catch (e) {
+    console.log(e)
   }
 }
+
 </script>
 
 <style scoped lang="scss">

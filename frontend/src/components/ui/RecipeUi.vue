@@ -4,11 +4,7 @@
   </section>
 </template>
 
-<script lang="ts">
-import {Vue} from "vue-class-component";
-
-export default class RecipeUi extends Vue {
-}
+<script lang="ts" setup>
 </script>
 
 <style scoped lang="scss">

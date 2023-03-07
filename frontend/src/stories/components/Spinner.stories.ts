@@ -1,4 +1,4 @@
-import SpinnerComponent from "@/components/common/Spinner.vue";
+import SpinnerComponent from "@/components/common/LoadingSpinner.vue";
 
 export default {
   title: "components/Spinner",
