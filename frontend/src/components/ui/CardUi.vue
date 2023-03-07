@@ -11,7 +11,7 @@
             {{ cardItem.desc }}
           </text-font>
           <figure class="recipe-like--wrapper">
-            <hearts-icon :like="favorite" @click.once="favoriteRecipe(cardItem._id)" class="mr-8"/>
+            <hearts-icon :like="favorite" @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
 
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
