@@ -1,18 +1,23 @@
 <template>
   <nav class="navigation">
     <ul>
-      <li :class="currentMenu === 1 && 'current-path'" class="mr-30">
+      <li :class="currentMenu === 4 && 'current-path'" class="mr-30">
+        <custom-button variant="icon-button" type="button" @click="redirect('all-recipe')">
+          <text-font color="black" size="16">전체 레시피</text-font>
+        </custom-button>
+      </li>
+      <li :class="currentMenu === 1 && 'current-path'" class="mr-30" v-if="isLogin">
         <custom-button variant="icon-button" type="button" @click="redirect('recipe')">
           <text-font color="black" size="16">레시피 등록</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 2 && 'current-path'" class="mr-30">
-        <custom-button variant="icon-button" type="button" @click="redirect('favorite')">
+        <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('favorite')">
           <text-font color="black" size="16">즐겨찾기</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 3 && 'current-path'">
-        <custom-button variant="icon-button" type="button" @click="redirect('notice')">
+        <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('notice')">
           <text-font color="black" size="16">공지사항</text-font>
         </custom-button>
       </li>
@@ -20,43 +25,90 @@
   </nav>
 </template>
 
-<script lang="ts">
-import {Vue} from "vue-class-component";
+<script lang="ts" setup>
 import {NAVIGATION} from "@/constant/navigation.href";
 import {computed, ComputedRef} from "vue";
 import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
-export default class NavigationMenu extends Vue {
-  store = useStore();
-  currentMenu: ComputedRef<number> = computed(() => this.store.getters["utilModule/currentPath"]);
+const router = useRouter();
+const store = useStore();
+const currentMenu: ComputedRef<number> = computed(() => store.getters["utilModule/currentPath"]);
+const isLogin: ComputedRef<boolean> = computed(() => store.getters["utilModule/isLogin"]);
 
-  private redirect(type: string) {
-    switch (type) {
-      case 'home':
-        this.store.commit("utilModule/setCurrentPath", 0);
-        this.$router.push(NAVIGATION.HOME)
-        break;
-      case 'recipe':
-        // TODO TEMP - ADMIN
-        this.store.commit("utilModule/setCurrentPath", 1);
-        this.$router.push(NAVIGATION.RECIPE_POST_ADMIN)
-        break;
-      case 'favorite':
-        this.store.commit("utilModule/setCurrentPath", 2);
-        this.$router.push(NAVIGATION.FAVORITE)
-        break;
-      case 'notice':
-        this.store.commit("utilModule/setCurrentPath", 3);
-        this.$router.push(NAVIGATION.NOTICE)
-        break;
-      default:
-        this.store.commit("utilModule/setCurrentPath", 4);
-        this.$router.push(NAVIGATION.HOME)
-        break;
-    }
+const redirect = (type: string): void => {
+  switch (type) {
+    case 'home':
+      store.commit("utilModule/setCurrentPath", 0);
+      router.push(NAVIGATION.HOME)
+      break;
+    case 'recipe':
+      // TODO TEMP - ADMIN
+      store.commit("utilModule/setCurrentPath", 1);
+      router.push(NAVIGATION.RECIPE_POST_ADMIN)
+      break;
+    case 'favorite':
+      store.commit("utilModule/setCurrentPath", 2);
+      router.push(NAVIGATION.FAVORITE)
+      break;
+    case 'notice':
+      store.commit("utilModule/setCurrentPath", 3);
+      router.push(NAVIGATION.NOTICE)
+      break;
+    case 'all-recipe':
+      store.commit("utilModule/setCurrentPath", 4);
+      router.push(NAVIGATION.ALL_RECIPE)
+      break;
+    default:
+      store.commit("utilModule/setCurrentPath", 0);
+      router.push(NAVIGATION.HOME)
+      break;
   }
 }
 </script>
+
+<!--<script lang="ts">-->
+<!--import {Vue} from "vue-class-component";-->
+<!--import {NAVIGATION} from "@/constant/navigation.href";-->
+<!--import {computed, ComputedRef} from "vue";-->
+<!--import {useStore} from "vuex";-->
+
+<!--export default class NavigationMenu extends Vue {-->
+<!--  store = useStore();-->
+<!--  currentMenu: ComputedRef<number> = computed(() => this.store.getters["utilModule/currentPath"]);-->
+<!--  isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);-->
+
+<!--  private redirect(type: string) {-->
+<!--    switch (type) {-->
+<!--      case 'home':-->
+<!--        this.store.commit("utilModule/setCurrentPath", 0);-->
+<!--        this.$router.push(NAVIGATION.HOME)-->
+<!--        break;-->
+<!--      case 'recipe':-->
+<!--        // TODO TEMP - ADMIN-->
+<!--        this.store.commit("utilModule/setCurrentPath", 1);-->
+<!--        this.$router.push(NAVIGATION.RECIPE_POST_ADMIN)-->
+<!--        break;-->
+<!--      case 'favorite':-->
+<!--        this.store.commit("utilModule/setCurrentPath", 2);-->
+<!--        this.$router.push(NAVIGATION.FAVORITE)-->
+<!--        break;-->
+<!--      case 'notice':-->
+<!--        this.store.commit("utilModule/setCurrentPath", 3);-->
+<!--        this.$router.push(NAVIGATION.NOTICE)-->
+<!--        break;-->
+<!--      case 'all-recipe':-->
+<!--        this.store.commit("utilModule/setCurrentPath", 4);-->
+<!--        this.$router.push(NAVIGATION.ALL_RECIPE)-->
+<!--        break;-->
+<!--      default:-->
+<!--        this.store.commit("utilModule/setCurrentPath", 0);-->
+<!--        this.$router.push(NAVIGATION.HOME)-->
+<!--        break;-->
+<!--    }-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
 
 <style lang="scss" scoped>
 .navigation {

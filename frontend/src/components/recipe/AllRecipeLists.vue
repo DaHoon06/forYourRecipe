@@ -1,29 +1,10 @@
 <template>
-  <section class="recipe-lists--container">
+  <section class="all-recipe--container">
     <loading-spinner v-if="isLoading"/>
-
-    <section class="recipe-lists__label pb-20">
-      <text-font size="18" class="pr-6 pb-12">선택된 재료</text-font>
-
-      <div class="selected-ingredients" v-if="selectedIngredients">
-
-        <span v-for="(ingredient) of selectedIngredients" :key="ingredient._id" class="ingredient-icon mr-12">
-
-          <picture class="ingredient-icon--wrapper">
-          <img loading="lazy" :src="ingredient.img"
-               sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
-        </picture>
-        <text-font class="pt-6">
-          {{ ingredient.name }}
-        </text-font>
-        </span>
-      </div>
-    </section>
-
-    <section class="recipe-lists__label">
-      <text-font size="18" class="pr-6">검색 결과</text-font>
-      <text-font size="16" color="placeholder">{{ total }}</text-font>
-    </section>
+    <div class="all-recipe__label">
+      <text-font size="20" weight="medium" class="pr-12">전체 레시피</text-font>
+      <text-font size="16" color="gray2" weight="regular">{{ total }}</text-font>
+    </div>
 
     <hr/>
 
@@ -46,8 +27,6 @@
       </template>
     </infinite-loading>
   </section>
-
-
 </template>
 
 <script lang="ts">
@@ -56,45 +35,32 @@ import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
-import {LocationQueryValue} from "vue-router";
-import {computed, ComputedRef} from "vue";
-import {useStore} from "vuex";
-import {STORE} from "@/interfaces/store";
 
 @Options({
   components: {
     ListsUi, CardUi,
   }
 })
-export default class RecipeLists extends Vue {
+export default class AllRecipeLists extends Vue {
   isLoading = true;
-  key: Partial<LocationQueryValue | LocationQueryValue[]> = [];
-  total = 0;
   recipeLists: Recipe.Info[] = [];
-  store = useStore();
-  selectedIngredients: ComputedRef<STORE.RecipeState[]> = computed(() => this.store.getters["recipeModule/getIngredients"]);
+  total = 0;
   page = 1;
-
-  created() {
-    const {key} = this.$route.query;
-    this.key = key;
-    this.page = 1;
-  }
 
   private async infiniteHandler($state: any): Promise<void> {
     try {
-      const {data} = await ins.get('/recipes/ingredient-recipes', {
+      const {data} = await ins.get('/recipes/all-recipes', {
         params: {
-          id: this.key,
-          page: this.page,
+          page: this.page
         }
       })
+
       if (data.length) {
         for (let i = 0; i < data.length; i++) {
           this.recipeLists.push({...data[i]});
         }
-        this.total += data.length;
         this.page += 1;
+        this.total += data.length;
         $state.loaded();
         this.isLoading = false;
       } else {
@@ -113,20 +79,25 @@ export default class RecipeLists extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 hr {
   margin: 0;
+  border: none;
+  height: 1px;
+  background-color: $line;
 }
 
-.recipe-lists--container {
-  padding: 5vh 5vw;
-  width: 100%;
-  min-height: 500px;
+.all-recipe--container {
+  padding: 1rem 0;
+  max-width: 1200px;
+  min-height: 700px;
+  margin: auto;
 
-  .selected-ingredients {
+  .all-recipe__label {
     display: flex;
-    flex-wrap: wrap;
-    row-gap: 1rem;
+    align-items: center;
+    padding: 1em 0;
+    width: 100%;
   }
 
   .card--wrapper {
@@ -134,22 +105,18 @@ hr {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     justify-items: center;
     row-gap: 1rem;
-    margin-top: 70px; //새로 추가
+    margin-top: 70px;
+    overflow: hidden;
+    height: 100%;
   }
 }
 
-.ingredient-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 @media screen and (max-width: 600px) {
-  .recipe-lists--container {
+  .all-recipe--container {
     padding: 0;
 
-    .recipe-lists__label {
-      padding: 1rem;
+    .all-recipe__label {
+      padding: 1em 0.5em;
     }
 
     .card--wrapper {
@@ -157,6 +124,5 @@ hr {
       margin-top: 0;
     }
   }
-
 }
 </style>

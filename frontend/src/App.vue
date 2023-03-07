@@ -1,32 +1,16 @@
 <template>
-  <loading-spinner v-if="isLoading" />
   <div class="container">
-    <Header/>
+    <header-component/>
     <router-view class="app"/>
   </div>
-  <Footer/>
+  <footer-component/>
 </template>
-<script lang="ts">
 
-import {Options, Vue} from "vue-class-component";
-import Header from "@/components/layout/Header.vue";
-import Footer from "@/components/layout/Footer.vue";
-
-@Options({
-  components: {
-    Footer,
-    Header,
-
-  }
-})
-export default class App extends Vue {
-  isLoading = true;
-
-  mounted() {
-    this.isLoading = false
-  }
-}
+<script lang="ts" setup>
+import HeaderComponent from "@/components/layout/HeaderComponent.vue";
+import FooterComponent from "@/components/layout/FooterComponent.vue";
 </script>
+
 <style scoped lang="scss">
 .container {
   height: auto;
@@ -35,6 +19,8 @@ export default class App extends Vue {
 
 .app {
   padding-top: 136px;
+  max-width: 1600px;
+  margin: auto;
 }
 
 @media screen and (max-width: 767px) {

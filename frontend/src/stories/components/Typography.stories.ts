@@ -1,4 +1,4 @@
-import Typography from "@/components/common/Typography.vue";
+import Typography from "@/components/common/CustomFont.vue";
 import { Story } from "@storybook/vue3";
 
 export default {

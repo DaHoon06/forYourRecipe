@@ -1,13 +1,13 @@
-import Header from "@/components/layout/Header.vue";
+import Header from "@/components/layout/HeaderComponent.vue";
 
-export default  {
-  title: 'components/layout/Header',
-  component: Header
-}
+export default {
+  title: "components/layout/Header",
+  component: Header,
+};
 
 export const HeaderBlock = () => ({
-  components: {Header},
-  template: '<Header />'
-})
+  components: { Header },
+  template: "<Header />",
+});
 
-HeaderBlock.storyName = 'Header';
+HeaderBlock.storyName = "Header";

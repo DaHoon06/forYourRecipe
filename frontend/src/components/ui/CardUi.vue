@@ -1,35 +1,81 @@
 <template>
-  <div class="card__layout--container">
+  <article class="card__layout--container">
     <article class="card__layout scroll">
-      <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지" loading="lazy"/>
+      <div @click.once="recipeDetail">
+        <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지" loading="lazy"/>
+      </div>
       <section class="card__body">
         <section class="card-ui__body">
-          <text-font size="18" class="recipe--title">{{ cardItem.name }}</text-font>
-          <text-font size="14" color="placeholder" class="recipe--description">{{ cardItem.desc }}</text-font>
+          <text-font size="18" class="recipe--title" @click.once="recipeDetail">{{ cardItem.name }}</text-font>
+          <text-font size="14" color="placeholder" class="recipe--description" @click.once="recipeDetail">
+            {{ cardItem.desc }}
+          </text-font>
           <figure class="recipe-like--wrapper">
+            <hearts-icon :like="favorite" @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
+
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
               <text-font size="14">{{ cardItem.likes.length }}</text-font>
             </figcaption>
           </figure>
-
-          <div class="flex mt-10">
-            <span v-for="i of 4" :key="i" class="tags mr-4">{{ i }}</span>
+          <div class="tags--wrapper w-100 mt-10" @click.once="recipeDetail">
+            <span v-for="ingredient of cardItem.detailedIngredient" :key="ingredient._id"
+                  class="tags mr-4">{{ ingredient.name }}</span>
           </div>
         </section>
       </section>
     </article>
-  </div>
+  </article>
 </template>
 
 <script lang="ts">
-import {Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
+import HeartsIcon from "@/components/icons/HeartsIcon.vue";
+import {useStore} from "vuex";
+import {ins} from "@/lib/axios";
+import {computed, defineComponent} from "vue";
 import {Recipe} from "@/interfaces/recipe";
 
-export default class CardUi extends Vue {
-  @Prop() readonly cardItem!: Recipe.Info;
+interface Props {
+  cardItem: Recipe.Info,
+  recipeDetail?: (payload: string) => void;
 }
+
+export default defineComponent({
+  props: ['cardItem', 'recipeDetail'],
+  components: {
+    HeartsIcon
+  },
+  setup(props: Props) {
+    const store = useStore();
+    const favoriteLists = computed(() => store.getters["userModule/getFavoriteRecipe"]);
+
+    const favoriteRecipe = async (id: string) => {
+      try {
+        const user = store.getters["userModule/getUid"];
+        if (user) {
+          const body = {
+            id,
+            user
+          }
+          const {data} = await ins.patch('/recipes/update-like', body);
+          store.commit("userModule/setFavoriteLists", data);
+        } else {
+          alert('로그인 해롸~')
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    const favorite = computed<boolean>(() => favoriteLists.value.indexOf(props.cardItem._id) > -1);
+    return {
+      favoriteLists,
+      favoriteRecipe,
+      favorite,
+      ...props,
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -105,8 +151,8 @@ export default class CardUi extends Vue {
   &:hover {
     border-color: rgba(130, 130, 130, 0.4);
     cursor: pointer;
-    -webkit-filter: brightness(90%);
-    filter: brightness(90%);
+    -webkit-filter: brightness(95%);
+    filter: brightness(95%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 0;
   }

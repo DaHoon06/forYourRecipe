@@ -1,3 +1,3 @@
-import Modal from "@/components/common/Modal.vue";
+import ModalComponent from "@/components/common/ModalComponent.vue";
 
-export type ModalComponent = InstanceType<typeof Modal>;
+export type ModalComponentType = InstanceType<typeof ModalComponent>;
