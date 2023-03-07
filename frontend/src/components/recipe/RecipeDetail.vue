@@ -23,7 +23,7 @@
                width="284"
                height="177" alt="음식 이미지"/>
         </picture>
-        <div v-if="recipe.detailedIngredient.length > 0" class="pt-6">
+        <div v-if="recipe.detailedIngredient.length > 0" class="pt-6 tags--wrapper">
           <span class="tags mr-6" v-for="(tag, index) of recipe.detailedIngredient" :key="index">
             {{ tag.name }}
           </span>
