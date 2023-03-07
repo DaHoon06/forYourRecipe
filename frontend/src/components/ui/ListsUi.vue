@@ -73,52 +73,6 @@ export default defineComponent({
 })
 </script>
 
-
-<!--<script lang="ts">-->
-<!--import {Options, Vue} from "vue-class-component";-->
-<!--import {Prop} from "vue-property-decorator";-->
-<!--import {Recipe} from "@/interfaces/recipe";-->
-<!--import HeartsIcon from "@/components/icons/HeartsIcon.vue";-->
-<!--import {ins} from "@/lib/axios";-->
-<!--import {useStore} from "vuex";-->
-<!--import {computed} from "vue";-->
-
-<!--@Options({-->
-<!--  components: {-->
-<!--    HeartsIcon-->
-<!--  }-->
-<!--})-->
-<!--export default class ListsUi extends Vue {-->
-<!--  @Prop() readonly listItem!: Recipe.Info;-->
-<!--  @Prop() readonly recipeDetail?: (payload: string) => void;-->
-
-<!--  store = useStore();-->
-<!--  favoriteLists: any = computed(() => this.store.getters["userModule/getFavoriteRecipe"]);-->
-
-<!--  private get favorite() {-->
-<!--    return this.favoriteLists.indexOf(this.listItem._id) > -1;-->
-<!--  }-->
-
-<!--  private async favoriteRecipe(id: string) {-->
-<!--    try {-->
-<!--      const user = this.store.getters["userModule/getUid"];-->
-<!--      if (user) {-->
-<!--        const body = {-->
-<!--          id,-->
-<!--          user-->
-<!--        }-->
-<!--        const {data} = await ins.patch('/recipes/update-like', body);-->
-<!--        this.store.commit("userModule/setFavoriteLists", data);-->
-<!--      } else {-->
-<!--        alert('로그인 해롸~')-->
-<!--      }-->
-<!--    } catch (e) {-->
-<!--      console.log(e)-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
-
 <style scoped lang="scss">
 .list__layout {
   display: none;

@@ -67,7 +67,7 @@ export default defineComponent({
       }
     }
 
-    const favorite = computed(() => favoriteLists.value.indexOf(props.cardItem._id) > -1);
+    const favorite = computed<boolean>(() => favoriteLists.value.indexOf(props.cardItem._id) > -1);
     return {
       favoriteLists,
       favoriteRecipe,

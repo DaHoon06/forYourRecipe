@@ -56,7 +56,7 @@ const load = async (): Promise<void> => {
 }
 
 const recipeDetail = (id: string): void => {
-  this.$router.push(`/recipe/detail/${id}`);
+  router.push(`/recipe/detail/${id}`);
 };
 
 load();
