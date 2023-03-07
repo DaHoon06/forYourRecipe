@@ -161,7 +161,7 @@ export default defineComponent({
       text-overflow: ellipsis;
       white-space: normal;
       line-height: 1;
-      max-height: 35px;
+      max-height: 30px;
       height: auto;
       text-align: left;
       word-wrap: break-word;
