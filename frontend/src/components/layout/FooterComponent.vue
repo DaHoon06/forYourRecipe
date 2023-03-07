@@ -13,12 +13,7 @@
   </footer>
 </template>
 
-<script lang="ts">
-import {Vue} from "vue-class-component";
-
-export default class Footer extends Vue {
-
-}
+<script lang="ts" setup>
 </script>
 
 <style scoped lang="scss">

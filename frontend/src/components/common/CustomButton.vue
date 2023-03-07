@@ -1,27 +1,30 @@
 <template>
-  <button :disabled="disabled" :class="[ButtonWrapper,{'disabled' : disabled}]" :type="type">
-    {{ label }}
+  <button :disabled="props.disabled" :class="[getButtonWrapper,{'disabled' : props.disabled}]" :type="props.type">
+    {{ props.label }}
     <slot/>
   </button>
 </template>
 
-<script lang="ts">
-import {Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
+<script lang="ts" setup>
+import {computed, defineProps, withDefaults} from "vue";
 
 type ButtonType = 'button' | 'reset' | 'submit'
 type Variant = 'black' | 'black-square' | 'gray' | 'gray-square' | 'icon-button'
 
-export default class Button extends Vue {
-  @Prop() readonly label?: string
-  @Prop({default: 'black'}) readonly variant?: Variant
-  @Prop({default: 'button'}) readonly type!: ButtonType
-  @Prop({default: false}) readonly disabled?: boolean;
-
-  get ButtonWrapper() {
-    return this.variant
-  }
+interface Props {
+  label?: string,
+  variant?: Variant,
+  type?: ButtonType,
+  disabled?: boolean
 }
+
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'black',
+  type: 'button',
+  disabled: false
+});
+const getButtonWrapper = computed(() => props.variant);
+
 </script>
 
 <style scoped lang="scss">
@@ -34,6 +37,7 @@ export default class Button extends Vue {
   width: 152px;
   height: 46px;
 }
+
 .disabled {
   cursor: default;
 
@@ -41,6 +45,7 @@ export default class Button extends Vue {
     color: $white !important;
   }
 }
+
 .black {
   @include defaultButtonOptions();
   background-color: $button_black;

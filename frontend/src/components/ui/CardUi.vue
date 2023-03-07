@@ -11,7 +11,7 @@
             {{ cardItem.desc }}
           </text-font>
           <figure class="recipe-like--wrapper">
-            <hearts :like="favorite" @click="favoriteRecipe(cardItem._id)" class="mr-8"/>
+            <hearts-icon :like="favorite" @click.once="favoriteRecipe(cardItem._id)" class="mr-8"/>
 
             <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>
             <figcaption>
@@ -29,48 +29,53 @@
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
-import {Recipe} from "@/interfaces/recipe";
-import Hearts from "@/components/icons/Hearts.vue";
+import HeartsIcon from "@/components/icons/HeartsIcon.vue";
 import {useStore} from "vuex";
 import {ins} from "@/lib/axios";
-import {computed} from "vue";
+import {computed, defineComponent} from "vue";
+import {Recipe} from "@/interfaces/recipe";
 
-@Options({
+interface Props {
+  cardItem: Recipe.Info,
+  recipeDetail?: (payload: string) => void;
+}
+
+export default defineComponent({
+  props: ['cardItem', 'recipeDetail'],
   components: {
-    Hearts
-  }
-})
-export default class CardUi extends Vue {
-  @Prop() readonly cardItem!: Recipe.Info;
-  @Prop() readonly recipeDetail?: (payload: string) => void;
+    HeartsIcon
+  },
+  setup(props: Props) {
+    const store = useStore();
+    const favoriteLists = computed(() => store.getters["userModule/getFavoriteRecipe"]);
 
-  store = useStore();
-  favoriteLists: any = computed(() => this.store.getters["userModule/getFavoriteRecipe"]);
-
-  private async favoriteRecipe(id: string) {
-    try {
-      const user = this.store.getters["userModule/getUid"];
-      if (user) {
-        const body = {
-          id,
-          user
+    const favoriteRecipe = async (id: string) => {
+      try {
+        const user = store.getters["userModule/getUid"];
+        if (user) {
+          const body = {
+            id,
+            user
+          }
+          const {data} = await ins.patch('/recipes/update-like', body);
+          store.commit("userModule/setFavoriteLists", data);
+        } else {
+          alert('로그인 해롸~')
         }
-        const {data} = await ins.patch('/recipes/update-like', body);
-        this.store.commit("userModule/setFavoriteLists", data);
-      } else {
-        alert('로그인 해롸~')
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
+    }
+
+    const favorite = computed<boolean>(() => favoriteLists.value.indexOf(props.cardItem._id) > -1);
+    return {
+      favoriteLists,
+      favoriteRecipe,
+      favorite,
+      ...props,
     }
   }
-
-  private get favorite() {
-    return this.favoriteLists.indexOf(this.cardItem._id) > -1;
-  }
-}
+})
 </script>
 
 <style lang="scss" scoped>

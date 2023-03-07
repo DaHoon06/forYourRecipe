@@ -186,7 +186,6 @@
 <script lang="ts">
 import {Options, Vue} from "vue-class-component";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
-import Input from "@/components/common/Input.vue";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import {Ref} from "vue-property-decorator";
@@ -220,7 +219,6 @@ interface IRecipePost {
 @Options({
   components: {
     RecipeUi,
-    Input
   }
 })
 export default class AdminRecipePost extends Vue {

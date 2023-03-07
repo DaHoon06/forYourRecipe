@@ -18,54 +18,59 @@
                 class="tags mr-4">{{ ingredient.name }}</span>
         </div>
       </section>
-      <hearts :like="favorite" @click="favoriteRecipe(listItem._id)"/>
+      <hearts-icon :like="favorite" @click.once="favoriteRecipe(listItem._id)"/>
     </article>
   </article>
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
-import {Recipe} from "@/interfaces/recipe";
-import Hearts from "@/components/icons/Hearts.vue";
-import {ins} from "@/lib/axios";
+import HeartsIcon from "@/components/icons/HeartsIcon.vue";
 import {useStore} from "vuex";
-import {computed} from "vue";
+import {ins} from "@/lib/axios";
+import {computed, defineComponent} from "vue";
+import {Recipe} from "@/interfaces/recipe";
 
-@Options({
+interface Props {
+  listItem: Recipe.Info,
+  recipeDetail?: (payload: string) => void;
+}
+
+export default defineComponent({
+  props: ['listItem', 'recipeDetail'],
   components: {
-    Hearts
-  }
-})
-export default class ListsUi extends Vue {
-  @Prop() readonly listItem!: Recipe.Info;
-  @Prop() readonly recipeDetail?: (payload: string) => void;
+    HeartsIcon
+  },
+  setup(props: Props) {
+    const store = useStore();
+    const favoriteLists = computed(() => store.getters["userModule/getFavoriteRecipe"]);
 
-  store = useStore();
-  favoriteLists: any = computed(() => this.store.getters["userModule/getFavoriteRecipe"]);
-
-  private get favorite() {
-    return this.favoriteLists.indexOf(this.listItem._id) > -1;
-  }
-
-  private async favoriteRecipe(id: string) {
-    try {
-      const user = this.store.getters["userModule/getUid"];
-      if (user) {
-        const body = {
-          id,
-          user
+    const favoriteRecipe = async (id: string) => {
+      try {
+        const user = store.getters["userModule/getUid"];
+        if (user) {
+          const body = {
+            id,
+            user
+          }
+          const {data} = await ins.patch('/recipes/update-like', body);
+          store.commit("userModule/setFavoriteLists", data);
+        } else {
+          alert('로그인 해롸~')
         }
-        const {data} = await ins.patch('/recipes/update-like', body);
-        this.store.commit("userModule/setFavoriteLists", data);
-      } else {
-        alert('로그인 해롸~')
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
+    }
+
+    const favorite = computed(() => favoriteLists.value.indexOf(props.listItem._id) > -1);
+    return {
+      favoriteLists,
+      favoriteRecipe,
+      favorite,
+      ...props,
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">
@@ -110,7 +115,7 @@ export default class ListsUi extends Vue {
       text-overflow: ellipsis;
       white-space: normal;
       line-height: 1;
-      max-height: 35px;
+      max-height: 30px;
       height: auto;
       text-align: left;
       word-wrap: break-word;

@@ -11,7 +11,7 @@
             <custom-button variant="icon-button" @click="recipeUpdate" class="mr-10">
               <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy"/>
             </custom-button>
-            <custom-button variant="icon-button" @click="this.modal.show()">
+            <custom-button variant="icon-button" @click="modal.show()">
               <img src="@/assets/images/icons/trash.svg" alt="recipe-delete" width="24" height="24" loading="lazy"/>
             </custom-button>
           </div>
@@ -23,7 +23,7 @@
                width="284"
                height="177" alt="음식 이미지"/>
         </picture>
-        <div v-if="recipe.detailedIngredient.length > 0" class="pt-6">
+        <div v-if="recipe.detailedIngredient.length > 0" class="pt-6 tags--wrapper">
           <span class="tags mr-6" v-for="(tag, index) of recipe.detailedIngredient" :key="index">
             {{ tag.name }}
           </span>
@@ -65,11 +65,11 @@
     </section>
 
     <teleport to="#modal">
-      <Modal ref="modal">
+      <modal-component ref="modal">
         <section class="modal--message-box">
           <text-font class="delete-warning-message">레시피를 삭제하겠습니까?</text-font>
           <section class="flex justify-content-around">
-            <custom-button variant="gray" @click="this.modal.hide()">
+            <custom-button variant="gray" @click="modal.hide()">
               <text-font color="gray2">취소</text-font>
             </custom-button>
             <custom-button variant="black" @click="recipeDelete">
@@ -77,33 +77,29 @@
             </custom-button>
           </section>
         </section>
-      </Modal>
+      </modal-component>
     </teleport>
   </article>
 </template>
 
-<script lang="ts">
-import {Options, Vue} from "vue-class-component";
+<script lang="ts" setup>
 import {ins} from "@/lib/axios";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {Recipe} from "@/interfaces/recipe";
-import Spinner from "@/components/common/Spinner.vue";
-import {markRaw} from "vue";
-import Modal from "@/components/common/Modal.vue";
-import {Ref} from "vue-property-decorator";
-import {ModalComponent} from "@/types/type";
+import ModalComponent from "@/components/common/ModalComponent.vue";
+import {ModalComponentType} from "@/types/type";
+import {nextTick, Ref, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
 
-@Options({
-  components: {
-    RecipeUi,
-    Modal
-  }
-})
-export default class RecipeDetail extends Vue {
-  @Ref('modal') readonly modal!: ModalComponent;
 
-  isLoading = true;
-  recipe: Recipe.Info = {
+const modal: Ref<ModalComponentType> = ref(null);
+
+const route = useRoute();
+const router = useRouter();
+
+const isLoading: Ref<boolean> = ref(true);
+const recipe: Ref<Recipe.Info> = ref(
+  {
     _id: '',
     desc: '',
     createdAt: new Date(),
@@ -115,52 +111,125 @@ export default class RecipeDetail extends Vue {
     steps: [],
     user: '',
     updatedAt: new Date()
-  };
-  recipeId = '';
-
-  created() {
-    this.recipeId = this.$route.params.id as string;
-    this.load();
   }
+);
+const recipeId: Ref<string> = ref('');
+recipeId.value = route.params.id as string;
 
-  private async load() {
-    try {
-      const {data} = await ins.get(`/recipes/detail/${this.recipeId}`);
-      this.recipe = data;
-      this.isLoading = false;
-    } catch (e) {
-      console.log(e)
-    }
+const load = async () => {
+  try {
+    const {data} = await ins.get(`/recipes/detail/${recipeId.value}`);
+    recipe.value = data;
+    isLoading.value = false;
+  } catch (e) {
+    console.log(e)
   }
-
-  private historyBack() {
-    this.$router.go(-1);
-  }
-
-  private recipeUpdate() {
-    const {_id} = this.recipe;
-    this.$router.push(`/admin/recipe/post/${_id}`)
-  }
-
-  private async recipeDelete() {
-    try {
-      this.isLoading = true;
-      const {_id} = this.recipe;
-      const {data} = await ins.delete('/recipes/delete-recipe', {
-        data: {id: _id,}
-      });
-      this.isLoading = false;
-      if (data) {
-        this.modal.hide()
-        await this.$nextTick(() => this.$router.push('/'));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
 }
+
+const historyBack = () => router.go(-1);
+
+const recipeUpdate = () => {
+  const {_id} = recipe.value;
+  router.push(`/admin/recipe/post/${_id}`)
+}
+
+const recipeDelete = async () => {
+  try {
+    isLoading.value = true;
+    const {_id} = recipe.value;
+    const {data} = await ins.delete('/recipes/delete-recipe', {
+      data: {id: _id,}
+    });
+    isLoading.value = false;
+    if (data) {
+      modal.value.hide()
+      await nextTick(() => router.push('/'));
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+load();
 </script>
+
+<!--<script lang="ts">-->
+<!--import {Options, Vue} from "vue-class-component";-->
+<!--import {ins} from "@/lib/axios";-->
+<!--import RecipeUi from "@/components/ui/RecipeUi.vue";-->
+<!--import {Recipe} from "@/interfaces/recipe";-->
+<!--import ModalComponent from "@/components/common/ModalComponent.vue";-->
+<!--import {Ref} from "vue-property-decorator";-->
+<!--import {ModalComponentType} from "@/types/type";-->
+
+<!--@Options({-->
+<!--  components: {-->
+<!--    RecipeUi,-->
+<!--    ModalComponent-->
+<!--  }-->
+<!--})-->
+<!--export default class RecipeDetail extends Vue {-->
+<!--  @Ref('modal') readonly modal!: ModalComponentType;-->
+
+<!--  isLoading = true;-->
+<!--  recipe: Recipe.Info = {-->
+<!--    _id: '',-->
+<!--    desc: '',-->
+<!--    createdAt: new Date(),-->
+<!--    detailedIngredient: [],-->
+<!--    likes: [],-->
+<!--    profileImage: '',-->
+<!--    name: '',-->
+<!--    modified: false,-->
+<!--    steps: [],-->
+<!--    user: '',-->
+<!--    updatedAt: new Date()-->
+<!--  };-->
+<!--  recipeId = '';-->
+
+<!--  created() {-->
+<!--    this.recipeId = this.$route.params.id as string;-->
+<!--    this.load();-->
+<!--  }-->
+
+<!--  private async load() {-->
+<!--    try {-->
+<!--      const {data} = await ins.get(`/recipes/detail/${this.recipeId}`);-->
+<!--      this.recipe = data;-->
+<!--      this.isLoading = false;-->
+<!--    } catch (e) {-->
+<!--      console.log(e)-->
+<!--    }-->
+<!--  }-->
+
+<!--  private historyBack() {-->
+<!--    this.$router.go(-1);-->
+<!--  }-->
+
+<!--  private recipeUpdate() {-->
+<!--    const {_id} = this.recipe;-->
+<!--    this.$router.push(`/admin/recipe/post/${_id}`)-->
+<!--  }-->
+
+<!--  private async recipeDelete() {-->
+<!--    try {-->
+<!--      this.isLoading = true;-->
+<!--      const {_id} = this.recipe;-->
+<!--      const {data} = await ins.delete('/recipes/delete-recipe', {-->
+<!--        data: {id: _id,}-->
+<!--      });-->
+<!--      this.isLoading = false;-->
+<!--      if (data) {-->
+<!--        this.modal.hide()-->
+<!--        await this.$nextTick(() => this.$router.push('/'));-->
+<!--      }-->
+<!--    } catch (e) {-->
+<!--      console.log(e);-->
+<!--    }-->
+<!--  }-->
+
+<!--}-->
+<!--</script>-->
 
 <style scoped lang="scss">
 .recipe-detail--container {
