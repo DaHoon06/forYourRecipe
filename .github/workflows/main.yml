@@ -20,18 +20,19 @@ jobs:
       # github repository에서 checkout
       - name: Checkout
         uses: actions/checkout@v2
-#      - name: Generate Environment Variables File for Production
-#        env:
-#          MONGO_URI: ${{ secrets.MONGO_URI }}
-#          NODE_ENV_PRD: ${{ secrets.NODE_ENV_PRD }}
-#          NODE_ENV_DEV: ${{ secrets.NODE_ENV_DEV }}
-#        run: |
-#          touch ../../backend/.env
-#          touch ../../backend/.env.dev
-#          echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env
-#          echo NODE_ENV={{ env.NODE_ENV_PRD }} >> ../../backend/.env
-#          echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env.dev
-#          echo NODE_ENV={{ env.NODE_ENV_DEV }} >> ../../backend/.env.dev
+      - name: Generate Environment Variables File for Production
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          NODE_ENV_PRD: ${{ secrets.NODE_ENV_PRD }}
+          NODE_ENV_DEV: ${{ secrets.NODE_ENV_DEV }}
+        run: |
+          ls -al
+          touch ../../backend/.env
+          touch ../../backend/.env.dev
+          echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env
+          echo NODE_ENV={{ env.NODE_ENV_PRD }} >> ../../backend/.env
+          echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env.dev
+          echo NODE_ENV={{ env.NODE_ENV_DEV }} >> ../../backend/.env.dev
       # docker build 수행
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -45,15 +46,6 @@ jobs:
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          NODE_ENV_PRD: ${{ secrets.NODE_ENV_PRD }}
-          NODE_ENV_DEV: ${{ secrets.NODE_ENV_DEV }}
-        run: |
-          echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env
-          echo NODE_ENV={{ env.NODE_ENV_PRD }} >> ../../backend/.env
-          echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env.dev
-          echo NODE_ENV={{ env.NODE_ENV_DEV }} >> ../../backend/.env.dev
         with:
           file: ../../docker/back.Dockerfile
           push: true
