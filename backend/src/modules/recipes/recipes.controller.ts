@@ -39,7 +39,7 @@ export class RecipesController {
   @Get('/all-recipes')
   @ApiOperation({
     summary: '전체 레시피 조회 API',
-    description: '전체 레시피를 조회한다.',
+    description: '전체 레시피를 조회한다!!! 짱짱맨',
   })
   @ApiCreatedResponse({
     description: '전체 레시피 리스트를 생성한다.',
