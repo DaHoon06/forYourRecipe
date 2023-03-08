@@ -10,7 +10,7 @@
 
     <section class="card--wrapper">
       <div v-for="(dish) in recipeLists" :key="dish._id" class="w-100">
-        <CardUi :recipe-detail="() => recipeDetail(dish._id)" class="mr-20 card-component" :card-item="dish"/>
+        <CardUi :recipe-detail="() => recipeDetail(dish._id)" class="card-component" :card-item="dish"/>
         <ListsUi :recipe-detail="() => recipeDetail(dish._id)" class="list-component" :list-item="dish"/>
       </div>
     </section>
@@ -89,7 +89,7 @@ hr {
 
 .all-recipe--container {
   padding: 1rem 0;
-  max-width: 1200px;
+  max-width: 1280px;
   min-height: 700px;
   margin: auto;
 
@@ -100,14 +100,15 @@ hr {
     width: 100%;
   }
 
-  .card--wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    justify-items: center;
-    row-gap: 1rem;
-    margin-top: 70px;
-    overflow: hidden;
-    height: 100%;
+}
+
+@media screen and (max-width: 1280px) {
+  .all-recipe--container {
+    padding: 0;
+
+    .all-recipe__label {
+      padding-left: 1rem !important;
+    }
   }
 }
 
@@ -117,11 +118,6 @@ hr {
 
     .all-recipe__label {
       padding: 1em 0.5em;
-    }
-
-    .card--wrapper {
-      row-gap: 0;
-      margin-top: 0;
     }
   }
 }

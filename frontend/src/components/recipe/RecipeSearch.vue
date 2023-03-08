@@ -1,13 +1,15 @@
 <template>
   <loading-spinner v-if="isLoading"/>
-  <article>
+  <article class="search-result--container">
     <section class="search-result__label">
       <text-font size="16" weight="medium">검색 결과</text-font>
     </section>
     <hr/>
-    <section class="w-100" v-for="(dish) of recipeList" :key="dish._id">
-      <card-ui :recipe-detail="() => recipeDetail(dish._id)" :card-item="dish"/>
-      <lists-ui :recipe-detail="() => recipeDetail(dish._id)" :list-item="dish"/>
+    <section class="card--wrapper">
+      <div v-for="(dish) of recipeList" :key="dish._id" class="wrapper">
+        <card-ui :recipe-detail="() => recipeDetail(dish._id)" :card-item="dish"/>
+        <lists-ui :recipe-detail="() => recipeDetail(dish._id)" :list-item="dish"/>
+      </div>
     </section>
   </article>
 
@@ -65,7 +67,35 @@ hr {
   background-color: $line;
 }
 
-.search-result__label {
-  padding: 1rem 0.8rem;
+.search-result--container {
+  padding: 1rem 0;
+  max-width: 1280px;
+  min-height: 700px;
+  margin: auto;
+
+  .search-result__label {
+    padding: 1rem 0.8rem;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .search-result--container {
+    padding: 0;
+  }
+}
+
+.wrapper {
+  width: fit-content;
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper {
+    width: 100%;
+  }
+
+  .card--wrapper {
+    padding: 0;
+    margin-top: 0;
+  }
 }
 </style>
