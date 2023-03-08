@@ -26,6 +26,8 @@ jobs:
           NODE_ENV_PRD: ${{ secrets.NODE_ENV_PRD }}
           NODE_ENV_DEV: ${{ secrets.NODE_ENV_DEV }}
         run: |
+          touch ../../backend/.env
+          touch ../../backend/.env.dev
           echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env
           echo NODE_ENV={{ env.NODE_ENV_PRD }} >> ../../backend/.env
           echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env.dev
