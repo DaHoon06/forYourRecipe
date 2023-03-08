@@ -37,19 +37,19 @@ jobs:
           file: ../../docker/back.Dockerfile
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:0.0.1
-#   # 배포 Job
-#   deploy:
-#     needs: build  # build 후에 실행되도록 정의
-#     name: Deploy
-#     runs-on: [ self-hosted, label-go ] # AWS ./configure에서 사용할 label명
-#     steps:
-#       - name: Login to action-test
-#         uses: docker/login-action@v1
-#         with:
-#           username: ${{ secrets.DOCKER_USER }}
-#           password: ${{ secrets.DOCKER_PWD }}
-#       # 3000 -> 80 포트로 수행하도록 지정
-#       - name: Docker run
-#         run: |
-#           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:latest
-#           docker run -d -p 80:3000 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:latest
+   # 배포 Job
+    deploy:
+      needs: build  # build 후에 실행되도록 정의
+      name: Deploy
+      runs-on: [ self-hosted, label-go ] # AWS ./configure에서 사용할 label명
+      steps:
+        - name: Login to no1recipe
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKER_USER }}
+            password: ${{ secrets.DOCKER_PWD }}
+        # 3000 -> 80 포트로 수행하도록 지정
+        - name: Docker run
+          run: |
+            docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:0.0.1
+            docker run -d -p 80:3666 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:0.0.1
