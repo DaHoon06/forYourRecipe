@@ -9,6 +9,7 @@ RUN npm ci
 RUN npm run build
 
 ENV NODE_EMV production
+ENV PAHT ../.env
 EXPOSE 3666
 
 CMD ["npm", "run", "start:prod"]
