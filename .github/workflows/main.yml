@@ -22,10 +22,6 @@ jobs:
         uses: actions/checkout@v2
       - run: ls -al
       - name: Generate Environment Variables File for Production
-#        env:
-#          MONGO_URI: ${{ secrets.MONGO_URI }}
-#          NODE_ENV_PRD: ${{ secrets.NODE_ENV_PRD }}
-#          NODE_ENV_DEV: ${{ secrets.NODE_ENV_DEV }}
         run: |
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> backend/.env
           echo "NODE_ENV=${{ secrets.NODE_ENV_PRD }}" >> backend/.env
