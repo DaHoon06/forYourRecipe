@@ -125,6 +125,24 @@
   }
 }
 
+/* card ui wrapper */
+.card--wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  //justify-items: center;
+  padding: 2rem 0;
+  row-gap: 1rem;
+  column-gap: 18px;
+}
+
+@media screen and (max-width: 600px) {
+  .card--wrapper {
+    padding: 0;
+    margin-top: 0;
+    row-gap: 0;
+    column-gap: 0;
+  }
+}
 
 .dotted {
   border: none;

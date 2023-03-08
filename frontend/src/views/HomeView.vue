@@ -90,18 +90,6 @@ hr {
 
   &--container {
     padding: 2rem;
-
-    .card--wrapper {
-      column-gap: 18px;
-    }
-
-    .card--wrapper {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      justify-items: center;
-      row-gap: 1rem;
-      margin-top: 70px; //새로 추가
-    }
   }
 
   .main__label--wrapper {
@@ -135,12 +123,6 @@ hr {
 
       .today-recommended-dishes {
         font-size: 18px !important;
-      }
-
-      .card--wrapper {
-        margin-top: 0;
-        row-gap: 0;
-        column-gap: 0;
       }
     }
   }
