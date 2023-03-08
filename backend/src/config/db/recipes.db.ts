@@ -4,7 +4,7 @@ import {IS_PROD} from "../../app.module";
 
 export const Config = ConfigModule.forRoot({
         isGlobal: true,
-        envFilePath: IS_PROD ? '.env' : '.env.dev'
+        envFilePath: '.env'
     })
 
 
