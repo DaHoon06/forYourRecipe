@@ -20,13 +20,13 @@ jobs:
       # github repository에서 checkout
       - name: Checkout
         uses: actions/checkout@v2
+      - run: ls -al
       - name: Generate Environment Variables File for Production
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           NODE_ENV_PRD: ${{ secrets.NODE_ENV_PRD }}
           NODE_ENV_DEV: ${{ secrets.NODE_ENV_DEV }}
         run: |
-          ls -al
           touch ../../backend/.env
           touch ../../backend/.env.dev
           echo MONGO_URI={{ env.MONGO_URI }} >> ../../backend/.env
