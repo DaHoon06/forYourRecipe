@@ -128,14 +128,6 @@ hr {
     flex-wrap: wrap;
     row-gap: 1rem;
   }
-
-  .card--wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    justify-items: center;
-    row-gap: 1rem;
-    margin-top: 70px; //새로 추가
-  }
 }
 
 .ingredient-icon {
@@ -150,11 +142,6 @@ hr {
 
     .recipe-lists__label {
       padding: 1rem;
-    }
-
-    .card--wrapper {
-      row-gap: 0;
-      margin-top: 0;
     }
   }
 
