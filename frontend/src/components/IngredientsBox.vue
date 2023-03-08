@@ -1,8 +1,8 @@
 <template>
-  <loading-spinner v-if="isLoading"/>
+  <loading-spinner v-if="state.isLoading"/>
   <article class="box-container">
     <section class="box__body">
-      <div v-if="!ingredients.length">
+      <div v-if="!state.ingredients.length">
         <article class="ingredients-box">
           <section>
             <section class="empty__label">
@@ -15,14 +15,14 @@
       <section class="w-100" v-else>
         <text-font>선택한 재료</text-font>
         <div class="ingredients-box--selected">
-          <span v-for="(value) of ingredients" :key="value._id">
+          <span v-for="(value) of state.ingredients" :key="value._id">
             <ingredient-icon :src="value.img" :label="value.name"/>
           </span>
         </div>
       </section>
 
       <section class="ingredients-box--button pt-20">
-        <custom-button type="button" variant="black" @click="pickUpModal" v-if="!ingredients.length">
+        <custom-button type="button" variant="black" @click="pickUpModal" v-if="!state.ingredients.length">
           <text-font color="white">재료 담기</text-font>
         </custom-button>
         <div class="flex" v-else>
@@ -41,12 +41,12 @@
   </article>
   <!-- TODO: 재료 선택 컴포넌트 분리 작업 -->
   <teleport to="#modal">
-    <Modal ref="modal">
+    <modal-component ref="modal">
       <section class="selected-ingredients--container">
         <text-font class="pb-14">재료를 선택해주세요.</text-font>
 
         <section class="ingredients-items--box scroll">
-          <div v-for="(value) of ingredientsCategory" :key="value._id" class="pb-10">
+          <div v-for="(value) of state.ingredientsCategory" :key="value._id" class="pb-10">
             <text-font size="18" weight="bold">{{ value.name }}</text-font>
             <hr/>
             <section class="ingredients-icon--wrapper">
@@ -62,7 +62,7 @@
           <text-font>선택한 재료</text-font>
           <hr/>
           <div>
-            <text-font size="14" v-for="(ingredient, index) of ingredients" :key="index">{{
+            <text-font size="14" v-for="(ingredient, index) of state.ingredients" :key="index">{{
                 ingredient.name
               }}, &nbsp;
             </text-font>
@@ -80,93 +80,89 @@
         </section>
 
       </section>
-    </Modal>
+    </modal-component>
   </teleport>
 </template>
 
-<script lang="ts">
-import {Options, Vue} from "vue-class-component";
-import Modal from "@/components/common/Modal.vue";
-import {Ref, Watch} from "vue-property-decorator";
-import {ModalComponent} from "@/types/type";
+<script lang="ts" setup>
+import ModalComponent from "@/components/common/ModalComponent.vue";
+import {ModalComponentType} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import {useStore} from "vuex";
-import {computed} from "vue";
 import IngredientIcon from "@/components/common/IngredientIcon.vue";
+import {computed, onMounted, reactive, Ref, ref} from "vue";
+import {useRouter} from "vue-router";
 
-@Options({
-  components: {
-    Modal,
-    IngredientIcon
+interface State {
+  isLoading: boolean,
+  ingredientsCategory: Recipe.IngredientCategories[],
+  ingredients: Recipe.IngredientType[],
+  selected: any[],
+}
+
+const modal: Ref<ModalComponentType> = ref(null);
+
+const state: State = reactive({
+  isLoading: true,
+  ingredientsCategory: [],
+  ingredients: [],
+  selected: [],
+});
+
+const selectBoxDisabled = computed(() => state.ingredients.length === 3);
+const store = useStore();
+const router = useRouter();
+
+onMounted(() => state.isLoading = false);
+
+const pickUpModal = async (): Promise<void> => {
+  state.isLoading = true;
+  modal.value.show();
+  store.commit('recipeModule/reset');
+  try {
+    const {data} = await ins.get('/ingredients/all-ingredients');
+    state.ingredientsCategory = data;
+    state.isLoading = false;
+  } catch (e) {
+    console.log(e)
   }
-})
-export default class IngredientsBox extends Vue {
-  @Ref('modal') readonly modal!: ModalComponent;
-  isLoading = true;
-  ingredientsCategory: Recipe.IngredientCategories[] = [];
-  ingredients: Recipe.IngredientType[] = [];
-  selected = [];
+}
 
-  store = useStore();
-
-  mounted() {
-    this.isLoading = false;
-  }
-
-  private async pickUpModal(): Promise<void> {
-    this.isLoading = true;
-    this.modal.show();
-    this.store.commit('recipeModule/reset');
-    try {
-      const {data} = await ins.get('/ingredients/all-ingredients');
-      this.ingredientsCategory = data;
-      this.isLoading = false;
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  private selectedIngredient(ingredient: Recipe.IngredientType): void {
+const selectedIngredient =
+  (ingredient: Recipe.IngredientType): void => {
     const {selected} = ingredient;
     if (selected) ingredient.selected = !selected;
     else ingredient.selected = true;
-    const index = this.ingredients.findIndex((item) => item._id === ingredient._id);
-    if (index < 0) this.ingredients.push(ingredient)
-    else this.ingredients.splice(index, 1);
+    const index = state.ingredients.findIndex((item) => item._id === ingredient._id);
+    if (index < 0) state.ingredients.push(ingredient)
+    else state.ingredients.splice(index, 1);
   }
 
-  get selectBoxDisabled(): boolean {
-    return this.ingredients.length === 3;
-  }
+const cancel = (): void => {
+  reset();
+  modal.value.hide();
+}
 
-  private cancel(): void {
-    this.reset();
-    this.modal.hide();
-  }
+const save = (): void => {
+  state.isLoading = true;
+  store.commit("recipeModule/saveIngredients", state.ingredients);
+  modal.value.hide();
+  state.isLoading = false;
+}
 
-  private save(): void {
-    this.isLoading = true;
-    this.store.commit("recipeModule/saveIngredients", this.ingredients);
-    this.modal.hide();
-    this.isLoading = false;
-  }
+const findRecipe = (): void => {
+  const query = state.ingredients.map((value) => value._id)
+  router.push({
+    path: '/recipe/lists',
+    query: {key: query}
+  })
+}
 
-  private findRecipe(): void {
-    const query = this.ingredients.map((value) => value._id)
-    this.$router.push({
-      path: '/recipe/lists',
-      query: {key: query}
-    })
-  }
-
-  private reset() {
-    this.store.commit('recipeModule/reset');
-    this.ingredients = [];
-    this.selected = [];
-  }
-
-
+const reset = (): void => {
+  store.commit('recipeModule/reset');
+  state.ingredients = [];
+  state.selected = [];
 }
 </script>
 

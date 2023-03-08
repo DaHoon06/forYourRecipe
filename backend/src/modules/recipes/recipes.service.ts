@@ -42,7 +42,7 @@ export class RecipesService {
 
   //해당 id 레시피 반환
   async findRecipeById(id: string): Promise<RecipeDto> {
-    const foundRecipe = await this.recipeModel.findById(id);
+    const foundRecipe = await this.recipeModel.findOne({ _id: id });
     return this.getRecipeDto(foundRecipe);
   }
 
@@ -168,19 +168,17 @@ export class RecipesService {
   }
 
   //회원 즐겨찾는 레시피에 추가
-  async updateLike(recipe: UpdatedRecipeLikeDto): Promise<number> {
+  async updateLike(recipe: UpdatedRecipeLikeDto): Promise<string[]> {
     const { id, user } = recipe;
-    const { likes } = await this.recipeModel.findById(id);
-
+    const { likes } = await this.recipeModel.findOne({ _id: id });
     const index = likes.indexOf(user);
     if (index > -1) {
       likes.splice(index, 1);
     } else {
       likes.push(user);
     }
-    await this.recipeModel.updateOne({ _id: id }, { $set: { likes: likes } });
-    await this.userService.setFavoriteRecipes(id, user);
-    return likes.length;
+    await this.recipeModel.updateOne({ _id: id }, { $set: { likes } });
+    return this.userService.setFavoriteRecipes(id, user);
   }
 
   //레시피 삭제

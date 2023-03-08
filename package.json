@@ -2,12 +2,13 @@
   "name": "foryourrecipe",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
-    "docker:front": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DaHoon06/forYourRecipe.git"
+    "docker:front": "echo \"Error: no test specified\" && exit 1",
+    "docker:login": "docker login -u hprl -p spzkfkznqo!",
+    "docker:build": "docker build -f docker/back.Dockerfile -t hprl/no1recipe:0.0.1 .",
+    "docker:push": "docker push hprl/no1recipe:0.0.1",
+    "docker:back": "npm run docker:login && npm run docker:build && npm run docker:push"
   },
   "author": "",
   "license": "ISC",

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ins } from "../src/lib/axios";
 
 declare module "vue" {

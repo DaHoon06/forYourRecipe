@@ -5,7 +5,7 @@
     <section class="recipe-lists__label pb-20">
       <text-font size="18" class="pr-6 pb-12">선택된 재료</text-font>
 
-      <div class="flex" v-if="selectedIngredients">
+      <div class="selected-ingredients" v-if="selectedIngredients">
 
         <span v-for="(ingredient) of selectedIngredients" :key="ingredient._id" class="ingredient-icon mr-12">
 
@@ -29,8 +29,8 @@
 
     <section class="card--wrapper">
       <div v-for="(dish) in recipeLists" :key="dish._id" class="w-100">
-        <CardUi class="mr-20 card-component" :card-item="dish" @click="recipeDetail(dish._id)"/>
-        <ListsUi class="list-component" :list-item="dish" @click="recipeDetail(dish._id)"/>
+        <CardUi :recipe-detail="() => recipeDetail(dish._id)" class="mr-20 card-component" :card-item="dish"/>
+        <ListsUi :recipe-detail="() => recipeDetail(dish._id)" class="list-component" :list-item="dish"/>
       </div>
     </section>
 
@@ -60,12 +60,10 @@ import {LocationQueryValue} from "vue-router";
 import {computed, ComputedRef} from "vue";
 import {useStore} from "vuex";
 import {STORE} from "@/interfaces/store";
-import InfiniteLoading from 'infinite-loading-vue3-ts';
 
 @Options({
   components: {
     ListsUi, CardUi,
-    InfiniteLoading
   }
 })
 export default class RecipeLists extends Vue {
@@ -81,22 +79,17 @@ export default class RecipeLists extends Vue {
     const {key} = this.$route.query;
     this.key = key;
     this.page = 1;
-    // this.load();
   }
 
   private async infiniteHandler($state: any): Promise<void> {
     try {
-      this.isLoading = true;
       const {data} = await ins.get('/recipes/ingredient-recipes', {
         params: {
           id: this.key,
           page: this.page,
         }
       })
-      console.log(data, this.page)
-
       if (data.length) {
-
         for (let i = 0; i < data.length; i++) {
           this.recipeLists.push({...data[i]});
         }
@@ -108,23 +101,6 @@ export default class RecipeLists extends Vue {
         $state.complete();
         this.isLoading = false;
       }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  private async load(): Promise<void> {
-    try {
-      const {data} = await ins.get('/recipes/ingredient-recipes', {
-        params: {
-          id: this.key,
-          page: this.page,
-        }
-      })
-      this.recipeLists = data;
-      console.log(data)
-      this.total = data.length;
-      this.isLoading = false
     } catch (e) {
       console.log(e)
     }
@@ -146,6 +122,12 @@ hr {
   padding: 5vh 5vw;
   width: 100%;
   min-height: 500px;
+
+  .selected-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+  }
 
   .card--wrapper {
     display: grid;

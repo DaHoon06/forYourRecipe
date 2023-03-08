@@ -1,12 +1,12 @@
-import Footer from "@/components/layout/Footer.vue";
+import Footer from "@/components/layout/FooterComponent.vue";
 
 export default {
-  title: 'components/layout/Footer',
-  component: Footer
-}
+  title: "components/layout/Footer",
+  component: Footer,
+};
 
 export const FooterBlack = () => ({
-  components: {Footer},
-  template: '<Footer />'
-})
-FooterBlack.storyName = 'Footer';
+  components: { Footer },
+  template: "<Footer />",
+});
+FooterBlack.storyName = "Footer";

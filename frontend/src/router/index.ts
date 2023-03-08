@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/not-found-page",
     name: "not-found-page",
-    component: () => import("@/views/NotFound.vue"),
+    component: () => import("@/views/exception/NotFound.vue"),
     meta: { unauthorized: true },
   },
   {
