@@ -15,5 +15,7 @@
   "bugs": {
     "url": "https://github.com/DaHoon06/forYourRecipe/issues"
   },
-  "homepage": "https://github.com/DaHoon06/forYourRecipe#readme"
+  "homepage": "https://github.com/DaHoon06/forYourRecipe#readme",
+  "main": "index.js",
+  "keywords": []
 }
