@@ -7,6 +7,7 @@ on:
 
 # 환경설정
 env:
+  MONGO_URI: ${{ secrets.MONGO_URI }}
   DOCKER_IMAGE: ${{ secrets.DOCKER_USER }}/no1recipe
   VERSION: ${{ github.sha }}
   NAME: no1recipe
