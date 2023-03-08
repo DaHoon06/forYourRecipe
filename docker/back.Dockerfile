@@ -7,7 +7,6 @@ COPY ../backend .
 
 RUN npm ci
 RUN npm run build
-RUN export $(cat .env | xargs)
 
 ENV NODE_EMV production
 EXPOSE 3666

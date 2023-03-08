@@ -57,4 +57,4 @@ jobs:
       - name: Docker run
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:0.0.1
-          docker run --env-file ../../backend/.env -d -p 80:3666 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:0.0.1
+          docker run -d -p 80:3666 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:0.0.1
