@@ -11,7 +11,7 @@ export const Config = ConfigModule.forRoot({
 export const Mongo = MongooseModule.forRootAsync({
         imports: [ConfigModule],
         useFactory: async (configService: ConfigService) => ({
-            uri: configService.get<string>('MONGO_URI'),
+            uri: configService.get<string>('MONGO_URI') || process.env.MONGO_URI,
         }),
         inject: [ConfigService],
     })
