@@ -10,6 +10,7 @@ env:
   DOCKER_IMAGE: ${{ secrets.DOCKER_USER }}/no1recipe
   VERSION: ${{ github.sha }}
   NAME: no1recipe
+  MONGO_URI: ${{ secrets.MONGO_URI }}
 
 jobs:
   # 빌드 Job
@@ -57,7 +58,6 @@ jobs:
       - name: make .env
         run: |
           echo "MONGO_URI={{ secrets.MONGO_URI }}" >> backend/.env
-          cat backend/.env
       # 3666 -> 80 포트로 수행하도록 지정
       - name: Docker run
         run: |
