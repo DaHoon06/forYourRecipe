@@ -16,11 +16,11 @@
           <text-font color="black" size="16">즐겨찾기</text-font>
         </custom-button>
       </li>
-      <li :class="currentMenu === 3 && 'current-path'">
-        <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('notice')">
-          <text-font color="black" size="16">공지사항</text-font>
-        </custom-button>
-      </li>
+      <!--      <li :class="currentMenu === 3 && 'current-path'">-->
+      <!--        <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('notice')">-->
+      <!--          <text-font color="black" size="16">공지사항</text-font>-->
+      <!--        </custom-button>-->
+      <!--      </li>-->
     </ul>
   </nav>
 </template>

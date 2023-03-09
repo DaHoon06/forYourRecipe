@@ -62,18 +62,18 @@
           </li>
           <li>
             <div class="w-100 text-right">
-              <custom-button class="side-menu--button" variant="" @click="redirect('favorite')">
+              <custom-button :disabled="true" class="side-menu--button" variant="" @click="redirect('favorite')">
                 <text-font class="w-100 text-left" color="textBody">즐겨찾기</text-font>
               </custom-button>
             </div>
           </li>
-          <li>
-            <div class="w-100 text-right">
-              <custom-button class="side-menu--button" variant="" @click="redirect('notice')">
-                <text-font class="w-100 text-left" color="textBody">공지사항</text-font>
-              </custom-button>
-            </div>
-          </li>
+          <!--          <li>-->
+          <!--            <div class="w-100 text-right">-->
+          <!--              <custom-button class="side-menu&#45;&#45;button" variant="" @click="redirect('notice')">-->
+          <!--                <text-font class="w-100 text-left" color="textBody">공지사항</text-font>-->
+          <!--              </custom-button>-->
+          <!--            </div>-->
+          <!--          </li>-->
         </ul>
       </nav>
     </aside>

@@ -10,15 +10,18 @@
 <script lang="ts" setup>
 import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {useStore} from "vuex";
 
 const keyword = ref('');
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 watch(route, () => keyword.value = '', {deep: true, immediate: false})
 
 const search = async (): Promise<void> => {
   try {
+    store.commit("utilModule/setCurrentPath", 0);
     await router.push(`/recipe/search/${keyword.value}`)
   } catch (e) {
     console.log(e)
