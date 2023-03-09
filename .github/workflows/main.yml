@@ -57,7 +57,8 @@ jobs:
           password: ${{ secrets.DOCKER_PWD }}
       - name: make .env
         run: |
-          echo "MONGO_URI={{ secrets.MONGO_URI }}" >> .env
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
+          cat .env
       # 3666 -> 80 포트로 수행하도록 지정
       - name: Docker run
         run: |
