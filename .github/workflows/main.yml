@@ -56,6 +56,9 @@ jobs:
           password: ${{ secrets.DOCKER_PWD }}
       # 3666 -> 80 포트로 수행하도록 지정
       - name: Docker run
+        with:
+          screts: |
+            "MONGO_URI=${{ secrets.MONGO_URI }}"
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:0.0.1
-          docker run -it --env-file ./backend/.env -d -p 80:3666 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:0.0.1
+          docker run -e MONGO_URI=${{ secrets.MONGO_URI }} -d -p 80:3666 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:0.0.1
