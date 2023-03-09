@@ -1,6 +1,9 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { IS_PROD } from '../../app.module';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const Config = ConfigModule.forRoot({
   isGlobal: true,
@@ -10,9 +13,7 @@ export const Config = ConfigModule.forRoot({
 export const Mongo = MongooseModule.forRootAsync({
   imports: [ConfigModule],
   useFactory: async (configService: ConfigService) => ({
-    uri: configService.get<string>('MONGO_URI'),
+    uri: configService.get<string>('MONGO_URI') || process.env.MONGO_URI,
   }),
   inject: [ConfigService],
 });
-
-console.log(Mongo);
