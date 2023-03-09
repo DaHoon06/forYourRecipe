@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Generate Environment Variables File for Production
         run: |
-          echo "MONGO_URI=$MONGO_URI" >> .env
+          echo "MONGO_URI=$MONGO_URI" >> ./backend/.env
           cat .env
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }},
