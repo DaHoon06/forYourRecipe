@@ -22,10 +22,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Generate Environment Variables File for Production
         run: |
-          echo "MONGO_URI=$MONGO_URI" >> backend/.env .
+          echo "MONGO_URI={{ secrets.MONGO_URI }}" >> backend/.env .
           cat backend/.env
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }},
       # docker build 수행
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
