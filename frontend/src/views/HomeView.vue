@@ -37,7 +37,7 @@ import {ref, Ref} from "vue";
 import {useRouter} from "vue-router";
 
 const isLoading: Ref<boolean> = ref(true);
-const recipeCards: Recipe.Info[] = ref([]);
+const recipeCards: Ref<Recipe.Info[]> = ref([]);
 
 const router = useRouter();
 
