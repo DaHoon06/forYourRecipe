@@ -1,11 +1,8 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as dotenv from 'dotenv';
-import * as path from 'path';
 
-dotenv.config({
-  path: path.resolve('.env'),
-});
+dotenv.config();
 
 export const Config = ConfigModule.forRoot({
   isGlobal: true,
