@@ -7,8 +7,6 @@ COPY ../backend .
 
 RUN npm ci
 
-COPY ../backend/.env .
-
 RUN npm run build
 
 ENV NODE_EMV production
