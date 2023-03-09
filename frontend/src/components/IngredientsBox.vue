@@ -13,7 +13,7 @@
         </article>
       </div>
       <section class="w-100" v-else>
-        <text-font>선택한 재료</text-font>
+        <text-font weight="semiBold" class="selected-ingredients__label">선택한 재료</text-font>
         <div class="ingredients-box--selected">
           <span v-for="(value) of state.ingredients" :key="value._id">
             <ingredient-icon :src="value.img" :label="value.name"/>
@@ -43,11 +43,11 @@
   <teleport to="#modal">
     <modal-component ref="modal">
       <section class="selected-ingredients--container">
-        <text-font class="pb-14">재료를 선택해주세요.</text-font>
+        <text-font class="pb-14" weight="semiBold" size="16">재료를 선택해주세요.</text-font>
 
         <section class="ingredients-items--box scroll">
           <div v-for="(value) of state.ingredientsCategory" :key="value._id" class="pb-10">
-            <text-font size="18" weight="bold">{{ value.name }}</text-font>
+            <text-font color="textBody" size="14" weight="semiBold">{{ value.name }}</text-font>
             <hr/>
             <section class="ingredients-icon--wrapper">
               <div v-for="(items) of value.detailedIngredient" :key="items._id" @click="selectedIngredient(items)"
@@ -59,7 +59,7 @@
         </section>
 
         <section class="selected-items">
-          <text-font>선택한 재료</text-font>
+          <text-font weight="semiBold">선택한 재료</text-font>
           <hr/>
           <div>
             <text-font size="14" v-for="(ingredient, index) of state.ingredients" :key="index">{{
@@ -67,8 +67,6 @@
               }}, &nbsp;
             </text-font>
           </div>
-          <text-font class="w-100 center" size="13" color="red" v-if="selectBoxDisabled">재료는 최대 3 가지만 고를 수 있습니다.
-          </text-font>
         </section>
         <section class="selected-ingredients__button--wrapper">
           <custom-button type="button" variant="gray" @click="cancel">
@@ -101,7 +99,7 @@ interface State {
   selected: any[],
 }
 
-const modal: Ref<ModalComponentType> = ref(null);
+const modal: Ref<ModalComponentType | null> = ref(null);
 
 const state: State = reactive({
   isLoading: true,
@@ -118,7 +116,7 @@ onMounted(() => state.isLoading = false);
 
 const pickUpModal = async (): Promise<void> => {
   state.isLoading = true;
-  modal.value.show();
+  modal.value!.show();
   store.commit('recipeModule/reset');
   try {
     const {data} = await ins.get('/ingredients/all-ingredients');
@@ -141,13 +139,13 @@ const selectedIngredient =
 
 const cancel = (): void => {
   reset();
-  modal.value.hide();
+  modal.value!.hide();
 }
 
 const save = (): void => {
   state.isLoading = true;
   store.commit("recipeModule/saveIngredients", state.ingredients);
-  modal.value.hide();
+  modal.value!.hide();
   state.isLoading = false;
 }
 
@@ -190,13 +188,18 @@ const reset = (): void => {
   align-items: center;
   flex-direction: column;
 
+  .selected-ingredients__label {
+    padding: 2rem 0;
+  }
+
   .ingredients-box--selected {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    column-gap: 1rem;
-    row-gap: 0;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    justify-items: center;
+    row-gap: 1rem;
+    width: 80%;
+    margin: auto auto 1rem auto;
+    column-gap: 1rem
   }
 }
 
@@ -247,6 +250,7 @@ const reset = (): void => {
       column-gap: 10px;
       row-gap: 4px;
       width: 100%;
+      padding-bottom: 1rem;
     }
 
     .ingredients-items--container {
@@ -266,7 +270,8 @@ const reset = (): void => {
   .selected-ingredients__button--wrapper {
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: space-evenly;
+    padding-top: 1rem;
   }
 }
 
@@ -291,6 +296,12 @@ const reset = (): void => {
 
     .box__body {
       height: 400px;
+
+      .selected-ingredients__label {
+        width: 100%;
+        text-align: left;
+        padding: 2rem 1rem;
+      }
     }
   }
 }

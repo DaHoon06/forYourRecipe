@@ -5,11 +5,15 @@
       <text-font size="16" weight="medium">검색 결과</text-font>
     </section>
     <hr/>
-    <section class="card--wrapper">
+    <section class="card--wrapper" v-if="recipeList.length > 0">
       <div v-for="(dish) of recipeList" :key="dish._id" class="wrapper">
         <card-ui :recipe-detail="() => recipeDetail(dish._id)" :card-item="dish"/>
         <lists-ui :recipe-detail="() => recipeDetail(dish._id)" :list-item="dish"/>
       </div>
+    </section>
+    <section class="search-no-result" v-else>
+      <text-font class=" w-100 center" size="16" weight="medium">검색된 레시피가 없습니다. 레시피를 등록해보세요.
+      </text-font>
     </section>
   </article>
 
@@ -75,6 +79,13 @@ hr {
 
   .search-result__label {
     padding: 1rem 0.8rem;
+  }
+
+  .search-no-result {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

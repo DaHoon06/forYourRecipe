@@ -37,7 +37,7 @@ import {ref, Ref} from "vue";
 import {useRouter} from "vue-router";
 
 const isLoading: Ref<boolean> = ref(true);
-const recipeCards: Recipe.Info[] = ref([]);
+const recipeCards: Ref<Recipe.Info[]> = ref([]);
 
 const router = useRouter();
 
@@ -96,6 +96,7 @@ hr {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: 0.4em;
   }
 
   .redirect-all-recipe {
@@ -118,7 +119,7 @@ hr {
       padding: 0 0 4rem 0;
 
       .main__label--wrapper {
-        padding: 1rem;
+        padding: 1rem !important;
       }
 
       .today-recommended-dishes {
