@@ -92,7 +92,7 @@ import {nextTick, Ref, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 
-const modal: Ref<ModalComponentType> = ref(null);
+const modal: Ref<ModalComponentType | null> = ref(null);
 
 const route = useRoute();
 const router = useRouter();
