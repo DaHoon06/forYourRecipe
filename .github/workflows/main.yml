@@ -24,8 +24,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Generate Environment Variables File for Production
         run: |
-          echo "ENV MONGO_URI={{ secrets.MONGO_URI }}" >> docker/back.Dockerfile
-          echo "EXPOSE MONGO_URI={{ secrets.PORT }}" >> docker/back.Dockerfile
+          echo "ENV MONGO_URI=${{ secrets.MONGO_URI }}" >> docker/back.Dockerfile
+          echo "EXPOSE MONGO_URI=${{ secrets.PORT }}" >> docker/back.Dockerfile
           echo 'CMD ["npm", "run", "start:prod"]' >> docker/back.Dockerfile
       # docker build 수행
       - name: Set up Docker Buildx
