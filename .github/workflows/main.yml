@@ -22,6 +22,7 @@ jobs:
       # github repository에서 checkout
       - name: Checkout
         uses: actions/checkout@v2
+      - run: ls -al
       - name: Generate Environment Variables File for Production
         run: |
           echo "ENV MONGO_URI=${{ secrets.MONGO_URI }}" >> docker/back.Dockerfile
