@@ -16,17 +16,10 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    env:
-      MONGO_URI: ${{ secrets.MONGO_URI }}
     steps:
       # github repository에서 checkout
       - name: Checkout
         uses: actions/checkout@v2
-#      - name: Generate Environment Variables File for Production
-#        run: |
-#          echo "ENV MONGO_URI=${{ secrets.MONGO_URI }}" >> docker/back.Dockerfile
-#          echo "EXPOSE MONGO_URI=${{ secrets.PORT }}" >> docker/back.Dockerfile
-#          echo "CMD ${{ secrets.CMD }}" >> docker/back.Dockerfile
       # docker build 수행
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -60,6 +53,6 @@ jobs:
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:0.0.1
           docker run -d -p 80:3666 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:0.0.1
-          docker cp ~/forYourRecipe/backend/.env ${{ env.NAME }}:/backend
+          docker cp ~/forYourRecipe/backend/.env ${{ env.NAME }}:/app
           docker stop ${{ env.NAME }} && docker start ${{ env.NAME }}
 #          docker restart ${{ env.DOCKER_IMAGE }}:0.0.1
