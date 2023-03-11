@@ -22,12 +22,11 @@ jobs:
       # github repository에서 checkout
       - name: Checkout
         uses: actions/checkout@v2
-      - run: ls -al
-      - name: Generate Environment Variables File for Production
-        run: |
-          echo "ENV MONGO_URI=${{ secrets.MONGO_URI }}" >> docker/back.Dockerfile
-          echo "EXPOSE MONGO_URI=${{ secrets.PORT }}" >> docker/back.Dockerfile
-          echo "CMD ${{ secrets.CMD }}" >> docker/back.Dockerfile
+#      - name: Generate Environment Variables File for Production
+#        run: |
+#          echo "ENV MONGO_URI=${{ secrets.MONGO_URI }}" >> docker/back.Dockerfile
+#          echo "EXPOSE MONGO_URI=${{ secrets.PORT }}" >> docker/back.Dockerfile
+#          echo "CMD ${{ secrets.CMD }}" >> docker/back.Dockerfile
       # docker build 수행
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
