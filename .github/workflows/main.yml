@@ -56,7 +56,6 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PWD }}
       # 3666 -> 80 포트로 수행하도록 지정
-      - # docker cp ~/data/test.md tmp_container:/root/data/
       - name: Docker run
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:0.0.1
