@@ -60,5 +60,5 @@ jobs:
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker pull ${{ env.DOCKER_IMAGE }}:0.0.1
           docker run -d -p 80:3666 --name ${{ env.NAME }} --restart always ${{ env.DOCKER_IMAGE }}:0.0.1
-          docker cp ~/forYourRecipe/backend/.env ${{ env.DOCKER_IMAGE }}:0.0.1
+          docker cp ~/forYourRecipe/backend/.env e227864f1976
 #          docker restart ${{ env.DOCKER_IMAGE }}:0.0.1
