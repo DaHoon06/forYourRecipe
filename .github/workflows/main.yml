@@ -55,7 +55,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PWD }}
-      # 3666 -> 80 포트로 수행하도록 지정
+      # 3666 -> 80 포트로 수행하도록 지정s
       - name: Docker run
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker pull ${{ env.DOCKER_IMAGE }}:0.0.1
