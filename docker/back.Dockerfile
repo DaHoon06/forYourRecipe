@@ -10,6 +10,6 @@ RUN npm ci
 RUN npm run build
 
 ENV NODE_EMV production
-#EXPOSE 3666
-#CMD ["npm", "run", "start:prod"]
+EXPOSE 3666
+CMD ["npm", "run", "start:prod"]
 
