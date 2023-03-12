@@ -20,7 +20,7 @@
       </div>
     </section>
 
-    <section class="recipe-lists__label">
+    <section class="recipe-lists__label pb-10">
       <text-font size="18" class="pr-6">검색 결과</text-font>
       <text-font size="16" color="placeholder">{{ total }}</text-font>
     </section>

@@ -226,7 +226,6 @@ export default class AdminRecipePost extends Vue {
   @Ref() readonly recipeDesc!: HTMLInputElement
 
   recipePost: IRecipePost = {
-    id: '',
     name: '',
     desc: '',
     steps: [
@@ -258,7 +257,6 @@ export default class AdminRecipePost extends Vue {
 
   textareaMaxLengthCheck(e: Event): string {
     const {value} = e.target as any;
-    console.log(value.length)
     if (value.length >= 120) return value.substring(0, 121);
     return value;
   }
