@@ -1,6 +1,6 @@
 <template>
   <picture :class="props.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-    <img loading="lazy" :src="props.src"
+    <img :src="props.src"
          sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
   </picture>
   <text-font class="pt-10" size="12">

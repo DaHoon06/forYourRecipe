@@ -78,7 +78,7 @@ hr {
   margin: auto;
 
   .search-result__label {
-    padding: 1rem 0.8rem;
+    padding: 0.4em 0;
   }
 
   .search-no-result {

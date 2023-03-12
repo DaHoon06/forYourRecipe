@@ -118,14 +118,13 @@ export default defineComponent({
       }
 
       .recipe--description {
-        margin-top: 10px;
         display: inline-block;
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
         line-height: 1.2;
-        height: 1em;
+        height: 1.2em;
         text-align: left;
         word-wrap: break-word;
         display: -webkit-box;
@@ -136,7 +135,7 @@ export default defineComponent({
       .recipe-like--wrapper {
         display: flex;
         align-items: center;
-        margin-top: 10px;
+        padding-top: 10px;
       }
     }
   }
