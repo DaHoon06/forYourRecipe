@@ -6,12 +6,12 @@
       <section>
         <div class="recipe-form--label">
           <text-font size="22" class="recipe-detail__label">{{ recipe.name }}</text-font>
-          <div class="flex">
+          <div class="flex" v-if="showUpdateMenuButton">
             <!-- 내가 작성한 글일 경우에만 -->
             <custom-button variant="icon-button" @click="recipeUpdate" class="mr-10">
               <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy"/>
             </custom-button>
-            <custom-button variant="icon-button" @click="modal.show()">
+            <custom-button variant="icon-button" @click="modal?.show()">
               <img src="@/assets/images/icons/trash.svg" alt="recipe-delete" width="24" height="24" loading="lazy"/>
             </custom-button>
           </div>
@@ -69,7 +69,7 @@
         <section class="modal--message-box">
           <text-font class="delete-warning-message">레시피를 삭제하겠습니까?</text-font>
           <section class="flex justify-content-around">
-            <custom-button variant="gray" @click="modal.hide()">
+            <custom-button variant="gray" @click="modal?.hide()">
               <text-font color="gray2">취소</text-font>
             </custom-button>
             <custom-button variant="black" @click="recipeDelete">
@@ -88,15 +88,14 @@ import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {Recipe} from "@/interfaces/recipe";
 import ModalComponent from "@/components/common/ModalComponent.vue";
 import {ModalComponentType} from "@/types/type";
-import {nextTick, Ref, ref} from "vue";
+import {computed, nextTick, Ref, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-
+import {useStore} from "vuex";
 
 const modal: Ref<ModalComponentType | null> = ref(null);
-
 const route = useRoute();
 const router = useRouter();
-
+const store = useStore();
 const isLoading: Ref<boolean> = ref(true);
 const recipe: Ref<Recipe.Info> = ref(
   {
@@ -115,6 +114,11 @@ const recipe: Ref<Recipe.Info> = ref(
 );
 const recipeId: Ref<string> = ref('');
 recipeId.value = route.params.id as string;
+
+const showUpdateMenuButton = computed(() => {
+  const uid = store.getters["userModule/getUid"]
+  return recipe.value.user === uid || uid === 'admin'
+})
 
 const load = async () => {
   try {
@@ -153,88 +157,10 @@ const recipeDelete = async () => {
 load();
 </script>
 
-<!--<script lang="ts">-->
-<!--import {Options, Vue} from "vue-class-component";-->
-<!--import {ins} from "@/lib/axios";-->
-<!--import RecipeUi from "@/components/ui/RecipeUi.vue";-->
-<!--import {Recipe} from "@/interfaces/recipe";-->
-<!--import ModalComponent from "@/components/common/ModalComponent.vue";-->
-<!--import {Ref} from "vue-property-decorator";-->
-<!--import {ModalComponentType} from "@/types/type";-->
-
-<!--@Options({-->
-<!--  components: {-->
-<!--    RecipeUi,-->
-<!--    ModalComponent-->
-<!--  }-->
-<!--})-->
-<!--export default class RecipeDetail extends Vue {-->
-<!--  @Ref('modal') readonly modal!: ModalComponentType;-->
-
-<!--  isLoading = true;-->
-<!--  recipe: Recipe.Info = {-->
-<!--    _id: '',-->
-<!--    desc: '',-->
-<!--    createdAt: new Date(),-->
-<!--    detailedIngredient: [],-->
-<!--    likes: [],-->
-<!--    profileImage: '',-->
-<!--    name: '',-->
-<!--    modified: false,-->
-<!--    steps: [],-->
-<!--    user: '',-->
-<!--    updatedAt: new Date()-->
-<!--  };-->
-<!--  recipeId = '';-->
-
-<!--  created() {-->
-<!--    this.recipeId = this.$route.params.id as string;-->
-<!--    this.load();-->
-<!--  }-->
-
-<!--  private async load() {-->
-<!--    try {-->
-<!--      const {data} = await ins.get(`/recipes/detail/${this.recipeId}`);-->
-<!--      this.recipe = data;-->
-<!--      this.isLoading = false;-->
-<!--    } catch (e) {-->
-<!--      console.log(e)-->
-<!--    }-->
-<!--  }-->
-
-<!--  private historyBack() {-->
-<!--    this.$router.go(-1);-->
-<!--  }-->
-
-<!--  private recipeUpdate() {-->
-<!--    const {_id} = this.recipe;-->
-<!--    this.$router.push(`/admin/recipe/post/${_id}`)-->
-<!--  }-->
-
-<!--  private async recipeDelete() {-->
-<!--    try {-->
-<!--      this.isLoading = true;-->
-<!--      const {_id} = this.recipe;-->
-<!--      const {data} = await ins.delete('/recipes/delete-recipe', {-->
-<!--        data: {id: _id,}-->
-<!--      });-->
-<!--      this.isLoading = false;-->
-<!--      if (data) {-->
-<!--        this.modal.hide()-->
-<!--        await this.$nextTick(() => this.$router.push('/'));-->
-<!--      }-->
-<!--    } catch (e) {-->
-<!--      console.log(e);-->
-<!--    }-->
-<!--  }-->
-
-<!--}-->
-<!--</script>-->
-
 <style scoped lang="scss">
 .recipe-detail--container {
   width: 100%;
-  padding: 3rem 0;
+  padding: 3rem 1rem;
 
   .recipe-form--wrapper {
     margin: auto;

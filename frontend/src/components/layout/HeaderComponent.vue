@@ -3,10 +3,10 @@
     <section class="wrapper">
       <custom-button variant="icon-button" type="button" class="flex-column-center text-left" @click="redirectHome">
         <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
-          FAST FIND
+          RECIPE
         </text-font>
         <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
-          EASY COOK
+          BOOKS
         </text-font>
       </custom-button>
       <section class="header-search--container">
