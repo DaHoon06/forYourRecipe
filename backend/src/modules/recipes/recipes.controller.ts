@@ -142,14 +142,22 @@ export class RecipesController {
     return this.recipesService.setRecipe(recipe);
   }
 
-  @UseInterceptors(FilesInterceptor('file'))
   @Post('/register-recipe/image-upload/:_id')
+  @UseInterceptors(FilesInterceptor('file'))
+  @ApiOperation({
+    summary: '레시피 이미지 업로드 API',
+    description: 'S3에 이미지를 업로드',
+  })
   async recipeImageUpload(
     @Req() req,
     @Param('_id') _id: string,
     @UploadedFiles() file: Array<Express.Multer.File>,
   ) {
-    console.log(file);
+    const fileUploadDto = {
+      _id,
+      file,
+    };
+    await this.recipesService.imageUpload(fileUploadDto);
   }
 
   @Post('/register-admin-recipe')

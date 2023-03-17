@@ -13,6 +13,7 @@ import { UpdatedUserRecipeDto } from '../../dtos/recipe/updated-user-recipe.dto'
 import { UpdatedRecipeLikeDto } from '../../dtos/recipe/updated-recipe-like.dto';
 import { UsersService } from '../users/users.service';
 import { GlobalFilter } from '../../lib/global.filter';
+import AWS from 'aws-sdk';
 
 @UseFilters(new GlobalFilter())
 @Injectable()
@@ -90,6 +91,44 @@ export class RecipesService {
     const registeredRecipe = await new this.recipeModel(recipe).save();
     if (registeredRecipe) return true;
     return false;
+  }
+
+  /**
+   * @description S3 이미지 업로드
+   * @param fileUploadDto
+   */
+  async imageUpload(fileUploadDto: any): Promise<void> {
+    const { _id, file } = fileUploadDto;
+    this.awsConfig();
+
+    const s3 = new AWS.S3();
+    const { originalname } = file;
+
+    const params = {
+      Bucket: process.env.S3_BUCKET,
+      Key: `4u-recipe/foods/${originalname}`,
+      ACL: 'public-read',
+      Body: file.buffer,
+    };
+    const { Location } = await s3.upload(params).promise();
+    // S3 업로드 후 본문 이미지 업데이트
+    await this.recipeModel.updateOne(
+      { _id },
+      {
+        $set: {
+          profileImage: Location,
+        },
+      },
+    );
+  }
+
+  awsConfig() {
+    AWS.config.update({
+      region: process.env.REGION,
+      credentials: new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: process.env.IDENTITY_POOL_ID,
+      }),
+    });
   }
 
   //회원 레시피 수정
