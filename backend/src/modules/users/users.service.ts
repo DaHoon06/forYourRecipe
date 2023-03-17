@@ -1,9 +1,9 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from '../../models/user.model';
-import { RegisteredUserDto } from '../../dtos/user/registered-user.dto';
-import { UserDto } from '../../dtos/user/user.dto';
+import { User, UserDocument } from './entities/user.entity';
+import { RegisteredUserDto } from './dto/registered-user.dto';
+import { UserDto } from './dto/user.dto';
 import { GlobalFilter } from '../../lib/global.filter';
 
 @UseFilters(new GlobalFilter())

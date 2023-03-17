@@ -1,8 +1,8 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {HydratedDocument} from "mongoose";
-import {IngredientCategory} from "../enums/ingredientCategory";
+import {IngredientCategory} from "../../../enums/ingredientCategory";
 import {v4 as uuidv4} from 'uuid';
-import {Role} from "../enums/role";
+import {Role} from "../../../enums/role";
 
 @Schema({collection: 'recipes', versionKey: false, _id: false})
 export class Recipe {

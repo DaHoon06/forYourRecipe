@@ -24,12 +24,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { RecipesService } from './recipes.service';
-import { RecipeDto } from '../../dtos/recipe/recipe.dto';
-import { RegisteredUserRecipeDto } from '../../dtos/recipe/registered-user-recipe.dto';
-import { RegisteredAdminRecipeDto } from '../../dtos/recipe/registered-admin-recipe.dto';
-import { UpdatedAdminRecipeDto } from '../../dtos/recipe/updated-admin-recipe.dto';
-import { UpdatedUserRecipeDto } from '../../dtos/recipe/updated-user-recipe.dto';
-import { UpdatedRecipeLikeDto } from '../../dtos/recipe/updated-recipe-like.dto';
+import { RecipeDto } from './dto/recipe.dto';
+import { RegisteredUserRecipeDto } from './dto/registered-user-recipe.dto';
+import { RegisteredAdminRecipeDto } from './dto/registered-admin-recipe.dto';
+import { UpdatedAdminRecipeDto } from './dto/updated-admin-recipe.dto';
+import { UpdatedUserRecipeDto } from './dto/updated-user-recipe.dto';
+import { UpdatedRecipeLikeDto } from './dto/updated-recipe-like.dto';
 import { Response } from 'express';
 import { GlobalFilter } from '../../lib/global.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';

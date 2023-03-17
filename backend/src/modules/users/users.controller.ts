@@ -1,21 +1,21 @@
-import {Body, Controller, Get, Param, Post, UseFilters} from '@nestjs/common';
-import {UsersService} from "./users.service";
-import {RegisteredUserDto} from "../../dtos/user/registered-user.dto";
-import {UserDto} from "../../dtos/user/user.dto";
-import {GlobalFilter} from "../../lib/global.filter";
+import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { RegisteredUserDto } from './dto/registered-user.dto';
+import { UserDto } from './dto/user.dto';
+import { GlobalFilter } from '../../lib/global.filter';
 
 @UseFilters(new GlobalFilter())
 @Controller('users')
 export class UsersController {
-    constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UsersService) {}
 
-    @Get('/detail/:id')
-    private async getUser(@Param('id') id: string): Promise<UserDto>{
-        return this.userService.findById(id)
-    }
+  @Get('/detail/:id')
+  private async getUser(@Param('id') id: string): Promise<UserDto> {
+    return this.userService.findById(id);
+  }
 
-    @Post('/sign-in')
-    private async signIn(@Body() user: RegisteredUserDto): Promise<UserDto> {
-        return this.userService.setUser(user)
-    }
+  @Post('/sign-in')
+  private async signIn(@Body() user: RegisteredUserDto): Promise<UserDto> {
+    return this.userService.setUser(user);
+  }
 }

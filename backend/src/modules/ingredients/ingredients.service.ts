@@ -1,10 +1,10 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Ingredient, IngredientDocument } from '../../models/ingredient.model';
+import { Ingredient, IngredientDocument } from './entities/ingredient.entity';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { IngredientDto } from '../../dtos/ingredient/ingredient.dto';
-import { RegisteredIngredientDto } from '../../dtos/ingredient/registered-ingredient.dto';
+import { IngredientDto } from './dto/ingredient.dto';
+import { RegisteredIngredientDto } from './dto/registered-ingredient.dto';
 import { GlobalFilter } from '../../lib/global.filter';
 
 @UseFilters(new GlobalFilter())

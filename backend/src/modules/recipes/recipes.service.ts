@@ -1,16 +1,16 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Recipe, RecipeDocument } from '../../models/recipe.model';
-import { RegisteredUserRecipeDto } from '../../dtos/recipe/registered-user-recipe.dto';
-import { RegisteredAdminRecipeDto } from '../../dtos/recipe/registered-admin-recipe.dto';
+import { Recipe, RecipeDocument } from './entities/recipe.entity';
+import { RegisteredUserRecipeDto } from './dto/registered-user-recipe.dto';
+import { RegisteredAdminRecipeDto } from './dto/registered-admin-recipe.dto';
 import { IngredientsService } from '../ingredients/ingredients.service';
-import { RecipeDto } from '../../dtos/recipe/recipe.dto';
+import { RecipeDto } from './dto/recipe.dto';
 import { Role } from '../../enums/role';
-import { StepsDto } from '../../dtos/recipe/steps.dto';
-import { UpdatedAdminRecipeDto } from '../../dtos/recipe/updated-admin-recipe.dto';
-import { UpdatedUserRecipeDto } from '../../dtos/recipe/updated-user-recipe.dto';
-import { UpdatedRecipeLikeDto } from '../../dtos/recipe/updated-recipe-like.dto';
+import { StepsDto } from './dto/steps.dto';
+import { UpdatedAdminRecipeDto } from './dto/updated-admin-recipe.dto';
+import { UpdatedUserRecipeDto } from './dto/updated-user-recipe.dto';
+import { UpdatedRecipeLikeDto } from './dto/updated-recipe-like.dto';
 import { UsersService } from '../users/users.service';
 import { GlobalFilter } from '../../lib/global.filter';
 import AWS from 'aws-sdk';
@@ -89,28 +89,19 @@ export class RecipesService {
       user,
     );
     const registeredRecipe = await new this.recipeModel(recipe).save();
-    if (registeredRecipe) return true;
-    return false;
+    return !!registeredRecipe;
+
   }
 
   /**
-   * @description S3 이미지 업로드
+   * @description 레시피 이미지 업로드
    * @param fileUploadDto
    */
   async imageUpload(fileUploadDto: any): Promise<void> {
     const { _id, file } = fileUploadDto;
-    this.awsConfig();
 
-    const s3 = new AWS.S3();
-    const { originalname } = file;
+    //TODO: S3 Service 불러오기
 
-    const params = {
-      Bucket: process.env.S3_BUCKET,
-      Key: `4u-recipe/foods/${originalname}`,
-      ACL: 'public-read',
-      Body: file.buffer,
-    };
-    const { Location } = await s3.upload(params).promise();
     // S3 업로드 후 본문 이미지 업데이트
     await this.recipeModel.updateOne(
       { _id },
@@ -120,15 +111,6 @@ export class RecipesService {
         },
       },
     );
-  }
-
-  awsConfig() {
-    AWS.config.update({
-      region: process.env.REGION,
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: process.env.IDENTITY_POOL_ID,
-      }),
-    });
   }
 
   //회원 레시피 수정
