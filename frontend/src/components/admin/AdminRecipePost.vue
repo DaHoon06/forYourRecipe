@@ -161,10 +161,15 @@
               <label :for="`file`" class="input-file--button">
                 <img src="@/assets/images/icons/image-upload.svg" width="24" height="24" alt="이미지 업로드 버튼"/>
               </label>
-              <input type="file" id="file" style="display: none" accept="jpeg,png,jpg"/>
+              <input type="file" id="file" style="display: none" accept="jpeg,png,jpg" @change="fileUpload"/>
             </div>
           </div>
           <div class="dotted my-16"/>
+        </section>
+
+        <section v-if="dataUrl.length > 0">
+          이미지 미리보기
+          <img :src="dataUrl" alt="preview" width="80" height="80"/>
         </section>
 
       </recipe-ui>
@@ -247,6 +252,9 @@ export default class AdminRecipePost extends Vue {
   ingredientsCategory: Recipe.IngredientCategories[] = [];
   ingredients: Recipe.IngredientType[] = [];
   recipeId = '';
+  uploadImages: File[] = [];
+  file: Blob[] = [];
+  dataUrl = '';
 
   created() {
     this.recipeId = this.$route.params.id as string;
@@ -270,7 +278,6 @@ export default class AdminRecipePost extends Vue {
     }
   }
 
-
   private async loadCategory() {
     try {
       const {data} = await ins.get('/ingredients/all-ingredients');
@@ -282,6 +289,28 @@ export default class AdminRecipePost extends Vue {
 
   cancel() {
     this.$router.push('/');
+  }
+
+  private async fileUpload(e: any) {
+    const files = e.tartget.files;
+    const typeCheck = ['jpg', 'jpeg', 'png'];
+    const {type} = files[0];
+    const [image, imageType] = type.split('/');
+
+    if (image !== 'image' || !typeCheck.includes(imageType)) {
+      this.file = [];
+    } else {
+      this.file = files
+      this.dataUrl = await this.getDataUrl(files);
+    }
+  }
+
+  async getDataUrl(files: Blob[]): Promise<string> {
+    return await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = (e) => resolve(reader.result + '');
+    });
   }
 
   private emptyCheck(): boolean {
@@ -349,6 +378,12 @@ export default class AdminRecipePost extends Vue {
       const result = this.emptyCheck();
       if (result) return;
       this.isLoading = true
+
+      const formData: FormData = new FormData();
+      this.uploadImages.forEach(file => {
+        formData.append('file', file);
+      });
+
       if (this.recipeId.length > 0) {
         const {name, desc, profileImage, steps, detailedIngredient, allIngredient} = this.recipePost;
         const ingredientsIdArr = detailedIngredient.map((value: any) => value._id)
@@ -364,13 +399,23 @@ export default class AdminRecipePost extends Vue {
         if (data) this.isLoading = false;
       } else {
         const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);
-        if (data)
-          this.isLoading = false;
+        if (this.dataUrl.length > 0) {
+          await this.uploadFile('', formData);
+        }
+        this.isLoading = false;
       }
       this.$router.push('/');
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async uploadFile(_id: string, formData: FormData): Promise<void> {
+    await ins.post(`/recipes/register-admin-recipe/image/${_id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
 
   private selectedIngredient(_id: string): void {

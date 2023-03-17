@@ -9,8 +9,11 @@ import {
   Post,
   Put,
   Query,
+  Req,
   Res,
+  UploadedFiles,
   UseFilters,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -29,6 +32,7 @@ import { UpdatedUserRecipeDto } from '../../dtos/recipe/updated-user-recipe.dto'
 import { UpdatedRecipeLikeDto } from '../../dtos/recipe/updated-recipe-like.dto';
 import { Response } from 'express';
 import { GlobalFilter } from '../../lib/global.filter';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @UseFilters(new GlobalFilter())
 @Controller('recipes')
@@ -136,6 +140,16 @@ export class RecipesController {
     @Body() recipe: RegisteredUserRecipeDto,
   ): Promise<boolean> {
     return this.recipesService.setRecipe(recipe);
+  }
+
+  @UseInterceptors(FilesInterceptor('file'))
+  @Post('/register-recipe/image-upload/:_id')
+  async recipeImageUpload(
+    @Req() req,
+    @Param('_id') _id: string,
+    @UploadedFiles() file: Array<Express.Multer.File>,
+  ) {
+    console.log(file);
   }
 
   @Post('/register-admin-recipe')
