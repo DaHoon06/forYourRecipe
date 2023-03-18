@@ -1,19 +1,21 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Recipe, RecipeDocument } from './entities/recipe.entity';
-import { RegisteredUserRecipeDto } from './dto/registered-user-recipe.dto';
-import { RegisteredAdminRecipeDto } from './dto/registered-admin-recipe.dto';
-import { IngredientsService } from '../ingredients/ingredients.service';
-import { RecipeDto } from './dto/recipe.dto';
-import { Role } from '../../enums/role';
-import { StepsDto } from './dto/steps.dto';
-import { UpdatedAdminRecipeDto } from './dto/updated-admin-recipe.dto';
-import { UpdatedUserRecipeDto } from './dto/updated-user-recipe.dto';
-import { UpdatedRecipeLikeDto } from './dto/updated-recipe-like.dto';
-import { UsersService } from '../users/users.service';
-import { GlobalFilter } from '../../lib/global.filter';
-import AWS from 'aws-sdk';
+import {
+  Recipe,
+  RecipeDocument,
+} from '@modules/recipes/entities/recipe.entity';
+import { RegisteredUserRecipeDto } from '@modules/recipes/dto/registered-user-recipe.dto';
+import { RegisteredAdminRecipeDto } from '@modules/recipes/dto/registered-admin-recipe.dto';
+import { IngredientsService } from '@modules/ingredients/ingredients.service';
+import { RecipeDto } from '@modules/recipes/dto/recipe.dto';
+import { Role } from '@src/enums/role';
+import { StepsDto } from '@modules/recipes/dto/steps.dto';
+import { UpdatedAdminRecipeDto } from '@modules/recipes/dto/updated-admin-recipe.dto';
+import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.dto';
+import { UpdatedRecipeLikeDto } from '@modules/recipes/dto/updated-recipe-like.dto';
+import { UsersService } from '@modules/users/users.service';
+import { GlobalFilter } from '@src/lib/global.filter';
 
 @UseFilters(new GlobalFilter())
 @Injectable()

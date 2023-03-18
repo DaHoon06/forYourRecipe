@@ -1,11 +1,14 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Ingredient, IngredientDocument } from './entities/ingredient.entity';
+import {
+  Ingredient,
+  IngredientDocument,
+} from '@modules/ingredients/entities/ingredient.entity';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { IngredientDto } from './dto/ingredient.dto';
-import { RegisteredIngredientDto } from './dto/registered-ingredient.dto';
-import { GlobalFilter } from '../../lib/global.filter';
+import { IngredientDto } from '@modules/ingredients/dto/ingredient.dto';
+import { RegisteredIngredientDto } from '@modules/ingredients/dto/registered-ingredient.dto';
+import { GlobalFilter } from '@src/lib/global.filter';
 
 @UseFilters(new GlobalFilter())
 @Injectable()

@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { RegisteredUserDto } from './dto/registered-user.dto';
-import { UserDto } from './dto/user.dto';
-import { GlobalFilter } from '../../lib/global.filter';
+import { UsersService } from '@modules/users/users.service';
+import { RegisteredUserDto } from '@modules/users/dto/registered-user.dto';
+import { UserDto } from '@modules/users/dto/user.dto';
+import { GlobalFilter } from '@src/lib/global.filter';
 
 @UseFilters(new GlobalFilter())
 @Controller('users')

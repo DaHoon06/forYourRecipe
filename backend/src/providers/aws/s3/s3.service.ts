@@ -1,6 +1,6 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import AWS from 'aws-sdk';
-import { GlobalFilter } from '../../../lib/global.filter';
+import { GlobalFilter } from '@src/lib/global.filter';
 
 @UseFilters(new GlobalFilter())
 @Injectable()

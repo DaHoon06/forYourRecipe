@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { IngredientsController } from './ingredients.controller';
-import { IngredientsService } from './ingredients.service';
+import { IngredientsController } from '@modules/ingredients/ingredients.controller';
+import { IngredientsService } from '@modules/ingredients/ingredients.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Ingredient, IngredientSchema } from './entities/ingredient.entity';
-import { IngredientsRepository } from './ingredients.repository';
+import {
+  Ingredient,
+  IngredientSchema,
+} from '@modules/ingredients/entities/ingredient.entity';
+import { IngredientsRepository } from '@modules/ingredients/ingredients.repository';
 
 @Module({
   imports: [

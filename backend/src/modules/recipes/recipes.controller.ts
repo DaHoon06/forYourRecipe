@@ -21,14 +21,14 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { RecipesService } from './recipes.service';
-import { RecipeDto } from './dto/recipe.dto';
-import { RegisteredUserRecipeDto } from './dto/registered-user-recipe.dto';
-import { RegisteredAdminRecipeDto } from './dto/registered-admin-recipe.dto';
-import { UpdatedAdminRecipeDto } from './dto/updated-admin-recipe.dto';
-import { UpdatedUserRecipeDto } from './dto/updated-user-recipe.dto';
-import { UpdatedRecipeLikeDto } from './dto/updated-recipe-like.dto';
-import { GlobalFilter } from '../../lib/global.filter';
+import { RecipesService } from '@modules/recipes/recipes.service';
+import { RecipeDto } from '@modules/recipes/dto/recipe.dto';
+import { RegisteredUserRecipeDto } from '@modules/recipes/dto/registered-user-recipe.dto';
+import { RegisteredAdminRecipeDto } from '@modules/recipes/dto/registered-admin-recipe.dto';
+import { UpdatedAdminRecipeDto } from '@modules/recipes/dto/updated-admin-recipe.dto';
+import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.dto';
+import { UpdatedRecipeLikeDto } from '@modules/recipes/dto/updated-recipe-like.dto';
+import { GlobalFilter } from '@src/lib/global.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 @UseFilters(new GlobalFilter())

@@ -5,10 +5,10 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { IngredientsService } from './ingredients.service';
-import { RegisteredIngredientDto } from './dto/registered-ingredient.dto';
-import { IngredientDto } from './dto/ingredient.dto';
-import { GlobalFilter } from '../../lib/global.filter';
+import { IngredientsService } from '@modules/ingredients/ingredients.service';
+import { RegisteredIngredientDto } from '@modules/ingredients/dto/registered-ingredient.dto';
+import { IngredientDto } from '@modules/ingredients/dto/ingredient.dto';
+import { GlobalFilter } from '@src/lib/global.filter';
 
 @UseFilters(new GlobalFilter())
 @Controller('ingredients')

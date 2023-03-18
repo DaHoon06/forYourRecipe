@@ -9,10 +9,10 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { DetailedIngredientDto } from '../../ingredients/dto/detailed-ingredient.dto';
+import { DetailedIngredientDto } from '@modules/ingredients/dto/detailed-ingredient.dto';
 import { Type } from 'class-transformer';
-import { StepsDto } from './steps.dto';
-import { AllIngredientDto } from '../../ingredients/dto/all-ingredient.dto';
+import { StepsDto } from '@modules/recipes/dto/steps.dto';
+import { AllIngredientDto } from '@modules/ingredients/dto/all-ingredient.dto';
 
 export class RecipeDto {
   @IsString()

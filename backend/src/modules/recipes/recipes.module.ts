@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
-import { RecipesController } from './recipes.controller';
-import { RecipesService } from './recipes.service';
+import { RecipesController } from '@modules/recipes/recipes.controller';
+import { RecipesService } from '@modules/recipes/recipes.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Recipe, RecipeSchema } from './entities/recipe.entity';
-import { IngredientsModule } from '../ingredients/ingredients.module';
-import { IngredientsService } from '../ingredients/ingredients.service';
-import { Ingredient, IngredientSchema } from '../ingredients/entities/ingredient.entity';
-import { User, UserSchema } from '../users/entities/user.entity';
-import { UsersService } from '../users/users.service';
-import { RecipeRepository } from './recipe.repository';
+import { Recipe, RecipeSchema } from '@modules/recipes/entities/recipe.entity';
+import { IngredientsModule } from '@modules/ingredients/ingredients.module';
+import { IngredientsService } from '@modules/ingredients/ingredients.service';
+import {
+  Ingredient,
+  IngredientSchema,
+} from '@modules/ingredients/entities/ingredient.entity';
+import { User, UserSchema } from '@modules/users/entities/user.entity';
+import { UsersService } from '@modules/users/users.service';
+import { RecipeRepository } from '@modules/recipes/recipe.repository';
 
 @Module({
   imports: [
