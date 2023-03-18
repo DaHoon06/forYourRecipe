@@ -16,11 +16,14 @@
           </custom-button>
         </div>
         <hr/>
-        <section class="card--wrapper">
+        <section class="card--wrapper" v-if="recipeCards.length > 0">
           <div v-for="(dish) in recipeCards" :key="dish._id" class="w-100">
             <card-ui :recipe-detail="() => recipeDetail(dish._id)" :card-item="dish"/>
             <lists-ui :recipe-detail="() => recipeDetail(dish._id)" :list-item="dish"/>
           </div>
+        </section>
+        <section class="center w-100 pt-40" v-else>
+          <text-font weight="medium">등록된 레시피가 없습니다.</text-font>
         </section>
       </section>
     </section>

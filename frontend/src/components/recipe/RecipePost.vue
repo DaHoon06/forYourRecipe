@@ -25,26 +25,27 @@
 
         <div class="dotted my-16"/>
 
-        <section class="recipe-grid--layout select-box--container">
-          <text-font size="20" class="pr-16">메인 재료</text-font>
+        <section v-if="`role` === 'admin'">
+          <div class="recipe-grid--layout select-box--container">
+            <text-font size="20" class="pr-16">메인 재료</text-font>
 
-          <div class="select-box">
-            <select v-model="selected">
-              <option v-for="(category) of state.ingredientsCategory" :key="category._id"
-                      :value="category.detailedIngredient">
-                <text-font size="12">{{ category.name }}</text-font>
-              </option>
-            </select>
-            <picture class="angle-icons">
-              <img
-                  loading="lazy"
-                  decoding="async"
-                  src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
-            </picture>
+            <div class="select-box">
+              <select v-model="selected">
+                <option v-for="(category) of state.ingredientsCategory" :key="category._id"
+                        :value="category.detailedIngredient">
+                  <text-font size="12">{{ category.name }}</text-font>
+                </option>
+              </select>
+              <picture class="angle-icons">
+                <img
+                    loading="lazy"
+                    decoding="async"
+                    src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
+              </picture>
+            </div>
           </div>
-        </section>
 
-        <section v-if="state.selected.length > 0" class="ingredients-items--container scroll">
+          <div v-if="state.selected.length > 0" class="ingredients-items--container scroll">
           <span v-for="(value) of state.selected" :key="value._id" @click="selectedIngredient(value._id)"
                 class="flex-column-center">
             <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
@@ -53,17 +54,18 @@
             </picture>
             <text-font class="pt-10" size="12">{{ value.name }}</text-font>
           </span>
-        </section>
-        <text-font>
-          선택된 재료 :
-          <span v-for="(ingredient, index) of state.ingredients" :key="index">
+          </div>
+          <text-font>
+            선택된 재료 :
+            <span v-for="(ingredient, index) of state.ingredients" :key="index">
             <text-font size="12" color="gray">
             {{ ingredient.name }},
           </text-font>
           </span>
-        </text-font>
+          </text-font>
 
-        <div class="dotted my-16"/>
+          <div class="dotted my-16"/>
+        </section>
 
         <section class="pb-20">
           <text-font size="20">재료</text-font>
@@ -85,9 +87,10 @@
                                  @click="removeIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
-                  <custom-button :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
-                                 variant="icon-button" class="button-black" type="button"
-                                 @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
+                  <custom-button
+                      :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
+                      variant="icon-button" class="button-black" type="button"
+                      @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -114,9 +117,10 @@
                                  @click="removeIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
-                  <custom-button :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
-                                 variant="icon-button" class="button-black" type="button"
-                                 @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
+                  <custom-button
+                      :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
+                      variant="icon-button" class="button-black" type="button"
+                      @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -161,12 +165,14 @@
               <label :for="`file`" class="input-file--button">
                 <img src="@/assets/images/icons/image-upload.svg" width="24" height="24" alt="이미지 업로드 버튼"/>
               </label>
-              <input type="file" id="file" style="display: none" accept="jpeg,png,jpg"/>
+              <input type="file" id="file" style="display: none" accept="jpeg,png,jpg" @change="fileUpload"/>
             </div>
           </div>
           <div class="dotted my-16"/>
+          <div v-if="state.dataUrl.length > 0">
+            <img :src="state.dataUrl" alt="preview" width="200" height="200"/>
+          </div>
         </section>
-
       </recipe-ui>
 
       <section class="recipe-post__button--container pt-16">
@@ -187,8 +193,9 @@
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
-import {reactive,Ref, ref, nextTick} from "vue";
+import {reactive, Ref, ref, nextTick, computed} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {useStore} from "vuex";
 
 interface Steps {
   step: number;
@@ -215,208 +222,265 @@ interface IRecipePost {
   allIngredient: AllIngredient[];
   profileImage: string;
 }
-  const router = useRouter();
-  const route = useRoute();
 
-  const recipeName: Ref<HTMLInputElement> = ref(null);
-  const recipeDesc: Ref<HTMLInputElement> = ref(null);
-  const recipeIngredient: Ref<HTMLInputElement> = ref(null);
-  const recipeIngredientUnit: Ref<HTMLInputElement> = ref(null);
-  const recipeCondiment: Ref<HTMLInputElement> = ref(null);
-  const recipeCondimentUnit: Ref<HTMLInputElement> = ref(null);
-  const recipeStep: Ref<HTMLInputElement> = ref(null);
+const router = useRouter();
+const route = useRoute();
 
-  interface STATE {
-    isLoading: boolean,
-    selected: Ingredients[],
-    ingredientsCategory: Recipe.IngredientCategories[],
-    ingredients: Recipe.IngredientType[],
-    recipePost: IRecipePost,
-    recipeId: string
+const recipeName: Ref<HTMLInputElement> = ref(null);
+const recipeDesc: Ref<HTMLInputElement> = ref(null);
+const recipeIngredient: Ref<HTMLInputElement> = ref(null);
+const recipeIngredientUnit: Ref<HTMLInputElement> = ref(null);
+const recipeCondiment: Ref<HTMLInputElement> = ref(null);
+const recipeCondimentUnit: Ref<HTMLInputElement> = ref(null);
+const recipeStep: Ref<HTMLInputElement> = ref(null);
+
+interface STATE {
+  isLoading: boolean,
+  selected: Ingredients[],
+  ingredientsCategory: Recipe.IngredientCategories[],
+  ingredients: Recipe.IngredientType[],
+  recipePost: IRecipePost,
+  recipeId: string,
+  uploadImages: File[],
+  file: Blob[],
+  dataUrl: string,
+}
+
+const state: STATE = reactive({
+  isLoading: true,
+  selected: [],
+  ingredientsCategory: [],
+  ingredients: [],
+  recipeId: '',
+  recipePost: {
+    name: '',
+    desc: '',
+    steps: [
+      {
+        step: 1,
+        desc: '',
+        img: '',
+      }
+    ],
+    detailedIngredient: [],
+    allIngredient: [
+      {category: '식재료', ingredients: [{name: '', unit: ''}]},
+      {category: '조미료', ingredients: [{name: '', unit: ''}]},
+    ],
+    profileImage: '',
+  },
+  uploadImages: [],
+  file: [],
+  dataUrl: '',
+});
+
+const store = useStore();
+
+const textareaMaxLengthCheck = (e: Event): string => {
+  const {value} = e.target as any;
+  if (value.length >= 120) return value.substring(0, 121);
+  return value;
+}
+
+const load = async (): Promise<void> => {
+  try {
+    const {data} = await ins(`/recipes/detail/${state.recipeId}`)
+    state.recipePost = data;
+  } catch (e) {
+    console.log(e);
   }
-  const state: STATE = reactive({
-    isLoading: true,
-    selected: [],
-    ingredientsCategory: [],
-    ingredients: [],
-    recipeId: '',
-    recipePost: {
-      name: '',
-      desc: '',
-      steps: [
-        {
-          step: 1,
-          desc: '',
-          img: '',
-        }
-      ],
-      detailedIngredient: [],
-      allIngredient: [
-        {category: '식재료', ingredients: [{name: '', unit: ''}]},
-        {category: '조미료', ingredients: [{name: '', unit: ''}]},
-      ],
-      profileImage: '',
+}
+
+const loadCategory = async () => {
+  try {
+    const {data} = await ins.get('/ingredients/all-ingredients');
+    state.ingredientsCategory = data;
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const fileUpload = async (e: any) => {
+  try {
+    const files = e.target.files;
+    const typeCheck = ['jpg', 'jpeg', 'png'];
+    const {type} = files[0];
+    const [image, imageType] = type.split('/');
+
+    if (image !== 'image' || !typeCheck.includes(imageType)) {
+      state.file = [];
+    } else {
+      state.file = files
+      state.dataUrl = await getDataUrl(files);
     }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const getDataUrl = async (files: Blob[]): Promise<string | any> => {
+  try {
+    return await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = (e) => resolve(reader.result + '');
+    });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const cancel = () => {
+  router.push('/');
+}
+
+const emptyCheck = (): boolean => {
+  if (state.recipePost.name.length === 0) {
+    nextTick(() => recipeName.value.focus());
+    return true;
+  }
+
+  if (state.recipePost.desc.length === 0) {
+    nextTick(() => recipeDesc.value.focus());
+    return true;
+  }
+
+  const {ingredients: ingredient} = state.recipePost.allIngredient[0]
+  for (let i = 0; i < ingredient.length; i++) {
+    const {name, unit} = ingredient[i];
+    if (name.length === 0) {
+      nextTick(() => {
+        const refs = recipeIngredient.value;
+        refs[i].focus();
+      })
+      return true;
+    }
+    if (unit.length === 0) {
+      nextTick(() => {
+        const refs = recipeIngredientUnit.value;
+        refs[i].focus();
+      });
+      return true;
+    }
+  }
+
+  const {ingredients: condiment} = state.recipePost.allIngredient[1]
+  for (let i = 0; i < condiment.length; i++) {
+    const {name, unit} = condiment[i];
+    if (name.length === 0) {
+      nextTick(() => {
+        const refs = recipeCondiment.value;
+        refs[i].focus();
+      });
+      return true;
+    }
+    if (unit.length === 0) {
+      nextTick(() => {
+        const refs = recipeCondimentUnit.value;
+        refs[i].focus();
+      });
+      return true;
+    }
+  }
+  for (let i = 0; i < state.recipePost.steps.length; i++) {
+    if (state.recipePost.steps[i].desc.length === 0) {
+      nextTick(() => {
+        const refs = recipeStep.value;
+        refs[i].focus();
+      });
+      return true;
+    }
+  }
+  return false;
+}
+
+const registerRecipe = async () => {
+  try {
+    const result = emptyCheck();
+    if (result) return;
+    state.isLoading = true
+
+    const formData: FormData = new FormData();
+    state.uploadImages.forEach(file => {
+      formData.append('file', file);
+    });
+
+    if (state.recipeId.length > 0) {
+      const {desc, profileImage, steps, detailedIngredient, allIngredient} = state.recipePost;
+      const ingredientsIdArr = detailedIngredient.map((value: any) => value._id)
+      const sendData = {
+        id: state.recipeId,
+        name: computed(() => store.getters['userModule/getName']),
+        desc,
+        profileImage,
+        steps, allIngredient,
+        detailedIngredient: ingredientsIdArr
+      }
+      const {data} = await ins.put('/recipes/update-admin-recipe', sendData);
+    } else {
+      const {data} = await ins.post('/recipes/register-recipe', state.recipePost);
+
+    }
+
+    if (state.file.length > 0) {
+      await uploadFile('1', formData);
+    }
+
+    await router.push('/');
+  } catch (e) {
+    console.log(e);
+  } finally {
+    state.isLoading = false;
+  }
+}
+
+const uploadFile = async (_id: string, formData: FormData): Promise<void> => {
+  await ins.post(`/recipes/register-recipe/image-upload/${_id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
+}
 
-  const textareaMaxLengthCheck = (e: Event): string => {
-    const {value} = e.target as any;
-    if (value.length >= 120) return value.substring(0, 121);
-    return value;
-  }
+const selectedIngredient = (_id: string): void => {
+  const index = state.recipePost.detailedIngredient.findIndex((value) => value === _id)
+  if (index > -1) state.recipePost.detailedIngredient.splice(index, 1);
+  else state.recipePost.detailedIngredient.push(_id)
 
-  const load =  async (): Promise<void> => {
-    try {
-      const {data} = await ins(`/recipes/detail/${state.recipeId}`)
-      state.recipePost = data;
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-
-  const loadCategory = async () => {
-    try {
-      const {data} = await ins.get('/ingredients/all-ingredients');
-      state.ingredientsCategory = data;
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const cancel = () => {
-    router.push('/');
-  }
-
-  const emptyCheck = (): boolean => {
-    if (state.recipePost.name.length === 0) {
-      nextTick(() => recipeName.value.focus());
-      return true;
-    }
-
-    if (state.recipePost.desc.length === 0) {
-      nextTick(() => recipeDesc.value.focus());
-      return true;
-    }
-
-    const {ingredients: ingredient} = state.recipePost.allIngredient[0]
-    for (let i = 0; i < ingredient.length; i++) {
-      const {name, unit} = ingredient[i];
-      if (name.length === 0) {
-        nextTick(() => {
-          const refs = recipeIngredient.value;
-          refs[i].focus();
-        })
-        return true;
-      }
-      if (unit.length === 0) {
-        nextTick(() => {
-          const refs = recipeIngredientUnit.value;
-          refs[i].focus();
-        });
-        return true;
-      }
-    }
-
-    const {ingredients: condiment} = state.recipePost.allIngredient[1]
-    for (let i = 0; i < condiment.length; i++) {
-      const {name, unit} = condiment[i];
-      if (name.length === 0) {
-        nextTick(() => {
-          const refs = recipeCondiment.value;
-          refs[i].focus();
-        });
-        return true;
-      }
-      if (unit.length === 0) {
-        nextTick(() => {
-          const refs = recipeCondimentUnit.value;
-          refs[i].focus();
-        });
-        return true;
-      }
-    }
-    for (let i = 0; i < state.recipePost.steps.length; i++) {
-      if (state.recipePost.steps[i].desc.length === 0) {
-        nextTick(() => {
-          const refs = recipeStep.value;
-          refs[i].focus();
-        });
-        return true;
-      }
-    }
+  const choice = state.selected.filter((value: Recipe.IngredientType) => {
+    const {_id: key, selected} = value
+    if (key === _id) value.selected = !selected;
+    return key === _id;
+  });
+  state.ingredients.push(...choice)
+  state.ingredients = state.ingredients.filter((value) => {
+    const {selected} = value
+    if (selected) return selected
     return false;
-  }
+  });
+}
 
-  const registerRecipe = async () => {
-    try {
-      const result = emptyCheck();
-      // if (result) return;
-      // state.isLoading = true
-      // if (this.recipeId.length > 0) {
-      //   const {name, desc, profileImage, steps, detailedIngredient, allIngredient} = state.recipePost;
-      //   const ingredientsIdArr = detailedIngredient.map((value: any) => value._id)
-      //   const sendData = {
-      //     id: state.recipeId,
-      //     name,
-      //     desc,
-      //     profileImage,
-      //     steps, allIngredient,
-      //     detailedIngredient: ingredientsIdArr
-      //   }
-      //   const {data} = await ins.put('/recipes/update-admin-recipe', sendData);
-      //   if (data) state.isLoading = false;
-      // } else {
-      //   const {data} = await ins.post('/recipes/register-admin-recipe', state.recipePost);
-      //   if (data)
-      //     state.isLoading = false;
-      // }
-      // await router.push('/');
-    } catch (e) {
-      console.log(e);
-    }
-  }
+const addIngredientRows = (index: number, arr: Ingredients[]): void => {
+  if (arr.length === 10) return;
+  arr.push({name: '', unit: ''});
+}
 
-  const selectedIngredient = (_id: string): void => {
-    const index = state.recipePost.detailedIngredient.findIndex((value) => value === _id)
-    if (index > -1) state.recipePost.detailedIngredient.splice(index, 1);
-    else state.recipePost.detailedIngredient.push(_id)
+const removeIngredientRows = (index: number, arr: Ingredients[]): void => {
+  if (arr.length === 1) return;
+  arr.splice(index, 1)
+}
 
-    const choice = state.selected.filter((value: Recipe.IngredientType) => {
-      const {_id: key, selected} = value
-      if (key === _id) value.selected = !selected;
-      return key === _id;
-    });
-    state.ingredients.push(...choice)
-    state.ingredients = state.ingredients.filter((value) => {
-      const {selected} = value
-      if (selected) return selected
-      return false;
-    });
-  }
+const addDescRows = () => {
+  const step = state.recipePost.steps.length;
+  if (step === 10) return;
+  state.recipePost.steps.push({step: step + 1, desc: '', img: ''})
+}
 
-  const addIngredientRows = (index: number, arr: Ingredients[]): void => {
-    if (arr.length === 10) return;
-    arr.push({name: '', unit: ''});
-  }
-
-  const removeIngredientRows = (index: number, arr: Ingredients[]): void => {
-    if (arr.length === 1) return;
-    arr.splice(index, 1)
-  }
-
-  const addDescRows = () =>{
-    const step = state.recipePost.steps.length;
-    if (step === 10) return;
-    state.recipePost.steps.push({step: step + 1, desc: '', img: ''})
-  }
-
-  const removeDescRows = () => {
-    const step = state.recipePost.steps.length;
-    if (step === 1) return;
-    state.recipePost.steps.splice(step - 1, 1)
-  }
-
+const removeDescRows = () => {
+  const step = state.recipePost.steps.length;
+  if (step === 1) return;
+  state.recipePost.steps.splice(step - 1, 1)
+}
 
 state.recipeId = route.params.id as string;
 if (state.recipeId.length > 0) load();

@@ -90,7 +90,6 @@ export class RecipesService {
     );
     const registeredRecipe = await new this.recipeModel(recipe).save();
     return !!registeredRecipe;
-
   }
 
   /**

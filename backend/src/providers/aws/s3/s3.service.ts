@@ -1,18 +1,17 @@
-import {Injectable, UseFilters} from "@nestjs/common";
-import AWS from "aws-sdk";
-import {GlobalFilter} from "../../../lib/global.filter";
+import { Injectable, UseFilters } from '@nestjs/common';
+import AWS from 'aws-sdk';
+import { GlobalFilter } from '../../../lib/global.filter';
 
 @UseFilters(new GlobalFilter())
 @Injectable()
 export class S3Service {
-  constructor() {
-  }
+  constructor() {}
 
   awsConfig() {
     AWS.config.update({
-      region: process.env.REGION,
+      region: process.env.S3_REGION,
       credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: process.env.IDENTITY_POOL_ID,
+        IdentityPoolId: process.env.S3_IDENTITY_POOL_ID,
       }),
     });
   }

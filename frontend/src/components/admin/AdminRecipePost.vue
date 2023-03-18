@@ -171,9 +171,7 @@
           이미지 미리보기
           <img :src="dataUrl" alt="preview" width="80" height="80"/>
         </section>
-
       </recipe-ui>
-
       <section class="recipe-post__button--container pt-16">
         <custom-button type="button" variant="gray" class="mr-30" @click="cancel">
           <text-font color="gray2">취소</text-font>
