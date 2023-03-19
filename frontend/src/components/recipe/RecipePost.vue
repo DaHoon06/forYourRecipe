@@ -241,8 +241,8 @@ interface STATE {
   ingredients: Recipe.IngredientType[],
   recipePost: IRecipePost,
   recipeId: string,
-  uploadImages: File[],
-  file: Blob[],
+  file: any[],
+  uploadImages: any[],
   dataUrl: string,
 }
 
@@ -401,16 +401,18 @@ const registerRecipe = async () => {
     state.isLoading = true
 
     const formData: FormData = new FormData();
-    state.uploadImages.forEach(file => {
-      formData.append('file', file);
-    });
+    console.log(state.file[0])
+    for (let i = 0; i < state.file.length; i++) {
+      formData.append('file', state.file[i]);
+    }
+    const user = store.getters['userModule/getName'];
 
     if (state.recipeId.length > 0) {
       const {desc, profileImage, steps, detailedIngredient, allIngredient} = state.recipePost;
       const ingredientsIdArr = detailedIngredient.map((value: any) => value._id)
       const sendData = {
         id: state.recipeId,
-        name: computed(() => store.getters['userModule/getName']),
+        user,
         desc,
         profileImage,
         steps, allIngredient,
@@ -418,11 +420,19 @@ const registerRecipe = async () => {
       }
       const {data} = await ins.put('/recipes/update-admin-recipe', sendData);
     } else {
-      const {data} = await ins.post('/recipes/register-recipe', state.recipePost);
-
+      const sendData = {
+        name: state.recipePost.name,
+        desc: state.recipePost.desc,
+        user,
+        allIngredient: state.recipePost.allIngredient,
+        steps: state.recipePost.steps,
+        profileImage: state.recipePost.profileImage
+      }
+      const {data} = await ins.post('/recipes/register-recipe', sendData);
     }
 
     if (state.file.length > 0) {
+      console.log(formData)
       await uploadFile('1', formData);
     }
 
@@ -487,239 +497,6 @@ if (state.recipeId.length > 0) load();
 loadCategory();
 state.isLoading = false;
 </script>
-
-<!--<script lang="ts">-->
-<!--import {Options, Vue} from "vue-class-component";-->
-<!--import RecipeUi from "@/components/ui/RecipeUi.vue";-->
-<!--import {ins} from "@/lib/axios";-->
-<!--import {Recipe} from "@/interfaces/recipe";-->
-<!--import {Ref} from "vue-property-decorator";-->
-
-<!--interface Steps {-->
-<!--  step: number;-->
-<!--  desc: string;-->
-<!--  img: string;-->
-<!--}-->
-
-<!--interface Ingredients {-->
-<!--  name: string,-->
-<!--  unit: string-->
-<!--}-->
-
-<!--interface AllIngredient {-->
-<!--  category: string,-->
-<!--  ingredients: Ingredients[]-->
-<!--}-->
-
-<!--interface IRecipePost {-->
-<!--  id?: string;-->
-<!--  name: string;-->
-<!--  desc: string;-->
-<!--  steps: Steps[];-->
-<!--  detailedIngredient: string[],-->
-<!--  allIngredient: AllIngredient[];-->
-<!--  profileImage: string;-->
-<!--}-->
-
-<!--@Options({-->
-<!--  components: {-->
-<!--    RecipeUi,-->
-<!--  }-->
-<!--})-->
-<!--export default class AdminRecipePost extends Vue {-->
-<!--  @Ref() readonly recipeName!: HTMLInputElement-->
-<!--  @Ref() readonly recipeDesc!: HTMLInputElement-->
-
-<!--  recipePost: IRecipePost = {-->
-<!--    name: '',-->
-<!--    desc: '',-->
-<!--    steps: [-->
-<!--      {-->
-<!--        step: 1,-->
-<!--        desc: '',-->
-<!--        img: '',-->
-<!--      }-->
-<!--    ],-->
-<!--    detailedIngredient: [],-->
-<!--    allIngredient: [-->
-<!--      {category: '식재료', ingredients: [{name: '', unit: ''}]},-->
-<!--      {category: '조미료', ingredients: [{name: '', unit: ''}]},-->
-<!--    ],-->
-<!--    profileImage: '',-->
-<!--  }-->
-<!--  isLoading = true;-->
-<!--  selected = [];-->
-<!--  ingredientsCategory: Recipe.IngredientCategories[] = [];-->
-<!--  ingredients: Recipe.IngredientType[] = [];-->
-<!--  recipeId = '';-->
-<!--  -->
-
-<!--  created() {-->
-<!--    this.recipeId = this.$route.params.id as string;-->
-<!--    if (this.recipeId.length > 0) this.load();-->
-<!--    this.loadCategory();-->
-<!--    this.isLoading = false;-->
-<!--  }-->
-
-<!--  textareaMaxLengthCheck(e: Event): string {-->
-<!--    const {value} = e.target as any;-->
-<!--    if (value.length >= 120) return value.substring(0, 121);-->
-<!--    return value;-->
-<!--  }-->
-
-<!--  private async load(): Promise<void> {-->
-<!--    try {-->
-<!--      const {data} = await ins(`/recipes/detail/${this.recipeId}`)-->
-<!--      this.recipePost = data;-->
-<!--    } catch (e) {-->
-<!--      console.log(e);-->
-<!--    }-->
-<!--  }-->
-
-
-<!--  private async loadCategory() {-->
-<!--    try {-->
-<!--      const {data} = await ins.get('/ingredients/all-ingredients');-->
-<!--      this.ingredientsCategory = data;-->
-<!--    } catch (e) {-->
-<!--      console.log(e)-->
-<!--    }-->
-<!--  }-->
-
-<!--  cancel() {-->
-<!--    this.$router.push('/');-->
-<!--  }-->
-
-<!--  private emptyCheck(): boolean {-->
-<!--    if (this.recipePost.name.length === 0) {-->
-<!--      this.$nextTick(() => this.recipeName.focus());-->
-<!--      return true;-->
-<!--    }-->
-
-<!--    if (this.recipePost.desc.length === 0) {-->
-<!--      this.$nextTick(() => this.recipeDesc.focus());-->
-<!--      return true;-->
-<!--    }-->
-
-<!--    const {ingredients: ingredient} = this.recipePost.allIngredient[0]-->
-<!--    for (let i = 0; i < ingredient.length; i++) {-->
-<!--      const {name, unit} = ingredient[i];-->
-<!--      if (name.length === 0) {-->
-<!--        this.$nextTick(() => {-->
-<!--          const refs = `recipeIngredient-${i}`;-->
-<!--          (this.$refs[refs] as any)[0].focus();-->
-<!--        })-->
-<!--        return true;-->
-<!--      }-->
-<!--      if (unit.length === 0) {-->
-<!--        this.$nextTick(() => {-->
-<!--          const refs = `recipeIngredientUnit-${i}`;-->
-<!--          (this.$refs[refs] as any)[0].focus();-->
-<!--        });-->
-<!--        return true;-->
-<!--      }-->
-<!--    }-->
-
-<!--    const {ingredients: condiment} = this.recipePost.allIngredient[1]-->
-<!--    for (let i = 0; i < condiment.length; i++) {-->
-<!--      const {name, unit} = condiment[i];-->
-<!--      if (name.length === 0) {-->
-<!--        this.$nextTick(() => {-->
-<!--          const refs = `recipeCondiment-${i}`;-->
-<!--          (this.$refs[refs] as any)[0].focus();-->
-<!--        });-->
-<!--        return true;-->
-<!--      }-->
-<!--      if (unit.length === 0) {-->
-<!--        this.$nextTick(() => {-->
-<!--          const refs = `recipeCondimentUnit-${i}`;-->
-<!--          (this.$refs[refs] as any)[0].focus();-->
-<!--        });-->
-<!--        return true;-->
-<!--      }-->
-<!--    }-->
-<!--    for (let i = 0; i < this.recipePost.steps.length; i++) {-->
-<!--      if (this.recipePost.steps[i].desc.length === 0) {-->
-<!--        this.$nextTick(() => {-->
-<!--          const refs = `recipeStep-${i}`;-->
-<!--          (this.$refs[refs] as any)[0].focus();-->
-<!--        });-->
-<!--        return true;-->
-<!--      }-->
-<!--    }-->
-<!--    return false;-->
-<!--  }-->
-
-<!--  async registerRecipe() {-->
-<!--    try {-->
-<!--      const result = this.emptyCheck();-->
-<!--      if (result) return;-->
-<!--      this.isLoading = true-->
-<!--      if (this.recipeId.length > 0) {-->
-<!--        const {name, desc, profileImage, steps, detailedIngredient, allIngredient} = this.recipePost;-->
-<!--        const ingredientsIdArr = detailedIngredient.map((value: any) => value._id)-->
-<!--        const sendData = {-->
-<!--          id: this.recipeId,-->
-<!--          name,-->
-<!--          desc,-->
-<!--          profileImage,-->
-<!--          steps, allIngredient,-->
-<!--          detailedIngredient: ingredientsIdArr-->
-<!--        }-->
-<!--        const {data} = await ins.put('/recipes/update-admin-recipe', sendData);-->
-<!--        if (data) this.isLoading = false;-->
-<!--      } else {-->
-<!--        const {data} = await ins.post('/recipes/register-admin-recipe', this.recipePost);-->
-<!--        if (data)-->
-<!--          this.isLoading = false;-->
-<!--      }-->
-<!--      this.$router.push('/');-->
-<!--    } catch (e) {-->
-<!--      console.log(e);-->
-<!--    }-->
-<!--  }-->
-
-<!--  private selectedIngredient(_id: string): void {-->
-<!--    const index = this.recipePost.detailedIngredient.findIndex((value) => value === _id)-->
-<!--    if (index > -1) this.recipePost.detailedIngredient.splice(index, 1);-->
-<!--    else this.recipePost.detailedIngredient.push(_id)-->
-
-<!--    const choice = this.selected.filter((value: Recipe.IngredientType) => {-->
-<!--      const {_id: key, selected} = value-->
-<!--      if (key === _id) value.selected = !selected;-->
-<!--      return key === _id;-->
-<!--    });-->
-<!--    this.ingredients.push(...choice)-->
-<!--    this.ingredients = this.ingredients.filter((value) => {-->
-<!--      const {selected} = value-->
-<!--      if (selected) return selected-->
-<!--      return false;-->
-<!--    });-->
-<!--  }-->
-
-<!--  private addIngredientRows(index: number, arr: Ingredients[]): void {-->
-<!--    if (arr.length === 10) return;-->
-<!--    arr.push({name: '', unit: ''});-->
-<!--  }-->
-
-<!--  private removeIngredientRows(index: number, arr: Ingredients[]): void {-->
-<!--    if (arr.length === 1) return;-->
-<!--    arr.splice(index, 1)-->
-<!--  }-->
-
-<!--  private addDescRows() {-->
-<!--    const step = this.recipePost.steps.length;-->
-<!--    if (step === 10) return;-->
-<!--    this.recipePost.steps.push({step: step + 1, desc: '', img: ''})-->
-<!--  }-->
-
-<!--  private removeDescRows() {-->
-<!--    const step = this.recipePost.steps.length;-->
-<!--    if (step === 1) return;-->
-<!--    this.recipePost.steps.splice(step - 1, 1)-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
 
 <style scoped lang="scss">
 .recipe-post--container {

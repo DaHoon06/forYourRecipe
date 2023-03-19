@@ -7,8 +7,8 @@ import { GlobalFilter } from '@src/lib/global.filter';
 export class S3Service {
   constructor() {}
 
-  awsConfig() {
-    AWS.config.update({
+  async awsConfig() {
+    await AWS.config.update({
       region: process.env.S3_REGION,
       credentials: new AWS.CognitoIdentityCredentials({
         IdentityPoolId: process.env.S3_IDENTITY_POOL_ID,
@@ -18,10 +18,10 @@ export class S3Service {
 
   async s3Upload(fileUploadDto: any): Promise<string> {
     const { _id, file } = fileUploadDto;
-    this.awsConfig();
 
+    await this.awsConfig();
     const s3 = new AWS.S3();
-    const { originalname } = file;
+    const { originalname } = file[0];
 
     const params = {
       Bucket: process.env.S3_BUCKET,

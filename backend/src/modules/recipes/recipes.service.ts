@@ -16,6 +16,8 @@ import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.d
 import { UpdatedRecipeLikeDto } from '@modules/recipes/dto/updated-recipe-like.dto';
 import { UsersService } from '@modules/users/users.service';
 import { GlobalFilter } from '@src/lib/global.filter';
+import { S3Service } from '@src/providers/aws/s3/s3.service';
+import { RecipeRepository } from '@modules/recipes/recipe.repository';
 
 @UseFilters(new GlobalFilter())
 @Injectable()
@@ -24,22 +26,22 @@ export class RecipesService {
     @InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>,
     private readonly ingredientsService: IngredientsService,
     private readonly userService: UsersService,
+    private readonly s3Service: S3Service,
+    private readonly recipeRepository: RecipeRepository,
   ) {}
 
   //전체 레시피 반환
   async findAll(page: number): Promise<RecipeDto[]> {
     if (!page || isNaN(page)) page = 1;
-    const foundRecipes = await this.recipeModel
-      .find()
-      .sort({ updatedAt: 1 })
-      .limit(8)
-      .skip(this.currentPage(page));
+    const foundRecipes = await this.recipeRepository.findAllRecipe(
+      this.currentPage(page),
+    );
     return this.getRecipeDtoArr(foundRecipes);
   }
 
   //랜덤(추천) 레시피 반환
   async findRandom(): Promise<RecipeDto[]> {
-    const recipe = await this.recipeModel.aggregate([{ $sample: { size: 8 } }]);
+    const recipe = await this.recipeRepository.todayRandomRecipe();
     return this.getRecipeDtoArr(recipe);
   }
 
@@ -100,38 +102,14 @@ export class RecipesService {
    */
   async imageUpload(fileUploadDto: any): Promise<void> {
     const { _id, file } = fileUploadDto;
-
-    //TODO: S3 Service 불러오기
-
+    const Location = this.s3Service.s3Upload(fileUploadDto);
     // S3 업로드 후 본문 이미지 업데이트
-    await this.recipeModel.updateOne(
-      { _id },
-      {
-        $set: {
-          profileImage: Location,
-        },
-      },
-    );
+    await this.recipeRepository.recipeImageUpdate(_id, Location);
   }
 
   //회원 레시피 수정
   async updateRecipe(recipe: UpdatedUserRecipeDto): Promise<boolean> {
-    const { id, name, user, desc, allIngredient, steps, profileImage } = recipe;
-    const { acknowledged } = await this.recipeModel.updateOne(
-      { _id: id },
-      {
-        $set: {
-          name: name,
-          desc: desc,
-          user: user,
-          updatedAt: new Date(),
-          allIngredient: allIngredient,
-          steps: steps,
-          profileImage: profileImage,
-        },
-      },
-    );
-    return acknowledged;
+    return this.recipeRepository.updateOneRecipe(recipe);
   }
 
   //관리자 레시피 등록
@@ -155,10 +133,7 @@ export class RecipesService {
       detailedIngredient,
     );
     const data = await new this.recipeModel(recipe).save();
-    if (data) {
-      return true;
-    }
-    return false;
+    return !!data;
   }
 
   //관리자 레시피 수정

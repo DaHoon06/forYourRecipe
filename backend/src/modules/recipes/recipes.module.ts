@@ -12,6 +12,7 @@ import {
 import { User, UserSchema } from '@modules/users/entities/user.entity';
 import { UsersService } from '@modules/users/users.service';
 import { RecipeRepository } from '@modules/recipes/recipe.repository';
+import { S3Service } from '@src/providers/aws/s3/s3.service';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { RecipeRepository } from '@modules/recipes/recipe.repository';
     IngredientsService,
     UsersService,
     RecipeRepository,
+    S3Service,
   ],
 })
 export class RecipesModule {}
