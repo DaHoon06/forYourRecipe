@@ -7,19 +7,29 @@ import { GlobalFilter } from '@src/lib/global.filter';
 export class S3Service {
   constructor() {}
 
-  async awsConfig() {
-    await AWS.config.update({
+  // async awsConfig() {
+  //   await AWS.config.update({
+  //     region: process.env.S3_REGION,
+  //     credentials: new AWS.CognitoIdentityCredentials({
+  //       IdentityPoolId: process.env.S3_IDENTITY_POOL_ID,
+  //     }),
+  //   });
+  // }
+
+  awsConfig() {
+    AWS.config.update({
       region: process.env.S3_REGION,
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: process.env.S3_IDENTITY_POOL_ID,
-      }),
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      },
     });
   }
 
   async s3Upload(fileUploadDto: any): Promise<string> {
     const { _id, file } = fileUploadDto;
 
-    await this.awsConfig();
+    this.awsConfig();
     const s3 = new AWS.S3();
     const { originalname } = file[0];
 

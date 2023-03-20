@@ -100,6 +100,12 @@ hr {
 }
 
 @media screen and (max-width: 600px) {
+  .search-result--container {
+    .search-result__label {
+      padding: 1rem;
+    }
+  }
+
   .wrapper {
     width: 100%;
   }

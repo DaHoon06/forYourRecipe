@@ -3,17 +3,17 @@
     <ul>
       <li :class="currentMenu === 4 && 'current-path'" class="mr-30">
         <custom-button variant="icon-button" type="button" @click="redirect('all-recipe')">
-          <text-font color="black" size="16">전체 레시피</text-font>
+          <text-font :color="currentMenu === 4 ? 'black' : 'gray'" size="16">전체 레시피</text-font>
         </custom-button>
       </li>
       <li :class="currentMenu === 1 && 'current-path'" class="mr-30" v-if="isLogin">
         <custom-button variant="icon-button" type="button" @click="redirect('recipe')">
-          <text-font color="black" size="16">레시피 등록</text-font>
+          <text-font :color="currentMenu === 1 ? 'black' : 'gray'" size="16">레시피 등록</text-font>
         </custom-button>
       </li>
-      <li :class="currentMenu === 2 && 'current-path'" class="mr-30">
+      <li :class="currentMenu === 2 && 'current-path'" class="mr-30" v-if="isLogin">
         <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('favorite')">
-          <text-font color="black" size="16">즐겨찾기</text-font>
+          <text-font :color="currentMenu === 2 ? 'black' : 'gray'" size="16">즐겨찾기</text-font>
         </custom-button>
       </li>
       <!--      <li :class="currentMenu === 3 && 'current-path'">-->

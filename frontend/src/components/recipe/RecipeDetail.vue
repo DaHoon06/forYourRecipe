@@ -86,7 +86,7 @@
 import {ins} from "@/lib/axios";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {Recipe} from "@/interfaces/recipe";
-import ModalComponent from "@/components/common/ModalComponent.vue";
+import ModalComponent from "@/components/common/modal/ModalComponent.vue";
 import {ModalComponentType} from "@/types/type";
 import {computed, nextTick, Ref, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";

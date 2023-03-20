@@ -39,7 +39,7 @@
       </section>
     </section>
   </article>
-  <!-- TODO: 재료 선택 컴포넌트 분리 작업 -->
+
   <teleport to="#modal">
     <modal-component ref="modal">
       <section class="selected-ingredients--container">
@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts" setup>
-import ModalComponent from "@/components/common/ModalComponent.vue";
+import ModalComponent from "@/components/common/modal/ModalComponent.vue";
 import {ModalComponentType} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";

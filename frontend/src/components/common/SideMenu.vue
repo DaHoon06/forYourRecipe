@@ -53,16 +53,15 @@
             </div>
           </li>
           <li v-if="isLogin">
-            <!-- TODO: 레시피 등록 화면 1. 관리자, 2. 회원 -->
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('recipe')">
                 <text-font class="w-100 text-left" color="textBody">레시피 등록</text-font>
               </custom-button>
             </div>
           </li>
-          <li>
+          <li v-if="isLogin">
             <div class="w-100 text-right">
-              <custom-button :disabled="true" class="side-menu--button" variant="" @click="redirect('favorite')">
+              <custom-button class="side-menu--button" variant="" @click="redirect('favorite')">
                 <text-font class="w-100 text-left" color="textBody">즐겨찾기</text-font>
               </custom-button>
             </div>
@@ -80,186 +79,90 @@
   </Transition>
 </template>
 
-<!--<script lang="ts" setup>-->
-<!--import {NAVIGATION} from "@/constant/navigation.href";-->
-<!--import {useStore} from "vuex";-->
-<!--import {authService} from "@/lib/fbase";-->
-<!--import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";-->
-<!--import {computed, ComputedRef, defineProps, ref, watch, withDefaults, defineEmits} from "vue";-->
-<!--import {useRouter} from "vue-router";-->
-
-<!--// TODO: 모바일 화면에서만 햄버거 버튼-->
-<!--const props = withDefaults(defineProps<{ isOpen: boolean }>(), {isOpen: false})-->
-<!--const open = ref(false);-->
-<!--const isLogin: ComputedRef<boolean> = computed(() => store.getters["utilModule/isLogin"]);-->
-<!--const userName: ComputedRef<string> = computed(() => store.getters["userModule/getName"]);-->
-<!--const userProfile: ComputedRef<string> = computed(() => store.getters["userModule/getProfileImg"]) || '@/assets/images/icons/profile.svg';-->
-<!--const store = useStore();-->
-<!--const router = useRouter();-->
-<!--const user: any = {} || null-->
-
-<!--const sideMenu = ref(null);-->
-
-<!--watch(router, () => closeMenu());-->
-<!--watch(props, () => {-->
-<!--  open.value = props.isOpen-->
-<!--  const html = document.querySelector('html');-->
-<!--  if (html) props.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''-->
-<!--});-->
-
-<!--const outerClickCheck = (e: Event) => {-->
-<!--  const target = e.target as HTMLElement-->
-<!--  const nav = sideMenu as HTMLElement;-->
-<!--  if (nav !== target && !nav.contains(target))-->
-<!--    closeMenu();-->
-<!--}-->
-
-<!--const closeMenu = defineEmits('closeMenu', () => {-->
-<!--  open.value = false-->
-<!--  return open;-->
-<!--})-->
-
-<!--const login = async () => {-->
-<!--  const provider = new GoogleAuthProvider()-->
-<!--  await signInWithPopup(authService, provider)-->
-<!--  user.value = authService.currentUser-->
-<!--  if (user) {-->
-<!--    await store.dispatch('userModule/login', user);-->
-<!--    await store.commit("utilModule/setIsLogin", true);-->
-<!--  }-->
-<!--}-->
-
-<!--const logout = async () => {-->
-<!--  await authService.signOut()-->
-<!--  await store.commit("userModule/resetUserData");-->
-<!--  await store.commit('utilModule/setIsLogin', false);-->
-<!--}-->
-
-<!--const redirect = (type: string): void => {-->
-<!--  closeMenu();-->
-<!--  switch (type) {-->
-<!--    case 'home':-->
-<!--      store.commit("utilModule/setCurrentPath", 0);-->
-<!--      router.push(NAVIGATION.HOME)-->
-<!--      break;-->
-<!--    case 'recipe':-->
-<!--      // TODO TEMP - ADMIN-->
-<!--      store.commit("utilModule/setCurrentPath", 1);-->
-<!--      router.push(NAVIGATION.RECIPE_POST_ADMIN)-->
-<!--      break;-->
-<!--    case 'favorite':-->
-<!--      store.commit("utilModule/setCurrentPath", 2);-->
-<!--      router.push(NAVIGATION.FAVORITE)-->
-<!--      break;-->
-<!--    case 'notice':-->
-<!--      store.commit("utilModule/setCurrentPath", 3);-->
-<!--      router.push(NAVIGATION.NOTICE)-->
-<!--      break;-->
-<!--    case 'all-recipe':-->
-<!--      store.commit("utilModule/setCurrentPath", 4);-->
-<!--      router.push(NAVIGATION.ALL_RECIPE)-->
-<!--      break;-->
-<!--    default:-->
-<!--      store.commit("utilModule/setCurrentPath", 0);-->
-<!--      router.push(NAVIGATION.HOME)-->
-<!--      break;-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
-
-
-<script lang="ts">
-import {Vue} from "vue-class-component";
-import {Emit, Prop, Watch} from "vue-property-decorator";
+<script lang="ts" setup>
 import {NAVIGATION} from "@/constant/navigation.href";
 import {useStore} from "vuex";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
-import {computed, ComputedRef} from "vue";
+import {computed, ComputedRef, defineProps, ref, watch, withDefaults, defineEmits} from "vue";
+import {useRouter} from "vue-router";
 
-// TODO: 모바일 화면에서만 햄버거 버튼
-export default class SideMenu extends Vue {
-  @Prop({default: false}) isOpen!: boolean;
+const props = withDefaults(defineProps<{ isOpen: boolean }>(), {isOpen: false})
+const open = ref(false);
 
-  open = false;
-  isLogin: ComputedRef<boolean> = computed(() => this.store.getters["utilModule/isLogin"]);
-  userName: ComputedRef<string> = computed(() => this.store.getters["userModule/getName"]);
-  userProfile: ComputedRef<string> = computed(() => this.store.getters["userModule/getProfileImg"]) || '@/assets/images/icons/profile.svg';
-  store = useStore();
-  user: any = {}
+const isLogin: ComputedRef<boolean> = computed(() => store.getters["utilModule/isLogin"]);
+const userName: ComputedRef<string> = computed(() => store.getters["userModule/getName"]);
+const userProfile: ComputedRef<string> = computed(() => store.getters["userModule/getProfileImg"]);
+const user: any = {} || null
 
-  @Watch('$route')
-  routeCheck() {
-    this.closeMenu();
+const store = useStore();
+const router = useRouter();
+
+const sideMenu = ref(null);
+
+watch(router, () => emit('closeMenu'));
+watch(props, () => {
+  open.value = props.isOpen
+  const html = document.querySelector('html');
+  if (html) props.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''
+});
+
+const outerClickCheck = (e: Event) => {
+  const target = e.target as HTMLElement
+  const nav = sideMenu.value as HTMLElement;
+  if (nav !== target && !nav.contains(target))
+    emit('closeMenu');
+}
+
+const emit = defineEmits('closeMenu', () => {
+  open.value = false
+  return open;
+})
+
+const login = async () => {
+  const provider = new GoogleAuthProvider()
+  await signInWithPopup(authService, provider)
+  user.value = authService.currentUser
+  if (user) {
+    await store.dispatch('userModule/login', user);
+    await store.commit("utilModule/setIsLogin", true);
   }
+}
 
-  private outerClickCheck(e: Event) {
-    const target = e.target as HTMLElement
-    const nav = this.$refs.sideMenu as HTMLElement;
-    if (nav !== target && !nav.contains(target))
-      this.closeMenu();
+const logout = async () => {
+  await authService.signOut()
+  await store.commit("userModule/resetUserData");
+  await store.commit('utilModule/setIsLogin', false);
+}
+
+const redirect = (type: string): void => {
+  emit('closeMenu');
+  switch (type) {
+    case 'home':
+      store.commit("utilModule/setCurrentPath", 0);
+      router.push(NAVIGATION.HOME)
+      break;
+    case 'recipe':
+      store.commit("utilModule/setCurrentPath", 1);
+      router.push(NAVIGATION.RECIPE_POST_ADMIN)
+      break;
+    case 'favorite':
+      store.commit("utilModule/setCurrentPath", 2);
+      router.push(NAVIGATION.FAVORITE)
+      break;
+    case 'notice':
+      store.commit("utilModule/setCurrentPath", 3);
+      router.push(NAVIGATION.NOTICE)
+      break;
+    case 'all-recipe':
+      store.commit("utilModule/setCurrentPath", 4);
+      router.push(NAVIGATION.ALL_RECIPE)
+      break;
+    default:
+      store.commit("utilModule/setCurrentPath", 0);
+      router.push(NAVIGATION.HOME)
+      break;
   }
-
-  @Watch('isOpen')
-  private disabledScroll() {
-    this.open = this.isOpen
-    const html = document.querySelector('html');
-    if (html) this.isOpen ? html.style.overflow = 'hidden' : html.style.overflow = ''
-  }
-
-  @Emit('closeMenu')
-  closeMenu() {
-    this.open = false
-    return this.open;
-  }
-
-  private async login() {
-    const provider = new GoogleAuthProvider()
-    await signInWithPopup(authService, provider)
-    this.user = authService.currentUser
-    if (this.user) {
-      await this.store.dispatch('userModule/login', this.user);
-      await this.store.commit("utilModule/setIsLogin", true);
-    }
-  }
-
-  private async logout() {
-    await authService.signOut()
-    await this.store.commit("userModule/resetUserData");
-    await this.store.commit('utilModule/setIsLogin', false);
-  }
-
-  private redirect(type: string) {
-    this.closeMenu();
-    switch (type) {
-      case 'home':
-        this.store.commit("utilModule/setCurrentPath", 0);
-        this.$router.push(NAVIGATION.HOME)
-        break;
-      case 'recipe':
-        // TODO TEMP - ADMIN
-        this.store.commit("utilModule/setCurrentPath", 1);
-        this.$router.push(NAVIGATION.RECIPE_POST_ADMIN)
-        break;
-      case 'favorite':
-        this.store.commit("utilModule/setCurrentPath", 2);
-        this.$router.push(NAVIGATION.FAVORITE)
-        break;
-      case 'notice':
-        this.store.commit("utilModule/setCurrentPath", 3);
-        this.$router.push(NAVIGATION.NOTICE)
-        break;
-      case 'all-recipe':
-        this.store.commit("utilModule/setCurrentPath", 4);
-        this.$router.push(NAVIGATION.ALL_RECIPE)
-        break;
-      default:
-        this.store.commit("utilModule/setCurrentPath", 0);
-        this.$router.push(NAVIGATION.HOME)
-        break;
-    }
-  }
-
 }
 </script>
 

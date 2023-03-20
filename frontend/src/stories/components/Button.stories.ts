@@ -1,4 +1,4 @@
-import Button from "@/components/common/CustomButton.vue";
+import Button from "@/components/common/custom/CustomButton.vue";
 import { Story } from "@storybook/vue3";
 
 export default {

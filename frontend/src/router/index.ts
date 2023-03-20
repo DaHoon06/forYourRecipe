@@ -40,18 +40,6 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/admin",
-    name: "admin",
-    component: () => import("@/views/admin/AdminView.vue"),
-    children: [
-      {
-        path: "recipe/post/:id?",
-        name: "adminRecipePost",
-        component: () => import("@/components/admin/AdminRecipePost.vue"),
-      },
-    ],
-  },
-  {
     path: "/not-found-page",
     name: "not-found-page",
     component: () => import("@/views/exception/NotFound.vue"),
