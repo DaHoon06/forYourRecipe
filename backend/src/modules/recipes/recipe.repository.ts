@@ -1,14 +1,12 @@
-import { Injectable, UseFilters } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   Recipe,
   RecipeDocument,
 } from '@modules/recipes/entities/recipe.entity';
 import { Model } from 'mongoose';
-import { GlobalFilter } from '@src/lib/global.filter';
 import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.dto';
 
-@UseFilters(new GlobalFilter())
 @Injectable()
 export class RecipeRepository {
   constructor(

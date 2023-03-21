@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-show="isOpen">
+  <div class="modal" aria-modal="true" v-show="isOpen">
     <section class="modal__body" :class="scroll && 'scroll'">
       <slot/>
     </section>

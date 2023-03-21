@@ -1,5 +1,5 @@
 <template>
-  <main class="main">
+  <main class="main" role="main">
     <loading-spinner v-if="isLoading"/>
 
     <IngredientsBox class="main__top"/>

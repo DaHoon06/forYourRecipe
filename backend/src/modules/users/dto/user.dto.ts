@@ -3,6 +3,9 @@ import {ApiProperty} from "@nestjs/swagger";
 
 export class UserDto {
     @IsString()
+    _id: string;
+
+    @IsString()
     @IsNotEmpty()
     @ApiProperty({type: String, description: 'Google UID'})
     id: string
@@ -45,11 +48,11 @@ export class UserDto {
     myRecipes: string[]
 
     constructor(
-                id: string, name: string, email: string,
-                createdAt: Date, updatedAt: Date,
-                img: string, favoriteRecipes: string[],
-                myRecipes: string[]
-                ) {
+      id: string, name: string, email: string,
+      createdAt: Date, updatedAt: Date,
+      img: string, favoriteRecipes: string[],
+      myRecipes: string[]
+    ) {
         this.id = id
         this.name = name
         this.email = email

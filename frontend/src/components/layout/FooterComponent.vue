@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer pt-40">
+  <footer class="footer pt-40" role="contentinfo">
     <section class="footer-copyright">
       <text-font color="white" type='eng'>
         © 2023. &nbsp;

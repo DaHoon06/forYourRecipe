@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main role="main">
     <router-view/>
   </main>
 </template>

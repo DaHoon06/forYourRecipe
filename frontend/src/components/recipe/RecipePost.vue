@@ -6,13 +6,13 @@
       <text-font color="label" size="16">나만의 레시피를 등록하여 다른 사람에게 공유해보세요!</text-font>
     </section>
 
-    <form @submit.prevent="registerRecipe" class="form">
+    <form @submit.prevent="registerRecipe" class="form" role="form">
       <recipe-ui>
 
         <section class="recipe-grid--layout">
           <text-font size="20" class="pr-16">레시피 제목</text-font>
           <input ref="recipeName" maxlength="120" type="text" class="input input-text" v-model="state.recipePost.name"
-                 tabindex="10"/>
+                 tabindex="10" aria-required="true"/>
         </section>
 
         <div class="dotted my-16"/>
@@ -20,7 +20,7 @@
         <section class="recipe-grid--layout">
           <text-font size="20">레시피 소개</text-font>
           <textarea ref="recipeDesc" class="input scroll textarea input-text"
-                    tabindex="10" v-model="state.recipePost.desc"></textarea>
+                    tabindex="10" aria-required="true" v-model="state.recipePost.desc"></textarea>
         </section>
 
 
@@ -49,7 +49,8 @@
                   class="flex-column-center">
               <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
                 <img loading="lazy" :src="value.img"
-                     sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+                     sizes="(max-width: 32px)" decoding="async" aria-label="ingredients" alt="ingredients" width="32"
+                     height="32"/>
               </picture>
               <text-font class="pt-10" size="12">{{ value.name }}</text-font>
             </span>
@@ -78,9 +79,9 @@
                    :key="index" class="w-100 flex pb-10">
                 <input ref="recipeIngredient" type="text" class="input mr-10"
                        v-model="ingredientsSection.name"
-                       placeholder="예) 돼지고기" tabindex="10" maxlength="100"/>
+                       placeholder="예) 돼지고기" aria-required="true" tabindex="10" maxlength="100"/>
                 <input ref="recipeIngredientUnit" type="text" class="input mr-10" placeholder="40g"
-                       v-model="ingredientsSection.unit" tabindex="10" maxlength="100"/>
+                       v-model="ingredientsSection.unit" aria-required="true" tabindex="10" maxlength="100"/>
                 <div class="ingredient-button--group">
                   <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
@@ -108,9 +109,9 @@
               <div v-for="(condimentSection, index) of state.recipePost.allIngredient[1].ingredients"
                    :key="index" class="w-100 flex pb-10">
                 <input ref="recipeCondiment" type="text" class="input mr-10" placeholder="예) 설탕"
-                       v-model="condimentSection.name" tabindex="10" maxlength="100"/>
+                       v-model="condimentSection.name" aria-required="true" tabindex="10" maxlength="100"/>
                 <input ref="recipeCondimentUnit" type="text" class="input mr-10" placeholder="30g"
-                       v-model="condimentSection.unit" tabindex="10" maxlength="100"/>
+                       v-model="condimentSection.unit" aria-required="true" tabindex="10" maxlength="100"/>
                 <div class="ingredient-button--group">
                   <custom-button variant="icon-button" class="button-gray mr-8" type="button"
                                  @click="removeIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
@@ -138,7 +139,7 @@
             <div v-for="(step, index) of state.recipePost.steps" :key="index" class="flex mb-12">
               <section class="recipe-grid--layout w-100">
                 <text-font class="center" size="18">STEP {{ index + 1 }}</text-font>
-                <textarea ref="recipeStep" class="input scroll textarea" v-model="step.desc"
+                <textarea ref="recipeStep" aria-required="true" class="input scroll textarea" v-model="step.desc"
                           tabindex="10"></textarea>
               </section>
             </div>
