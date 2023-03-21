@@ -11,7 +11,7 @@
       </custom-button>
       <section class="header-search--container">
         <search-input/>
-        <section class="header--side">
+        <div class="header--side">
           <custom-button variant="icon-button" class="flex align-center" @click="login" v-if="!state.isLogin">
             <text-font color="black" class="pr-6" type="eng">Login</text-font>
             <text-font color="black" class="pr-8" type="eng">with</text-font>
@@ -23,13 +23,13 @@
               <text-font color="placeholder">Logout</text-font>
             </custom-button>
           </div>
-        </section>
-        <section class="hamburger--side">
+        </div>
+        <div class="hamburger--side">
           <custom-button type="button" variant="icon-button" @click="showSideMenu">
             <img loading="eager" width="30" height="30" src="@/assets/images/icons/hamburger-black.svg" alt="햄버거 메뉴"/>
           </custom-button>
           <side-menu :isOpen="state.isOpen" @closeMenu="closeMenu"/>
-        </section>
+        </div>
       </section>
     </section>
     <navigation-menu/>

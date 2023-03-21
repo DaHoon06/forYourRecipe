@@ -22,7 +22,7 @@ const props = defineProps<Props>();
 
 <style scoped lang="scss">
 .ingredient-icon--wrapper {
-  border: 1px solid $line;
+  border: 1px solid $hr;
   border-radius: 50%;
   width: 52px;
   height: 52px;

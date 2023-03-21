@@ -5,9 +5,8 @@
     <recipe-ui class="recipe-form--wrapper">
       <section>
         <div class="recipe-form--label">
-          <text-font size="22" class="recipe-detail__label">{{ recipe.name }}</text-font>
+          <text-font size="22" weight="semiBold" class="recipe-detail__label">{{ recipe.name }}</text-font>
           <div class="flex" v-if="showUpdateMenuButton">
-            <!-- 내가 작성한 글일 경우에만 -->
             <custom-button variant="icon-button" @click="recipeUpdate" class="mr-10">
               <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy"/>
             </custom-button>
@@ -18,39 +17,40 @@
         </div>
 
         <div class="dotted mt-16 mb-16"/>
+
         <picture>
           <img :src="recipe.profileImage" loading="lazy"
                width="284"
                height="177" alt="음식 이미지"/>
         </picture>
-        <div v-if="recipe.detailedIngredient.length > 0" class="pt-6 tags--wrapper">
+        <div v-if="recipe.detailedIngredient.length > 0" class="pt-16 pb-16 tags--wrapper">
           <span class="tags mr-6" v-for="(tag, index) of recipe.detailedIngredient" :key="index">
             {{ tag.name }}
           </span>
         </div>
       </section>
 
-      <div class="dotted mt-16 mb-16"/>
 
       <section>
-        <text-font size="20" weight="semiBold" class="recipe-detail__label">요리 소개</text-font>
+        <text-font size="20" weight="medium" class="recipe-detail__label">요리 소개</text-font>
         <div class="dotted mt-16 mb-16"/>
 
-        <text-font v-text="recipe.desc" class="recipe-detail--desc"/>
-
+        <text-font v-text="recipe.desc" weight="regular" color="textTitle" class="recipe-detail--desc"/>
       </section>
 
-      <div class="dotted mt-16 mb-16"/>
-
-      <section>
-        <text-font size="20" weight="semiBold" class="recipe-detail__label">요리순서</text-font>
+      <section class="mt-16">
+        <text-font size="20" weight="medium" class="recipe-detail__label">요리순서</text-font>
         <div class="dotted mt-16 mb-16"/>
 
         <div v-if="recipe.steps.length > 0">
           <section v-for="(item) of recipe.steps" :key="item._id" class="pb-10 flex">
-            <text-font size="20" type="eng" class="recipe-detail-desc--steps">STEP {{ item.step }}</text-font>
+            <text-font size="20" weight="regular" color="gold1" type="eng" class="recipe-detail-desc--steps">STEP
+              {{
+                item.step
+              }}
+            </text-font>
             <div class="recipe-detail--desc">
-              <text-font>{{ item.desc }}</text-font>
+              <text-font weight="regular" color="textTitle">{{ item.desc }}</text-font>
             </div>
 
           </section>
@@ -174,11 +174,12 @@ load();
 
   .recipe-detail--desc {
     width: 100%;
-    min-height: 100px;
+    //min-height: 50px;
     height: 100%;
     background-color: $white;
-    border: 1px solid $gray2;
-    padding: 0.5em;
+    //border: 1px solid $gray2;
+    padding: 1rem 0;
+    //padding: 0.5em;
     letter-spacing: 1.2px;
   }
 
@@ -202,7 +203,7 @@ load();
   }
 
   .recipe-detail__button--wrapper {
-    padding-top: 20px;
+    padding: 20px 0;
     display: flex;
     max-width: 1000px;
     justify-content: flex-end;

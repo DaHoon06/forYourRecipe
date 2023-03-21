@@ -40,8 +40,9 @@ const search = async (): Promise<void> => {
   .search__input {
     outline: none;
     background-color: $white;
-    border: 1px solid #A3A3A3;
+    border: 1px solid $hr;
     font-family: $kor;
+    border-radius: 2px;
     font-size: 15px;
     padding: 8px 2em 8px 0.8em;
     color: #A3A3A3;

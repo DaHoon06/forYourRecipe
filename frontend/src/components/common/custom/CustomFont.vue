@@ -17,6 +17,7 @@ type FontColor =
   | 'textSub'
   | 'gray'
   | 'gray2'
+  | 'gold1'
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
 type FontType = 'kor' | 'eng';
 
@@ -87,6 +88,10 @@ const getFontType = computed(() => props.type);
 
 .textSub {
   @include textSub();
+}
+
+.gold1 {
+  @include gold1();
 }
 
 .regular {

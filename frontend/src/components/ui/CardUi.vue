@@ -86,10 +86,12 @@ export default defineComponent({
 
 .card__layout {
   display: inline-block;
-  border: 1px solid $line;
+  border: 1px solid $hr;
   width: 284px;
   height: 350px;
   overflow: hidden;
+  border-radius: 2px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.25);
 
   .card__body {
     padding: 8px 12px;

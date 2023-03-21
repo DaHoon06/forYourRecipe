@@ -1,85 +1,87 @@
 <template>
-  <loading-spinner v-if="state.isLoading"/>
-  <article class="box-container">
-    <section class="box__body">
-      <div v-if="!state.ingredients.length">
-        <article class="ingredients-box">
-          <section>
-            <section class="empty__label">
-              <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
-              <text-font size="14" color="textBody" class="pt-6">재료를 선택해주세요.</text-font>
+  <div>
+    <article class="box-container">
+      <div class="box__body">
+
+        <section v-if="!state.ingredients.length">
+          <article class="ingredients-box">
+            <section>
+              <section class="empty__label">
+                <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
+                <text-font size="14" color="textBody" class="pt-6">재료를 선택해주세요.</text-font>
+              </section>
             </section>
-          </section>
-        </article>
-      </div>
-      <section class="w-100" v-else>
-        <text-font weight="semiBold" class="selected-ingredients__label">선택한 재료</text-font>
-        <div class="ingredients-box--selected">
+          </article>
+        </section>
+        <section class="w-100" v-else>
+          <text-font weight="semiBold" class="selected-ingredients__label">선택한 재료</text-font>
+          <div class="ingredients-box--selected">
           <span v-for="(value) of state.ingredients" :key="value._id">
             <ingredient-icon :src="value.img" :label="value.name"/>
           </span>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section class="ingredients-box--button pt-20">
-        <custom-button type="button" variant="black" @click="pickUpModal" v-if="!state.ingredients.length">
-          <text-font color="white">재료 담기</text-font>
-        </custom-button>
-        <div class="flex" v-else>
-          <custom-button type="button" variant="gray" @click="reset">
-            <text-font color="white">초기화</text-font>
+        <section class="ingredients-box--button pt-20">
+          <custom-button type="button" variant="black" @click="pickUpModal" v-if="!state.ingredients.length">
+            <text-font color="white">재료 담기</text-font>
           </custom-button>
-          <custom-button type="button" variant="black" class="ml-16" @click="findRecipe">
-            <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
-                 height="20" class="mr-6"/>
-            <text-font color="white">레시피 검색</text-font>
-          </custom-button>
-        </div>
+          <div class="flex" v-else>
+            <custom-button type="button" variant="gray" @click="reset">
+              <text-font color="white">초기화</text-font>
+            </custom-button>
+            <custom-button type="button" variant="black" class="ml-16" @click="findRecipe">
+              <img loading="lazy" decoding="async" src="@/assets/images/icons/basket.svg" alt="레시피 검색" width="20"
+                   height="20" class="mr-6"/>
+              <text-font color="white">레시피 검색</text-font>
+            </custom-button>
+          </div>
+        </section>
 
-      </section>
-    </section>
-  </article>
+      </div>
+    </article>
 
-  <teleport to="#modal">
-    <modal-component ref="modal">
-      <section class="selected-ingredients--container">
-        <text-font class="pb-14" weight="semiBold" size="16">재료를 선택해주세요.</text-font>
+    <teleport to="#modal">
+      <modal-component ref="modal">
+        <section class="selected-ingredients--container">
+          <text-font class="pb-14" weight="medium" color="textTitle" size="14">재료를 선택해주세요.</text-font>
 
-        <section class="ingredients-items--box scroll">
-          <div v-for="(value) of state.ingredientsCategory" :key="value._id" class="pb-10">
-            <text-font color="textBody" size="14" weight="semiBold">{{ value.name }}</text-font>
+          <section class="ingredients-items--box scroll">
+            <div v-for="(value) of state.ingredientsCategory" :key="value._id" class="pb-10">
+              <text-font color="textTitle" size="14" weight="normal">{{ value.name }}</text-font>
+              <hr/>
+              <section class="ingredients-icon--wrapper">
+                <div v-for="(items) of value.detailedIngredient" :key="items._id" @click="selectedIngredient(items)"
+                     class="flex-column-center">
+                  <ingredient-icon :selected="items.selected" :src="items.img" :label="items.name"/>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="selected-items">
+            <text-font weight="normal" color="textBody">선택한 재료</text-font>
             <hr/>
-            <section class="ingredients-icon--wrapper">
-              <div v-for="(items) of value.detailedIngredient" :key="items._id" @click="selectedIngredient(items)"
-                   class="flex-column-center">
-                <ingredient-icon :selected="items.selected" :src="items.img" :label="items.name"/>
-              </div>
-            </section>
-          </div>
-        </section>
+            <div>
+              <text-font size="14" v-for="(ingredient, index) of state.ingredients" :key="index">{{
+                  ingredient.name
+                }}, &nbsp;
+              </text-font>
+            </div>
+          </section>
+          <section class="selected-ingredients__button--wrapper">
+            <custom-button type="button" variant="gray" @click="cancel">
+              <text-font color="gray2" size="14">취소</text-font>
+            </custom-button>
+            <custom-button type="button" variant="black" class="ml-8" @click="save">
+              <text-font color="white" size="14">저장</text-font>
+            </custom-button>
+          </section>
 
-        <section class="selected-items">
-          <text-font weight="semiBold">선택한 재료</text-font>
-          <hr/>
-          <div>
-            <text-font size="14" v-for="(ingredient, index) of state.ingredients" :key="index">{{
-                ingredient.name
-              }}, &nbsp;
-            </text-font>
-          </div>
         </section>
-        <section class="selected-ingredients__button--wrapper">
-          <custom-button type="button" variant="gray" @click="cancel">
-            <text-font color="gray2" size="14">취소</text-font>
-          </custom-button>
-          <custom-button type="button" variant="black" class="ml-8" @click="save">
-            <text-font color="white" size="14">저장</text-font>
-          </custom-button>
-        </section>
-
-      </section>
-    </modal-component>
-  </teleport>
+      </modal-component>
+    </teleport>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -93,7 +95,6 @@ import {computed, onMounted, reactive, Ref, ref} from "vue";
 import {useRouter} from "vue-router";
 
 interface State {
-  isLoading: boolean,
   ingredientsCategory: Recipe.IngredientCategories[],
   ingredients: Recipe.IngredientType[],
   selected: any[],
@@ -102,7 +103,6 @@ interface State {
 const modal: Ref<ModalComponentType | null> = ref(null);
 
 const state: State = reactive({
-  isLoading: true,
   ingredientsCategory: [],
   ingredients: [],
   selected: [],
@@ -112,16 +112,13 @@ const selectBoxDisabled = computed(() => state.ingredients.length === 3);
 const store = useStore();
 const router = useRouter();
 
-onMounted(() => state.isLoading = false);
 
 const pickUpModal = async (): Promise<void> => {
-  state.isLoading = true;
   modal.value!.show();
   store.commit('recipeModule/reset');
   try {
     const {data} = await ins.get('/ingredients/all-ingredients');
     state.ingredientsCategory = data;
-    state.isLoading = false;
   } catch (e) {
     console.log(e)
   }
@@ -143,10 +140,8 @@ const cancel = (): void => {
 }
 
 const save = (): void => {
-  state.isLoading = true;
   store.commit("recipeModule/saveIngredients", state.ingredients);
   modal.value!.hide();
-  state.isLoading = false;
 }
 
 const findRecipe = (): void => {
@@ -177,7 +172,7 @@ const reset = (): void => {
 }
 
 .box__body {
-  border: 1px solid $line;
+  border: 1px solid $hr;
   max-width: 600px;
   min-width: 298px;
   width: 100%;
@@ -187,6 +182,8 @@ const reset = (): void => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
 
   .selected-ingredients__label {
     padding: 2rem 0;
@@ -204,8 +201,8 @@ const reset = (): void => {
 }
 
 .ingredients-box {
-  border-top: 1px solid $line;
-  border-bottom: 1px solid $line;
+  border-top: 1px solid $hr;
+  border-bottom: 1px solid $hr;
   width: 310px;
   height: 200px;
   display: flex;
@@ -243,7 +240,8 @@ const reset = (): void => {
     padding: 10px;
     min-height: 200px;
     height: 254px;
-    border: 1px solid $line;
+    border: 1px solid $hr;
+    border-radius: 2px;
 
     .ingredients-icon--wrapper {
       display: flex;

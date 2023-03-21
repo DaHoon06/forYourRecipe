@@ -89,6 +89,10 @@ $eng: "EBGaramond";
   color: $label;
 }
 
+@mixin gold1() {
+  color: $gold1;
+}
+
 @mixin default() {
   letter-spacing: -0.39px;
   font-weight: 400;

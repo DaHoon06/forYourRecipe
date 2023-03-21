@@ -10,7 +10,7 @@
 <style scoped lang="scss">
 .recipe {
   padding: 25px 36px;
-  border: 1px solid $line;
+  border: 1px solid $hr;
   border-radius: 1px;
   background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(100, 100, 100, 0.25);

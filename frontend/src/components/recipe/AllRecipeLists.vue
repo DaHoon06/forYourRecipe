@@ -2,8 +2,8 @@
   <section class="all-recipe--container">
     <loading-spinner v-if="isLoading"/>
     <div class="all-recipe__label">
-      <text-font size="20" weight="medium" class="pr-12">전체 레시피</text-font>
-      <text-font size="16" color="gray2" weight="regular">{{ total }}</text-font>
+      <text-font size="16" weight="medium" class="pr-12">전체 레시피</text-font>
+      <text-font size="14" color="gray2" weight="regular">{{ total }}</text-font>
     </div>
 
     <hr/>
@@ -23,7 +23,7 @@
         <span style="display: none;"/>
       </template>
       <template #no-results>
-        <text-font size="18">검색된 레시피가 없습니다.</text-font>
+        <text-font size="16">검색된 레시피가 없습니다.</text-font>
       </template>
     </infinite-loading>
   </section>

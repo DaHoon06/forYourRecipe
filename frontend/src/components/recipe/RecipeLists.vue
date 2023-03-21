@@ -3,26 +3,26 @@
     <loading-spinner v-if="isLoading"/>
 
     <section class="recipe-lists__label pb-20">
-      <text-font size="18" class="pr-6 pb-12">선택된 재료</text-font>
+      <text-font size="16" color="textTitle" wegiht="medium" class="pr-6 pb-12">선택된 재료</text-font>
 
       <div class="selected-ingredients" v-if="selectedIngredients">
 
         <span v-for="(ingredient) of selectedIngredients" :key="ingredient._id" class="ingredient-icon mr-12">
 
           <picture class="ingredient-icon--wrapper">
-          <img loading="lazy" :src="ingredient.img"
-               sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
-        </picture>
-        <text-font class="pt-6">
-          {{ ingredient.name }}
-        </text-font>
+            <img loading="lazy" :src="ingredient.img"
+                 sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+          </picture>
+          <text-font color="textTitle" size="14" class="pt-6">
+            {{ ingredient.name }}
+          </text-font>
         </span>
       </div>
     </section>
 
     <section class="recipe-lists__label pb-10">
-      <text-font size="18" class="pr-6">검색 결과</text-font>
-      <text-font size="16" color="placeholder">{{ total }}</text-font>
+      <text-font size="16" color="textTitle" wegiht="medium" class="pr-6">검색 결과</text-font>
+      <text-font size="14" color="placeholder">{{ total }}</text-font>
     </section>
 
     <hr/>

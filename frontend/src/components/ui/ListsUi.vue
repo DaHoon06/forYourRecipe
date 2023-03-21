@@ -5,7 +5,7 @@
         <img :src="listItem.profileImage" width="284" height="177" alt="음식 이미지" loading="lazy"/>
       </div>
       <section class="list__body w-100" @click.once="recipeDetail">
-        <text-font size="16" class="recipe--title">{{ listItem.name }}</text-font>
+        <text-font size="16" color="textTitle" weight="regular" class="recipe--title">{{ listItem.name }}</text-font>
         <text-font size="12" color="placeholder" class="recipe--description">{{ listItem.desc }}</text-font>
         <figure class="recipe-like--wrapper">
           <img src="@/assets/images/icons/like.svg" class="mr-6" alt="좋아요" width="20" height="20"/>

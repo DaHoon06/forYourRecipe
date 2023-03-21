@@ -2,15 +2,18 @@
   <Transition name="slide-fade">
     <aside class="side-menu" v-show="open" @click="outerClickCheck">
       <nav class="side-menu--items" ref="sideMenu">
+        <custom-button type="button" variant="icons-button" @click="emit('closeMenu')" class="side-menu-close__button">
+          <img src="@/assets/images/icons/menu-close.svg" alt="close button"/>
+        </custom-button>
         <section class="side-menu--top">
           <section v-if="!isLogin">
 
-            <text-font class="center pb-32">
+            <text-font color="white" class="center pb-32">
               로그인을 하면 <br/> 나만의 레시피를 등록할 수 있어요!
             </text-font>
 
             <div class="flex justify-center">
-              <custom-button type="button" variant="black" @click="login">
+              <custom-button type="button" variant="icon-button" @click="login">
                 <text-font color="white" type="eng" class="pr-8">Login with</text-font>
                 <img src="@/assets/images/icons/google.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
               </custom-button>
@@ -25,11 +28,11 @@
 
             <div class="flex align-center">
               <custom-button type="button" variant="icon-button">
-                <text-font>마이페이지</text-font>
+                <text-font color="white">마이페이지</text-font>
               </custom-button>
               <span class="division-line">|</span>
               <custom-button type="button" variant="icon-button" @click="logout">
-                <text-font color="placeholder">로그아웃</text-font>
+                <text-font color="white">로그아웃</text-font>
               </custom-button>
             </div>
           </section>
@@ -41,28 +44,28 @@
           <li>
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('home')">
-                <text-font class="w-100 text-left" color="textBody">메인</text-font>
+                <text-font class="w-100 text-left" color="white">메인</text-font>
               </custom-button>
             </div>
           </li>
           <li>
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('all-recipe')">
-                <text-font class="w-100 text-left" color="textBody">레시피</text-font>
+                <text-font class="w-100 text-left" color="white">레시피</text-font>
               </custom-button>
             </div>
           </li>
           <li v-if="isLogin">
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('recipe')">
-                <text-font class="w-100 text-left" color="textBody">레시피 등록</text-font>
+                <text-font class="w-100 text-left" color="white">레시피 등록</text-font>
               </custom-button>
             </div>
           </li>
           <li v-if="isLogin">
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('favorite')">
-                <text-font class="w-100 text-left" color="textBody">즐겨찾기</text-font>
+                <text-font class="w-100 text-left" color="white">즐겨찾기</text-font>
               </custom-button>
             </div>
           </li>
@@ -184,15 +187,21 @@ hr {
   position: fixed;
   right: 0;
   z-index: 99;
-  top: 90px;
+  top: 0;
 
   &--items {
-    background-color: $white;
+    background-color: #343434;
     position: absolute;
     right: 0;
     top: 0;
     width: 250px;
     height: 100%;
+
+    .side-menu-close__button {
+      position: absolute;
+      top: 1rem;
+      right: 10px;
+    }
   }
 
   .side-menu--top {
@@ -220,11 +229,10 @@ hr {
       }
 
       &:hover {
-        border-color: $black;
+        background-color: rgba(0, 0, 0, 0.82);;
 
         p {
-          color: $black;
-          font-weight: 700;
+          font-weight: 600;
         }
       }
     }
