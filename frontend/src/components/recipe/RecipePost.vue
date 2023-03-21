@@ -23,7 +23,6 @@
                     tabindex="10" v-model="state.recipePost.desc"></textarea>
         </section>
 
-        <div class="dotted my-16"/>
 
         <section v-if="`role` === 'admin'">
           <div class="recipe-grid--layout select-box--container">
@@ -38,36 +37,36 @@
               </select>
               <picture class="angle-icons">
                 <img
-                    loading="lazy"
-                    decoding="async"
-                    src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
+                  loading="lazy"
+                  decoding="async"
+                  src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
               </picture>
             </div>
           </div>
 
           <div v-if="state.selected.length > 0" class="ingredients-items--container scroll">
-          <span v-for="(value) of state.selected" :key="value._id" @click="selectedIngredient(value._id)"
-                class="flex-column-center">
-            <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-              <img loading="lazy" :src="value.img"
-                   sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
-            </picture>
-            <text-font class="pt-10" size="12">{{ value.name }}</text-font>
-          </span>
+            <span v-for="(value) of state.selected" :key="value._id" @click="selectedIngredient(value._id)"
+                  class="flex-column-center">
+              <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
+                <img loading="lazy" :src="value.img"
+                     sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
+              </picture>
+              <text-font class="pt-10" size="12">{{ value.name }}</text-font>
+            </span>
           </div>
           <text-font>
             선택된 재료 :
             <span v-for="(ingredient, index) of state.ingredients" :key="index">
-            <text-font size="12" color="gray">
-            {{ ingredient.name }},
+              <text-font size="12" color="gray">
+                {{ ingredient.name }},
           </text-font>
-          </span>
+            </span>
           </text-font>
 
           <div class="dotted my-16"/>
         </section>
 
-        <section class="pb-20">
+        <section class="pb-20 my-16">
           <text-font size="20">재료</text-font>
           <div class="dotted my-16"/>
           <text-font size="16" color="placeholder">사용되는 재료를 입력해주세요.</text-font>
@@ -88,9 +87,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                      :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
-                      variant="icon-button" class="button-black" type="button"
-                      @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
+                    :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
+                    variant="icon-button" class="button-black" type="button"
+                    @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -118,9 +117,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                      :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
-                      variant="icon-button" class="button-black" type="button"
-                      @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
+                    :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
+                    variant="icon-button" class="button-black" type="button"
+                    @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>

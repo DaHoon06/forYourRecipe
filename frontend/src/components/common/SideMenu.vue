@@ -20,11 +20,11 @@
             </div>
           </section>
           <section v-else>
-            <section class="profile--container pb-32">
+            <picture class="profile--container pb-32">
               <img loading="lazy" :src="userProfile"
                    alt="프로필 이미지" width="96" height="96"/>
-              <text-font class="pt-18">{{ userName }}</text-font>
-            </section>
+              <text-font color="white" class="pt-18">{{ userName }}</text-font>
+            </picture>
 
             <div class="flex align-center">
               <custom-button type="button" variant="icon-button">
@@ -127,7 +127,7 @@ const login = async () => {
   await signInWithPopup(authService, provider)
   user.value = authService.currentUser
   if (user) {
-    await store.dispatch('userModule/login', user);
+    await store.dispatch('userModule/login', user.value);
     await store.commit("utilModule/setIsLogin", true);
   }
 }
