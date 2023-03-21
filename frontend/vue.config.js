@@ -6,6 +6,9 @@ module.exports = defineConfig({
       return args;
     });
   },
+  configureWebpack: {
+    devtool: "source-map",
+  },
   transpileDependencies: true,
   devServer: {
     proxy: {
