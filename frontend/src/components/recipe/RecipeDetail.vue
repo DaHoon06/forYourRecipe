@@ -98,25 +98,25 @@ const router = useRouter();
 const store = useStore();
 const isLoading: Ref<boolean> = ref(true);
 const recipe: Ref<Recipe.Info> = ref(
-  {
-    _id: '',
-    desc: '',
-    createdAt: new Date(),
-    detailedIngredient: [],
-    likes: [],
-    profileImage: '',
-    name: '',
-    modified: false,
-    steps: [],
-    user: '',
-    updatedAt: new Date()
-  }
+    {
+      _id: '',
+      desc: '',
+      createdAt: new Date(),
+      detailedIngredient: [],
+      likes: [],
+      profileImage: '',
+      name: '',
+      modified: false,
+      steps: [],
+      user: '',
+      updatedAt: new Date()
+    }
 );
 const recipeId: Ref<string> = ref('');
 recipeId.value = route.params.id as string;
 
 const showUpdateMenuButton = computed(() => {
-  const uid = store.getters["userModule/getUid"]
+  const uid = store.getters["userModule/getName"]
   return recipe.value.user === uid || uid === 'admin'
 })
 
@@ -141,9 +141,7 @@ const recipeDelete = async () => {
   try {
     isLoading.value = true;
     const {_id} = recipe.value;
-    const {data} = await ins.delete('/recipes/delete-recipe', {
-      data: {id: _id,}
-    });
+    const {data} = await ins.delete(`/recipes/delete-recipe/${_id}`);
     isLoading.value = false;
     if (data) {
       modal.value.hide()

@@ -47,7 +47,7 @@ export class RecipesService {
 
   //해당 id 레시피 반환
   async findRecipeById(id: string): Promise<RecipeDto> {
-    const foundRecipe = await this.recipeModel.findOne({ _id: id });
+    const foundRecipe = await this.recipeRepository.findOneRecipeById(id);
     return this.getRecipeDto(foundRecipe);
   }
 
@@ -57,12 +57,12 @@ export class RecipesService {
     ingredientIds: string[],
   ): Promise<RecipeDto[]> {
     if (!page || isNaN(page)) page = 1;
-    const foundRecipes = await this.recipeModel
-      .find({ detailedIngredient: { $in: ingredientIds } })
-      .sort({ updatedAt: 1 })
-      .limit(8)
-      .skip(this.currentPage(page));
-    return this.getRecipeDtoArr(foundRecipes);
+    const skip = this.currentPage(page);
+    const recipes = await this.recipeRepository.findRecipesByIngredient(
+      ingredientIds,
+      skip,
+    );
+    return this.getRecipeDtoArr(recipes);
   }
 
   //제목으로 레시피 찾기
@@ -72,12 +72,12 @@ export class RecipesService {
   ): Promise<RecipeDto[]> {
     if (!page || isNaN(page)) page = 1;
     const regex = new RegExp(`.*${keyword}.*`);
-    const foundRecipes = await this.recipeModel
-      .find({ name: { $regex: regex } })
-      .sort({ updatedAt: 1 })
-      .limit(8)
-      .skip(this.currentPage(page));
-    return this.getRecipeDtoArr(foundRecipes);
+    const skip = this.currentPage(page);
+    const recipes = await this.recipeRepository.findRecipeByKeyword(
+      regex,
+      skip,
+    );
+    return this.getRecipeDtoArr(recipes);
   }
 
   //회원 레시피 등록
@@ -103,7 +103,6 @@ export class RecipesService {
   async imageUpload(fileUploadDto: any): Promise<void> {
     const { _id } = fileUploadDto;
     const Location = await this.s3Service.s3Upload(fileUploadDto);
-    // S3 업로드 후 본문 이미지 업데이트
     await this.recipeRepository.recipeImageUpdate(_id, Location);
   }
 
@@ -122,6 +121,7 @@ export class RecipesService {
       allIngredient,
       detailedIngredient,
     } = recipeDto;
+
     const recipe = new Recipe(
       Role.ADMIN,
       this.getSteps(steps),
@@ -132,60 +132,33 @@ export class RecipesService {
       Role.ADMIN,
       detailedIngredient,
     );
-    const data = await new this.recipeModel(recipe).save();
+
+    const data = await this.recipeRepository.saveRecipe(recipe);
     return !!data;
   }
 
   //관리자 레시피 수정
   async updateAdminRecipe(recipe: UpdatedAdminRecipeDto): Promise<boolean> {
-    const {
-      id,
-      name,
-      desc,
-      allIngredient,
-      steps,
-      detailedIngredient,
-      profileImage,
-    } = recipe;
-    const { acknowledged } = await this.recipeModel.updateOne(
-      { _id: id },
-      {
-        $set: {
-          name: name,
-          desc: desc,
-          updatedAt: new Date(),
-          allIngredient: allIngredient,
-          steps: steps,
-          detailedIngredient: detailedIngredient,
-          profileImage: profileImage,
-        },
-      },
-    );
-    return acknowledged;
+    return this.recipeRepository.updateOneRecipeForAdmin(recipe);
   }
 
   //회원 즐겨찾는 레시피에 추가
   async updateLike(recipe: UpdatedRecipeLikeDto): Promise<string[]> {
     const { id, user } = recipe;
-    const { likes } = await this.recipeModel.findOne({ _id: id });
+    const { likes } = await this.recipeRepository.findOneRecipeById(id);
     const index = likes.indexOf(user);
     if (index > -1) {
       likes.splice(index, 1);
     } else {
       likes.push(user);
     }
-    await this.recipeModel.updateOne({ _id: id }, { $set: { likes } });
+    await this.recipeRepository.updateOneLikes(id, likes);
     return this.userService.setFavoriteRecipes(id, user);
   }
 
   //레시피 삭제
-  async deleteRecipe(id: String): Promise<boolean> {
-    const { deleted } = await this.recipeModel.findById(id);
-    await this.recipeModel.updateOne(
-      { _id: id },
-      { $set: { deleted: !deleted } },
-    );
-    return !deleted;
+  async deleteRecipe(id: string): Promise<boolean> {
+    return !!(await this.recipeRepository.deleteOneRecipe(id));
   }
 
   private getSteps(steps: StepsDto[]): StepsDto[] {

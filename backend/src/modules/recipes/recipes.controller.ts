@@ -249,7 +249,7 @@ export class RecipesController {
     type: Boolean,
   })
   @ApiParam({ name: 'id', description: '조회할 레시피 id', type: String })
-  private async deleteRecipe(@Param('id') id: String): Promise<boolean> {
+  private async deleteRecipe(@Param('id') id: string): Promise<boolean> {
     return this.recipesService.deleteRecipe(id);
   }
 }

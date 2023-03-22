@@ -2,7 +2,7 @@
   <article class="card__layout--container">
     <article class="card__layout scroll">
       <div @click.once="recipeDetail">
-        <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지" loading="lazy"/>
+        <img :src="cardItem.profileImage" width="284" height="200" alt="음식 이미지"/>
       </div>
       <section class="card__body">
         <section class="card-ui__body">
