@@ -81,7 +81,7 @@ export class RecipesService {
   }
 
   //회원 레시피 등록
-  async setRecipe(recipeDto: RegisteredUserRecipeDto): Promise<boolean> {
+  async setRecipe(recipeDto: RegisteredUserRecipeDto): Promise<string> {
     const { name, steps, user, profileImage, desc, allIngredient } = recipeDto;
     const recipe = new Recipe(
       Role.USER,
@@ -92,8 +92,8 @@ export class RecipesService {
       allIngredient,
       user,
     );
-    const registeredRecipe = await new this.recipeModel(recipe).save();
-    return !!registeredRecipe;
+    const { _id } = await new this.recipeModel(recipe).save();
+    return _id;
   }
 
   /**
@@ -101,8 +101,8 @@ export class RecipesService {
    * @param fileUploadDto
    */
   async imageUpload(fileUploadDto: any): Promise<void> {
-    const { _id, file } = fileUploadDto;
-    const Location = this.s3Service.s3Upload(fileUploadDto);
+    const { _id } = fileUploadDto;
+    const Location = await this.s3Service.s3Upload(fileUploadDto);
     // S3 업로드 후 본문 이미지 업데이트
     await this.recipeRepository.recipeImageUpdate(_id, Location);
   }

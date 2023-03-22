@@ -135,7 +135,7 @@ export class RecipesController {
   })
   private async registeredRecipe(
     @Body() recipe: RegisteredUserRecipeDto,
-  ): Promise<boolean> {
+  ): Promise<string> {
     return this.recipesService.setRecipe(recipe);
   }
 
@@ -149,7 +149,7 @@ export class RecipesController {
     @Req() req,
     @Param('_id') _id: string,
     @UploadedFiles() file: Array<Express.Multer.File>,
-  ) {
+  ): Promise<void> {
     const fileUploadDto = {
       _id,
       file,

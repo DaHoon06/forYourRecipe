@@ -29,7 +29,7 @@ export class RecipeRepository {
    * @param _id
    * @param Location
    */
-  async recipeImageUpdate(_id: string, Location: Promise<string>) {
+  async recipeImageUpdate(_id: string, Location: string) {
     return this.recipeModel.updateOne(
       { _id },
       {

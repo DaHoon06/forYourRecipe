@@ -37,9 +37,9 @@
               </select>
               <picture class="angle-icons">
                 <img
-                  loading="lazy"
-                  decoding="async"
-                  src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
+                    loading="lazy"
+                    decoding="async"
+                    src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
               </picture>
             </div>
           </div>
@@ -88,9 +88,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                    :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
-                    variant="icon-button" class="button-black" type="button"
-                    @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
+                      :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
+                      variant="icon-button" class="button-black" type="button"
+                      @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -118,9 +118,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                    :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
-                    variant="icon-button" class="button-black" type="button"
-                    @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
+                      :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
+                      variant="icon-button" class="button-black" type="button"
+                      @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -428,12 +428,10 @@ const registerRecipe = async () => {
         steps: state.recipePost.steps,
         profileImage: state.recipePost.profileImage
       }
-      const {data} = await ins.post('/recipes/register-recipe', sendData);
-    }
-
-    if (state.file.length > 0) {
-      console.log(formData)
-      await uploadFile('1', formData);
+      const {data: _id} = await ins.post('/recipes/register-recipe', sendData);
+      if (state.file.length > 0) {
+        await uploadFile(_id, formData);
+      }
     }
 
     await router.push('/');
