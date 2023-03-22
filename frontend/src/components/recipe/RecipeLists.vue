@@ -27,12 +27,15 @@
 
     <hr/>
 
-    <section class="card--wrapper">
+    <section class="card--wrapper" v-if="recipeLists.length > 0">
       <div v-for="(dish) in recipeLists" :key="dish._id" class="w-100">
         <CardUi :recipe-detail="() => recipeDetail(dish._id)" class="mr-20 card-component" :card-item="dish"/>
         <ListsUi :recipe-detail="() => recipeDetail(dish._id)" class="list-component" :list-item="dish"/>
       </div>
     </section>
+    <div class="center w-100 pt-50" v-else>
+      <text-font color="textTitle">검색된 레시피가 없습니다. 레시피를 등록해 보세요!</text-font>
+    </div>
 
     <infinite-loading @infinite="infiniteHandler">
       <template #spinner>

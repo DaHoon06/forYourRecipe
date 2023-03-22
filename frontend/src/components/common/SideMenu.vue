@@ -147,7 +147,7 @@ const redirect = (type: string): void => {
       break;
     case 'recipe':
       store.commit("utilModule/setCurrentPath", 1);
-      router.push(NAVIGATION.RECIPE_POST_ADMIN)
+      router.push(NAVIGATION.RECIPE_POST)
       break;
     case 'favorite':
       store.commit("utilModule/setCurrentPath", 2);

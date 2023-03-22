@@ -125,14 +125,14 @@ const pickUpModal = async (): Promise<void> => {
 }
 
 const selectedIngredient =
-  (ingredient: Recipe.IngredientType): void => {
-    const {selected} = ingredient;
-    if (selected) ingredient.selected = !selected;
-    else ingredient.selected = true;
-    const index = state.ingredients.findIndex((item) => item._id === ingredient._id);
-    if (index < 0) state.ingredients.push(ingredient)
-    else state.ingredients.splice(index, 1);
-  }
+    (ingredient: Recipe.IngredientType): void => {
+      const {selected} = ingredient;
+      if (selected) ingredient.selected = !selected;
+      else ingredient.selected = true;
+      const index = state.ingredients.findIndex((item) => item._id === ingredient._id);
+      if (index < 0) state.ingredients.push(ingredient)
+      else state.ingredients.splice(index, 1);
+    }
 
 const cancel = (): void => {
   reset();
