@@ -12,7 +12,7 @@
         </custom-button>
       </li>
       <li :class="currentMenu === 2 && 'current-path'" class="mr-30" v-if="isLogin">
-        <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('favorite')">
+        <custom-button variant="icon-button" type="button" @click="redirect('favorite')">
           <text-font :color="currentMenu === 2 ? 'black' : 'gray'" size="16">즐겨찾기</text-font>
         </custom-button>
       </li>

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import store from "@/store";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -31,11 +32,18 @@ const routes: Array<RouteRecordRaw> = [
         path: "post/:id?",
         name: "recipePost",
         component: () => import("@/components/recipe/RecipePost.vue"),
+        meta: { authorized: true },
       },
       {
         path: "search/:keyword",
         name: "recipeSearch",
         component: () => import("@/components/recipe/RecipeSearch.vue"),
+      },
+      {
+        path: "favorite",
+        name: "favoriteLists",
+        component: () => import("@/components/recipe/FavoriteLists.vue"),
+        meta: { authorized: true },
       },
     ],
   },
@@ -43,7 +51,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/not-found-page",
     name: "not-found-page",
     component: () => import("@/views/exception/NotFound.vue"),
-    meta: { unauthorized: true },
   },
   {
     path: "/:pathMatch(.*)*",
@@ -57,7 +64,14 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  return next();
+  const { matched } = to;
+  const isLogin = await store.getters["utilModule/isLogin"];
+  const authorized = matched.some((routerInfo) => routerInfo.meta.authorized);
+  if (authorized && !isLogin) {
+    alert("로그인 해롸~");
+    next({ name: "home" });
+  }
+  next();
 });
 
 export default router;
