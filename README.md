@@ -32,7 +32,25 @@ ___
 ___
 
 
-#### 프로젝트 실행
+#### 개발 환경 세팅
+
+> 환경변수는 /frontend, /backend 폴더에 위치한 .env.sample 파일을 참고해주세요.
+
+Front-End
+
+```
+cd ./frontend
+npm ci
+npm run serve
+```
+
+Backe-End
+
+```
+cd ./backend
+npm ci
+npm start:dev
+```
 
 ___
 
