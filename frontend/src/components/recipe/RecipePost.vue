@@ -323,7 +323,7 @@ const getDataUrl = async (files: Blob[]): Promise<string | any> => {
     return await new Promise((resolve) => {
       const reader = new FileReader();
       reader.readAsDataURL(files[0]);
-      reader.onload = (e) => resolve(reader.result + '');
+      reader.onload = () => resolve(reader.result + '');
     });
   } catch (e) {
     console.log(e)
@@ -418,7 +418,7 @@ const registerRecipe = async () => {
         steps, allIngredient,
         detailedIngredient: ingredientsIdArr
       }
-      const {data} = await ins.put('/recipes/update-admin-recipe', sendData);
+      await ins.put('/recipes/update-admin-recipe', sendData);
     } else {
       const sendData = {
         name: state.recipePost.name,
@@ -433,7 +433,7 @@ const registerRecipe = async () => {
         await uploadFile(_id, formData);
       }
     }
-
+    store.commit("utilModule/setCurrentPath", 0);
     await router.push('/');
   } catch (e) {
     console.log(e);
