@@ -3,6 +3,8 @@
     <article class="box-container">
       <div class="box__body">
 
+        <dialog-modal :title="dialogTitle" :isOpen="isOpen"/>
+
         <section v-if="!state.ingredients.length">
           <article class="ingredients-box">
             <section>
@@ -91,14 +93,19 @@ import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import {useStore} from "vuex";
 import IngredientIcon from "@/components/icons/IngredientIcon.vue";
-import {computed, onMounted, reactive, Ref, ref} from "vue";
+import {computed, reactive, Ref, ref} from "vue";
 import {useRouter} from "vue-router";
+import DialogModal from "@/components/common/modal/DialogModal.vue";
+import store from '@/store';
 
 interface State {
   ingredientsCategory: Recipe.IngredientCategories[],
   ingredients: Recipe.IngredientType[],
   selected: any[],
 }
+
+const isOpen = computed(() => store.getters['tempModule/dialog']);
+const dialogTitle = computed(() => store.getters['tempModule/dialogTitle']);
 
 const modal: Ref<ModalComponentType | null> = ref(null);
 
@@ -109,7 +116,6 @@ const state: State = reactive({
 });
 
 const selectBoxDisabled = computed(() => state.ingredients.length === 3);
-const store = useStore();
 const router = useRouter();
 
 

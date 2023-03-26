@@ -85,8 +85,13 @@ $total: 100;
 .justify-center {
   justify-content: center;
 }
+
 .justify-content-around {
   justify-content: space-around;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .center {
@@ -96,6 +101,7 @@ $total: 100;
 .text-left {
   text-align: left;
 }
+
 .text-right {
   text-align: right;
 }
