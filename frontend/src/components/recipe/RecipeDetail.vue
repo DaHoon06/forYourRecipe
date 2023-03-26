@@ -90,12 +90,11 @@ import ModalComponent from "@/components/common/modal/ModalComponent.vue";
 import {ModalComponentType} from "@/types/type";
 import {computed, nextTick, Ref, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {useStore} from "vuex";
+import store from '@/store';
 
 const modal: Ref<ModalComponentType | null> = ref(null);
 const route = useRoute();
 const router = useRouter();
-const store = useStore();
 const isLoading: Ref<boolean> = ref(true);
 const recipe: Ref<Recipe.Info> = ref(
     {

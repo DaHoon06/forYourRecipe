@@ -10,12 +10,11 @@
 <script lang="ts" setup>
 import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {useStore} from "vuex";
+import store from '@/store';
 
 const keyword = ref('');
 const router = useRouter();
 const route = useRoute();
-const store = useStore();
 
 watch(route, () => keyword.value = '', {deep: true, immediate: false})
 

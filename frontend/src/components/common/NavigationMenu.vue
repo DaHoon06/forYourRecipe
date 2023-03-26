@@ -28,11 +28,10 @@
 <script lang="ts" setup>
 import {NAVIGATION} from "@/constant/navigation.href";
 import {computed, ComputedRef} from "vue";
-import {useStore} from "vuex";
+import store from '@/store';
 import {useRouter} from "vue-router";
 
 const router = useRouter();
-const store = useStore();
 const currentMenu: ComputedRef<number> = computed(() => store.getters["utilModule/currentPath"]);
 const isLogin: ComputedRef<boolean> = computed(() => store.getters["utilModule/isLogin"]);
 

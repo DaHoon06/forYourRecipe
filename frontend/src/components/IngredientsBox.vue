@@ -56,7 +56,7 @@
               <section class="ingredients-icon--wrapper">
                 <div v-for="(items) of value.detailedIngredient" :key="items._id" @click="selectedIngredient(items)"
                      class="flex-column-center">
-                  <ingredient-icon role="checkbox" :selected="items.selected" :src="items.img" :label="items.name"/>
+                  <ingredient-icon :selected="items.selected" :src="items.img" :label="items.name"/>
                 </div>
               </section>
             </div>
@@ -92,7 +92,6 @@ import ModalComponent from "@/components/common/modal/ModalComponent.vue";
 import {ModalComponentType} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
-import {useStore} from "vuex";
 import IngredientIcon from "@/components/icons/IngredientIcon.vue";
 import {computed, reactive, Ref, ref} from "vue";
 import {useRouter} from "vue-router";

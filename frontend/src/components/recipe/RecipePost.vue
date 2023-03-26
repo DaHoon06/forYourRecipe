@@ -196,9 +196,9 @@
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
-import {reactive, Ref, ref, nextTick, computed} from "vue";
+import {reactive, Ref, ref, nextTick} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {useStore} from "vuex";
+import store from '@/store';
 
 interface Steps {
   step: number;
@@ -276,8 +276,6 @@ const state: STATE = reactive({
   file: [],
   dataUrl: '',
 });
-
-const store = useStore();
 
 const textareaMaxLengthCheck = (e: Event): string => {
   const {value} = e.target as any;

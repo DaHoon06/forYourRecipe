@@ -84,11 +84,11 @@
 
 <script lang="ts" setup>
 import {NAVIGATION} from "@/constant/navigation.href";
-import {useStore} from "vuex";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 import {computed, ComputedRef, defineProps, ref, watch, withDefaults, defineEmits} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import store from '@/store';
 
 const props = withDefaults(defineProps<{ isOpen: boolean }>(), {isOpen: false})
 const open = ref(false);
@@ -98,7 +98,6 @@ const userName: ComputedRef<string> = computed(() => store.getters["userModule/g
 const userProfile: ComputedRef<string> = computed(() => store.getters["userModule/getProfileImg"]);
 const user: any = {} || null
 
-const store = useStore();
 const router = useRouter();
 const route = useRoute();
 const sideMenu = ref(null);

@@ -10,14 +10,9 @@ import { ins } from "@/lib/axios";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import DialogModal from "@/components/common/modal/DialogModal.vue";
 import InfiniteLoading from "infinite-loading-vue3-ts";
-import { useStore } from "vuex";
 
 const app = createApp(App);
-
-const vueStore = useStore();
-
 app.config.globalProperties.axios = ins;
-app.config.globalProperties.$store = vueStore;
 
 app.use(router);
 app.use(store);

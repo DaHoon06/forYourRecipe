@@ -61,8 +61,8 @@ import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
 import {LocationQueryValue} from "vue-router";
 import {computed, ComputedRef} from "vue";
-import {useStore} from "vuex";
 import {STORE} from "@/interfaces/store";
+import store from '@/store';
 
 @Options({
   components: {
@@ -74,9 +74,9 @@ export default class RecipeLists extends Vue {
   key: Partial<LocationQueryValue | LocationQueryValue[]> = [];
   total = 0;
   recipeLists: Recipe.Info[] = [];
-  store = useStore();
   selectedIngredients: ComputedRef<STORE.RecipeState[]> = computed(() => this.store.getters["recipeModule/getIngredients"]);
   page = 1;
+  store = store;
 
   created() {
     const {key} = this.$route.query;
