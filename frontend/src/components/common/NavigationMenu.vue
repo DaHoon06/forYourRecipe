@@ -12,7 +12,7 @@
         </custom-button>
       </li>
       <li :class="currentMenu === 2 && 'current-path'" class="mr-30" v-if="isLogin">
-        <custom-button :disabled="true" variant="icon-button" type="button" @click="redirect('favorite')">
+        <custom-button variant="icon-button" type="button" @click="redirect('favorite')">
           <text-font :color="currentMenu === 2 ? 'black' : 'gray'" size="16">즐겨찾기</text-font>
         </custom-button>
       </li>
@@ -28,11 +28,10 @@
 <script lang="ts" setup>
 import {NAVIGATION} from "@/constant/navigation.href";
 import {computed, ComputedRef} from "vue";
-import {useStore} from "vuex";
+import store from '@/store';
 import {useRouter} from "vue-router";
 
 const router = useRouter();
-const store = useStore();
 const currentMenu: ComputedRef<number> = computed(() => store.getters["utilModule/currentPath"]);
 const isLogin: ComputedRef<boolean> = computed(() => store.getters["utilModule/isLogin"]);
 
@@ -96,7 +95,7 @@ const redirect = (type: string): void => {
   }
 
   .current-path {
-    border-color: $black;
+    border-color: $primary;
 
     button p {
       color: $black;

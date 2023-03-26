@@ -29,7 +29,6 @@ instance.interceptors.response.use(
   (error) => {
     const { response } = error;
     const { data, status } = response;
-    const { message } = data;
 
     if (status !== 200) {
       return router.replace({ path: "/not-found-page" }).catch(() => ({}));

@@ -19,4 +19,10 @@ export namespace STORE {
     uid: string;
     favoriteRecipes: string[];
   }
+
+  export interface TempState {
+    showDialog: boolean;
+    dialogTitle: string;
+    dialogBody: string;
+  }
 }

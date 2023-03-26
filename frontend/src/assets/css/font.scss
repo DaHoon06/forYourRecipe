@@ -93,6 +93,18 @@ $eng: "EBGaramond";
   color: $gold1;
 }
 
+@mixin primary() {
+  color: $primary;
+}
+
+@mixin secondary() {
+  color: $secondary;
+}
+
+@mixin secondary-light() {
+  color: $secondary-light;
+}
+
 @mixin default() {
   letter-spacing: -0.39px;
   font-weight: 400;

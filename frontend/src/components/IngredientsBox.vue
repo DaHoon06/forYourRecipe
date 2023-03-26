@@ -3,12 +3,14 @@
     <article class="box-container">
       <div class="box__body">
 
+        <dialog-modal :title="dialogTitle" :isOpen="isOpen"/>
+
         <section v-if="!state.ingredients.length">
           <article class="ingredients-box">
             <section>
               <section class="empty__label">
-                <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
-                <text-font size="14" color="textBody" class="pt-6">재료를 선택해주세요.</text-font>
+                <text-font size="15" color="textBody" class="pt-12">보고싶은 레시피의</text-font>
+                <text-font size="15" color="textBody" class="pt-6">주 재료를 선택해주세요.</text-font>
               </section>
             </section>
           </article>
@@ -23,8 +25,9 @@
         </section>
 
         <section class="ingredients-box--button pt-20">
-          <custom-button type="button" variant="black" @click="pickUpModal" v-if="!state.ingredients.length">
-            <text-font color="white">재료 담기</text-font>
+          <custom-button type="button" variant="primary-outline" @click="pickUpModal"
+                         v-if="!state.ingredients.length">
+            <text-font color="primary">재료 담기</text-font>
           </custom-button>
           <div class="flex" v-else>
             <custom-button type="button" variant="gray" @click="reset">
@@ -53,7 +56,7 @@
               <section class="ingredients-icon--wrapper">
                 <div v-for="(items) of value.detailedIngredient" :key="items._id" @click="selectedIngredient(items)"
                      class="flex-column-center">
-                  <ingredient-icon role="checkbox" :selected="items.selected" :src="items.img" :label="items.name"/>
+                  <ingredient-icon :selected="items.selected" :src="items.img" :label="items.name"/>
                 </div>
               </section>
             </div>
@@ -89,16 +92,20 @@ import ModalComponent from "@/components/common/modal/ModalComponent.vue";
 import {ModalComponentType} from "@/types/type";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
-import {useStore} from "vuex";
 import IngredientIcon from "@/components/icons/IngredientIcon.vue";
-import {computed, onMounted, reactive, Ref, ref} from "vue";
+import {computed, reactive, Ref, ref} from "vue";
 import {useRouter} from "vue-router";
+import DialogModal from "@/components/common/modal/DialogModal.vue";
+import store from '@/store';
 
 interface State {
   ingredientsCategory: Recipe.IngredientCategories[],
   ingredients: Recipe.IngredientType[],
   selected: any[],
 }
+
+const isOpen = computed(() => store.getters['tempModule/dialog']);
+const dialogTitle = computed(() => store.getters['tempModule/dialogTitle']);
 
 const modal: Ref<ModalComponentType | null> = ref(null);
 
@@ -109,7 +116,6 @@ const state: State = reactive({
 });
 
 const selectBoxDisabled = computed(() => state.ingredients.length === 3);
-const store = useStore();
 const router = useRouter();
 
 

@@ -4,11 +4,13 @@ import { utilModule } from "@/store/modules/util";
 import createPersistedState from "vuex-persistedstate";
 import { STORE } from "@/interfaces/store";
 import { userModule } from "@/store/modules/user";
+import { tempModule } from "@/store/modules/temp";
 
 export interface RootState {
   Recipe: STORE.RecipeState;
   Util: STORE.UtilState;
   User: STORE.UserState;
+  Temp: STORE.TempState;
 }
 
 export default createStore({
@@ -21,5 +23,6 @@ export default createStore({
     recipeModule,
     utilModule,
     userModule,
+    tempModule,
   },
 });

@@ -9,15 +9,17 @@ import {withDefaults, defineProps, computed} from 'vue';
 
 type FontSize = '12' | '13' | '14' | '15' | '16' | '18' | '20' | '22' | '24' | '25' | '26';
 type FontColor =
-  | 'black'
-  | 'white'
-  | 'placeholder'
-  | 'red'
-  | 'textTitle'
-  | 'textSub'
-  | 'gray'
-  | 'gray2'
-  | 'gold1'
+    | 'black'
+    | 'white'
+    | 'placeholder'
+    | 'red'
+    | 'textTitle'
+    | 'textSub'
+    | 'gray'
+    | 'gray2'
+    | 'gold1'
+    | 'primary'
+    | 'secondary'
 type FontWeight = 'regular' | 'normal' | 'medium' | 'semiBold' | 'bold';
 type FontType = 'kor' | 'eng';
 
@@ -112,6 +114,18 @@ const getFontType = computed(() => props.type);
 
 .bold {
   @include font-weight-800();
+}
+
+.primary {
+  @include primary();
+}
+
+.secondary {
+  @include secondary();
+}
+
+.secondary-light {
+  @include secondary-light();
 }
 
 @for $size from 1 to 40 {

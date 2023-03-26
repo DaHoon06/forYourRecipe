@@ -2,15 +2,15 @@
   <section class="recipe-post--container">
     <loading-spinner v-if="state.isLoading"/>
     <section class="recipe-post__label">
-      <text-font size="24" class="pb-14">레시피 등록</text-font>
-      <text-font color="label" size="16">나만의 레시피를 등록하여 다른 사람에게 공유해보세요!</text-font>
+      <text-font size="22" color="primary" weigt="medium" class="pb-14">레시피 등록</text-font>
+      <text-font color="secondary-light" weigt="medium" size="16">나만의 레시피를 등록하여 다른 사람에게 공유해보세요!</text-font>
     </section>
 
     <form @submit.prevent="registerRecipe" class="form" role="form">
       <recipe-ui>
 
         <section class="recipe-grid--layout">
-          <text-font size="20" class="pr-16">레시피 제목</text-font>
+          <text-font color="secondary" size="18" weight="medium" class="pr-16">레시피 제목</text-font>
           <input ref="recipeName" maxlength="120" type="text" class="input input-text" v-model="state.recipePost.name"
                  tabindex="10" aria-required="true"/>
         </section>
@@ -18,7 +18,7 @@
         <div class="dotted my-16"/>
 
         <section class="recipe-grid--layout">
-          <text-font size="20">레시피 소개</text-font>
+          <text-font color="secondary" size="18" weight="medium">레시피 소개</text-font>
           <textarea ref="recipeDesc" class="input scroll textarea input-text"
                     tabindex="10" aria-required="true" v-model="state.recipePost.desc"></textarea>
         </section>
@@ -26,7 +26,7 @@
 
         <section v-if="`role` === 'admin'">
           <div class="recipe-grid--layout select-box--container">
-            <text-font size="20" class="pr-16">메인 재료</text-font>
+            <text-font color="secondary" size="18" weight="medium" class="pr-16">메인 재료</text-font>
 
             <div class="select-box">
               <select v-model="selected">
@@ -68,9 +68,9 @@
         </section>
 
         <section class="pb-20 my-16">
-          <text-font size="20">재료</text-font>
+          <text-font color="secondary" size="18" weight="medium">재료</text-font>
           <div class="dotted my-16"/>
-          <text-font size="16" color="placeholder">사용되는 재료를 입력해주세요.</text-font>
+          <text-font size="14" color="secondary-light">사용되는 재료를 입력해주세요.</text-font>
 
           <section class="recipe-grid--layout">
             <div/>
@@ -83,13 +83,13 @@
                 <input ref="recipeIngredientUnit" type="text" class="input mr-10" placeholder="40g"
                        v-model="ingredientsSection.unit" aria-required="true" tabindex="10" maxlength="100"/>
                 <div class="ingredient-button--group">
-                  <custom-button variant="icon-button" class="button-gray mr-8" type="button"
+                  <custom-button variant="icon-button" class="button-default mr-8" type="button"
                                  @click="removeIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
                       :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
-                      variant="icon-button" class="button-black" type="button"
+                      variant="icon-button" class="button-default" type="button"
                       @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
@@ -101,7 +101,7 @@
         </section>
 
         <section class="pb-20">
-          <text-font size="20">양념</text-font>
+          <text-font color="secondary" size="18" weight="medium">양념</text-font>
           <div class="dotted my-16"/>
           <section class="recipe-grid--layout">
             <div/>
@@ -113,13 +113,13 @@
                 <input ref="recipeCondimentUnit" type="text" class="input mr-10" placeholder="30g"
                        v-model="condimentSection.unit" aria-required="true" tabindex="10" maxlength="100"/>
                 <div class="ingredient-button--group">
-                  <custom-button variant="icon-button" class="button-gray mr-8" type="button"
+                  <custom-button variant="icon-button" class="button-default mr-8" type="button"
                                  @click="removeIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
                       :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
-                      variant="icon-button" class="button-black" type="button"
+                      variant="icon-button" class="button-default" type="button"
                       @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
@@ -132,13 +132,16 @@
 
         <section class="pb-20">
 
-          <text-font size="20">요리 순서</text-font>
+          <text-font color="secondary" size="18" weight="medium">요리 순서</text-font>
 
           <div class="dotted my-16"/>
           <section>
             <div v-for="(step, index) of state.recipePost.steps" :key="index" class="flex mb-12">
               <section class="recipe-grid--layout w-100">
-                <text-font class="center" size="18">STEP {{ index + 1 }}</text-font>
+                <text-font class="center" size="16" weight="medium" color="secondary-light">STEP {{
+                    index + 1
+                  }}
+                </text-font>
                 <textarea ref="recipeStep" aria-required="true" class="input scroll textarea" v-model="step.desc"
                           tabindex="10"></textarea>
               </section>
@@ -160,7 +163,7 @@
 
         <section class="pb-20 mt-20">
           <div class="flex align-center">
-            <text-font size="20" class="mr-14">요리 사진</text-font>
+            <text-font color="secondary" size="18" weight="medium" class="mr-14">요리 사진</text-font>
             <div>
               <label :for="`file`" class="input-file--button">
                 <img src="@/assets/images/icons/image-upload.svg" width="24" height="24" alt="이미지 업로드 버튼"/>
@@ -193,9 +196,9 @@
 import RecipeUi from "@/components/ui/RecipeUi.vue";
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
-import {reactive, Ref, ref, nextTick, computed} from "vue";
+import {reactive, Ref, ref, nextTick} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {useStore} from "vuex";
+import store from '@/store';
 
 interface Steps {
   step: number;
@@ -274,8 +277,6 @@ const state: STATE = reactive({
   dataUrl: '',
 });
 
-const store = useStore();
-
 const textareaMaxLengthCheck = (e: Event): string => {
   const {value} = e.target as any;
   if (value.length >= 120) return value.substring(0, 121);
@@ -323,7 +324,7 @@ const getDataUrl = async (files: Blob[]): Promise<string | any> => {
     return await new Promise((resolve) => {
       const reader = new FileReader();
       reader.readAsDataURL(files[0]);
-      reader.onload = (e) => resolve(reader.result + '');
+      reader.onload = () => resolve(reader.result + '');
     });
   } catch (e) {
     console.log(e)
@@ -418,7 +419,7 @@ const registerRecipe = async () => {
         steps, allIngredient,
         detailedIngredient: ingredientsIdArr
       }
-      const {data} = await ins.put('/recipes/update-admin-recipe', sendData);
+      await ins.put('/recipes/update-admin-recipe', sendData);
     } else {
       const sendData = {
         name: state.recipePost.name,
@@ -433,7 +434,7 @@ const registerRecipe = async () => {
         await uploadFile(_id, formData);
       }
     }
-
+    store.commit("utilModule/setCurrentPath", 0);
     await router.push('/');
   } catch (e) {
     console.log(e);
@@ -499,8 +500,8 @@ state.isLoading = false;
 <style scoped lang="scss">
 .recipe-post--container {
   width: 100%;
-  margin: auto;
   padding: 5vw;
+  margin: auto auto 100px auto;
 
   .recipe-grid--layout {
     padding-top: 0.8em;
@@ -535,7 +536,7 @@ state.isLoading = false;
   }
 
   .input-file--button {
-    background-color: #494949;
+    background-color: $secondary-light;
     padding: 4px 8px;
     cursor: pointer;
     width: fit-content;
@@ -590,14 +591,9 @@ state.isLoading = false;
   height: 30px;
 }
 
-.button-black {
+.button-default {
   @include defaultButton();
-  background-color: #494949;
-}
-
-.button-gray {
-  background-color: #EDEDED;
-  @include defaultButton();
+  background-color: #ffffff;
 }
 
 .form {

@@ -2,10 +2,10 @@
   <header class="header">
     <section class="wrapper">
       <custom-button variant="icon-button" type="button" class="flex-column-center text-left" @click="redirectHome">
-        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
+        <text-font type="eng" class="w-100" color="primary" size="22" weight="semiBold">
           RECIPE
         </text-font>
-        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
+        <text-font type="eng" class="w-100" color="primary" size="22" weight="semiBold">
           BOOKS
         </text-font>
       </custom-button>
@@ -37,7 +37,6 @@
 </template>
 
 <script lang="ts" setup>
-import {useStore} from "vuex";
 import {NAVIGATION} from "@/constant/navigation.href";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
@@ -46,6 +45,7 @@ import {useRouter} from "vue-router";
 import NavigationMenu from "@/components/common/NavigationMenu.vue";
 import SearchInput from "@/components/common/SearchInput.vue";
 import SideMenu from "@/components/common/SideMenu.vue";
+import store from '@/store';
 
 interface HeaderState {
   isOpen: boolean,
@@ -54,7 +54,6 @@ interface HeaderState {
   userName: ComputedRef<string>
 }
 
-const store = useStore();
 const router = useRouter();
 
 onMounted(() => {

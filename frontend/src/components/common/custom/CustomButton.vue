@@ -9,7 +9,14 @@
 import {computed, defineProps, withDefaults} from "vue";
 
 type ButtonType = 'button' | 'reset' | 'submit'
-type Variant = 'black' | 'black-square' | 'gray' | 'gray-square' | 'icon-button'
+type Variant =
+    'black'
+    | 'black-square'
+    | 'gray'
+    | 'gray-square'
+    | 'icon-button'
+    | 'primary-outline'
+    | 'secondary-outline'
 
 interface Props {
   label?: string,
@@ -101,4 +108,25 @@ const getButtonWrapper = computed(() => props.variant);
   }
 }
 
+.primary-outline {
+  @include defaultButtonOptions();
+  border-color: $primary;
+  background-color: $white;
+  border-radius: 2px;
+
+  &:hover {
+    border-color: #9b6c40;
+  }
+}
+
+.secondary-outline {
+  @include defaultButtonOptions();
+  border-color: $secondary;
+  background-color: $white;
+  border-radius: 2px;
+
+  &:hover {
+    border-color: $primary;
+  }
+}
 </style>

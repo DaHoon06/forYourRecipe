@@ -25,10 +25,10 @@
 
 <script lang="ts">
 import HeartsIcon from "@/components/icons/HeartsIcon.vue";
-import {useStore} from "vuex";
 import {ins} from "@/lib/axios";
 import {computed, defineComponent} from "vue";
 import {Recipe} from "@/interfaces/recipe";
+import store from '@/store';
 
 interface Props {
   listItem: Recipe.Info,
@@ -41,7 +41,6 @@ export default defineComponent({
     HeartsIcon
   },
   setup(props: Props) {
-    const store = useStore();
     const favoriteLists = computed(() => store.getters["userModule/getFavoriteRecipe"]);
 
     const favoriteRecipe = async (id: string) => {

@@ -84,11 +84,11 @@
 
 <script lang="ts" setup>
 import {NAVIGATION} from "@/constant/navigation.href";
-import {useStore} from "vuex";
 import {authService} from "@/lib/fbase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 import {computed, ComputedRef, defineProps, ref, watch, withDefaults, defineEmits} from "vue";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import store from '@/store';
 
 const props = withDefaults(defineProps<{ isOpen: boolean }>(), {isOpen: false})
 const open = ref(false);
@@ -98,12 +98,10 @@ const userName: ComputedRef<string> = computed(() => store.getters["userModule/g
 const userProfile: ComputedRef<string> = computed(() => store.getters["userModule/getProfileImg"]);
 const user: any = {} || null
 
-const store = useStore();
 const router = useRouter();
-
+const route = useRoute();
 const sideMenu = ref(null);
 
-watch(router, () => emit('closeMenu'));
 watch(props, () => {
   open.value = props.isOpen
   const html = document.querySelector('html');
@@ -112,15 +110,13 @@ watch(props, () => {
 
 const outerClickCheck = (e: Event) => {
   const target = e.target as HTMLElement
-  const nav = sideMenu.value as HTMLElement;
+  const nav = sideMenu.value as unknown as HTMLElement;
   if (nav !== target && !nav.contains(target))
     emit('closeMenu');
 }
 
-const emit = defineEmits('closeMenu', () => {
-  open.value = false
-  return open;
-})
+const emit = defineEmits(['closeMenu'])
+const onCloseMenu = (isOpen: boolean) => emit('closeMenu', isOpen)
 
 const login = async () => {
   const provider = new GoogleAuthProvider()

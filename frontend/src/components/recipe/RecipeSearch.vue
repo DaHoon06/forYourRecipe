@@ -12,7 +12,7 @@
       </div>
     </section>
     <section class="search-no-result" v-else>
-      <text-font class=" w-100 center" size="16" weight="medium">검색된 레시피가 없습니다. 레시피를 등록해보세요.
+      <text-font class=" w-100 center" weight="medium" color="secondary-light">검색된 레시피가 없습니다. 레시피를 등록해보세요.
       </text-font>
     </section>
   </article>
