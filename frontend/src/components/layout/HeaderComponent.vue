@@ -18,7 +18,7 @@
             <img src="@/assets/images/icons/google-black.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
           </custom-button>
           <div class="header-logout-box" v-else>
-            <text-font size="14" color="black" weight="semiBold" class="pr-10">{{ state.userName }} 님</text-font>
+            <text-font size="14" color="secondary" weight="medium" class="pr-10">{{ state.userName }} 님</text-font>
             <custom-button type="button" variant="icon-button" @click="logout">
               <text-font color="placeholder">Logout</text-font>
             </custom-button>

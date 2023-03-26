@@ -6,8 +6,12 @@
       </div>
       <section class="card__body">
         <section class="card-ui__body">
-          <text-font size="18" class="recipe--title" @click.once="recipeDetail">{{ cardItem.name }}</text-font>
-          <text-font size="14" color="placeholder" class="recipe--description" @click.once="recipeDetail">
+          <text-font size="18" class="recipe--title" weight="semiBold" color="primary" @click.once="recipeDetail">{{
+              cardItem.name
+            }}
+          </text-font>
+          <text-font size="14" weight="medium" color="secondary-light" class="recipe--description"
+                     @click.once="recipeDetail">
             {{ cardItem.desc }}
           </text-font>
           <figure class="recipe-like--wrapper">
