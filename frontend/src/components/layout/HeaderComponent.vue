@@ -2,10 +2,10 @@
   <header class="header">
     <section class="wrapper">
       <custom-button variant="icon-button" type="button" class="flex-column-center text-left" @click="redirectHome">
-        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
+        <text-font type="eng" class="w-100" color="primary" size="22" weight="semiBold">
           RECIPE
         </text-font>
-        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
+        <text-font type="eng" class="w-100" color="primary" size="22" weight="semiBold">
           BOOKS
         </text-font>
       </custom-button>

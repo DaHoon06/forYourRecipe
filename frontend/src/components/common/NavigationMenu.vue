@@ -96,7 +96,7 @@ const redirect = (type: string): void => {
   }
 
   .current-path {
-    border-color: $black;
+    border-color: $primary;
 
     button p {
       color: $black;

@@ -34,7 +34,7 @@
       </div>
     </section>
     <div class="center w-100 pt-50" v-else>
-      <text-font color="textTitle">검색된 레시피가 없습니다. 레시피를 등록해 보세요!</text-font>
+      <text-font weight="medium" color="secondary-light">검색된 레시피가 없습니다. 레시피를 등록해 보세요!</text-font>
     </div>
 
     <infinite-loading @infinite="infiniteHandler">

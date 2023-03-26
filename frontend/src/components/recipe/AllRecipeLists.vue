@@ -23,7 +23,7 @@
         <span style="display: none;"/>
       </template>
       <template #no-results>
-        <text-font size="16">검색된 레시피가 없습니다.</text-font>
+        <text-font weight="medium" color="secondary-light">검색된 레시피가 없습니다.</text-font>
       </template>
     </infinite-loading>
   </section>

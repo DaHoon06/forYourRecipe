@@ -68,6 +68,7 @@ router.beforeEach(async (to, from, next) => {
   const isLogin = await store.getters["utilModule/isLogin"];
   const authorized = matched.some((routerInfo) => routerInfo.meta.authorized);
   if (authorized && !isLogin) {
+    console.log(authorized, isLogin);
     store.commit("tempModule/setDialogTitle", "로그인이 필요합니다.");
     store.commit("tempModule/setDialog", true);
     next({ path: "/" });

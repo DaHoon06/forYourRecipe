@@ -7,9 +7,9 @@
     <section class="main__body">
       <section class="main__body--container">
         <div class="main__label--wrapper">
-          <text-font class="today-recommended-dishes" color="black" size="18" weight="medium">오늘의 추천 레시피</text-font>
+          <text-font class="today-recommended-dishes" color="secondary" size="18" weight="medium">오늘의 추천 레시피</text-font>
           <custom-button type="button" variant="icon-button" class="redirect-all-recipe" @click="findAllRecipe">
-            <text-font color="black" size="14" class="pr-6" weight="medium">전체보기</text-font>
+            <text-font color="placeholder" size="14" class="pr-6" weight="medium">전체보기</text-font>
             <img src="@/assets/images/icons/redirect.svg" width="24" height="24" alt="all recipe"/>
           </custom-button>
         </div>
@@ -21,7 +21,7 @@
           </div>
         </section>
         <section class="center w-100 pt-40" v-else>
-          <text-font weight="medium">등록된 레시피가 없습니다.</text-font>
+          <text-font weight="medium" color="secondary-light">등록된 레시피가 없습니다.</text-font>
         </section>
       </section>
     </section>

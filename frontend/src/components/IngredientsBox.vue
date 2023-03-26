@@ -9,8 +9,8 @@
           <article class="ingredients-box">
             <section>
               <section class="empty__label">
-                <text-font size="18" class="pt-12">냉장고가 비어있습니다.</text-font>
-                <text-font size="14" color="textBody" class="pt-6">재료를 선택해주세요.</text-font>
+                <text-font size="15" color="textBody" class="pt-12">보고싶은 레시피의</text-font>
+                <text-font size="15" color="textBody" class="pt-6">주 재료를 선택해주세요.</text-font>
               </section>
             </section>
           </article>
@@ -25,8 +25,9 @@
         </section>
 
         <section class="ingredients-box--button pt-20">
-          <custom-button type="button" variant="black" @click="pickUpModal" v-if="!state.ingredients.length">
-            <text-font color="white">재료 담기</text-font>
+          <custom-button type="button" variant="primary-outline" @click="pickUpModal"
+                         v-if="!state.ingredients.length">
+            <text-font color="primary">재료 담기</text-font>
           </custom-button>
           <div class="flex" v-else>
             <custom-button type="button" variant="gray" @click="reset">

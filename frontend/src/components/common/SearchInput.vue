@@ -2,8 +2,7 @@
   <form @submit.prevent="search" class="search__input--wrapper" role="search">
     <input class="search__input" type="text" placeholder="Search..." v-model="keyword"/>
     <custom-button class="search__button" variant="icon-button" type="submit" @submit="search">
-      <img aria-label="search button" src="@/assets/images/icons/search.svg" alt="검색 버튼" width="22" height="22"
-           loading="eager"/>
+      <img aria-label="search button" src="@/assets/images/icons/search.svg" alt="검색 버튼" width="22" height="22"/>
     </custom-button>
   </form>
 </template>
@@ -52,8 +51,8 @@ const search = async (): Promise<void> => {
     height: 18px;
 
     &:focus {
-      border-color: $black;
-      color: $black;
+      border-color: $primary;
+      color: $primary;
     }
   }
 
