@@ -22,7 +22,9 @@ module.exports = defineConfig({
     loaderOptions: {
       sass: {
         additionalData: `
-        @import "@/assets/css/color.scss"; @import "@/assets/css/font.scss";`,
+        @import "@/assets/css/color.scss"; 
+        @import "@/assets/css/font.scss";
+        `,
       },
     },
   },

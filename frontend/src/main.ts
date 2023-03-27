@@ -1,9 +1,9 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import "./registerServiceWorker";
+import "@/registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import "./assets/css/index.scss";
+import "@/assets/css/index.scss";
 import Typography from "@/components/common/custom/CustomFont.vue";
 import CustomButton from "@/components/common/custom/CustomButton.vue";
 import { ins } from "@/lib/axios";
