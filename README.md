@@ -4,7 +4,7 @@
 
 <a href="https://www.no1recipe.com/" target="_blank">사이트 구경하기</a>
 
-<a href="https://storybook.no1recipe.com/" target="_blank">사이트 구경하기</a>
+<a href="https://storybook.no1recipe.com/" target="_blank"></a>
 
 Contributor: 
 <a href="https://github.com/DaHoon06" target="_blank">
