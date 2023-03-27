@@ -186,7 +186,7 @@ hr {
   top: 0;
 
   &--items {
-    background-color: #343434;
+    background-color: $primary;
     position: absolute;
     right: 0;
     top: 0;
@@ -225,7 +225,7 @@ hr {
       }
 
       &:hover {
-        background-color: rgba(0, 0, 0, 0.82);;
+        background-color: $secondary-light;
 
         p {
           font-weight: 600;

@@ -14,16 +14,20 @@ module.exports = {
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
       test: /\.scss$/,
-      use: ["style-loader", "css-loader", {
-        loader: 'sass-loader',
-        options: {
-          additionalData: `
+      use: [
+        "style-loader",
+        "css-loader",
+        {
+          loader: "sass-loader",
+          options: {
+            additionalData: `
 						@import "@/assets/css/index.scss";
 						@import "@/assets/css/font.scss";
 						@import "@/assets/css/color.scss";
-					`
-        }
-      }],
+					`,
+          },
+        },
+      ],
       include: path.resolve(__dirname, "../"),
     });
     config.resolve.alias = {
