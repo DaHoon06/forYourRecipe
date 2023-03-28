@@ -1,27 +1,27 @@
-import CardUi from "@/components/ui/CardUi.vue";
+import ListsUi from "@/components/ui/ListsUi.vue";
 import { Recipe } from "@/interfaces/recipe";
 import { Story } from "@storybook/vue3";
 
 export default {
-  title: "components/ui/Card",
-  component: CardUi,
+  title: "components/ui/List",
+  component: ListsUi,
 };
 
 interface Props {
-  cardItem: Recipe.Info;
+  listItem: Recipe.Info;
 }
 
 const Template: Story<Props> = (args: Props) => ({
-  components: { CardUi },
+  components: { ListsUi },
   setup() {
     return { ...args };
   },
-  template: '<card-ui :cardItem="cardItem" />',
+  template: '<lists-ui :listItem="listItem" />',
 });
-export const Card = Template.bind({});
+export const List = Template.bind({});
 
-Card.args = {
-  cardItem: {
+List.args = {
+  listItem: {
     _id: "1",
     name: "title",
     detailedIngredient: [{ _id: "", name: "무", img: "" }],
@@ -36,9 +36,3 @@ Card.args = {
     likes: [],
   },
 };
-// export const Card = (props: Recipe.Info) => ({
-//   components: { CardUi },
-//   template: '<card-ui :card-item="props" />',
-// });
-
-Card.storyName = "Card";
