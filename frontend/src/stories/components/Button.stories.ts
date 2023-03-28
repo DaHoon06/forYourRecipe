@@ -30,5 +30,18 @@ BlackSquare.args = { variant: "black-square", label: "button", type: "button" };
 export const GraySquare = Template.bind({});
 GraySquare.args = { variant: "gray-square", label: "button", type: "button" };
 
+export const PrimaryOutline = Template.bind({});
+PrimaryOutline.args = {
+  variant: "primary-outline",
+  label: "button",
+  type: "button",
+};
+export const SecondaryOutline = Template.bind({});
+SecondaryOutline.args = {
+  variant: "secondary-outline",
+  label: "button",
+  type: "button",
+};
+
 export const IconButton = Template.bind({});
 IconButton.args = { variant: "icon-button ", label: "icon", type: "button" };
