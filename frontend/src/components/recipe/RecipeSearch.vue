@@ -2,7 +2,7 @@
   <loading-spinner v-if="isLoading"/>
   <article class="search-result--container">
     <section class="search-result__label">
-      <text-font size="16" weight="medium">검색 결과</text-font>
+      <text-font size="16" weight="medium" color="black">검색 결과</text-font>
     </section>
     <hr/>
     <section class="card--wrapper" v-if="recipeList.length > 0">
@@ -12,7 +12,7 @@
       </div>
     </section>
     <section class="search-no-result" v-else>
-      <text-font class=" w-100 center" weight="medium" color="secondary-light">검색된 레시피가 없습니다. 레시피를 등록해보세요.
+      <text-font class="w-100 center" weight="regular" color="textSub">검색된 레시피가 없습니다. 레시피를 등록해보세요.
       </text-font>
     </section>
   </article>

@@ -2,15 +2,15 @@
   <section class="recipe-post--container">
     <loading-spinner v-if="state.isLoading"/>
     <section class="recipe-post__label">
-      <text-font size="22" color="primary" weigt="medium" class="pb-14">레시피 등록</text-font>
-      <text-font color="secondary-light" weigt="medium" size="16">나만의 레시피를 등록하여 다른 사람에게 공유해보세요!</text-font>
+      <text-font size="22" color="black" weight="semiBold" class="pb-14">레시피 등록</text-font>
+      <text-font color="textSub" weight="medium" size="16">나만의 레시피를 등록하여 다른 사람에게 공유해보세요!</text-font>
     </section>
 
     <form @submit.prevent="registerRecipe" class="form" role="form">
       <recipe-ui>
 
         <section class="recipe-grid--layout">
-          <text-font color="secondary" size="18" weight="medium" class="pr-16">레시피 제목</text-font>
+          <text-font color="black" size="18" weight="medium" class="pr-16">레시피 제목</text-font>
           <input ref="recipeName" maxlength="120" type="text" class="input input-text" v-model="state.recipePost.name"
                  tabindex="10" aria-required="true"/>
         </section>
@@ -18,7 +18,7 @@
         <div class="dotted my-16"/>
 
         <section class="recipe-grid--layout">
-          <text-font color="secondary" size="18" weight="medium">레시피 소개</text-font>
+          <text-font color="black" size="18" weight="medium">레시피 소개</text-font>
           <textarea ref="recipeDesc" class="input scroll textarea input-text"
                     tabindex="10" aria-required="true" v-model="state.recipePost.desc"></textarea>
         </section>
@@ -26,7 +26,7 @@
 
         <section v-if="`role` === 'admin'">
           <div class="recipe-grid--layout select-box--container">
-            <text-font color="secondary" size="18" weight="medium" class="pr-16">메인 재료</text-font>
+            <text-font color="black" size="18" weight="medium" class="pr-16">메인 재료</text-font>
 
             <div class="select-box">
               <select v-model="selected">
@@ -37,9 +37,9 @@
               </select>
               <picture class="angle-icons">
                 <img
-                    loading="lazy"
-                    decoding="async"
-                    src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
+                  loading="lazy"
+                  decoding="async"
+                  src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
               </picture>
             </div>
           </div>
@@ -68,9 +68,9 @@
         </section>
 
         <section class="pb-20 my-16">
-          <text-font color="secondary" size="18" weight="medium">재료</text-font>
+          <text-font color="black" size="18" weight="medium">재료</text-font>
           <div class="dotted my-16"/>
-          <text-font size="14" color="secondary-light">사용되는 재료를 입력해주세요.</text-font>
+          <text-font size="14" color="textSub">사용되는 재료를 입력해주세요.</text-font>
 
           <section class="recipe-grid--layout">
             <div/>
@@ -88,9 +88,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                      :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
-                      variant="icon-button" class="button-default" type="button"
-                      @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
+                    :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
+                    variant="icon-button" class="button-default" type="button"
+                    @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -101,7 +101,7 @@
         </section>
 
         <section class="pb-20">
-          <text-font color="secondary" size="18" weight="medium">양념</text-font>
+          <text-font color="black" size="18" weight="medium">양념</text-font>
           <div class="dotted my-16"/>
           <section class="recipe-grid--layout">
             <div/>
@@ -118,9 +118,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                      :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
-                      variant="icon-button" class="button-default" type="button"
-                      @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
+                    :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
+                    variant="icon-button" class="button-default" type="button"
+                    @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -132,13 +132,13 @@
 
         <section class="pb-20">
 
-          <text-font color="secondary" size="18" weight="medium">요리 순서</text-font>
+          <text-font color="black" size="18" weight="medium">요리 순서</text-font>
 
           <div class="dotted my-16"/>
           <section>
             <div v-for="(step, index) of state.recipePost.steps" :key="index" class="flex mb-12">
               <section class="recipe-grid--layout w-100">
-                <text-font class="center" size="16" weight="medium" color="secondary-light">STEP {{
+                <text-font class="center step" size="16" type="eng" weight="medium" color="textTitle">Step {{
                     index + 1
                   }}
                 </text-font>
@@ -163,7 +163,7 @@
 
         <section class="pb-20 mt-20">
           <div class="flex align-center">
-            <text-font color="secondary" size="18" weight="medium" class="mr-14">요리 사진</text-font>
+            <text-font color="black" size="18" weight="medium" class="mr-14">요리 사진</text-font>
             <div>
               <label :for="`file`" class="input-file--button">
                 <img src="@/assets/images/icons/image-upload.svg" width="24" height="24" alt="이미지 업로드 버튼"/>
@@ -536,7 +536,7 @@ state.isLoading = false;
   }
 
   .input-file--button {
-    background-color: $secondary-light;
+    background-color: $black;
     padding: 4px 8px;
     cursor: pointer;
     width: fit-content;
@@ -640,7 +640,7 @@ textarea:-ms-input-placeholder {
   resize: none;
 
   &:focus {
-    border-color: #494949;
+    border-color: $black;
   }
 }
 
@@ -672,6 +672,10 @@ textarea:-ms-input-placeholder {
       display: inline-block;
       padding-top: 1rem;
       width: 100%;
+
+      .step {
+        padding-bottom: 0.5em;
+      }
     }
 
     .recipe-post__button--container {
