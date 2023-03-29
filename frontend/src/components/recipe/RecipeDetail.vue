@@ -286,7 +286,13 @@ hr {
     .recipe-form--wrapper {
       .recipe-detail__img--wrapper {
         width: 100%;
+      }
 
+      .recipe-detail__img--wrapper {
+
+        .recipe-detail__img {
+          width: 100%;
+        }
       }
 
       .recipe-detail-info--container {
