@@ -27,8 +27,8 @@ export const AllButton = () => ({
     </div>
 
     <div style="display: flex; margin-bottom: 16px">
-    <Button variant="primary-outline" label="primary-outline" type="button"/> &nbsp;&nbsp;
-    <Button variant="secondary-outline" label="secondary-outline" type="button"/> &nbsp;&nbsp;
+    <Button variant="black-rounded" label="black-rounded" type="button"/> &nbsp;&nbsp;
+    <Button variant="gray-rounded" label="gray-rounded" type="button"/> &nbsp;&nbsp;
     <Button variant="icon-button" label="icon-button" type="button"/> &nbsp;&nbsp;
     </div>
   `,
@@ -60,13 +60,13 @@ GraySquare.args = { variant: "gray-square", label: "button", type: "button" };
 
 export const PrimaryOutline = Template.bind({});
 PrimaryOutline.args = {
-  variant: "primary-outline",
+  variant: "black-rounded",
   label: "button",
   type: "button",
 };
 export const SecondaryOutline = Template.bind({});
 SecondaryOutline.args = {
-  variant: "secondary-outline",
+  variant: "gray-rounded",
   label: "button",
   type: "button",
 };

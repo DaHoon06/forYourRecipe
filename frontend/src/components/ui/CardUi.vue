@@ -6,7 +6,7 @@
       </div>
       <section class="card__body">
         <section class="card-ui__body">
-          <text-font size="18" class="recipe--title" weight="semiBold" color="primary" @click.once="recipeDetail">{{
+          <text-font size="18" class="recipe--title" weight="semiBold" color="textTitle" @click.once="recipeDetail">{{
               cardItem.name
             }}
           </text-font>

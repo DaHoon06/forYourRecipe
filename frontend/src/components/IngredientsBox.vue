@@ -25,9 +25,9 @@
         </section>
 
         <section class="ingredients-box--button pt-20">
-          <custom-button type="button" variant="primary-outline" @click="pickUpModal"
+          <custom-button type="button" variant="gray-rounded" @click="pickUpModal"
                          v-if="!state.ingredients.length">
-            <text-font color="primary">재료 담기</text-font>
+            <text-font color="textTitle">재료 담기</text-font>
           </custom-button>
           <div class="flex" v-else>
             <custom-button type="button" variant="gray" @click="reset">
@@ -131,14 +131,14 @@ const pickUpModal = async (): Promise<void> => {
 }
 
 const selectedIngredient =
-    (ingredient: Recipe.IngredientType): void => {
-      const {selected} = ingredient;
-      if (selected) ingredient.selected = !selected;
-      else ingredient.selected = true;
-      const index = state.ingredients.findIndex((item) => item._id === ingredient._id);
-      if (index < 0) state.ingredients.push(ingredient)
-      else state.ingredients.splice(index, 1);
-    }
+  (ingredient: Recipe.IngredientType): void => {
+    const {selected} = ingredient;
+    if (selected) ingredient.selected = !selected;
+    else ingredient.selected = true;
+    const index = state.ingredients.findIndex((item) => item._id === ingredient._id);
+    if (index < 0) state.ingredients.push(ingredient)
+    else state.ingredients.splice(index, 1);
+  }
 
 const cancel = (): void => {
   reset();

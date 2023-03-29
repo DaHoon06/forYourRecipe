@@ -2,10 +2,10 @@
   <header class="header">
     <section class="wrapper">
       <custom-button variant="icon-button" type="button" class="flex-column-center text-left" @click="redirectHome">
-        <text-font type="eng" class="w-100" color="primary" size="22" weight="semiBold">
+        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
           RECIPE
         </text-font>
-        <text-font type="eng" class="w-100" color="primary" size="22" weight="semiBold">
+        <text-font type="eng" class="w-100" color="black" size="22" weight="semiBold">
           BOOKS
         </text-font>
       </custom-button>
@@ -18,9 +18,9 @@
             <img src="@/assets/images/icons/google-black.svg" alt="구글 로그인 버튼" width="22" height="22" loading="eager"/>
           </custom-button>
           <div class="header-logout-box" v-else>
-            <text-font size="14" color="secondary" weight="medium" class="pr-10">{{ state.userName }} 님</text-font>
+            <text-font size="14" color="textTitle" weight="medium" class="pr-10">{{ state.userName }} 님</text-font>
             <custom-button type="button" variant="icon-button" @click="logout">
-              <text-font color="placeholder">Logout</text-font>
+              <text-font color="placeholder" size="12" weight="regular">Logout</text-font>
             </custom-button>
           </div>
         </div>

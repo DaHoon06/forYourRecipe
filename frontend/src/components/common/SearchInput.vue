@@ -50,8 +50,8 @@ const search = async (): Promise<void> => {
     height: 18px;
 
     &:focus {
-      border-color: $primary;
-      color: $primary;
+      border-color: $gray1;
+      color: $black;
     }
   }
 
