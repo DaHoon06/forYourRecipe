@@ -88,7 +88,6 @@ export default defineComponent({
 }
 
 .card__layout {
-  display: inline-block;
   border: 1px solid $hr;
   width: 284px;
   height: 350px;
@@ -170,7 +169,7 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
-  .card__layout {
+  .card__layout--container {
     display: none;
   }
 }
