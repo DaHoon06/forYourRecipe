@@ -4,7 +4,7 @@
       <text-font color="white" type='eng'>
         © 2023. &nbsp;
         <a href="https://github.com/DaHoon06" target="_blank">Dahoon06</a> &nbsp; & &nbsp; <a
-          href="https://github.com/hprl" target="_blank">Hyperreal</a>.
+        href="https://github.com/hprl" target="_blank">Hyperreal</a>.
         &nbsp; All Rights Reserved.
       </text-font>
     </section>
@@ -23,8 +23,8 @@ a {
 }
 
 .footer {
-  background-color: $secondary-light;
-  height: 140px;
+  background-color: $black;
+  height: 120px;
   width: 100%;
   position: relative;
 

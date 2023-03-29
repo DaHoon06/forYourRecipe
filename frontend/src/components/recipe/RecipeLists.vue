@@ -3,12 +3,11 @@
     <loading-spinner v-if="isLoading"/>
 
     <section class="recipe-lists__label pb-20">
-      <text-font size="16" color="textTitle" wegiht="medium" class="pr-6 pb-12">선택된 재료</text-font>
+      <text-font size="16" color="black" weight="medium" class="pr-6 pb-12">선택된 재료</text-font>
 
       <div class="selected-ingredients" v-if="selectedIngredients">
 
         <span v-for="(ingredient) of selectedIngredients" :key="ingredient._id" class="ingredient-icon mr-12">
-
           <picture class="ingredient-icon--wrapper">
             <img loading="lazy" :src="ingredient.img"
                  sizes="(max-width: 32px)" decoding="async" alt="식재료" width="32" height="32"/>
@@ -21,7 +20,7 @@
     </section>
 
     <section class="recipe-lists__label pb-10">
-      <text-font size="16" color="textTitle" wegiht="medium" class="pr-6">검색 결과</text-font>
+      <text-font size="16" color="textTitle" weight="medium" class="pr-6">검색 결과</text-font>
       <text-font size="14" color="placeholder">{{ total }}</text-font>
     </section>
 
@@ -74,7 +73,7 @@ export default class RecipeLists extends Vue {
   key: Partial<LocationQueryValue | LocationQueryValue[]> = [];
   total = 0;
   recipeLists: Recipe.Info[] = [];
-  selectedIngredients: ComputedRef<STORE.RecipeState[]> = computed(() => this.store.getters["recipeModule/getIngredients"]);
+  selectedIngredients: ComputedRef<STORE.RecipeState[]> | STORE.RecipeState[] = computed(() => this.store.getters["recipeModule/getIngredients"]);
   page = 1;
   store = store;
 

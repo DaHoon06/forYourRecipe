@@ -20,6 +20,7 @@ watch(route, () => keyword.value = '', {deep: true, immediate: false})
 
 const search = async (): Promise<void> => {
   try {
+    if (keyword.value.length === 0 || !keyword.value) return;
     store.commit("utilModule/setCurrentPath", 0);
     await router.push(`/recipe/search/${keyword.value}`)
   } catch (e) {
@@ -50,8 +51,8 @@ const search = async (): Promise<void> => {
     height: 18px;
 
     &:focus {
-      border-color: $primary;
-      color: $primary;
+      border-color: $gray1;
+      color: $black;
     }
   }
 

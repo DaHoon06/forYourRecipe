@@ -44,6 +44,7 @@
           <li>
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('home')">
+                <img src="@/assets/images/icons/menu/home.svg" alt="home"/>
                 <text-font class="w-100 text-left" color="white">메인</text-font>
               </custom-button>
             </div>
@@ -51,6 +52,7 @@
           <li>
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('all-recipe')">
+                <img src="@/assets/images/icons/menu/recipe.svg" alt="recipe"/>
                 <text-font class="w-100 text-left" color="white">레시피</text-font>
               </custom-button>
             </div>
@@ -58,6 +60,7 @@
           <li v-if="isLogin">
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('recipe')">
+                <img src="@/assets/images/icons/menu/register.svg" alt="register"/>
                 <text-font class="w-100 text-left" color="white">레시피 등록</text-font>
               </custom-button>
             </div>
@@ -65,6 +68,7 @@
           <li v-if="isLogin">
             <div class="w-100 text-right">
               <custom-button class="side-menu--button" variant="" @click="redirect('favorite')">
+                <img src="@/assets/images/icons/menu/favorite.svg" alt="favorite"/>
                 <text-font class="w-100 text-left" color="white">즐겨찾기</text-font>
               </custom-button>
             </div>
@@ -186,7 +190,7 @@ hr {
   top: 0;
 
   &--items {
-    background-color: $primary;
+    background-color: $black;
     position: absolute;
     right: 0;
     top: 0;
@@ -218,6 +222,9 @@ hr {
 
     .side-menu--button {
       width: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;
       border-bottom: 1px solid $line;
 
       p {
@@ -225,7 +232,7 @@ hr {
       }
 
       &:hover {
-        background-color: $secondary-light;
+        background-color: $gray2;
 
         p {
           font-weight: 600;

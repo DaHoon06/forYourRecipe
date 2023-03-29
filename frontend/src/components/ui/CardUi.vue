@@ -6,11 +6,11 @@
       </div>
       <section class="card__body">
         <section class="card-ui__body">
-          <text-font size="18" class="recipe--title" weight="semiBold" color="primary" @click.once="recipeDetail">{{
+          <text-font size="18" class="recipe--title" weight="medium" color="black" @click.once="recipeDetail">{{
               cardItem.name
             }}
           </text-font>
-          <text-font size="14" weight="medium" color="secondary-light" class="recipe--description"
+          <text-font size="14" weight="medium" color="textSub" class="recipe--description"
                      @click.once="recipeDetail">
             {{ cardItem.desc }}
           </text-font>
@@ -88,7 +88,6 @@ export default defineComponent({
 }
 
 .card__layout {
-  display: inline-block;
   border: 1px solid $hr;
   width: 284px;
   height: 350px;
@@ -170,7 +169,7 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
-  .card__layout {
+  .card__layout--container {
     display: none;
   }
 }

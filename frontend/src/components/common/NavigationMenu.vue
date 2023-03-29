@@ -82,7 +82,7 @@ const redirect = (type: string): void => {
   ul > li {
     float: left;
     padding: 0 0.5em 0.5em 0;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
 
     button p {
       color: $line;
@@ -95,7 +95,7 @@ const redirect = (type: string): void => {
   }
 
   .current-path {
-    border-color: $primary;
+    border-color: $black;
 
     button p {
       color: $black;

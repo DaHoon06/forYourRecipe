@@ -10,13 +10,13 @@ import {computed, defineProps, withDefaults} from "vue";
 
 type ButtonType = 'button' | 'reset' | 'submit'
 type Variant =
-    'black'
-    | 'black-square'
-    | 'gray'
-    | 'gray-square'
-    | 'icon-button'
-    | 'primary-outline'
-    | 'secondary-outline'
+  'black'
+  | 'black-square'
+  | 'gray'
+  | 'gray-square'
+  | 'icon-button'
+  | 'black-rounded'
+  | 'gray-rounded'
 
 interface Props {
   label?: string,
@@ -108,25 +108,25 @@ const getButtonWrapper = computed(() => props.variant);
   }
 }
 
-.primary-outline {
+.black-rounded {
   @include defaultButtonOptions();
-  border-color: $primary;
+  border-color: $black;
   background-color: $white;
-  border-radius: 2px;
+  border-radius: 30px;
 
   &:hover {
-    border-color: #9b6c40;
+    border-color: $gray1;
   }
 }
 
-.secondary-outline {
+.gray-rounded {
   @include defaultButtonOptions();
-  border-color: $secondary;
+  border-color: $gray2;
   background-color: $white;
-  border-radius: 2px;
+  border-radius: 30px;
 
   &:hover {
-    border-color: $primary;
+    border-color: $gray1;
   }
 }
 </style>
