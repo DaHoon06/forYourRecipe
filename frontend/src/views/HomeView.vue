@@ -36,6 +36,7 @@ import ListsUi from "@/components/ui/ListsUi.vue";
 import {Recipe} from "@/interfaces/recipe";
 import {ref, Ref} from "vue";
 import {useRouter} from "vue-router";
+import store from '@/store';
 
 const isLoading: Ref<boolean> = ref(true);
 const recipeCards: Ref<Recipe.Info[]> = ref([]);
@@ -43,6 +44,7 @@ const recipeCards: Ref<Recipe.Info[]> = ref([]);
 const router = useRouter();
 
 const findAllRecipe = (): void => {
+  store.commit('utilModule/setCurrentPath', 1)
   router.push('/recipe/all')
 };
 
