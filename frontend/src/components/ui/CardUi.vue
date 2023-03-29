@@ -6,11 +6,11 @@
       </div>
       <section class="card__body">
         <section class="card-ui__body">
-          <text-font size="18" class="recipe--title" weight="semiBold" color="textTitle" @click.once="recipeDetail">{{
+          <text-font size="18" class="recipe--title" weight="medium" color="black" @click.once="recipeDetail">{{
               cardItem.name
             }}
           </text-font>
-          <text-font size="14" weight="medium" color="secondary-light" class="recipe--description"
+          <text-font size="14" weight="medium" color="textSub" class="recipe--description"
                      @click.once="recipeDetail">
             {{ cardItem.desc }}
           </text-font>

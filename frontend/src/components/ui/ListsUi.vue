@@ -5,8 +5,8 @@
         <img :src="listItem.profileImage" width="284" height="177" alt="음식 이미지" loading="lazy"/>
       </div>
       <section class="list__body w-100" @click.once="recipeDetail">
-        <text-font size="16" color="primary" weight="medium" class="recipe--title">{{ listItem.name }}</text-font>
-        <text-font size="12" color="secondary-light" weight="medium" class="recipe--description">{{
+        <text-font size="16" color="black" weight="medium" class="recipe--title">{{ listItem.name }}</text-font>
+        <text-font size="12" color="textSub" weight="medium" class="recipe--description">{{
             listItem.desc
           }}
         </text-font>

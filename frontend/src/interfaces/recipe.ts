@@ -2,6 +2,7 @@ export namespace Recipe {
   export interface Info {
     _id: string;
     name: string;
+    allIngredient: AllIngredient[];
     detailedIngredient: IngredientType[];
     profileImage: string;
     createdAt: Date;
@@ -11,6 +12,14 @@ export namespace Recipe {
     steps: Steps[];
     desc: string;
     likes: string[];
+  }
+
+  export interface AllIngredient {
+    category: string;
+    ingredients: {
+      name: string;
+      unit: string;
+    }[];
   }
 
   export interface IngredientType {

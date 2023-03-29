@@ -7,7 +7,7 @@
     <section class="main__body">
       <section class="main__body--container">
         <div class="main__label--wrapper">
-          <text-font class="today-recommended-dishes" color="primary" size="18" weight="medium">오늘의 추천 레시피</text-font>
+          <text-font class="today-recommended-dishes" color="black" size="18" weight="medium">오늘의 추천 레시피</text-font>
           <custom-button type="button" variant="icon-button" class="redirect-all-recipe" @click="findAllRecipe">
             <text-font color="placeholder" size="14" class="pr-6" weight="regular">전체보기</text-font>
             <img src="@/assets/images/icons/redirect.svg" width="24" height="24" alt="all recipe"/>
