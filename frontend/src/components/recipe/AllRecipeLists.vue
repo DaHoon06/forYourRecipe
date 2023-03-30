@@ -29,55 +29,100 @@
   </section>
 </template>
 
-<script lang="ts">
-import {Options, Vue} from "vue-class-component";
+<script lang="ts" setup>
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
 
-@Options({
-  components: {
-    ListsUi, CardUi,
-  }
-})
-export default class AllRecipeLists extends Vue {
-  isLoading = true;
-  recipeLists: Recipe.Info[] = [];
-  total = 0;
-  page = 1;
+const isLoading = ref(true);
+const recipeLists: Recipe.Info[] = ref([]);
+const total = ref(0);
+const page = ref(1);
+const router = useRouter();
 
-  private async infiniteHandler($state: any): Promise<void> {
-    try {
-      const {data} = await ins.get('/recipes/all-recipes', {
-        params: {
-          page: this.page
-        }
-      })
-
-      if (data.length) {
-        for (let i = 0; i < data.length; i++) {
-          this.recipeLists.push({...data[i]});
-        }
-        this.page += 1;
-        this.total += data.length;
-        $state.loaded();
-        this.isLoading = false;
-      } else {
-        $state.complete();
-        this.isLoading = false;
+const infiniteHandler = async ($state: any): Promise<void> => {
+  try {
+    const {data} = await ins.get('/recipes/all-recipes', {
+      params: {
+        page: page.value
       }
-    } catch (e) {
-      console.log(e)
+    })
+
+    if (data.length) {
+      for (let i = 0; i < data.length; i++) {
+        recipeLists.value.push({...data[i]});
+      }
+      page.value += 1;
+      total.value += data.length;
+      $state.loaded();
+      isLoading.value = false;
+    } else {
+      $state.complete();
+      isLoading.value = false;
     }
+  } catch (e) {
+    console.log(e)
   }
-
-  private recipeDetail(id: string) {
-    this.$router.push(`/recipe/detail/${id}`)
-  }
-
 }
+
+const recipeDetail = (id: string): void => {
+  router.push(`/recipe/detail/${id}`)
+}
+
 </script>
+
+<!--<script lang="ts">-->
+<!--import {Options, Vue} from "vue-class-component";-->
+<!--import {ins} from "@/lib/axios";-->
+<!--import {Recipe} from "@/interfaces/recipe";-->
+<!--import ListsUi from "@/components/ui/ListsUi.vue";-->
+<!--import CardUi from "@/components/ui/CardUi.vue";-->
+
+<!--@Options({-->
+<!--  components: {-->
+<!--    ListsUi, CardUi,-->
+<!--  }-->
+<!--})-->
+<!--export default class AllRecipeLists extends Vue {-->
+<!--  isLoading = true;-->
+<!--  recipeLists: Recipe.Info[] = [];-->
+<!--  total = 0;-->
+<!--  page = 1;-->
+
+<!--  private async infiniteHandler($state: any): Promise<void> {-->
+<!--    try {-->
+<!--      const {data} = await ins.get('/recipes/all-recipes', {-->
+<!--        params: {-->
+<!--          page: this.page-->
+<!--        }-->
+<!--      })-->
+
+<!--      if (data.length) {-->
+<!--        for (let i = 0; i < data.length; i++) {-->
+<!--          this.recipeLists.push({...data[i]});-->
+<!--        }-->
+<!--        this.page += 1;-->
+<!--        this.total += data.length;-->
+<!--        $state.loaded();-->
+<!--        this.isLoading = false;-->
+<!--      } else {-->
+<!--        $state.complete();-->
+<!--        this.isLoading = false;-->
+<!--      }-->
+<!--    } catch (e) {-->
+<!--      console.log(e)-->
+<!--    }-->
+<!--  }-->
+
+<!--  private recipeDetail(id: string) {-->
+<!--    this.$router.push(`/recipe/detail/${id}`)-->
+<!--  }-->
+
+<!--}-->
+<!--</script>-->
 
 <style scoped lang="scss">
 hr {
