@@ -13,6 +13,7 @@ import FooterComponent from "@/components/layout/FooterComponent.vue";
 
 <style scoped lang="scss">
 .container {
+  background-color: #fbfbfb;
   height: auto;
   min-height: 100%;
 }

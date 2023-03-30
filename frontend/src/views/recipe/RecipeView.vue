@@ -1,5 +1,5 @@
 <template>
-  <main class="main">
+  <main>
     <router-view/>
   </main>
 </template>
@@ -7,8 +7,4 @@
 <script lang="ts" setup>
 </script>
 
-<style lang="scss" scoped>
-.main {
-  background-color: #fbfbfb;
-}
-</style>
+<style lang="scss" scoped></style>

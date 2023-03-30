@@ -406,7 +406,7 @@ const registerRecipe = async () => {
     for (let i = 0; i < state.file.length; i++) {
       formData.append('file', state.file[i]);
     }
-    const user = store.getters['userModule/getName'];
+    const user = store.getters['userModule/getUid'];
 
     if (state.recipeId.length > 0) {
       const {desc, profileImage, steps, detailedIngredient, allIngredient} = state.recipePost;
