@@ -13,6 +13,7 @@ import { DetailedIngredientDto } from '@modules/ingredients/dto/detailed-ingredi
 import { Type } from 'class-transformer';
 import { StepsDto } from '@modules/recipes/dto/steps.dto';
 import { AllIngredientDto } from '@modules/ingredients/dto/all-ingredient.dto';
+import {RecipeUserDto} from "@modules/users/dto/recipe-user.dto";
 
 export class RecipeDto {
   @IsString()
@@ -42,8 +43,8 @@ export class RecipeDto {
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ type: String, description: '레시피 작성자 id' })
-  user: string;
+  @ApiProperty({ type: RecipeUserDto, description: '레시피 작성자' })
+  user: RecipeUserDto;
 
   @IsBoolean()
   @IsNotEmpty()
@@ -110,19 +111,19 @@ export class RecipeDto {
   profileImage?: string;
 
   constructor(
-    id: string,
-    name: string,
-    createdAt: Date,
-    updatedAt: Date,
-    user: string,
-    modified: boolean,
-    likes: string[],
-    steps: StepsDto[],
-    allIngredient: AllIngredientDto[],
-    desc: string,
-    deleted: boolean,
-    detailedIngredient?: DetailedIngredientDto[],
-    profileImage?: string,
+      id: string,
+      name: string,
+      createdAt: Date,
+      updatedAt: Date,
+      user: RecipeUserDto,
+      modified: boolean,
+      likes: string[],
+      steps: StepsDto[],
+      allIngredient: AllIngredientDto[],
+      desc: string,
+      deleted: boolean,
+      detailedIngredient?: DetailedIngredientDto[],
+      profileImage?: string,
   ) {
     this._id = id;
     this.name = name;

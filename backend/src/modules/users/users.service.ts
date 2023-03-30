@@ -11,7 +11,7 @@ import { GlobalFilter } from '@src/lib/global.filter';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async findById(id: string): Promise<UserDto> {
+  async findById(id: string) {
     return this.userModel.findById(id);
   }
 
@@ -27,10 +27,7 @@ export class UsersService {
     return this.getUserDto(foundUser);
   }
 
-  async setFavoriteRecipes(
-    recipeId: string,
-    userId: string,
-  ): Promise<string[]> {
+  async setFavoriteRecipes( recipeId: string, userId: string ): Promise<string[]> {
     const { favoriteRecipes } = await this.userModel.findById(userId);
     const index = favoriteRecipes.indexOf(recipeId);
     if (index > -1) {
@@ -55,6 +52,7 @@ export class UsersService {
       user.img,
       user.favoriteRecipes,
       user.myRecipes,
+      user.introduce,
     );
   }
 }
