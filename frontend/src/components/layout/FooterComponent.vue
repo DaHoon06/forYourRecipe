@@ -8,8 +8,6 @@
         &nbsp; All Rights Reserved.
       </text-font>
     </section>
-
-
   </footer>
 </template>
 
@@ -29,6 +27,7 @@ a {
   position: relative;
 
   .footer-copyright {
+    color: $white;
     border-top: 1px solid $white;
     width: 100%;
     text-align: center;
