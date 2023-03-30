@@ -72,7 +72,7 @@ export class RecipesController {
     description: '레시피 id에 해당하는 레시피 조회한다.',
   })
   @ApiCreatedResponse({
-    description: '레시피 id에 부합한 레시피 리스트를 생성한다.',
+    description: '레시피 id에 부합한 레시피 리스트를 생성한다. * admin 등록 레시피 경우 user: { name : "admin" } 으로 리턴 ',
     isArray: true,
     type: RecipeDto,
   })

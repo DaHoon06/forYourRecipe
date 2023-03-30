@@ -88,7 +88,7 @@ npm ci
 npm run serve
 ```
 
-Backe-End
+Back-End
 
 ```
 cd ./backend

@@ -28,6 +28,9 @@ export class User {
     @Prop({type: String, required: true, default: 'https://4u-recipe.s3.ap-northeast-2.amazonaws.com/profile/profile.svg'})
     img: string
 
+    @Prop({type: String, required: true, default: ' '})
+    introduce: string
+    
     constructor (id: string, name: string, email: string) {
         this._id = id
         this.name = name

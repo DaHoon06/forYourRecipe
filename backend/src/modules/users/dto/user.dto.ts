@@ -46,12 +46,17 @@ export class UserDto {
     @IsOptional()
     @ApiProperty({type: String, description: '사용자가 작성한 레시피'})
     myRecipes: string[]
+    
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({type: String, description: '사용자 소개'})
+    introduce: string
 
     constructor(
       id: string, name: string, email: string,
       createdAt: Date, updatedAt: Date,
       img: string, favoriteRecipes: string[],
-      myRecipes: string[]
+      myRecipes: string[], introduce: string
     ) {
         this.id = id
         this.name = name
@@ -61,5 +66,6 @@ export class UserDto {
         this.img = img
         this.favoriteRecipes = favoriteRecipes
         this.myRecipes = myRecipes
+        this.introduce = introduce
     }
 }
