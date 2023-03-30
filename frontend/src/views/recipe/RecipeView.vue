@@ -1,5 +1,5 @@
 <template>
-  <main role="main">
+  <main class="main">
     <router-view/>
   </main>
 </template>
@@ -8,5 +8,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+.main {
+  background-color: #fbfbfb;
+}
 </style>
