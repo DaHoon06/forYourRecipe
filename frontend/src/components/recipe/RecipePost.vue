@@ -277,11 +277,11 @@ const state: STATE = reactive({
   dataUrl: '',
 });
 
-const textareaMaxLengthCheck = (e: Event): string => {
-  const {value} = e.target as any;
-  if (value.length >= 120) return value.substring(0, 121);
-  return value;
-}
+// const textareaMaxLengthCheck = (e: Event): string => {
+//   const {value} = e.target as any;
+//   if (value.length >= 120) return value.substring(0, 121);
+//   return value;
+// }
 
 const load = async (): Promise<void> => {
   try {

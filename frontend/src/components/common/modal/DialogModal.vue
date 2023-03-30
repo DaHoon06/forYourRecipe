@@ -14,9 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, ref, watch} from "vue";
+import {defineProps, ref} from "vue";
 import store from '@/store';
-import CustomFont from "@/components/common/custom/CustomFont.vue";
 
 const props = defineProps(['title', 'body', 'isOpen']);
 const open = ref(false);

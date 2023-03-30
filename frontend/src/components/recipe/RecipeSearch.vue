@@ -23,20 +23,27 @@
 import {ins} from "@/lib/axios";
 import CardUi from "@/components/ui/CardUi.vue";
 import ListsUi from "@/components/ui/ListsUi.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {Recipe} from "@/interfaces/recipe";
 
 const keyword = ref('');
 const isLoading = ref(true);
 const page = ref(1);
-const recipeList = ref([]);
+const recipeList: Recipe.Info[] = ref([]);
 const route = useRoute();
 const router = useRouter();
 
 const init = async () => {
   keyword.value = route.params.keyword as string;
-  this.load();
+  console.log(keyword.value)
+  await load();
 }
+
+watch(route, async () => {
+  keyword.value = route.params.keyword as string;
+  await load();
+});
 
 const load = async (): Promise<void> => {
   try {
