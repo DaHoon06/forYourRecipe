@@ -15,7 +15,7 @@
             </section>
           </article>
         </section>
-        <section class="w-100" v-else>
+        <section class="selected-ingredients-box" v-else>
           <text-font weight="semiBold" class="selected-ingredients__label">선택한 재료</text-font>
           <div class="ingredients-box--selected">
           <span v-for="(value) of state.ingredients" :key="value._id">
@@ -190,6 +190,12 @@ const reset = (): void => {
   flex-direction: column;
   border-radius: 2px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  background-color: $white;
+
+  .selected-ingredients-box {
+    width: 100%;
+    padding: 0.8em;
+  }
 
   .selected-ingredients__label {
     padding: 2rem 0;
@@ -200,9 +206,9 @@ const reset = (): void => {
     grid-template-columns: repeat(6, 1fr);
     justify-items: center;
     row-gap: 1rem;
-    width: 80%;
+    width: 100%;
     margin: auto auto 1rem auto;
-    column-gap: 1rem
+    //column-gap: 1rem
   }
 }
 
@@ -304,7 +310,7 @@ const reset = (): void => {
       .selected-ingredients__label {
         width: 100%;
         text-align: left;
-        padding: 2rem 1rem;
+        padding: 2rem 0;
       }
     }
   }

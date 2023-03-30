@@ -4,7 +4,7 @@
 
     <recipe-ui class="recipe-form--wrapper">
       <div class="recipe-form--label">
-        <div class="flex" v-if="showUpdateMenuButton">
+        <div class="flex pb-16" v-if="showUpdateMenuButton">
           <custom-button variant="icon-button" @click="recipeUpdate" class="mr-10">
             <img src="@/assets/images/icons/pencil.svg" alt="recipe-update" width="24" height="24" loading="lazy"/>
           </custom-button>
@@ -23,7 +23,6 @@
         <text-font v-text="recipe.desc" weight="regular" color="textSub" class="recipe-detail--desc"/>
 
         <div class="recipe-detail-info--container">
-
           <section class="recipe-detail--title">
             <div>
               <text-font color="black" size="20" weight="semiBold">{{ recipe.name }}</text-font>
@@ -56,11 +55,28 @@
             </div>
           </section>
         </div>
+
+        <hr/>
+
+        <section>
+          <div class="flex">
+            <picture>
+              <img src="https://4u-recipe.s3.ap-northeast-2.amazonaws.com/profile/profile.svg" height="40" width="40"
+                   alt="테스트 이미지"/>
+            </picture>
+            <div class="flex-column justify-content-around pl-10">
+              <text-font color="black" weight="medium" size="14">전다훈</text-font>
+              <text-font color="textSub" weight="regular" size="12">요리사 아님</text-font>
+            </div>
+          </div>
+        </section>
+
       </section>
 
-      <section class="recipe-detail--bottom mt-16">
+      <section class="recipe-detail--bottom mt-30">
         <text-font size="18" weight="medium" color="black" class="recipe-detail__label">레시피</text-font>
-        <div class="dotted mt-16 mb-16"/>
+
+        <hr/>
 
         <div v-if="recipe.steps.length > 0">
           <section v-for="(item) of recipe.steps" :key="item._id" class="pb-10 recipe-step">
@@ -84,6 +100,23 @@
       </custom-button>
     </section>
 
+
+    <recipe-ui class="recipe-form--wrapper">
+      <text-font size="18" weight="medium" color="black">후기</text-font>
+      <hr/>
+      <recipe-comment/>
+
+      <form @submit.prevent="registerComment">
+        <fieldset class="flex">
+          <div class="blank"/>
+          <div class="comment-textarea--container">
+            <textarea class="comment-textarea"></textarea>
+            <custom-button variant="black" type="submit">등록</custom-button>
+          </div>
+        </fieldset>
+      </form>
+    </recipe-ui>
+
     <teleport to="#modal">
       <modal-component ref="modal">
         <section class="modal--message-box">
@@ -105,12 +138,14 @@
 <script lang="ts" setup>
 import {ins} from "@/lib/axios";
 import RecipeUi from "@/components/ui/RecipeUi.vue";
+import RecipeComment from '@/components/recipe/RecipeComments.vue';
 import {Recipe} from "@/interfaces/recipe";
 import ModalComponent from "@/components/common/modal/ModalComponent.vue";
 import {ModalComponentType} from "@/types/type";
 import {computed, nextTick, Ref, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import store from '@/store';
+
 
 const modal: Ref<ModalComponentType | null> = ref(null);
 const route = useRoute();
@@ -136,7 +171,7 @@ const recipeId: Ref<string> = ref('');
 recipeId.value = route.params.id as string;
 
 const showUpdateMenuButton = computed(() => {
-  const uid = store.getters["userModule/getName"]
+  const uid = store.getters["userModule/getUid"]
   return recipe.value.user === uid || uid === 'admin'
 })
 
@@ -171,6 +206,16 @@ const recipeDelete = async () => {
     console.log(e);
   }
 }
+/**
+ * @description: 댓글 등록
+ */
+const registerComment = async () => {
+  try {
+    console.log('롸')
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 load();
 </script>
@@ -178,6 +223,30 @@ load();
 <style scoped lang="scss">
 hr {
   border-color: $black;
+}
+
+.blank {
+  display: inline-block;
+  width: 120px;
+}
+
+.comment-textarea--container {
+  display: flex;
+  width: calc(100% - 120px);
+
+  .comment-textarea {
+    background-color: #F3F3F3;
+    padding: 0.5rem;
+    resize: none;
+    width: calc(100% - 144px);
+    border-color: $line-white;
+    outline: none;
+
+    &:focus {
+      border-color: $gray2;
+      background-color: $white;
+    }
+  }
 }
 
 .recipe-detail--container {

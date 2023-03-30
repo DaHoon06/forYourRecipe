@@ -33,7 +33,7 @@
       </div>
     </section>
     <div class="center w-100 pt-50" v-else>
-      <text-font weight="medium" color="secondary-light">검색된 레시피가 없습니다. 레시피를 등록해 보세요!</text-font>
+      <text-font weight="medium" color="textSub">검색된 레시피가 없습니다. 레시피를 등록해 보세요!</text-font>
     </div>
 
     <infinite-loading @infinite="infiniteHandler">
@@ -44,7 +44,7 @@
         <span style="display: none;"/>
       </template>
       <template #no-results>
-        <text-font size="18">검색된 레시피가 없습니다.</text-font>
+        <text-font size="18" color="textSub">검색된 레시피가 없습니다.</text-font>
       </template>
     </infinite-loading>
   </section>
@@ -52,68 +52,126 @@
 
 </template>
 
-<script lang="ts">
-import {Options, Vue} from "vue-class-component";
+<script lang="ts" setup>
 import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
-import {LocationQueryValue} from "vue-router";
-import {computed, ComputedRef} from "vue";
+import {LocationQueryValue, useRoute, useRouter} from "vue-router";
+import {computed, ComputedRef, ref} from "vue";
 import {STORE} from "@/interfaces/store";
 import store from '@/store';
 
-@Options({
-  components: {
-    ListsUi, CardUi,
-  }
-})
-export default class RecipeLists extends Vue {
-  isLoading = true;
-  key: Partial<LocationQueryValue | LocationQueryValue[]> = [];
-  total = 0;
-  recipeLists: Recipe.Info[] = [];
-  selectedIngredients: ComputedRef<STORE.RecipeState[]> | STORE.RecipeState[] = computed(() => this.store.getters["recipeModule/getIngredients"]);
-  page = 1;
-  store = store;
+const isLoading = ref(true);
+const key: Partial<LocationQueryValue | LocationQueryValue[]> = ref([]);
+const total = ref(0);
+const recipeLists: Recipe.Info[] = ref([]);
+const selectedIngredients: ComputedRef<STORE.RecipeState[]> | STORE.RecipeState[] = computed(() => store.getters["recipeModule/getIngredients"]);
+const page = ref(1);
+const router = useRouter();
+const route = useRoute();
 
-  created() {
-    const {key} = this.$route.query;
-    this.key = key;
-    this.page = 1;
-  }
-
-  private async infiniteHandler($state: any): Promise<void> {
-    try {
-      const {data} = await ins.get('/recipes/ingredient-recipes', {
-        params: {
-          id: this.key,
-          page: this.page,
-        }
-      })
-      if (data.length) {
-        for (let i = 0; i < data.length; i++) {
-          this.recipeLists.push({...data[i]});
-        }
-        this.total += data.length;
-        this.page += 1;
-        $state.loaded();
-        this.isLoading = false;
-      } else {
-        $state.complete();
-        this.isLoading = false;
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  private recipeDetail(id: string) {
-    this.$router.push(`/recipe/detail/${id}`)
-  }
-
+const init = () => {
+  const {key} = route.query;
+  page.value = 1;
+  key.value = key;
 }
+
+
+const infiniteHandler = async ($state: any): Promise<void> => {
+  try {
+    const {data} = await ins.get('/recipes/ingredient-recipes', {
+      params: {
+        id: key.value,
+        page: page.value,
+      }
+    })
+    if (data.length) {
+      for (let i = 0; i < data.length; i++) {
+        recipeLists.value.push({...data[i]});
+      }
+      total.value += data.length;
+      page.value += 1;
+      $state.loaded();
+      isLoading.value = false;
+    } else {
+      $state.complete();
+      isLoading.value = false;
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const recipeDetail = (id: string) => {
+  router.push(`/recipe/detail/${id}`)
+}
+
+init();
 </script>
+
+<!--<script lang="ts">-->
+<!--import {Options, Vue} from "vue-class-component";-->
+<!--import {ins} from "@/lib/axios";-->
+<!--import {Recipe} from "@/interfaces/recipe";-->
+<!--import ListsUi from "@/components/ui/ListsUi.vue";-->
+<!--import CardUi from "@/components/ui/CardUi.vue";-->
+<!--import {LocationQueryValue} from "vue-router";-->
+<!--import {computed, ComputedRef} from "vue";-->
+<!--import {STORE} from "@/interfaces/store";-->
+<!--import store from '@/store';-->
+
+<!--@Options({-->
+<!--  components: {-->
+<!--    ListsUi, CardUi,-->
+<!--  }-->
+<!--})-->
+<!--export default class RecipeLists extends Vue {-->
+<!--  isLoading = true;-->
+<!--  key: Partial<LocationQueryValue | LocationQueryValue[]> = [];-->
+<!--  total = 0;-->
+<!--  recipeLists: Recipe.Info[] = [];-->
+<!--  selectedIngredients: ComputedRef<STORE.RecipeState[]> | STORE.RecipeState[] = computed(() => this.store.getters["recipeModule/getIngredients"]);-->
+<!--  page = 1;-->
+<!--  store = store;-->
+
+<!--  created() {-->
+<!--    const {key} = this.$route.query;-->
+<!--    this.key = key;-->
+<!--    this.page = 1;-->
+<!--  }-->
+
+<!--  private async infiniteHandler($state: any): Promise<void> {-->
+<!--    try {-->
+<!--      const {data} = await ins.get('/recipes/ingredient-recipes', {-->
+<!--        params: {-->
+<!--          id: this.key,-->
+<!--          page: this.page,-->
+<!--        }-->
+<!--      })-->
+<!--      if (data.length) {-->
+<!--        for (let i = 0; i < data.length; i++) {-->
+<!--          this.recipeLists.push({...data[i]});-->
+<!--        }-->
+<!--        this.total += data.length;-->
+<!--        this.page += 1;-->
+<!--        $state.loaded();-->
+<!--        this.isLoading = false;-->
+<!--      } else {-->
+<!--        $state.complete();-->
+<!--        this.isLoading = false;-->
+<!--      }-->
+<!--    } catch (e) {-->
+<!--      console.log(e)-->
+<!--    }-->
+<!--  }-->
+
+<!--  private recipeDetail(id: string) {-->
+<!--    this.$router.push(`/recipe/detail/${id}`)-->
+<!--  }-->
+
+<!--}-->
+<!--</script>-->
 
 <style lang="scss" scoped>
 hr {

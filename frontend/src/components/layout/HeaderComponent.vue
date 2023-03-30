@@ -119,7 +119,7 @@ const showSideMenu = (): void => {
   top: 0;
   left: 0;
   z-index: 99;
-  border-bottom: #b3b3b3 solid 1px;
+  border-bottom: 1px solid $line-white;
 
   h1 {
     font-size: 22px;

@@ -19,48 +19,53 @@
 
 </template>
 
-<script lang="ts">
-import {Options, Vue} from "vue-class-component";
+<script lang="ts" setup>
 import {ins} from "@/lib/axios";
 import CardUi from "@/components/ui/CardUi.vue";
 import ListsUi from "@/components/ui/ListsUi.vue";
+import {ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {Recipe} from "@/interfaces/recipe";
 
-@Options({
-  components: {
-    CardUi,
-    ListsUi
-  }
-})
-export default class RecipeSearch extends Vue {
-  keyword = '';
-  isLoading = true;
-  page = 1;
-  recipeList = []
+const keyword = ref('');
+const isLoading = ref(true);
+const page = ref(1);
+const recipeList: Recipe.Info[] = ref([]);
+const route = useRoute();
+const router = useRouter();
 
-  created() {
-    this.keyword = this.$route.params.keyword as string;
-    this.load();
-  }
+const init = async () => {
+  keyword.value = route.params.keyword as string;
+  console.log(keyword.value)
+  await load();
+}
 
-  private async load(): Promise<void> {
-    try {
-      const {data} = await ins.get(`/recipes/search`, {
-        params: {
-          keyword: this.keyword,
-          page: this.page
-        }
-      })
-      this.recipeList = data;
-      this.isLoading = false;
-    } catch (e) {
-      console.log(e)
-    }
-  }
+watch(route, async () => {
+  keyword.value = route.params.keyword as string;
+  await load();
+});
 
-  private recipeDetail(id: string) {
-    this.$router.push(`/recipe/detail/${id}`)
+const load = async (): Promise<void> => {
+  try {
+    const {data} = await ins.get(`/recipes/search`, {
+      params: {
+        keyword: keyword.value,
+        page: page.value
+      }
+    })
+    recipeList.value = data;
+    isLoading.value = false;
+  } catch (e) {
+    console.log(e)
   }
 }
+
+const recipeDetail = (id: string) => {
+  router.push(`/recipe/detail/${id}`)
+}
+
+
+init();
 </script>
 
 <style scoped lang="scss">

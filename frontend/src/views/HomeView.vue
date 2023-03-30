@@ -116,6 +116,7 @@ hr {
 
 @media screen and (max-width: 600px) {
   .main__body {
+    background-color: $white;
     padding: 0;
 
     &--container {
