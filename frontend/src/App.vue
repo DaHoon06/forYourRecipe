@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="isRecipePage ? 'background:  #ffffff' : 'background:  #fbfbfb'">
     <header-component/>
     <router-view class="app"/>
   </div>
@@ -9,17 +9,25 @@
 <script lang="ts" setup>
 import HeaderComponent from "@/components/layout/HeaderComponent.vue";
 import FooterComponent from "@/components/layout/FooterComponent.vue";
+import {useRoute} from "vue-router";
+import {ref, watch} from "vue";
+
+const route = useRoute();
+const isRecipePage = ref(false);
+
+watch(route, () => {
+  isRecipePage.value = route.path.indexOf('recipe') > -1;
+})
 </script>
 
 <style scoped lang="scss">
 .container {
-  background-color: #fbfbfb;
   height: auto;
   min-height: 100%;
 }
 
 .app {
-  padding-top: 136px;
+  padding-top: 140px;
   max-width: 1600px;
   margin: auto;
 }

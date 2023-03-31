@@ -172,6 +172,21 @@ export class RecipesService {
     });
   }
 
+  /**
+   * @description: 즐겨찾기한 레시피 조회
+   * @private
+   */
+  async getFavoriteRecipe(uid: string, page: number): Promise<RecipeDto[]> {
+    if (!page || isNaN(page)) page = 1;
+    const user = await this.userService.findById(uid);
+    const { favoriteRecipes } = user;
+    const favoritesRecipe = await this.recipeRepository.findFavoriteRecipe(
+      favoriteRecipes,
+      this.currentPage(page),
+    );
+    return this.getRecipeDtoArr(favoritesRecipe);
+  }
+
   private async getRecipeDto(recipe: Recipe): Promise<RecipeDto> {
     const detailedIngredient = await this.ingredientsService.findIngredientById(
       recipe.detailedIngredient,
