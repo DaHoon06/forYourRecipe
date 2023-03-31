@@ -501,7 +501,7 @@ state.isLoading = false;
 .recipe-post--container {
   width: 100%;
   padding: 5vw;
-  margin: auto auto 100px auto;
+  margin: auto;
 
   .recipe-grid--layout {
     padding-top: 0.8em;

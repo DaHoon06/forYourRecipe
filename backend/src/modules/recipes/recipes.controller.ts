@@ -30,6 +30,7 @@ import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.d
 import { UpdatedRecipeLikeDto } from '@modules/recipes/dto/updated-recipe-like.dto';
 import { GlobalFilter } from '@src/lib/global.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { Recipe } from '@modules/recipes/entities/recipe.entity';
 
 @UseFilters(new GlobalFilter())
 @Controller('recipes')
@@ -251,5 +252,23 @@ export class RecipesController {
   @ApiParam({ name: 'id', description: '조회할 레시피 id', type: String })
   private async deleteRecipe(@Param('id') id: string): Promise<boolean> {
     return this.recipesService.deleteRecipe(id);
+  }
+
+  @Get('/favorites/:uid')
+  @ApiOperation({
+    summary: '즐겨찾기한 레시피 조회 API',
+    description: '즐겨찾기한 레시피 배열을 반환',
+  })
+  @ApiParam({
+    name: 'uid',
+    description: '사용자 uid 를 전달받음',
+    type: String,
+  })
+  @ApiQuery({ name: 'page', type: Number, description: '페이지' })
+  private async getFavoriteRecipe(
+    @Param('uid') uid: string,
+    @Query('page') page: number,
+  ): Promise<RecipeDto[]> {
+    return this.recipesService.getFavoriteRecipe(uid, page);
   }
 }

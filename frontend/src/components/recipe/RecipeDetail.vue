@@ -221,10 +221,6 @@ load();
 </script>
 
 <style scoped lang="scss">
-hr {
-  border-color: $black;
-}
-
 .blank {
   display: inline-block;
   width: 120px;
