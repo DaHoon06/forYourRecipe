@@ -2,25 +2,27 @@
 
 #### 빠르게 찾고 해먹자
 
-<a href="https://www.no1recipe.com/" target="_blank">사이트 구경하기</a>
+<p>
+<a href="https://www.no1recipe.com/" target="_blank">사이트 구경하기</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://storybook.no1recipe.com/" target="_blank">스토리북</a>
+</p>
 
-<a href="https://storybook.no1recipe.com/" target="_blank">스토리북</a>
 
-Contributor: 
-<a href="https://github.com/DaHoon06" target="_blank">
+<p style="display: flex">
+Contributor &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/DaHoon06" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
 <img src="https://img.icons8.com/material-two-tone/512/github.png" alt="dahoon06 github" width="24" />
-Dahoon06
+&nbsp;Dahoon06
 </a> 
-
-<a href="https://github.com/hprl" target="_blank">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/hprl" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
 <img src="https://img.icons8.com/material-two-tone/512/github.png" alt="hyperreal github" width="24" />
-Hyperreal
+&nbsp;Hyperreal
 </a>
+</p>
 
 #### 프로젝트 개요
 
 ---
-
 
 #### 기술 스택
 
@@ -60,21 +62,18 @@ Hyperreal
 <img src="https://images.velog.io/images/nari120/post/b14b4105-a561-4cc3-bc9f-87a5ee4eb1b6/aws.png" width="80" />
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="" height="50" style="max-width: 100%;">
-  
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/127ecfe0c61b2e93672aa1f2b1f1b4f5e7cb407b9075681cb96b5e9ade0a87d1/68747470733a2f2f6d69726f2e6d656469756d2e636f6d2f6d61782f3435362f302a636f3077536a59526b72746c395639662e706e67"><img src="https://camo.githubusercontent.com/127ecfe0c61b2e93672aa1f2b1f1b4f5e7cb407b9075681cb96b5e9ade0a87d1/68747470733a2f2f6d69726f2e6d656469756d2e636f6d2f6d61782f3435362f302a636f3077536a59526b72746c395639662e706e67" alt="" width="50" data-canonical-src="https://miro.medium.com/max/456/0*co0wSjYRkrtl9V9f.png" style="max-width: 100%;"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/127ecfe0c61b2e93672aa1f2b1f1b4f5e7cb407b9075681cb96b5e9ade0a87d1/68747470733a2f2f6d69726f2e6d656469756d2e636f6d2f6d61782f3435362f302a636f3077536a59526b72746c395639662e706e67"><img src="https://camo.githubusercontent.com/127ecfe0c61b2e93672aa1f2b1f1b4f5e7cb407b9075681cb96b5e9ade0a87d1/68747470733a2f2f6d69726f2e6d656469756d2e636f6d2f6d61782f3435362f302a636f3077536a59526b72746c395639662e706e67" alt="" width="50" data-canonical-src="https://miro.medium.com/max/456/0*co0wSjYRkrtl9V9f.png" style="max-width: 100%;"></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
 </tr>
 </tbody>
 </table>
 
 ___
 
-
-
-
 #### 프로젝트 기능 소개
 
 ___
-
 
 #### 개발 환경 세팅
 
