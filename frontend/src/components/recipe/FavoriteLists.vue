@@ -12,12 +12,15 @@
 
       <hr/>
 
-      <section class="card--wrapper">
+      <section class="card--wrapper" v-if="recipeLists.length > 0">
         <div v-for="(dish) in recipeLists" :key="dish._id" class="w-100">
           <CardUi :recipe-detail="() => recipeDetail(dish._id)" class="card-component" :card-item="dish"/>
           <ListsUi :recipe-detail="() => recipeDetail(dish._id)" class="list-component" :list-item="dish"/>
         </div>
       </section>
+      <p class="w-100 center pt-16" v-else>
+        <text-font weight="medium" variant="textSub">등록한 레시피가 없습니다.</text-font>
+      </p>
     </section>
     <infinite-loading @infinite="infiniteHandler">
       <template #spinner>
@@ -39,12 +42,12 @@ import {Recipe} from "@/interfaces/recipe";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
 import DropDown from '@/components/icons/DropDown.vue';
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 import {useRouter} from "vue-router";
 import store from '@/store';
 
 const isLoading = ref(true);
-const recipeLists: Recipe.Info[] = ref([]);
+const recipeLists: Partial<Ref<Recipe.Info[]> | Recipe.Info[]> = ref([]);
 const total = ref(0);
 const page = ref(1);
 const router = useRouter();
@@ -58,9 +61,10 @@ const infiniteHandler = async ($state: any): Promise<void> => {
         page: page.value
       }
     });
+    console.log(data)
     if (data.length) {
       for (let i = 0; i < data.length; i++) {
-        recipeLists.value.push({...data[i]});
+        recipeLists.value!.push({...data[i]});
       }
       page.value += 1;
       total.value += data.length;

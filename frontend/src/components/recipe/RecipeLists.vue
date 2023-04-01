@@ -72,9 +72,9 @@ const router = useRouter();
 const route = useRoute();
 
 const init = () => {
-  const {key} = route.query;
+  const {key: queryKey} = route.query;
   page.value = 1;
-  key.value = key;
+  key.value = queryKey;
 }
 
 
