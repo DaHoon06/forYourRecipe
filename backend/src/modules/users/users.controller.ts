@@ -10,7 +10,7 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get('/detail/:id')
-  private async getUser(@Param('id') id: string): Promise<UserDto> {
+  private async getUser(@Param('id') id: string) {
     return this.userService.findById(id);
   }
 

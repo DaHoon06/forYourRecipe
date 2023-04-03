@@ -18,6 +18,7 @@ import { UsersService } from '@modules/users/users.service';
 import { GlobalFilter } from '@src/lib/global.filter';
 import { S3Service } from '@src/providers/aws/s3/s3.service';
 import { RecipeRepository } from '@modules/recipes/recipe.repository';
+import {RecipeUserDto} from "@modules/users/dto/recipe-user.dto";
 
 @UseFilters(new GlobalFilter())
 @Injectable()
@@ -190,12 +191,29 @@ export class RecipesService {
     const detailedIngredient = await this.ingredientsService.findIngredientById(
       recipe.detailedIngredient,
     );
+
+    const getUser = async () => {
+      if (recipe.user === Role.ADMIN) {
+        return {
+          name: 'admin',
+        }
+      } else {
+        const { id, img, name, introduce } = await this.userService.findById(recipe.user)
+        return {
+          id,
+          img,
+          name,
+          introduce
+        }
+      }
+    }
+
     return new RecipeDto(
       recipe._id,
       recipe.name,
       recipe.createdAt,
       recipe.updatedAt,
-      recipe.user,
+      await getUser(),
       recipe.modified,
       recipe.likes,
       recipe.steps,
