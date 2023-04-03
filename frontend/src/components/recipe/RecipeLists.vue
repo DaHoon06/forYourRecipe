@@ -74,7 +74,7 @@ const route = useRoute();
 const init = () => {
   const {key: queryKey} = route.query as string;
   page.value = 1;
-  key.value = queryKey;
+  key.value = queryKey.map((value) => value);
 }
 
 const infiniteHandler = async ($state: any): Promise<void> => {
