@@ -30,7 +30,6 @@ import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.d
 import { UpdatedRecipeLikeDto } from '@modules/recipes/dto/updated-recipe-like.dto';
 import { GlobalFilter } from '@src/lib/global.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Recipe } from '@modules/recipes/entities/recipe.entity';
 
 @UseFilters(new GlobalFilter())
 @Controller('recipes')
@@ -73,7 +72,8 @@ export class RecipesController {
     description: '레시피 id에 해당하는 레시피 조회한다.',
   })
   @ApiCreatedResponse({
-    description: '레시피 id에 부합한 레시피 리스트를 생성한다. * admin 등록 레시피 경우 user: { name : "admin" } 으로 리턴 ',
+    description:
+      '레시피 id에 부합한 레시피 리스트를 생성한다. * admin 등록 레시피 경우 user: { name : "admin" } 으로 리턴 ',
     isArray: true,
     type: RecipeDto,
   })

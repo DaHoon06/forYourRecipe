@@ -1,4 +1,15 @@
 export namespace Recipe {
+  interface User {
+    id: string;
+    img: string;
+    introduce: string;
+    name: string;
+  }
+
+  export interface RecipeDetail extends Info {
+    user: User;
+  }
+
   export interface Info {
     _id: string;
     name: string;
@@ -8,7 +19,6 @@ export namespace Recipe {
     createdAt: Date;
     updatedAt: Date;
     modified: boolean;
-    user: string;
     steps: Steps[];
     desc: string;
     likes: string[];

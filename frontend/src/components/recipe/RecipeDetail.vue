@@ -61,12 +61,13 @@
         <section>
           <div class="flex">
             <picture>
-              <img src="https://4u-recipe.s3.ap-northeast-2.amazonaws.com/profile/profile.svg" height="40" width="40"
+              <img :src="recipe.user.img || `https://4u-recipe.s3.ap-northeast-2.amazonaws.com/profile/profile.svg`"
+                   height="40" width="40"
                    alt="테스트 이미지"/>
             </picture>
             <div class="flex-column justify-content-around pl-10">
-              <text-font color="black" weight="medium" size="14">전다훈</text-font>
-              <text-font color="textSub" weight="regular" size="12">요리사 아님</text-font>
+              <text-font color="black" weight="medium" size="14">{{ recipe.user.name }}</text-font>
+              <text-font color="textSub" weight="regular" size="12">{{ recipe.user.introduce }}</text-font>
             </div>
           </div>
         </section>
@@ -146,26 +147,30 @@ import {computed, nextTick, Ref, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import store from '@/store';
 
-
 const modal: Ref<ModalComponentType | null> = ref(null);
 const route = useRoute();
 const router = useRouter();
 const isLoading: Ref<boolean> = ref(true);
-const recipe: Ref<Recipe.Info> = ref(
-  {
-    _id: '',
-    desc: '',
-    createdAt: new Date(),
-    detailedIngredient: [],
-    allIngredient: [],
-    likes: [],
-    profileImage: '',
-    name: '',
-    modified: false,
-    steps: [],
-    user: '',
-    updatedAt: new Date()
-  }
+const recipe: Ref<Recipe.RecipeDetail> = ref(
+    {
+      _id: '',
+      desc: '',
+      createdAt: new Date(),
+      detailedIngredient: [],
+      allIngredient: [],
+      likes: [],
+      profileImage: '',
+      name: '',
+      modified: false,
+      steps: [],
+      updatedAt: new Date(),
+      user: {
+        id: '',
+        img: '',
+        introduce: '',
+        name: '',
+      }
+    }
 );
 const recipeId: Ref<string> = ref('');
 recipeId.value = route.params.id as string;
@@ -178,6 +183,7 @@ const showUpdateMenuButton = computed(() => {
 const load = async () => {
   try {
     const {data} = await ins.get(`/recipes/detail/${recipeId.value}`);
+    console.log(data)
     recipe.value = data;
     isLoading.value = false;
   } catch (e) {
