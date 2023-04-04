@@ -84,51 +84,38 @@ hr {
   }
 }
 
+.main__body--container {
+  padding: 2rem;
+}
 
-.main__body {
-  width: 100%;
-  max-width: 1980px;
-  padding: 10px 20px 10rem 20px;
-  height: 100%;
+.main__label--wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.4em;
+}
 
-  &--container {
-    padding: 2rem;
-  }
+.redirect-all-recipe {
+  display: flex;;
+  align-items: center;
 
-  .main__label--wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 0.4em;
-  }
-
-  .redirect-all-recipe {
-    display: flex;;
-    align-items: center;
-
-    &:hover {
-      p {
-        color: $gray1;
-      }
+  &:hover {
+    p {
+      color: $gray1;
     }
   }
 }
 
 @media screen and (max-width: 600px) {
-  .main__body {
-    background-color: $white;
-    padding: 0;
+  .main__body--container {
+    padding: 0 0 4rem 0;
 
-    &--container {
-      padding: 0 0 4rem 0;
+    .main__label--wrapper {
+      padding: 1rem !important;
+    }
 
-      .main__label--wrapper {
-        padding: 1rem !important;
-      }
-
-      .today-recommended-dishes {
-        font-size: 18px !important;
-      }
+    .today-recommended-dishes {
+      font-size: 18px !important;
     }
   }
 }

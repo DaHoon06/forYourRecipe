@@ -30,6 +30,7 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+
 .disabled {
   background-color: $disabled;
   color: $textPlaceholder;
@@ -130,8 +131,8 @@
 /* card ui wrapper */
 .card--wrapper {
   display: grid;
+  //grid-template-columns: repeat(auto-fit, minmax(360px, 300px));
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  //justify-items: center;
   padding: 2rem 0;
   row-gap: 1rem;
   column-gap: 18px;
@@ -139,6 +140,7 @@
 
 @media screen and (max-width: 600px) {
   .card--wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     padding: 0;
     margin-top: 0;
     row-gap: 0;
@@ -151,4 +153,17 @@
   border-top: 2px dashed $line-white;
   height: 5px;
   width: 100%;
+}
+
+
+.main__body {
+  width: 100%;
+  padding: 10px 20px 10rem 20px;
+  height: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .main__body {
+    padding: 0
+  }
 }

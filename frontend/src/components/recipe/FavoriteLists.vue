@@ -1,10 +1,11 @@
 <template>
   <loading-spinner v-if="isLoading"/>
   <div class="recipe-favorite--container">
-    <h1 class="favorite-title">
-      <text-font size="18" type="eng" color="black" weight="medium">BOOKMARK &nbsp;&nbsp; RECIPES</text-font>
-    </h1>
-    <section class="pt-50">
+    <section class="pt-60 pb-60">
+      <mark-label :label="'BOOKMARK RECIPES'"/>
+    </section>
+
+    <section class="main__body">
       <p class="w-100 text-right pr-16">
         <text-font weight="medium" color="black">정렬</text-font>
         <drop-down color="black" class="ml-10"/>
@@ -45,6 +46,7 @@ import DropDown from '@/components/icons/DropDown.vue';
 import {Ref, ref} from "vue";
 import {useRouter} from "vue-router";
 import store from '@/store';
+import MarkLabel from '@/components/common/TextLabel.vue';
 
 const isLoading = ref(true);
 const recipeLists: Partial<Ref<Recipe.Info[]> | Recipe.Info[]> = ref([]);
@@ -86,32 +88,15 @@ const recipeDetail = (id: string): void => {
 
 <style scoped lang="scss">
 .recipe-favorite--container {
-  padding-top: 150px;
   background-color: white;
-  max-width: 1200px;
   width: 100%;
   margin: auto;
   height: 100%;
-
-  .favorite-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    border-left: 3px solid $black;
-    border-right: 3px solid $black;
-    height: 35px;
-    width: 420px;
-  }
 }
 
 @media screen and (max-width: 600px) {
   .recipe-favorite--container {
     padding-top: 40px;
-
-    .favorite-title {
-      width: 300px;
-    }
   }
 }
 </style>
