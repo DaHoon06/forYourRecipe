@@ -18,7 +18,8 @@ import { UsersService } from '@modules/users/users.service';
 import { GlobalFilter } from '@src/lib/global.filter';
 import { S3Service } from '@src/providers/aws/s3/s3.service';
 import { RecipeRepository } from '@modules/recipes/recipe.repository';
-import {RecipeUserDto} from "@modules/users/dto/recipe-user.dto";
+import { RecipeUserDto } from '@modules/users/dto/recipe-user.dto';
+import { RecipeCommentDto } from '@modules/recipes/comment/dto/recipe.comment.dto';
 
 @UseFilters(new GlobalFilter())
 @Injectable()
@@ -187,6 +188,12 @@ export class RecipesService {
     return this.getRecipeDtoArr(favoritesRecipe);
   }
 
+  /**
+   * @description 레시피 댓글 남기기
+   * @param body
+   */
+  async insertRecipeComment(body: RecipeCommentDto) {}
+
   private async getRecipeDto(recipe: Recipe): Promise<RecipeDto> {
     const detailedIngredient = await this.ingredientsService.findIngredientById(
       recipe.detailedIngredient,
@@ -196,17 +203,19 @@ export class RecipesService {
       if (recipe.user === Role.ADMIN) {
         return {
           name: 'admin',
-        }
+        };
       } else {
-        const { id, img, name, introduce } = await this.userService.findById(recipe.user)
+        const { id, img, name, introduce } = await this.userService.findById(
+          recipe.user,
+        );
         return {
           id,
           img,
           name,
-          introduce
-        }
+          introduce,
+        };
       }
-    }
+    };
 
     return new RecipeDto(
       recipe._id,

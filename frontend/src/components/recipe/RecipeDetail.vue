@@ -107,11 +107,11 @@
       <hr/>
       <recipe-comment/>
 
-      <form @submit.prevent="registerComment">
+      <form @submit.prevent="registerComment" v-if="isLogin">
         <fieldset class="flex">
           <div class="blank"/>
           <div class="comment-textarea--container">
-            <textarea class="comment-textarea"></textarea>
+            <textarea v-model="comment" class="comment-textarea"></textarea>
             <custom-button variant="black" type="submit">등록</custom-button>
           </div>
         </fieldset>
@@ -147,6 +147,7 @@ import {computed, nextTick, Ref, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import store from '@/store';
 
+const isLogin = computed(() => store.getters['utilModule/isLogin']);
 const modal: Ref<ModalComponentType | null> = ref(null);
 const route = useRoute();
 const router = useRouter();
@@ -173,6 +174,7 @@ const recipe: Ref<Recipe.RecipeDetail> = ref(
     }
 );
 const recipeId: Ref<string> = ref('');
+const comment: Ref<string> = ref('');
 recipeId.value = route.params.id as string;
 
 const showUpdateMenuButton = computed(() => {
@@ -183,7 +185,6 @@ const showUpdateMenuButton = computed(() => {
 const load = async () => {
   try {
     const {data} = await ins.get(`/recipes/detail/${recipeId.value}`);
-    console.log(data)
     recipe.value = data;
     isLoading.value = false;
   } catch (e) {
@@ -214,10 +215,20 @@ const recipeDelete = async () => {
 }
 /**
  * @description: 댓글 등록
+ * @body: recipeId: 레시피id, user: user id, comment: 댓글 내용
  */
 const registerComment = async () => {
   try {
+    const user = store.getters['userModule/getUid'];
+    const sendData = {
+      recipeId: recipeId.value,
+      user,
+      comment: comment.value,
+    }
+    console.log(sendData)
+    const {data} = await ins.post('/recipes/comments', sendData);
     console.log('롸')
+
   } catch (e) {
     console.log(e);
   }

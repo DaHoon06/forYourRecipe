@@ -30,6 +30,7 @@ import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.d
 import { UpdatedRecipeLikeDto } from '@modules/recipes/dto/updated-recipe-like.dto';
 import { GlobalFilter } from '@src/lib/global.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { RecipeCommentDto } from '@modules/recipes/comment/dto/recipe.comment.dto';
 
 @UseFilters(new GlobalFilter())
 @Controller('recipes')
@@ -270,5 +271,18 @@ export class RecipesController {
     @Query('page') page: number,
   ): Promise<RecipeDto[]> {
     return this.recipesService.getFavoriteRecipe(uid, page);
+  }
+
+  @Post('/comments')
+  @ApiOperation({
+    summary: '레시피 댓글 등록',
+    description: '상세보기한 레시피에 댓글을 등록',
+  })
+  @ApiBody({
+    type: RecipeCommentDto,
+    description: '필요 정보',
+  })
+  private async insertRecipeComment(@Body() body: RecipeCommentDto) {
+    return this.recipesService.insertRecipeComment;
   }
 }
