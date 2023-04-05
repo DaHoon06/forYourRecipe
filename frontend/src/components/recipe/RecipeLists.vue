@@ -58,23 +58,23 @@ import {Recipe} from "@/interfaces/recipe";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
 import {LocationQueryValue, useRoute, useRouter} from "vue-router";
-import {computed, ComputedRef, ref} from "vue";
+import {computed, ComputedRef, Ref, ref} from "vue";
 import {STORE} from "@/interfaces/store";
 import store from '@/store';
 
 const isLoading = ref(true);
-const key: Partial<LocationQueryValue | LocationQueryValue[]> = ref([]);
+const key: Ref<LocationQueryValue[]> = ref([]);
 const total = ref(0);
-const recipeLists: Recipe.Info[] = ref([]);
+const recipeLists: Ref<Recipe.Info[]> | Recipe.Info[] = ref([]);
 const selectedIngredients: ComputedRef<STORE.RecipeState[]> | STORE.RecipeState[] = computed(() => store.getters["recipeModule/getIngredients"]);
 const page = ref(1);
 const router = useRouter();
 const route = useRoute();
 
 const init = () => {
-  const {key: queryKey} = route.query as string;
+  const queryKey = route.query.key as string[];
   page.value = 1;
-  key.value = queryKey.map((value) => value);
+  key.value = queryKey!.map((value: string) => value);
 }
 
 const infiniteHandler = async ($state: any): Promise<void> => {

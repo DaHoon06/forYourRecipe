@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import CardUi from "@/components/ui/CardUi.vue";
-import IngredientsBox from "@/components/IngredientsBox.vue";
+import IngredientsBox from "@/components/ingredients/IngredientsBox.vue";
 import {ins} from "@/lib/axios";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import {Recipe} from "@/interfaces/recipe";

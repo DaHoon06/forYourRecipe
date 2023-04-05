@@ -37,9 +37,9 @@
               </select>
               <picture class="angle-icons">
                 <img
-                  loading="lazy"
-                  decoding="async"
-                  src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
+                    loading="lazy"
+                    decoding="async"
+                    src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
               </picture>
             </div>
           </div>
@@ -88,9 +88,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                    :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
-                    variant="icon-button" class="button-default" type="button"
-                    @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
+                      :class="state.recipePost.allIngredient[0].ingredients.length === index + 1 ? 'show' : 'hide'"
+                      variant="icon-button" class="button-default" type="button"
+                      @click="addIngredientRows(index, state.recipePost.allIngredient[0].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -118,9 +118,9 @@
                     <img src="@/assets/images/icons/minus.svg" alt="minus"/>
                   </custom-button>
                   <custom-button
-                    :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
-                    variant="icon-button" class="button-default" type="button"
-                    @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
+                      :class="state.recipePost.allIngredient[1].ingredients.length === index + 1 ? 'show' : 'hide'"
+                      variant="icon-button" class="button-default" type="button"
+                      @click="addIngredientRows(index, state.recipePost.allIngredient[1].ingredients)">
                     <img src="@/assets/images/icons/plus.svg" alt="plus"/>
                   </custom-button>
                 </div>
@@ -229,17 +229,17 @@ interface IRecipePost {
 const router = useRouter();
 const route = useRoute();
 
-const recipeName: Ref<HTMLInputElement> = ref(null);
-const recipeDesc: Ref<HTMLInputElement> = ref(null);
-const recipeIngredient: Ref<HTMLInputElement> = ref(null);
-const recipeIngredientUnit: Ref<HTMLInputElement> = ref(null);
-const recipeCondiment: Ref<HTMLInputElement> = ref(null);
-const recipeCondimentUnit: Ref<HTMLInputElement> = ref(null);
-const recipeStep: Ref<HTMLInputElement> = ref(null);
+const recipeName: Ref<HTMLInputElement | null> = ref(null);
+const recipeDesc: Ref<HTMLInputElement | null> = ref(null);
+const recipeIngredient: Ref<HTMLInputElement | null> = ref(null);
+const recipeIngredientUnit: Ref<HTMLInputElement | null> = ref(null);
+const recipeCondiment: Ref<HTMLInputElement | null> = ref(null);
+const recipeCondimentUnit: Ref<HTMLInputElement | null> = ref(null);
+const recipeStep: Ref<HTMLInputElement | null> = ref(null);
 
 interface STATE {
   isLoading: boolean,
-  selected: Ingredients[],
+  selected: Recipe.IngredientType[],
   ingredientsCategory: Recipe.IngredientCategories[],
   ingredients: Recipe.IngredientType[],
   recipePost: IRecipePost,
@@ -276,6 +276,8 @@ const state: STATE = reactive({
   file: [],
   dataUrl: '',
 });
+
+type TInputRefs = Partial<HTMLInputElement | any> | null;
 
 // const textareaMaxLengthCheck = (e: Event): string => {
 //   const {value} = e.target as any;
@@ -337,12 +339,12 @@ const cancel = () => {
 
 const emptyCheck = (): boolean => {
   if (state.recipePost.name.length === 0) {
-    nextTick(() => recipeName.value.focus());
+    nextTick(() => recipeName.value!.focus());
     return true;
   }
 
   if (state.recipePost.desc.length === 0) {
-    nextTick(() => recipeDesc.value.focus());
+    nextTick(() => recipeDesc.value!.focus());
     return true;
   }
 
@@ -351,15 +353,15 @@ const emptyCheck = (): boolean => {
     const {name, unit} = ingredient[i];
     if (name.length === 0) {
       nextTick(() => {
-        const refs = recipeIngredient.value;
-        refs[i].focus();
+        const refs: TInputRefs = recipeIngredient.value;
+        if (refs) refs[i].focus();
       })
       return true;
     }
     if (unit.length === 0) {
       nextTick(() => {
-        const refs = recipeIngredientUnit.value;
-        refs[i].focus();
+        const refs: TInputRefs = recipeIngredientUnit.value;
+        if (refs) refs[i].focus();
       });
       return true;
     }
@@ -370,15 +372,15 @@ const emptyCheck = (): boolean => {
     const {name, unit} = condiment[i];
     if (name.length === 0) {
       nextTick(() => {
-        const refs = recipeCondiment.value;
-        refs[i].focus();
+        const refs: TInputRefs = recipeCondiment.value;
+        if (refs) refs[i].focus();
       });
       return true;
     }
     if (unit.length === 0) {
       nextTick(() => {
-        const refs = recipeCondimentUnit.value;
-        refs[i].focus();
+        const refs: TInputRefs = recipeCondimentUnit.value;
+        if (refs) refs[i].focus();
       });
       return true;
     }
@@ -386,8 +388,8 @@ const emptyCheck = (): boolean => {
   for (let i = 0; i < state.recipePost.steps.length; i++) {
     if (state.recipePost.steps[i].desc.length === 0) {
       nextTick(() => {
-        const refs = recipeStep.value;
-        refs[i].focus();
+        const refs: TInputRefs = recipeStep.value;
+        if (refs) refs[i].focus();
       });
       return true;
     }

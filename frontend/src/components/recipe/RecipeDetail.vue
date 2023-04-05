@@ -205,7 +205,7 @@ const recipeDelete = async () => {
     const {data} = await ins.delete(`/recipes/delete-recipe/${_id}`);
     isLoading.value = false;
     if (data) {
-      modal.value.hide()
+      modal.value!.hide()
       await nextTick(() => router.push('/'));
     }
   } catch (e) {

@@ -42,12 +42,12 @@ import {ins} from "@/lib/axios";
 import {Recipe} from "@/interfaces/recipe";
 import ListsUi from "@/components/ui/ListsUi.vue";
 import CardUi from "@/components/ui/CardUi.vue";
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 import {useRouter} from "vue-router";
 import MarkLabel from '@/components/common/TextLabel.vue';
 
 const isLoading = ref(true);
-const recipeLists: Recipe.Info[] = ref([]);
+const recipeLists: Ref<Recipe.Info[]> | Recipe.Info[] = ref([]);
 const total = ref(0);
 const page = ref(1);
 const router = useRouter();

@@ -23,14 +23,14 @@
 import {ins} from "@/lib/axios";
 import CardUi from "@/components/ui/CardUi.vue";
 import ListsUi from "@/components/ui/ListsUi.vue";
-import {ref, watch} from "vue";
+import {ref, watch, Ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {Recipe} from "@/interfaces/recipe";
 
 const keyword = ref('');
 const isLoading = ref(true);
 const page = ref(1);
-const recipeList: Recipe.Info[] = ref([]);
+const recipeList: Partial<Ref<Recipe.Info[]> | Recipe.Info[]> = ref([]);
 const route = useRoute();
 const router = useRouter();
 
