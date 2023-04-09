@@ -429,7 +429,7 @@ const registerRecipe = async () => {
         steps: state.recipePost.steps,
         profileImage: state.recipePost.profileImage
       }
-      const {data: _id} = await ins.post('/recipes/register-recipe', sendData);
+      const {data: _id} = await ins.post('/recipes/register-admin-recipe', sendData);
       if (state.file.length > 0) {
         await uploadFile(_id, formData);
       }
