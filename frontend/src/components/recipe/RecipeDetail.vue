@@ -102,21 +102,21 @@
     </section>
 
 
-    <recipe-ui class="recipe-form--wrapper">
-      <text-font size="18" weight="medium" color="black">후기</text-font>
-      <hr/>
-      <recipe-comment/>
+    <!--    <recipe-ui class="recipe-form&#45;&#45;wrapper">-->
+    <!--      <text-font size="18" weight="medium" color="black">후기</text-font>-->
+    <!--      <hr/>-->
+    <!--      <recipe-comment/>-->
 
-      <form @submit.prevent="registerComment" v-if="isLogin">
-        <fieldset class="flex">
-          <div class="blank"/>
-          <div class="comment-textarea--container">
-            <textarea v-model="comment" class="comment-textarea"></textarea>
-            <custom-button variant="black" type="submit">등록</custom-button>
-          </div>
-        </fieldset>
-      </form>
-    </recipe-ui>
+    <!--      <form @submit.prevent="registerComment" v-if="isLogin">-->
+    <!--        <fieldset class="flex">-->
+    <!--          <div class="blank"/>-->
+    <!--          <div class="comment-textarea&#45;&#45;container">-->
+    <!--            <textarea v-model="comment" class="comment-textarea"></textarea>-->
+    <!--            <custom-button variant="black" type="submit">등록</custom-button>-->
+    <!--          </div>-->
+    <!--        </fieldset>-->
+    <!--      </form>-->
+    <!--    </recipe-ui>-->
 
     <teleport to="#modal">
       <modal-component ref="modal">

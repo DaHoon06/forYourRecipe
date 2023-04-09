@@ -24,12 +24,12 @@
         </section>
 
 
-        <section v-if="`role` === 'admin'">
+        <section>
           <div class="recipe-grid--layout select-box--container">
             <text-font color="black" size="18" weight="medium" class="pr-16">메인 재료</text-font>
 
             <div class="select-box">
-              <select v-model="selected">
+              <select v-model="state.selected">
                 <option v-for="(category) of state.ingredientsCategory" :key="category._id"
                         :value="category.detailedIngredient">
                   <text-font size="12">{{ category.name }}</text-font>
@@ -43,7 +43,6 @@
               </picture>
             </div>
           </div>
-
           <div v-if="state.selected.length > 0" class="ingredients-items--container scroll">
             <span v-for="(value) of state.selected" :key="value._id" @click="selectedIngredient(value._id)"
                   class="flex-column-center">
@@ -404,7 +403,6 @@ const registerRecipe = async () => {
     state.isLoading = true
 
     const formData: FormData = new FormData();
-    console.log(state.file[0])
     for (let i = 0; i < state.file.length; i++) {
       formData.append('file', state.file[i]);
     }
