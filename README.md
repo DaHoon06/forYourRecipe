@@ -1,6 +1,7 @@
 ## No.1 Recipe
 
 ### 빠르게 찾고 빨리 해먹자!
+
 No1.recipe는 원하는 재료를 선택하여 관련한 레시피를 찾아주는 반응형 웹 어플리케이션 입니다.
 
 
@@ -72,28 +73,36 @@ ___
 
 #### 프로젝트 기능 소개
 
-#### 구글 로그인
+> 구글 로그인
+
+로그인 후 레시피 등록 및 즐겨찾기를 이용할 수 있습니다.
+
+<div style="width: 400px">
 
 ![ezgif com-video-to-gif (4)](https://user-images.githubusercontent.com/76781436/230768585-c6fd8e49-7ccf-4e7d-8c8a-d484a7bfb074.gif)
+</div>
 
 #### 레시피 등록
 
+<div style="width: 400px">
+
 ![ezgif com-video-to-gif (5)](https://user-images.githubusercontent.com/76781436/230769311-001a9234-d6fb-4dde-8857-6d10684c6b11.gif)
 
+</div>
 
-#### 레시피 검색
-<p>
+### 레시피 검색
+
+<div style="width: 800px; display: flex">
 
 ![ezgif com-video-to-gif](https://user-images.githubusercontent.com/76781436/230767104-e33c3f1e-cff1-4ff0-9b93-382adec6cd2f.gif)
 
-
 ![ezgif com-video-to-gif (2)](https://user-images.githubusercontent.com/76781436/230767342-75d8fcec-0aa8-4e74-adb7-518663effa11.gif)
 
-</p>
+</div>
 
-#### 레시피 읽기
+### 레시피 읽기
 
-<div style="width: 120px;">
+<div style="width: 400px;">
 
 ![ezgif com-video-to-gif (3)](https://user-images.githubusercontent.com/76781436/230768190-f923a5d1-b909-4192-a157-a6856a2d5b0a.gif)
 
