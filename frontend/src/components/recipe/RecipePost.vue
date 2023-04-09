@@ -426,6 +426,7 @@ const registerRecipe = async () => {
         desc: state.recipePost.desc,
         user,
         allIngredient: state.recipePost.allIngredient,
+        detailedIngredient: state.ingredients,
         steps: state.recipePost.steps,
         profileImage: state.recipePost.profileImage
       }
