@@ -24,47 +24,47 @@
         </section>
 
 
-        <section>
-          <div class="recipe-grid--layout select-box--container">
-            <text-font color="black" size="18" weight="medium" class="pr-16">메인 재료</text-font>
+        <!--        <section>-->
+        <!--          <div class="recipe-grid&#45;&#45;layout select-box&#45;&#45;container">-->
+        <!--            <text-font color="black" size="18" weight="medium" class="pr-16">메인 재료</text-font>-->
 
-            <div class="select-box">
-              <select v-model="state.selected">
-                <option v-for="(category) of state.ingredientsCategory" :key="category._id"
-                        :value="category.detailedIngredient">
-                  <text-font size="12">{{ category.name }}</text-font>
-                </option>
-              </select>
-              <picture class="angle-icons">
-                <img
-                    loading="lazy"
-                    decoding="async"
-                    src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>
-              </picture>
-            </div>
-          </div>
-          <div v-if="state.selected.length > 0" class="ingredients-items--container scroll">
-            <span v-for="(value) of state.selected" :key="value._id" @click="selectedIngredient(value._id)"
-                  class="flex-column-center">
-              <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon--wrapper'">
-                <img loading="lazy" :src="value.img"
-                     sizes="(max-width: 32px)" decoding="async" aria-label="ingredients" alt="ingredients" width="32"
-                     height="32"/>
-              </picture>
-              <text-font class="pt-10" size="12">{{ value.name }}</text-font>
-            </span>
-          </div>
-          <text-font>
-            선택된 재료 :
-            <span v-for="(ingredient, index) of state.ingredients" :key="index">
-              <text-font size="12" color="gray">
-                {{ ingredient.name }},
-          </text-font>
-            </span>
-          </text-font>
+        <!--            <div class="select-box">-->
+        <!--              <select v-model="state.selected">-->
+        <!--                <option v-for="(category) of state.ingredientsCategory" :key="category._id"-->
+        <!--                        :value="category.detailedIngredient">-->
+        <!--                  <text-font size="12">{{ category.name }}</text-font>-->
+        <!--                </option>-->
+        <!--              </select>-->
+        <!--              <picture class="angle-icons">-->
+        <!--                <img-->
+        <!--                    loading="lazy"-->
+        <!--                    decoding="async"-->
+        <!--                    src="@/assets/images/icons/drop.svg" alt="드랍다운" width="8" height="8"/>-->
+        <!--              </picture>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div v-if="state.selected.length > 0" class="ingredients-items&#45;&#45;container scroll">-->
+        <!--            <span v-for="(value) of state.selected" :key="value._id" @click="selectedIngredient(value._id)"-->
+        <!--                  class="flex-column-center">-->
+        <!--              <picture :class="value.selected ? 'disabled-icon' : 'ingredient-icon&#45;&#45;wrapper'">-->
+        <!--                <img loading="lazy" :src="value.img"-->
+        <!--                     sizes="(max-width: 32px)" decoding="async" aria-label="ingredients" alt="ingredients" width="32"-->
+        <!--                     height="32"/>-->
+        <!--              </picture>-->
+        <!--              <text-font class="pt-10" size="12">{{ value.name }}</text-font>-->
+        <!--            </span>-->
+        <!--          </div>-->
+        <!--          <text-font>-->
+        <!--            선택된 재료 :-->
+        <!--            <span v-for="(ingredient, index) of state.ingredients" :key="index">-->
+        <!--              <text-font size="12" color="gray">-->
+        <!--                {{ ingredient.name }},-->
+        <!--          </text-font>-->
+        <!--            </span>-->
+        <!--          </text-font>-->
 
-          <div class="dotted my-16"/>
-        </section>
+        <!--          <div class="dotted my-16"/>-->
+        <!--        </section>-->
 
         <section class="pb-20 my-16">
           <text-font color="black" size="18" weight="medium">재료</text-font>
