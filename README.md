@@ -1,6 +1,8 @@
 ## No.1 Recipe
 
-#### 빠르게 찾고 해먹자
+### 빠르게 찾고 빨리 해먹자!
+No1.recipe는 원하는 재료를 선택하여 관련한 레시피를 찾아주는 반응형 웹 어플리케이션 입니다.
+
 
 <p>
 <a href="https://www.no1recipe.com/" target="_blank">사이트 구경하기</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://storybook.no1recipe.com/" target="_blank">스토리북</a>
