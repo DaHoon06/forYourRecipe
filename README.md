@@ -72,6 +72,35 @@ ___
 
 #### 프로젝트 기능 소개
 
+#### 구글 로그인
+
+![ezgif com-video-to-gif (4)](https://user-images.githubusercontent.com/76781436/230768585-c6fd8e49-7ccf-4e7d-8c8a-d484a7bfb074.gif)
+
+#### 레시피 등록
+
+![ezgif com-video-to-gif (5)](https://user-images.githubusercontent.com/76781436/230769311-001a9234-d6fb-4dde-8857-6d10684c6b11.gif)
+
+
+#### 레시피 검색
+<p>
+
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/76781436/230767104-e33c3f1e-cff1-4ff0-9b93-382adec6cd2f.gif)
+
+
+![ezgif com-video-to-gif (2)](https://user-images.githubusercontent.com/76781436/230767342-75d8fcec-0aa8-4e74-adb7-518663effa11.gif)
+
+</p>
+
+#### 레시피 읽기
+
+<div style="width: 120px;">
+
+![ezgif com-video-to-gif (3)](https://user-images.githubusercontent.com/76781436/230768190-f923a5d1-b909-4192-a157-a6856a2d5b0a.gif)
+
+</div>
+
+
+
 ___
 
 #### 개발 환경 세팅
