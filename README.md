@@ -73,9 +73,20 @@ ___
 
 #### 프로젝트 기능 소개
 
-> 구글 로그인
+적정한 화면에 맞도록 반응형 웹으로 구현하였습니다.
 
-로그인 후 레시피 등록 및 즐겨찾기를 이용할 수 있습니다.
+<div style="width: 800px; display: flex">
+
+![ezgif com-video-to-gif (7)](https://user-images.githubusercontent.com/76781436/230770175-319f326f-37b4-4207-a179-ff60abb17655.gif)
+
+
+![ezgif com-video-to-gif (3)](https://user-images.githubusercontent.com/76781436/230768190-f923a5d1-b909-4192-a157-a6856a2d5b0a.gif)
+
+</div>
+
+간편 로그인을 사용하였습니다. (구글)
+
+로그인 후에는 레시피 등록 및 즐겨찾기를 이용할 수 있습니다.
 
 <div style="width: 400px">
 
@@ -84,27 +95,23 @@ ___
 
 #### 레시피 등록
 
+나만의 레시피를 만들 수 있습니다.
+
 <div style="width: 400px">
 
 ![ezgif com-video-to-gif (5)](https://user-images.githubusercontent.com/76781436/230769311-001a9234-d6fb-4dde-8857-6d10684c6b11.gif)
 
 </div>
 
-### 레시피 검색
+#### 레시피 검색
+
+주 재료 또는 제목으로 레시피를 검색할 수 있습니다. 
 
 <div style="width: 800px; display: flex">
 
 ![ezgif com-video-to-gif](https://user-images.githubusercontent.com/76781436/230767104-e33c3f1e-cff1-4ff0-9b93-382adec6cd2f.gif)
 
 ![ezgif com-video-to-gif (2)](https://user-images.githubusercontent.com/76781436/230767342-75d8fcec-0aa8-4e74-adb7-518663effa11.gif)
-
-</div>
-
-### 레시피 읽기
-
-<div style="width: 400px;">
-
-![ezgif com-video-to-gif (3)](https://user-images.githubusercontent.com/76781436/230768190-f923a5d1-b909-4192-a157-a6856a2d5b0a.gif)
 
 </div>
 
