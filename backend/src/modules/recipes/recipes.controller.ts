@@ -30,7 +30,6 @@ import { UpdatedUserRecipeDto } from '@modules/recipes/dto/updated-user-recipe.d
 import { UpdatedRecipeLikeDto } from '@modules/recipes/dto/updated-recipe-like.dto';
 import { GlobalFilter } from '@src/lib/global.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { RecipeCommentDto } from '@modules/recipes/comment/dto/recipe.comment.dto';
 
 @UseFilters(new GlobalFilter())
 @Controller('recipes')
@@ -39,44 +38,25 @@ export class RecipesController {
   constructor(private readonly recipesService: RecipesService) {}
 
   @Get('/all-recipes')
-  @ApiOperation({
-    summary: '전체 레시피 조회 API',
-    description: '전체 레시피를 조회한다!!! 짱짱맨',
-  })
-  @ApiCreatedResponse({
-    description: '전체 레시피 리스트를 생성한다.',
-    isArray: true,
-    type: RecipeDto,
-  })
-  @ApiQuery({ name: 'page', type: Number, description: '페이지' })
+  @ApiOperation({summary: '전체 레시피 조회 API'})
+  @ApiCreatedResponse({ type: [RecipeDto] })
+  @ApiQuery({ name: 'page', type: Number })
   private async getAllRecipes(@Query('page') page: number) {
     return this.recipesService.findAll(page);
   }
 
   @Get('/random-recipes')
-  @ApiOperation({
-    summary: '랜덤으로 추천 레시피 조회 API',
-    description: '추천 레시피를 조회한다.',
-  })
-  @ApiCreatedResponse({
-    description: '랜덤으로 레시피 리스트를 생성한다.',
-    isArray: true,
-    type: RecipeDto,
-  })
+  @ApiOperation({summary: '랜덤으로 추천 레시피 조회 API'})
+  @ApiCreatedResponse({ type: [RecipeDto] })
   private async getRandomRecipes(): Promise<RecipeDto[]> {
     return this.recipesService.findRandom();
   }
 
   @Get('/detail/:id')
-  @ApiOperation({
-    summary: '레시피 id로 레시피 조회 API',
-    description: '레시피 id에 해당하는 레시피 조회한다.',
-  })
+  @ApiOperation({summary: '레시피 id로 레시피 조회 API'})
   @ApiCreatedResponse({
-    description:
-      '레시피 id에 부합한 레시피 리스트를 생성한다. * admin 등록 레시피 경우 user: { name : "admin" } 으로 리턴 ',
-    isArray: true,
-    type: RecipeDto,
+    description: '레시피 id에 부합한 레시피 리스트를 생성한다. * admin 등록 레시피 경우 user: { name : "admin" } 으로 리턴 ',
+    type: [RecipeDto]
   })
   @ApiParam({ name: 'id', description: '조회할 레시피 id' })
   private async getRecipeById(@Param('id') id: string): Promise<RecipeDto> {
@@ -84,17 +64,10 @@ export class RecipesController {
   }
 
   @Get('/ingredient-recipes')
-  @ApiOperation({
-    summary: '재료 id로 레시피 조회 API',
-    description: '필수 재료에 재료 id가 포함된 레시피 조회한다.',
-  })
-  @ApiCreatedResponse({
-    description: '재료 id에 부합한 레시피 리스트를 생성한다.',
-    isArray: true,
-    type: RecipeDto,
-  })
+  @ApiOperation({summary: '재료 id로 레시피 조회 API'})
+  @ApiCreatedResponse({ type: [RecipeDto] })
   @ApiQuery({ name: 'id', description: '선택한 재료 id들', type: [String] })
-  @ApiQuery({ name: 'page', type: Number, description: '페이지' })
+  @ApiQuery({ name: 'page', type: Number })
   private async getIngredientRecipes(
     @Query('id') ingredientIds: string[],
     @Query('page') page: number,
@@ -103,186 +76,71 @@ export class RecipesController {
   }
 
   @Get('/search')
-  @ApiOperation({
-    summary: '재료 제목으로 레시피 조회 API',
-    description: '제목에 검색어가 포함된 레시피 조회한다.',
-  })
-  @ApiCreatedResponse({
-    description: '검색어에 부합한 레시피 리스트를 생성한다.',
-    isArray: true,
-    type: RecipeDto,
-  })
+  @ApiOperation({summary: '재료 제목으로 레시피 조회 API'})
+  @ApiCreatedResponse({ type: [RecipeDto] })
   @ApiQuery({ name: 'keyword', description: '검색어', type: String })
-  @ApiQuery({ name: 'page', type: Number, description: '페이지' })
-  private async getRecipeByKeyword(
-    @Query('keyword') keyword: string,
-    @Query('page') page: number,
-  ) {
+  @ApiQuery({ name: 'page', type: Number })
+  private async getRecipeByKeyword( @Query('keyword') keyword: string,@Query('page') page: number) {
     return await this.recipesService.findRecipeByKeyword(0, keyword);
   }
 
   @Post('/register-recipe')
-  @ApiOperation({
-    summary: '회원 전용 레시피 등록 API',
-    description: '회원이 레시피 등록한다.',
-  })
-  @ApiCreatedResponse({
-    description:
-      '레시피 등록 후 성공 여부 boolean을 반환한다. 성공: true 실패: false 레시피 modified는 false  디폴트',
-    type: Boolean,
-  })
-  @ApiBody({
-    type: RegisteredUserRecipeDto,
-    description: '등록할 회원 레시피 정보',
-  })
-  private async registeredRecipe(
-    @Body() recipe: RegisteredUserRecipeDto,
-  ): Promise<string> {
-    return this.recipesService.setRecipe(recipe);
+  @ApiOperation({summary: '회원 전용 레시피 등록 API'})
+  @ApiCreatedResponse({ type: Boolean })
+  @ApiBody({type: RegisteredUserRecipeDto})
+  private async registeredRecipe(@Body() recipeDto: RegisteredUserRecipeDto): Promise<string> {
+    const { name, steps, user, profileImage, desc, allIngredient } = recipeDto;
+    return this.recipesService.setRecipe(name, steps, user, profileImage, desc, allIngredient);
   }
 
   @Post('/register-recipe/image-upload/:_id')
   @UseInterceptors(FilesInterceptor('file'))
-  @ApiOperation({
-    summary: '레시피 이미지 업로드 API',
-    description: 'S3에 이미지를 업로드',
-  })
-  async recipeImageUpload(
-    @Req() req,
-    @Param('_id') _id: string,
-    @UploadedFiles() file: Array<Express.Multer.File>,
-  ): Promise<void> {
-    const fileUploadDto = {
-      _id,
-      file,
-    };
+  @ApiOperation({summary: '레시피 이미지 업로드 API'})
+  async recipeImageUpload( @Req() req, @Param('_id') _id: string, @UploadedFiles() file: Array<Express.Multer.File>): Promise<void> {
+    const fileUploadDto = { _id, file };
     await this.recipesService.imageUpload(fileUploadDto);
   }
 
   @Post('/register-admin-recipe')
-  @ApiOperation({
-    summary: '관리자 전용 레시피 등록 API',
-    description: '관리자가 레시피 등록한다.',
-  })
+  @ApiOperation({ summary: '관리자 전용 레시피 등록 API' })
   @ApiCreatedResponse({
-    description:
-      '레시피 등록 후 성공 여부 boolean을 반환한다. 성공: true 실패: false 레시피 modified는 true 디폴트, user는 admin 디폴트',
+    description: '레시피 등록 후 성공 여부 boolean을 반환한다. 성공: true 실패: false 레시피 modified는 true 디폴트, user는 admin 디폴트',
     type: Boolean,
   })
-  @ApiBody({
-    type: RegisteredAdminRecipeDto,
-    description: '등록할 레시피 정보',
-  })
-  private async registeredAdminRecipe(
-    @Body() recipe: RegisteredAdminRecipeDto,
-  ): Promise<boolean> {
+  @ApiBody({ type: RegisteredAdminRecipeDto })
+  private async registeredAdminRecipe(@Body() recipe: RegisteredAdminRecipeDto): Promise<boolean> {
     return this.recipesService.setAdminRecipe(recipe);
   }
 
   @Put('/update-admin-recipe')
-  @ApiOperation({
-    summary: '관리자 전용 레시피 수정 API',
-    description: '관리자 레시피 수정한다.',
-  })
-  @ApiCreatedResponse({
-    description:
-      '레시피 수정 후 성공 여부 boolean을 반환한다. 성공: true 실패: false',
-    type: Boolean,
-  })
-  @ApiBody({
-    type: UpdatedAdminRecipeDto,
-    description: '수정할 관리자 레시피 정보',
-  })
-  private async updateAdminRecipe(
-    @Body() recipe: UpdatedAdminRecipeDto,
-  ): Promise<boolean> {
+  @ApiOperation({ summary: '관리자 전용 레시피 수정 API'})
+  @ApiCreatedResponse({ type: Boolean })
+  @ApiBody({ type: UpdatedAdminRecipeDto })
+  private async updateAdminRecipe(@Body() recipe: UpdatedAdminRecipeDto): Promise<boolean> {
     return this.recipesService.updateAdminRecipe(recipe);
   }
 
   @Put('/update-recipe')
-  @ApiOperation({
-    summary: '회원 전용 레시피 수정 API',
-    description: '회원 레시피 수정한다.',
-  })
-  @ApiCreatedResponse({
-    description:
-      '레시피 수정 후 성공 여부 boolean을 반환한다. 성공: true 실패: false',
-    type: Boolean,
-  })
-  @ApiBody({
-    type: UpdatedUserRecipeDto,
-    description: '수정할 회원 레시피 정보',
-  })
-  private async updateRecipe(
-    @Body() recipe: UpdatedUserRecipeDto,
-  ): Promise<boolean> {
+  @ApiOperation({ summary: '회원 전용 레시피 수정 API' })
+  @ApiCreatedResponse({ type: Boolean })
+  @ApiBody({ type: UpdatedUserRecipeDto })
+  private async updateRecipe(@Body() recipe: UpdatedUserRecipeDto): Promise<boolean> {
     return this.recipesService.updateRecipe(recipe);
   }
 
   @Patch('/update-like')
-  @ApiOperation({
-    summary: '회원의 즐겨찾기에 레시피 추가, 제거 API',
-    description:
-      '회원의 즐겨찾기에 레시피를 추가 및 제거한다.(등록 -> 미등록, 미등록 -> 등록)',
-  })
-  @ApiCreatedResponse({
-    description:
-      '회원의 즐겨찾기에 레시피 추가 후 해당 레시피가 줄겨찾기에 등록된 수(좋아요 수)를 반환한다.',
-    type: Number,
-  })
-  @ApiBody({
-    type: UpdatedRecipeLikeDto,
-    description: '추가할 레시피 아이디와 추가하려는 회원 아이디',
-  })
-  private async updateLike(
-    @Body() recipe: UpdatedRecipeLikeDto,
-  ): Promise<string[]> {
+  @ApiOperation({ summary: '회원의 즐겨찾기에 레시피 추가, 제거 API', description: '(등록 -> 미등록, 미등록 -> 등록)' })
+  @ApiCreatedResponse({type: Number})
+  @ApiBody({type: UpdatedRecipeLikeDto})
+  private async updateLike(@Body() recipe: UpdatedRecipeLikeDto): Promise<string[]> {
     return this.recipesService.updateLike(recipe);
   }
 
   @Delete('/delete-recipe/:id')
-  @ApiOperation({
-    summary: '레시피 삭제 API',
-    description: '레시피 삭제한다.',
-  })
-  @ApiCreatedResponse({
-    description:
-      '레시피 삭제 후 삭제 여부 boolean을 반환한다. 삭제: true 개시: false',
-    type: Boolean,
-  })
+  @ApiOperation({ summary: '레시피 삭제 API'})
+  @ApiCreatedResponse({ type: Boolean })
   @ApiParam({ name: 'id', description: '조회할 레시피 id', type: String })
   private async deleteRecipe(@Param('id') id: string): Promise<boolean> {
     return this.recipesService.deleteRecipe(id);
-  }
-
-  @Get('/favorites/:uid')
-  @ApiOperation({
-    summary: '즐겨찾기한 레시피 조회 API',
-    description: '즐겨찾기한 레시피 배열을 반환',
-  })
-  @ApiParam({
-    name: 'uid',
-    description: '사용자 uid 를 전달받음',
-    type: String,
-  })
-  @ApiQuery({ name: 'page', type: Number, description: '페이지' })
-  private async getFavoriteRecipe(
-    @Param('uid') uid: string,
-    @Query('page') page: number,
-  ): Promise<RecipeDto[]> {
-    return this.recipesService.getFavoriteRecipe(uid, page);
-  }
-
-  @Post('/comments')
-  @ApiOperation({
-    summary: '레시피 댓글 등록',
-    description: '상세보기한 레시피에 댓글을 등록',
-  })
-  @ApiBody({
-    type: RecipeCommentDto,
-    description: '필요 정보',
-  })
-  private async insertRecipeComment(@Body() body: RecipeCommentDto) {
-    return this.recipesService.insertRecipeComment;
   }
 }

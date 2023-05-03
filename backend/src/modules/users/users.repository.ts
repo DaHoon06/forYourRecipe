@@ -2,18 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '@modules/users/entities/user.entity';
 import { Model } from 'mongoose';
-import { UserDto } from '@modules/users/dto/user.dto';
-import { RegisteredUserDto } from '@modules/users/dto/registered-user.dto';
 
 @Injectable()
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async findById(id: string): Promise<UserDto> {
+  async findById(id: string): Promise<User> {
     return this.userModel.findById(id);
   }
 
-  async setUser(user: RegisteredUserDto): Promise<User> {
+  async setUser(user: User): Promise<User> {
     return await new this.userModel(user).save();
+  }
+
+  async updateOne(_id: string, favoriteRecipes: string[]) {
+    return this.userModel.updateOne({ _id }, { $set: { favoriteRecipes } },)
   }
 }

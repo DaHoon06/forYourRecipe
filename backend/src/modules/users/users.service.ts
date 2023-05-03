@@ -1,44 +1,37 @@
 import { Injectable, UseFilters } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { User, UserDocument } from '@modules/users/entities/user.entity';
-import { RegisteredUserDto } from '@modules/users/dto/registered-user.dto';
+import { User } from '@modules/users/entities/user.entity';
 import { UserDto } from '@modules/users/dto/user.dto';
 import { GlobalFilter } from '@src/lib/global.filter';
+import {UsersRepository} from "@modules/users/users.repository";
 
 @UseFilters(new GlobalFilter())
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor( private readonly usersRepository: UsersRepository ) {}
 
   async findById(id: string) {
-    return this.userModel.findById(id);
+    return this.usersRepository.findById(id);
   }
 
-  async setUser(user: RegisteredUserDto): Promise<UserDto> {
-    const { id, name, email } = user;
-    const foundUser = await this.userModel.findById(id);
+  async signIn(id: string, name: string, email: string): Promise<UserDto> {
+    const foundUser = await this.usersRepository.findById(id);
     if (!foundUser) {
       const newUser = new User(id, name, email);
-      const registeredUser = await new this.userModel(newUser).save();
-
+      const registeredUser = await this.usersRepository.setUser(newUser);
       return this.getUserDto(registeredUser);
     }
     return this.getUserDto(foundUser);
   }
 
-  async setFavoriteRecipes( recipeId: string, userId: string ): Promise<string[]> {
-    const { favoriteRecipes } = await this.userModel.findById(userId);
+  async setFavoriteRecipes(recipeId: string, userId: string): Promise<string[]> {
+    const { favoriteRecipes } = await this.usersRepository.findById(userId);
     const index = favoriteRecipes.indexOf(recipeId);
     if (index > -1) {
       favoriteRecipes.splice(index, 1);
     } else {
       favoriteRecipes.push(recipeId);
     }
-    await this.userModel.updateOne(
-      { _id: userId },
-      { $set: { favoriteRecipes: favoriteRecipes } },
-    );
+    await this.usersRepository.updateOne(userId, favoriteRecipes);
     return favoriteRecipes;
   }
 

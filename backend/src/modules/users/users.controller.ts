@@ -3,9 +3,11 @@ import { UsersService } from '@modules/users/users.service';
 import { RegisteredUserDto } from '@modules/users/dto/registered-user.dto';
 import { UserDto } from '@modules/users/dto/user.dto';
 import { GlobalFilter } from '@src/lib/global.filter';
+import {ApiTags} from "@nestjs/swagger";
 
 @UseFilters(new GlobalFilter())
 @Controller('users')
+@ApiTags('회원 관련 API')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
@@ -16,6 +18,7 @@ export class UsersController {
 
   @Post('/sign-in')
   private async signIn(@Body() user: RegisteredUserDto): Promise<UserDto> {
-    return this.userService.setUser(user);
+    const { id, name, email } = user;
+    return this.userService.signIn(id, name, email);
   }
 }

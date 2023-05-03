@@ -10,12 +10,10 @@ import { IngredientsRepository } from '@modules/ingredients/ingredients.reposito
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Ingredient.name, schema: IngredientSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Ingredient.name, schema: IngredientSchema }]),
   ],
   controllers: [IngredientsController],
   providers: [IngredientsService, IngredientsRepository],
-  exports: [IngredientsService, IngredientsModule],
+  exports: [IngredientsService],
 })
 export class IngredientsModule {}

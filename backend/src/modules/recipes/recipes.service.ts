@@ -18,14 +18,14 @@ import { UsersService } from '@modules/users/users.service';
 import { GlobalFilter } from '@src/lib/global.filter';
 import { S3Service } from '@src/providers/aws/s3/s3.service';
 import { RecipeRepository } from '@modules/recipes/recipe.repository';
-import { RecipeUserDto } from '@modules/users/dto/recipe-user.dto';
-import { RecipeCommentDto } from '@modules/recipes/comment/dto/recipe.comment.dto';
+import {RecipeUserDto} from "@modules/users/dto/recipe-user.dto";
+import {IngredientCategory} from "@src/enums/ingredientCategory";
+import {AllIngredientDto} from "@modules/ingredients/dto/all-ingredient.dto";
 
 @UseFilters(new GlobalFilter())
 @Injectable()
 export class RecipesService {
   constructor(
-    @InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>,
     private readonly ingredientsService: IngredientsService,
     private readonly userService: UsersService,
     private readonly s3Service: S3Service,
@@ -35,9 +35,7 @@ export class RecipesService {
   //전체 레시피 반환
   async findAll(page: number): Promise<RecipeDto[]> {
     if (!page || isNaN(page)) page = 1;
-    const foundRecipes = await this.recipeRepository.findAllRecipe(
-      this.currentPage(page),
-    );
+    const foundRecipes = await this.recipeRepository.findAllRecipe(this.currentPage(page));
     return this.getRecipeDtoArr(foundRecipes);
   }
 
@@ -54,37 +52,26 @@ export class RecipesService {
   }
 
   //재료로 레시피 찾기
-  async findRecipesByIngredient(
-    page: number,
-    ingredientIds: string[],
-  ): Promise<RecipeDto[]> {
+  async findRecipesByIngredient(page: number, ingredientIds: string[]): Promise<RecipeDto[]> {
     if (!page || isNaN(page)) page = 1;
     const skip = this.currentPage(page);
-    const recipes = await this.recipeRepository.findRecipesByIngredient(
-      ingredientIds,
-      skip,
-    );
+    const recipes = await this.recipeRepository.findRecipesByIngredient(ingredientIds, skip);
     return this.getRecipeDtoArr(recipes);
   }
 
   //제목으로 레시피 찾기
-  async findRecipeByKeyword(
-    page: number,
-    keyword: string,
-  ): Promise<RecipeDto[]> {
+  async findRecipeByKeyword(page: number, keyword: string): Promise<RecipeDto[]> {
     if (!page || isNaN(page)) page = 1;
     const regex = new RegExp(`.*${keyword}.*`);
     const skip = this.currentPage(page);
-    const recipes = await this.recipeRepository.findRecipeByKeyword(
-      regex,
-      skip,
-    );
+    const recipes = await this.recipeRepository.findRecipeByKeyword(regex, skip);
     return this.getRecipeDtoArr(recipes);
   }
 
   //회원 레시피 등록
-  async setRecipe(recipeDto: RegisteredUserRecipeDto): Promise<string> {
-    const { name, steps, user, profileImage, desc, allIngredient } = recipeDto;
+  async setRecipe(name: string, steps: StepsDto[],
+                  user: string, profileImage: string, desc: string,
+                  allIngredient: AllIngredientDto[]): Promise<string> {
     const recipe = new Recipe(
       Role.USER,
       this.getSteps(steps),
@@ -94,7 +81,7 @@ export class RecipesService {
       allIngredient,
       user,
     );
-    const { _id } = await new this.recipeModel(recipe).save();
+    const { _id } = await this.recipeRepository.saveRecipe(recipe)
     return _id;
   }
 
@@ -115,14 +102,7 @@ export class RecipesService {
 
   //관리자 레시피 등록
   async setAdminRecipe(recipeDto: RegisteredAdminRecipeDto): Promise<boolean> {
-    const {
-      name,
-      steps,
-      desc,
-      profileImage,
-      allIngredient,
-      detailedIngredient,
-    } = recipeDto;
+    const { name, steps, desc, profileImage, allIngredient, detailedIngredient } = recipeDto;
 
     const recipe = new Recipe(
       Role.ADMIN,
@@ -141,7 +121,8 @@ export class RecipesService {
 
   //관리자 레시피 수정
   async updateAdminRecipe(recipe: UpdatedAdminRecipeDto): Promise<boolean> {
-    return this.recipeRepository.updateOneRecipeForAdmin(recipe);
+    const { id, name, desc, allIngredient, steps, detailedIngredient, profileImage } = recipe;
+    return this.recipeRepository.updateOneRecipeForAdmin(id, name, desc, allIngredient, steps, detailedIngredient, profileImage);
   }
 
   //회원 즐겨찾는 레시피에 추가
@@ -164,13 +145,7 @@ export class RecipesService {
   }
 
   private getSteps(steps: StepsDto[]): StepsDto[] {
-    return steps.map(({ step, desc, img }) => {
-      return {
-        step,
-        desc,
-        img: img ? img : '',
-      };
-    });
+    return steps.map(({ step, desc, img }) => { return { step, desc, img: img ? img : '' }})
   }
 
   /**
@@ -188,35 +163,16 @@ export class RecipesService {
     return this.getRecipeDtoArr(favoritesRecipe);
   }
 
-  /**
-   * @description 레시피 댓글 남기기
-   * @param body
-   */
-  async insertRecipeComment(body: RecipeCommentDto) {}
-
   private async getRecipeDto(recipe: Recipe): Promise<RecipeDto> {
-    const detailedIngredient = await this.ingredientsService.findIngredientById(
-      recipe.detailedIngredient,
-    );
-
+    const detailedIngredient = await this.ingredientsService.findIngredientById(recipe.detailedIngredient)
     const getUser = async () => {
       if (recipe.user === Role.ADMIN) {
-        return {
-          name: 'admin',
-        };
+        return { name: Role.ADMIN }
       } else {
-        const { id, img, name, introduce } = await this.userService.findById(
-          recipe.user,
-        );
-        return {
-          id,
-          img,
-          name,
-          introduce,
-        };
+        const { _id, img, name, introduce } = await this.userService.findById(recipe.user)
+        return { _id, img, name, introduce }
       }
-    };
-
+    }
     return new RecipeDto(
       recipe._id,
       recipe.name,
@@ -235,14 +191,10 @@ export class RecipesService {
   }
 
   private async getRecipeDtoArr(recipes: Recipe[]): Promise<RecipeDto[]> {
-    return Promise.all(
-      recipes.map(async (recipe) => {
-        return this.getRecipeDto(recipe);
-      }),
-    );
+    return Promise.all(recipes.map(async (recipe) => this.getRecipeDto(recipe)))
   }
 
-  private currentPage(page: number) {
-    return (page - 1) * 8;
+  private currentPage(page: number): number {
+    return (page - 1) * 8
   }
 }
