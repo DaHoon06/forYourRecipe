@@ -6,7 +6,8 @@ import {
 } from '@modules/recipes/entities/recipe.entity';
 import {Model} from 'mongoose';
 import {UpdatedUserRecipeDto} from '@modules/recipes/dto/updated-user-recipe.dto';
-import {UpdatedAdminRecipeDto} from "@modules/recipes/dto/updated-admin-recipe.dto";
+import {AllIngredientDto} from "@modules/ingredients/dto/all-ingredient.dto";
+import {StepsDto} from "@modules/recipes/dto/steps.dto";
 
 @Injectable()
 export class RecipeRepository {
@@ -91,31 +92,12 @@ export class RecipeRepository {
     return acknowledged;
   }
 
-  async updateOneRecipeForAdmin(recipe: UpdatedAdminRecipeDto) {
-    const {
-      id,
-      name,
-      desc,
-      allIngredient,
-      steps,
-      detailedIngredient,
-      profileImage,
-    } = recipe;
-
+  async updateOneRecipeForAdmin(id: string, name: string, desc: string,
+                                allIngredient: AllIngredientDto[], steps: StepsDto[],
+                                detailedIngredient: string[], profileImage: string ) {
     const {acknowledged} = await this.recipeModel.updateOne(
-      {_id: id},
-      {
-        $set: {
-          name: name,
-          desc: desc,
-          updatedAt: new Date(),
-          allIngredient: allIngredient,
-          steps: steps,
-          detailedIngredient: detailedIngredient,
-          profileImage: profileImage,
-        },
-      },
-    );
+          {_id: id},
+        {$set: { name, desc, allIngredient, steps, detailedIngredient, profileImage, updatedAt: new Date()}});
     return acknowledged;
   }
 

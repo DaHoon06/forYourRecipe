@@ -4,6 +4,26 @@ import { IngredientCategory } from '@src/enums/ingredientCategory';
 import { v4 as uuidv4 } from 'uuid';
 import { Role } from '@src/enums/role';
 
+class Step {
+  @Prop({ type: Number, required: true })
+  step: number;
+  @Prop({ type: String, required: true })
+  desc: string;
+  @Prop({ type: String, required: false })
+  img?: string;
+}
+
+class AllIngredient {
+  @Prop({ type: () => IngredientCategory, required: true })
+  category: IngredientCategory
+
+  @Prop({ type: () => [{ name: { type: String, required: true }, unit: { type: String, required: false }}], required: true })
+  ingredients: {
+    name: string;
+    unit?: string;
+  }[];
+}
+
 @Schema({ collection: 'recipes', versionKey: false, _id: false })
 export class Recipe {
   @Prop({ type: String, required: true })
@@ -27,49 +47,15 @@ export class Recipe {
   @Prop({ type: String, required: true })
   user: string;
 
-  @Prop({
-    type: [
-      {
-        step: { type: Number, required: true },
-        desc: { type: String, required: true },
-        img: { type: String, required: false },
-      },
-    ],
-    required: true,
-  })
-  steps: {
-    step: number;
-    desc: string;
-    img?: string;
-  }[];
+  @Prop({type: () => [Step], required: true })
+  steps: Step[];
 
   //재료 검색 가능한지 레시피인지 체크
   @Prop({ type: Boolean, required: true, default: true })
   modified: boolean;
 
-  @Prop({
-    type: [
-      {
-        category: { type: String, required: true },
-        ingredients: {
-          type: [
-            {
-              name: { type: String, required: true },
-              unit: { type: String, required: false },
-            },
-          ],
-        },
-      },
-    ],
-    required: true,
-  })
-  allIngredient: {
-    category: IngredientCategory;
-    ingredients: {
-      name: string;
-      unit?: string;
-    }[];
-  }[];
+  @Prop({ type: () => [AllIngredient], required: true })
+  allIngredient: AllIngredient[];
 
   @Prop({ type: Boolean, required: true, default: false })
   deleted: boolean;
@@ -80,19 +66,10 @@ export class Recipe {
   @Prop({ type: String, required: true })
   profileImage: string;
 
-  constructor(
-    roll: Role,
-    steps: { step: number; desc: string; img?: string }[],
-    name: string,
-    desc: string,
-    profileImage: string,
-    allIngredient: {
-      category: IngredientCategory;
-      ingredients: { name: string; unit?: string }[];
-    }[],
-    user: string,
-    detailedIngredient?: string[],
-  ) {
+  constructor( roll: Role, steps: Step[],
+               name: string, desc: string,
+               profileImage: string, allIngredient: AllIngredient[],
+               user: string, detailedIngredient?: string[]) {
     this._id = uuidv4();
     this.steps = steps;
     this.allIngredient = allIngredient;

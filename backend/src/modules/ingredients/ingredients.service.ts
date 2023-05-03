@@ -1,56 +1,33 @@
 import { Injectable, UseFilters } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import {
-  Ingredient,
-  IngredientDocument,
-} from '@modules/ingredients/entities/ingredient.entity';
-import { Model } from 'mongoose';
+import {DetailedIngredient, Ingredient} from '@modules/ingredients/entities/ingredient.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { IngredientDto } from '@modules/ingredients/dto/ingredient.dto';
 import { RegisteredIngredientDto } from '@modules/ingredients/dto/registered-ingredient.dto';
 import { GlobalFilter } from '@src/lib/global.filter';
+import {IngredientsRepository} from "@modules/ingredients/ingredients.repository";
 
 @UseFilters(new GlobalFilter())
 @Injectable()
 export class IngredientsService {
-  constructor(
-    @InjectModel(Ingredient.name)
-    private ingredientModel: Model<IngredientDocument>,
-  ) {}
+  constructor(private readonly ingredientsRepository: IngredientsRepository) {}
 
   //재료 등록
   async setIngredient(ingredientDto: RegisteredIngredientDto) {
     const { name, detailedIngredient } = ingredientDto;
-    const ingredients = detailedIngredient.map(({ name, img }) => {
-      return {
-        _id: uuidv4(),
-        name,
-        img: img ? img : '',
-      };
-    });
-    const ingredient = {
-      _id: uuidv4(),
-      name,
-      detailedIngredient: ingredients,
-    };
-    const registeredIngredient = await new this.ingredientModel(
-      ingredient,
-    ).save();
+    const ingredients = detailedIngredient.map(({ name, img }) => new DetailedIngredient(uuidv4(), name, img ? img : ''))
+    const registeredIngredient = await this.ingredientsRepository.save(new Ingredient(uuidv4(), name, ingredients))
     if (registeredIngredient) return true;
     return false;
   }
 
   //모든 재료 반환
   async findAllIngredient(): Promise<IngredientDto[]> {
-    return this.ingredientModel.find();
+    return this.ingredientsRepository.findAll();
   }
 
   async findIngredientById(id: string[]) {
-    const foundIngredients = await this.ingredientModel.find({
-      detailedIngredient: { $elemMatch: { _id: { $in: id } } },
-    });
+    const foundIngredients = await this.ingredientsRepository.findIngredientById(id)
     const detailedIngredients = [];
-
     foundIngredients
       .map(({ detailedIngredient }: Ingredient) => detailedIngredient)
       .map((ingredients) =>
@@ -69,21 +46,10 @@ export class IngredientsService {
   async setIngredients(ingredientDtoArr: RegisteredIngredientDto[]) {
     ingredientDtoArr.forEach((dto) => {
       const { name, detailedIngredient } = dto;
-      const ingredients = detailedIngredient.map(({ name, img }) => {
-        return {
-          _id: uuidv4(),
-          name,
-          img: img ? img : '',
-        };
-      });
-      const ingredient = {
-        _id: uuidv4(),
-        name,
-        detailedIngredient: ingredients,
-      };
-      const registeredIngredient = new this.ingredientModel(ingredient).save();
+      const ingredients = detailedIngredient.map(({name, img}) => new DetailedIngredient(uuidv4(), name, img ? img : ''))
+      const registeredIngredient = this.ingredientsRepository.save(new Ingredient(uuidv4(), name, ingredients))
       if (!registeredIngredient) return false;
-    });
-    return true;
+    })
+    return true
   }
 }
