@@ -21,6 +21,7 @@ import { RecipeRepository } from '@modules/recipes/recipe.repository';
 import {RecipeUserDto} from "@modules/users/dto/recipe-user.dto";
 import {IngredientCategory} from "@src/enums/ingredientCategory";
 import {AllIngredientDto} from "@modules/ingredients/dto/all-ingredient.dto";
+import {DetailedIngredientDto} from "@modules/ingredients/dto/detailed-ingredient.dto";
 
 @UseFilters(new GlobalFilter())
 @Injectable()
@@ -96,14 +97,15 @@ export class RecipesService {
   }
 
   //회원 레시피 수정
-  async updateRecipe(recipe: UpdatedUserRecipeDto): Promise<boolean> {
-    return this.recipeRepository.updateOneRecipe(recipe);
+  async updateRecipe(id: string, name: string, user: string, desc: string,
+                     allIngredient: AllIngredientDto[], steps: StepsDto[],
+                     profileImage: string): Promise<boolean> {
+    const { acknowledged } = await this.recipeRepository.updateOneRecipe(id, name, user, desc, allIngredient, steps, profileImage);
+    return acknowledged
   }
 
   //관리자 레시피 등록
-  async setAdminRecipe(recipeDto: RegisteredAdminRecipeDto): Promise<boolean> {
-    const { name, steps, desc, profileImage, allIngredient, detailedIngredient } = recipeDto;
-
+  async setAdminRecipe(name: string, steps: StepsDto[], desc: string, profileImage: string, allIngredient: AllIngredientDto[], detailedIngredient: string[]): Promise<boolean> {
     const recipe = new Recipe(
       Role.ADMIN,
       this.getSteps(steps),
@@ -120,14 +122,14 @@ export class RecipesService {
   }
 
   //관리자 레시피 수정
-  async updateAdminRecipe(recipe: UpdatedAdminRecipeDto): Promise<boolean> {
-    const { id, name, desc, allIngredient, steps, detailedIngredient, profileImage } = recipe;
+  async updateAdminRecipe(id: string, name: string, desc: string,
+                          allIngredient: AllIngredientDto[], steps: StepsDto[],
+                          detailedIngredient: string[], profileImage: string): Promise<boolean> {
     return this.recipeRepository.updateOneRecipeForAdmin(id, name, desc, allIngredient, steps, detailedIngredient, profileImage);
   }
 
   //회원 즐겨찾는 레시피에 추가
-  async updateLike(recipe: UpdatedRecipeLikeDto): Promise<string[]> {
-    const { id, user } = recipe;
+  async updateLike(id: string, user: string): Promise<string[]> {
     const { likes } = await this.recipeRepository.findOneRecipeById(id);
     const index = likes.indexOf(user);
     if (index > -1) {

@@ -68,10 +68,7 @@ export class RecipesController {
   @ApiCreatedResponse({ type: [RecipeDto] })
   @ApiQuery({ name: 'id', description: '선택한 재료 id들', type: [String] })
   @ApiQuery({ name: 'page', type: Number })
-  private async getIngredientRecipes(
-    @Query('id') ingredientIds: string[],
-    @Query('page') page: number,
-  ) {
+  private async getIngredientRecipes( @Query('id') ingredientIds: string[], @Query('page') page: number ) {
     return this.recipesService.findRecipesByIngredient(page, ingredientIds);
   }
 
@@ -96,7 +93,7 @@ export class RecipesController {
   @Post('/register-recipe/image-upload/:_id')
   @UseInterceptors(FilesInterceptor('file'))
   @ApiOperation({summary: '레시피 이미지 업로드 API'})
-  async recipeImageUpload( @Req() req, @Param('_id') _id: string, @UploadedFiles() file: Array<Express.Multer.File>): Promise<void> {
+  async recipeImageUpload( @Req() req, @Param('_id') _id: string, @UploadedFiles() file: Array<Express.Multer.File> ): Promise<void> {
     const fileUploadDto = { _id, file };
     await this.recipesService.imageUpload(fileUploadDto);
   }
@@ -109,7 +106,8 @@ export class RecipesController {
   })
   @ApiBody({ type: RegisteredAdminRecipeDto })
   private async registeredAdminRecipe(@Body() recipe: RegisteredAdminRecipeDto): Promise<boolean> {
-    return this.recipesService.setAdminRecipe(recipe);
+    const { name, steps, desc, profileImage, allIngredient, detailedIngredient } = recipe;
+    return this.recipesService.setAdminRecipe(name, steps, desc, profileImage, allIngredient, detailedIngredient);
   }
 
   @Put('/update-admin-recipe')
@@ -117,7 +115,8 @@ export class RecipesController {
   @ApiCreatedResponse({ type: Boolean })
   @ApiBody({ type: UpdatedAdminRecipeDto })
   private async updateAdminRecipe(@Body() recipe: UpdatedAdminRecipeDto): Promise<boolean> {
-    return this.recipesService.updateAdminRecipe(recipe);
+    const { id, name, desc, allIngredient, steps, detailedIngredient, profileImage } = recipe;
+    return this.recipesService.updateAdminRecipe(id, name, desc, allIngredient, steps, detailedIngredient, profileImage);
   }
 
   @Put('/update-recipe')
@@ -125,7 +124,8 @@ export class RecipesController {
   @ApiCreatedResponse({ type: Boolean })
   @ApiBody({ type: UpdatedUserRecipeDto })
   private async updateRecipe(@Body() recipe: UpdatedUserRecipeDto): Promise<boolean> {
-    return this.recipesService.updateRecipe(recipe);
+    const {id, name, user, desc, allIngredient, steps, profileImage} = recipe;
+    return this.recipesService.updateRecipe(id, name, user, desc, allIngredient, steps, profileImage);
   }
 
   @Patch('/update-like')
@@ -133,7 +133,8 @@ export class RecipesController {
   @ApiCreatedResponse({type: Number})
   @ApiBody({type: UpdatedRecipeLikeDto})
   private async updateLike(@Body() recipe: UpdatedRecipeLikeDto): Promise<string[]> {
-    return this.recipesService.updateLike(recipe);
+    const { id, user } = recipe;
+    return this.recipesService.updateLike(id, user);
   }
 
   @Delete('/delete-recipe/:id')

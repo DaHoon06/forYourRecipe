@@ -73,23 +73,13 @@ export class RecipeRepository {
     );
   }
 
-  async updateOneRecipe(recipe: UpdatedUserRecipeDto) {
-    const {id, name, user, desc, allIngredient, steps, profileImage} = recipe;
-    const {acknowledged} = await this.recipeModel.updateOne(
-      {_id: id},
-      {
-        $set: {
-          name: name,
-          desc: desc,
-          user: user,
-          updatedAt: new Date(),
-          allIngredient: allIngredient,
-          steps: steps,
-          profileImage: profileImage,
-        },
-      },
+  async updateOneRecipe(_id: string, name: string, user: string, desc: string,
+                        allIngredient: AllIngredientDto[], steps: StepsDto[],
+                        profileImage: string) {
+    return this.recipeModel.updateOne(
+      {_id},
+      {$set: {name, desc, user, updatedAt: new Date(), allIngredient, steps, profileImage}},
     );
-    return acknowledged;
   }
 
   async updateOneRecipeForAdmin(id: string, name: string, desc: string,
