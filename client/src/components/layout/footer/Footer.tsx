@@ -1,3 +1,3 @@
 export const Footer = () => {
-  return <footer>TEST</footer>
+  return <footer data-testid={'render-footer'}>/</footer>
 }
