@@ -1,4 +1,4 @@
-const path = require('path/posix')
+const path = require('path')
 const { pathsToModuleNameMapper } = require('ts-jest')
 const { compilerOptions } = require('./tsconfig.json')
 
@@ -13,6 +13,7 @@ module.exports = {
   ],
   webpack: {
     alias: {
+      // '@': path.resolve(__dirname, 'src'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@libs': path.resolve(__dirname, 'src/libs'),
@@ -20,21 +21,21 @@ module.exports = {
   },
   jest: {
     configure: {
-      // preset: 'ts-jest',
-      // moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'json'],
-      // transform: {
-      //   '^.+\\.(js|jsx)?$': 'babel-jest',
-      // },
-      // testEnvironment: 'node',
-      // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-      //   prefix: '<rootDir>/',
-      // }),
-      moduleNameMapper: {
-        '^\\@components/(.*)$': '<rootDir>/src/components/$1',
-        '^\\@pages/(.*)$': '<rootDir>/src/pages/$1',
-        '^\\@libs/(.*)$': '<rootDir>/src/libs/$1',
+      preset: 'ts-jest',
+      moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'json'],
+      transform: {
+        '^.+\\.(js|jsx)?$': 'babel-jest',
       },
-      // transformIgnorePatterns: ['<rootDir>/node_modules/'],
+      testEnvironment: 'node',
+      moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+        prefix: '<rootDir>/',
+      }),
+      // moduleNameMapper: {
+      //   '^\\@components/(.*)$': '<rootDir>/src/components/$1',
+      //   '^\\@pages/(.*)$': '<rootDir>/src/pages/$1',
+      //   '^\\@libs/(.*)$': '<rootDir>/src/libs/$1',
+      // },
+      transformIgnorePatterns: ['<rootDir>/node_modules/'],
     },
   },
 }
