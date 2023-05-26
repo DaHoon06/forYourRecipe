@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import '@styles/global.scss'
 
 const queryClient = new QueryClient({
   defaultOptions: {

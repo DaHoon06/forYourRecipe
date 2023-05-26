@@ -20,7 +20,9 @@
     "paths": {
       "@components/*": ["./src/components/*"],
       "@pages/*": ["./src/pages/*"],
-      "@libs/*": ["./src/libs/*"]
+      "@libs/*": ["./src/libs/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@tests/*": ["./src/__test__/*"]
     }
   },
   "include": ["src/**/*"],

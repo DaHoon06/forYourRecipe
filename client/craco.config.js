@@ -17,6 +17,8 @@ module.exports = {
       '@components': path.resolve(__dirname, 'src/components'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@libs': path.resolve(__dirname, 'src/libs'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+      '@tests': path.resolve(__dirname, 'src/__test__'),
     },
   },
   jest: {
@@ -36,6 +38,15 @@ module.exports = {
       //   '^\\@libs/(.*)$': '<rootDir>/src/libs/$1',
       // },
       transformIgnorePatterns: ['<rootDir>/node_modules/'],
+    },
+  },
+  style: {
+    sass: {
+      loaderOptions: {
+        additionalData: `
+          @import "src/styles/colors.scss";
+        `,
+      },
     },
   },
 }

@@ -1,9 +1,11 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { Header } from '@components/layout/header/Header'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import { Footer } from '@components/layout/footer/Footer'
+import { SERVER } from '@tests/mocks/server'
+import { rest } from 'msw'
 
 const renderWithRouter = (ui: any, { route = '/' } = {}) => {
   window.history.pushState({}, 'Test Page', route)
@@ -15,17 +17,16 @@ const renderWithRouter = (ui: any, { route = '/' } = {}) => {
 }
 
 describe('Header Components Test Code', () => {
+  const user = userEvent.setup()
   const headerRender = () => {
     render(<Header />, { wrapper: BrowserRouter })
   }
 
-  const user = userEvent.setup()
-
   test('Logo를 클릭했을 때 /로 이동되는지?', async () => {
     headerRender()
+
     const logo = screen.getByRole('img', { name: 'logo' })
     expect(logo).toBeInTheDocument()
-
     await user.click(logo)
     const route = '/'
     renderWithRouter(<Footer />, { route })
@@ -35,13 +36,45 @@ describe('Header Components Test Code', () => {
 })
 
 describe('Search Input Test Code', () => {
-  test('header component에 검색창이 존재하는지 확인', () => {})
+  const user = userEvent.setup()
+  const headerRender = () => {
+    render(<Header />, { wrapper: BrowserRouter })
+  }
 
-  test('검색창에 text 입력이 되는지 확인', () => {})
+  const expectKeyword = '볶음밥'
+
+  test('header component에 검색창이 존재하는지 확인', () => {
+    headerRender()
+    const searchInput = screen.getByRole('textbox')
+    expect(searchInput).toBeInTheDocument()
+  })
+
+  test('검색창에 text 입력이 되는지 확인', async () => {
+    headerRender()
+    const searchInput = screen.getByRole('textbox')
+    await user.click(searchInput)
+    await user.type(searchInput, expectKeyword)
+    expect(searchInput).toHaveValue(expectKeyword)
+  })
 
   //TODO: server에 검색 keyword 전송 후 반환 값 돌려받기
   // 전송 후 검색어가 지워졌는지 확인
-  test('검색어가 서버에 전송이 되는지?', () => {})
+  test('검색어가 서버에 전송이 되는지?', async () => {
+    headerRender()
+    const searchInput = screen.getByRole('textbox')
+    await user.click(searchInput)
+    await user.type(searchInput, expectKeyword)
+
+    const submitButton = screen.getByRole('button', { name: '검색' })
+    await user.click(submitButton)
+
+    //TODO: "볶음밥" 을 넘겼을 때에대한 결과 값 확인
+    SERVER.resetHandlers(
+      rest.post('https://localhost:4000/api/search', (req, res, ctx) => {
+        return res(ctx.body(expectKeyword))
+      })
+    )
+  })
 
   test('검색어가 쿠키에 저장이 되었는지 확인', () => {})
 
