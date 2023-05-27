@@ -1,6 +1,9 @@
 import styles from './Header.module.scss'
+import { Input } from '@components/input/Input'
+import { useState } from 'react'
 
 export const Header = () => {
+  const [keyword, setKeyword] = useState('')
   // TODO ERROR Action Update
   const search = () => {
     try {
@@ -15,9 +18,12 @@ export const Header = () => {
         <div role={'img'}>Logo</div>
         <div>
           <form onSubmit={search}>
-            <label htmlFor={'search-input'}>
-              <input id={'search-input'} type={'text'} placeholder={'Search'} />
-            </label>
+            <Input
+              placeholder={'Search...'}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              id={'search-input'}
+            />
             <button type={'submit'}>검색</button>
           </form>
           <button type={'button'}>Hamburger</button>

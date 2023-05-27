@@ -5,14 +5,14 @@ import { Typography } from '@components/typography/Typography'
 type InputValue = string | number | ReadonlyArray<string>
 type InputChangeEvent = ChangeEvent<HTMLInputElement>
 
-interface Input extends ComponentProps<'input'> {
+interface InputProps extends ComponentProps<'input'> {
   variant?: ''
   label?: ''
   value?: InputValue
   onChange?: (event: InputChangeEvent) => void
 }
 
-export const Input = (props: Input) => {
+export const Input = (props: InputProps) => {
   const {
     variant = 'default',
     label,
@@ -21,6 +21,8 @@ export const Input = (props: Input) => {
     className,
     value,
     onChange,
+    id,
+    type = 'text',
     ...rest
   } = props
 
@@ -32,9 +34,10 @@ export const Input = (props: Input) => {
   }
 
   return (
-    <label>
+    <label htmlFor={id}>
       <input
-        type={'text'}
+        type={type}
+        id={id}
         disabled={disabled}
         className={styles.input}
         value={inputValue}
