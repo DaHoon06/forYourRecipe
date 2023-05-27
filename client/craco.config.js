@@ -19,6 +19,7 @@ module.exports = {
       '@libs': path.resolve(__dirname, 'src/libs'),
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@tests': path.resolve(__dirname, 'src/__test__'),
+      '@store': path.resolve(__dirname, 'src/store'),
     },
   },
   jest: {
