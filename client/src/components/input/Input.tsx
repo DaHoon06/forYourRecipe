@@ -1,6 +1,7 @@
 import styles from './Input.module.scss'
 import { ChangeEvent, ComponentProps, useState } from 'react'
 import { Typography } from '@components/typography/Typography'
+import classNames from 'classnames'
 
 type InputValue = string | number | ReadonlyArray<string>
 type InputChangeEvent = ChangeEvent<HTMLInputElement>
@@ -39,7 +40,7 @@ export const Input = (props: InputProps) => {
         type={type}
         id={id}
         disabled={disabled}
-        className={styles.input}
+        className={classNames(styles[variant])}
         value={inputValue}
         onChange={onChangeHandler}
         placeholder={placeholder}

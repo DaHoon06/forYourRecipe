@@ -12,6 +12,7 @@ interface ButtonProps extends ComponentProps<'button'> {
     | 'primary-outline'
     | 'gray'
     | 'gray-outline'
+    | 'icon'
   icon?: JSX.Element
 }
 
