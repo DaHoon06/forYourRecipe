@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { Header } from '@components/layout/header/Header'
+import { Header } from '@components/layout/header'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import { Footer } from '@components/layout/footer/Footer'
