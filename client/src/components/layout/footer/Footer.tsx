@@ -1,3 +1,11 @@
+import styles from './Footer.module.scss'
+
 export const Footer = () => {
-  return <footer data-testid={'render-footer'}>/</footer>
+  return (
+    <footer className={styles.footer}>
+      <div>
+        <hr />
+      </div>
+    </footer>
+  )
 }
