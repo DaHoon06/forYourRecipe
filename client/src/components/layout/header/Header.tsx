@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { Button } from '@components/button/Button'
 import { SearchIcon } from '@components/icons/SearchIcon'
 
-export const Header = () => {
+export const Top = () => {
   const [keyword, setKeyword] = useState('')
   // TODO ERROR Action Update
   const search = () => {
@@ -17,7 +17,7 @@ export const Header = () => {
   }
 
   return (
-    <header className={styles.header}>
+    <>
       <div className={styles.header_container}>
         <Typography variant={'h1'} color={'primary'} weight={'bold'}>
           No1. Recipe
@@ -39,6 +39,6 @@ export const Header = () => {
           </Typography>
         </div>
       </div>
-    </header>
+    </>
   )
 }

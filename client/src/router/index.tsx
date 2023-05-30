@@ -5,12 +5,14 @@ import {
   Route,
 } from 'react-router-dom'
 import { LayoutPage } from '@pages/LayoutPage'
+import { HomePage } from '@pages/HomePage'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route element={<LayoutPage />}>
-        <Route index element={<Navigate to={'/'} />} />
+        <Route index element={<Navigate to={'/home'} />} />
+        <Route element={<HomePage />} path={'home'} />
       </Route>
     </Route>
   )
