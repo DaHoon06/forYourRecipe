@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'react-redux'
 import '@styles/global.scss'
 import store from './store'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,6 +20,7 @@ root.render(
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <App />
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </React.StrictMode>
   </Provider>

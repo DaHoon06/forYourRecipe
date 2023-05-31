@@ -1,5 +1,5 @@
 import { axiosInstance } from '@libs/axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { IRecipe } from '@interfaces/IRecipe'
 import { Card } from '@components/ui/card/Card'
 import { Image } from '@components/image/Image'
@@ -7,25 +7,31 @@ import './RecipeLists.scss'
 import classNames from 'classnames'
 import { Typography } from '@components/typography/Typography'
 import { Tags } from '@components/ui/tag/Tags'
+import { useQuery } from 'react-query'
 
 export const RecipeLists = () => {
   const [recipe, setRecipes] = useState<IRecipe.Card[]>([])
 
-  useEffect(() => {
-    load()
-  }, [])
-
-  const load = async (): Promise<void> => {
+  const load = async (): Promise<IRecipe.Card[]> => {
     try {
       const { data } = await axiosInstance.get('/recipes/all-recipes')
-      console.log(data)
-      setRecipes(data)
+      return data
     } catch (e) {
       throw e
     }
   }
 
-  const recipeDetail = (_id: string): void => {}
+  const { isLoading, isError } = useQuery('recipes', load, {
+    refetchOnWindowFocus: false,
+    staleTime: 60 * 1000,
+    onSuccess: (data) => {
+      setRecipes(data)
+    },
+  })
+
+  const recipeDetail = (_id: string): void => {
+    console.log(_id)
+  }
 
   return (
     <div className={classNames('recipe-list')}>
