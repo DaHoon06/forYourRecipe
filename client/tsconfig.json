@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "types": ["node", "jest"],
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": [
+      "node",
+      "jest"
+    ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,14 +25,33 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@libs/*": ["./src/libs/*"],
-      "@styles/*": ["./src/styles/*"],
-      "@tests/*": ["./src/__test__/*"],
-      "@store/*": [".src/store/*"]
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@libs/*": [
+        "./src/libs/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@tests/*": [
+        "./src/__test__/*"
+      ],
+      "@store/*": [
+        ".src/store/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,8 +1,9 @@
+import { RecipeLists } from '@components/recipes/RecipeLists'
+
 export const HomePage = () => {
   return (
     <main>
-      Mh
-      <hr />
+      <RecipeLists />
     </main>
   )
 }

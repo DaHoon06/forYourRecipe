@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios'
 const baseURL =
   process.env.REACT_APP_PRODUCT === 'product'
     ? 'https://api.no1recipe.com/api'
-    : '/api'
+    : 'https://api.no1recipe.com/api'
 
 const instance: AxiosInstance = axios.create({
   baseURL,
@@ -38,4 +38,4 @@ instance.interceptors.response.use(
     return response
   }
 )
-export const ins = instance
+export const axiosInstance = instance

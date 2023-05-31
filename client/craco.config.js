@@ -20,6 +20,7 @@ module.exports = {
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@tests': path.resolve(__dirname, 'src/__test__'),
       '@store': path.resolve(__dirname, 'src/store'),
+      '@interfaces': path.resolve(__dirname, 'src/interfaces'),
     },
   },
   jest: {
