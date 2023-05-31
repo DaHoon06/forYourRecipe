@@ -1,5 +1,18 @@
-.input {
+@mixin input() {
+  outline: none;
+}
 
+.underline {
+  @include input();
+  border: none;
+  border-bottom: 1px solid $gray100;
+  //padding: 8px 4px;
+  padding: 9px 23px 4px 4px;
+  width: 100%;
+
+  &:focus {
+    border-color: $black;
+  }
 }
 
 .default {

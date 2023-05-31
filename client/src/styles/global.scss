@@ -86,6 +86,63 @@ table {
   text-align: center;
 }
 
+$size: 1;
+$total: 100;
+
+@for $size from 1 to $total {
+  .mt-#{$size} {
+    margin-top: $size + px !important;
+  }
+  .ml-#{$size} {
+    margin-left: $size + px !important;
+  }
+  .mr-#{$size} {
+    margin-right: $size + px !important;
+  }
+  .mb-#{$size} {
+    margin-bottom: $size + px !important;
+  }
+  .m-#{$size} {
+    margin: $size + px !important;
+  }
+  .mx-#{$size} {
+    margin-left: $size + px !important;
+    margin-right: $size + px !important;
+  }
+  .my-#{$size} {
+    margin-top: $size + px !important;
+    margin-bottom: $size + px !important;
+  }
+
+  .pt-#{$size} {
+    padding-top: $size + px !important;
+  }
+  .pl-#{$size} {
+    padding-left: $size + px !important;
+  }
+  .pr-#{$size} {
+    padding-right: $size + px !important;
+  }
+  .pb-#{$size} {
+    padding-bottom: $size + px !important;
+  }
+  .p-#{$size} {
+    margin: $size + px !important;
+  }
+  .px-#{$size} {
+    padding-left: $size + px !important;
+    padding-right: $size + px !important;
+  }
+  .py-#{$size} {
+    padding-top: $size + px !important;
+    padding-bottom: $size + px !important;
+  }
+
+  .gap-#{$size} {
+    gap: $size + px !important;
+  }
+}
+
 
 
 

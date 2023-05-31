@@ -34,7 +34,7 @@ export const RecipeLists = () => {
   }
 
   return (
-    <div className={classNames('recipe-list')}>
+    <section className={classNames('recipe-list')}>
       {recipe.map((recipe, index) => {
         return (
           <Card key={recipe._id} onClick={() => recipeDetail(recipe._id)}>
@@ -56,6 +56,6 @@ export const RecipeLists = () => {
           </Card>
         )
       })}
-    </div>
+    </section>
   )
 }

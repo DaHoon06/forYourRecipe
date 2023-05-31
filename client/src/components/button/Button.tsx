@@ -3,6 +3,7 @@ import classNames from 'classnames/bind'
 import { ComponentProps } from 'react'
 
 const cx = classNames.bind(styles)
+type ButtonType = 'button' | 'submit' | 'reset'
 
 interface ButtonProps extends ComponentProps<'button'> {
   variant:
@@ -14,12 +15,13 @@ interface ButtonProps extends ComponentProps<'button'> {
     | 'gray-outline'
     | 'icon'
   icon?: JSX.Element
+  type?: ButtonType
 }
 
 export const Button = (props: ButtonProps) => {
-  const { variant, className, icon, children, ...rest } = props
+  const { variant, className, type = 'button', icon, children, ...rest } = props
   return (
-    <button className={cx(styles[variant], className)} {...rest}>
+    <button className={cx(styles[variant], className)} {...rest} type={type}>
       {icon}
       {children}
     </button>

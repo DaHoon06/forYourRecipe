@@ -6,8 +6,10 @@ import classNames from 'classnames'
 type InputValue = string | number | ReadonlyArray<string>
 type InputChangeEvent = ChangeEvent<HTMLInputElement>
 
+type InputVariant = 'underline' | 'default'
+
 interface InputProps extends ComponentProps<'input'> {
-  variant?: ''
+  variant?: InputVariant
   label?: ''
   value?: InputValue
   onChange?: (event: InputChangeEvent) => void

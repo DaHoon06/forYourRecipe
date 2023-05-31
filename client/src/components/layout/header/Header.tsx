@@ -1,21 +1,14 @@
 import styles from './Header.module.scss'
-import { Input } from '@components/input/Input'
 import { useState } from 'react'
 import { Typography } from '@components/typography/Typography'
 import classNames from 'classnames'
 import { Button } from '@components/button/Button'
 import { SearchIcon } from '@components/icons/SearchIcon'
+import { UserIcon } from '@components/icons/UserIcon'
+import { SearchForm } from '@components/search/SearchForm'
 
 export const Top = () => {
-  const [keyword, setKeyword] = useState('')
-  // TODO ERROR Action Update
-  const search = () => {
-    try {
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
+  const [searchFormOpen, setSearchFormOpen] = useState(false)
   return (
     <>
       <div className={styles.header_container}>
@@ -23,22 +16,22 @@ export const Top = () => {
           No1. Recipe
         </Typography>
         <div className={classNames('flex align-center')}>
-          <form onSubmit={search} className={classNames('flex align-center')}>
-            <Input
-              placeholder={'Search...'}
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              id={'search-input'}
-            />
-            <Button variant={'icon'}>
-              <SearchIcon />
-            </Button>
-          </form>
-          <Typography weight={'medium'} color={'black'} variant={'body2'}>
-            Login
-          </Typography>
+          <Button
+            variant={'icon'}
+            className={classNames('mr-10')}
+            onClick={() => setSearchFormOpen(!searchFormOpen)}
+          >
+            <SearchIcon />
+          </Button>
+          <Button variant={'icon'}>
+            <UserIcon />
+          </Button>
         </div>
       </div>
+      <SearchForm
+        open={searchFormOpen}
+        closeSearchForm={(payload: boolean) => setSearchFormOpen(payload)}
+      />
     </>
   )
 }
