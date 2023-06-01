@@ -17,13 +17,14 @@ export const Top = () => {
         </Typography>
         <div className={classNames('flex align-center')}>
           <Button
+            data-testid={'search'}
             variant={'icon'}
             className={classNames('mr-10')}
             onClick={() => setSearchFormOpen(!searchFormOpen)}
           >
             <SearchIcon />
           </Button>
-          <Button variant={'icon'}>
+          <Button data-testid={'login'} variant={'icon'}>
             <UserIcon />
           </Button>
         </div>

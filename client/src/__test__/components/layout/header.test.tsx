@@ -1,11 +1,13 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import { Header } from '@components/layout/header'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import { Footer } from '@components/layout/footer/Footer'
 import { SERVER } from '@tests/mocks/server'
 import { rest } from 'msw'
+import { SearchForm } from '@components/search/SearchForm'
+import { useState as useStateMock } from 'react'
 
 const renderWithRouter = (ui: any, { route = '/' } = {}) => {
   window.history.pushState({}, 'Test Page', route)
@@ -16,6 +18,13 @@ const renderWithRouter = (ui: any, { route = '/' } = {}) => {
   }
 }
 
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useState: jest.fn(),
+}))
+
+const setState = jest.fn()
+
 describe('Header Components Test Code', () => {
   const user = userEvent.setup()
   const headerRender = () => {
@@ -24,8 +33,8 @@ describe('Header Components Test Code', () => {
 
   test('Logo를 클릭했을 때 /로 이동되는지?', async () => {
     headerRender()
-
-    const logo = screen.getByRole('img', { name: 'logo' })
+    const name = 'No1. Recipe'
+    const logo = screen.getByRole('h1', { name: name })
     expect(logo).toBeInTheDocument()
     await user.click(logo)
     const route = '/'
@@ -35,54 +44,65 @@ describe('Header Components Test Code', () => {
   })
 })
 
-describe('Search Input Test Code', () => {
+describe('click search button renders the search component', () => {
+  beforeEach(() => {
+    // @ts-ignore
+    useStateMock.mockImplementation((init: any) => [init, setState])
+  })
+
   const user = userEvent.setup()
   const headerRender = () => {
     render(<Header />, { wrapper: BrowserRouter })
   }
 
-  const expectKeyword = '볶음밥'
-
-  test('header component에 검색창이 존재하는지 확인', () => {
+  test.only('SearchForm component rendering test', async () => {
     headerRender()
-    const searchInput = screen.getByRole('textbox')
+    const expectKeyword = '볶음밥'
+
+    let open = false
+    // @ts-ignore
+    useStateMock.mockImplementationOnce(() => [false, setState])
+    const searchButton = screen.getByTestId('search')
+    expect(searchButton).toBeInTheDocument()
+
+    // 1. TODO SearchForm Component 가 열리는지 확인
+    await user.click(searchButton)
+    render(<SearchForm open={true} />)
+    const searchInput = screen.getByRole('textbox', { name: 'search-input' })
     expect(searchInput).toBeInTheDocument()
-  })
 
-  test('검색창에 text 입력이 되는지 확인', async () => {
-    headerRender()
-    const searchInput = screen.getByRole('textbox')
     await user.click(searchInput)
+
+    // 2. TODO 검색어 입력이 되는지 확인
     await user.type(searchInput, expectKeyword)
     expect(searchInput).toHaveValue(expectKeyword)
+
+    // 3. TODO. 검색한 결과값을 서버에서 가져오는지 확인
+    //const submitButton = screen.getByRole('button', { name: '검색' })
+    //     await user.click(submitButton)
+    //     SERVER.resetHandlers(
+    //       rest.post('https://localhost:4000/api/search', (req, res, ctx) => {
+    //         return res(ctx.body(expectKeyword))
+    //       })
+    //     )
+    // 4. TODO 검색한 키워드가 쿠키에 저장이 되는지 확인
   })
-
-  //TODO: server에 검색 keyword 전송 후 반환 값 돌려받기
-  // 전송 후 검색어가 지워졌는지 확인
-  test('검색어가 서버에 전송이 되는지?', async () => {
-    headerRender()
-    const searchInput = screen.getByRole('textbox')
-    await user.click(searchInput)
-    await user.type(searchInput, expectKeyword)
-
-    const submitButton = screen.getByRole('button', { name: '검색' })
-    await user.click(submitButton)
-
-    //TODO: "볶음밥" 을 넘겼을 때에대한 결과 값 확인
-    SERVER.resetHandlers(
-      rest.post('https://localhost:4000/api/search', (req, res, ctx) => {
-        return res(ctx.body(expectKeyword))
-      })
-    )
-  })
-
-  test('검색어가 쿠키에 저장이 되었는지 확인', () => {})
-
-  //TODO: 검색 결과 페이지로 redirect
-  test('검색 결과 화면으로 이동이 되는지', () => {})
 })
 
-describe('Side Menu Test Code', () => {
-  //TODO: 반응형으로 구현 예정이라 만약 존재하지 않는다면 Navigation 이 존재해야한다.
-  test('side menu button 이 존재하는지 check', () => {})
+describe('The Modal opens when clicked login button', () => {
+  const user = userEvent.setup()
+  const headerRender = () => {
+    render(<Header />, { wrapper: BrowserRouter })
+  }
+
+  test('로그인 버튼이 존재하는지 확인', () => {
+    headerRender()
+
+    const loginButton = screen.getByTestId('login')
+    expect(loginButton).toBeInTheDocument()
+
+    user.click(loginButton)
+
+    // TODO: 1. Login Modal 이 뜨는지 확인
+  })
 })
