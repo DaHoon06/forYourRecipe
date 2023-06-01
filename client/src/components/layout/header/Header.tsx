@@ -1,14 +1,19 @@
 import styles from './Header.module.scss'
-import { useState } from 'react'
-import { Typography } from '@components/typography/Typography'
+import {useCallback, useState} from 'react'
+import {Typography} from '@components/typography/Typography'
 import classNames from 'classnames'
-import { Button } from '@components/button/Button'
-import { SearchIcon } from '@components/icons/SearchIcon'
-import { UserIcon } from '@components/icons/UserIcon'
-import { SearchForm } from '@components/search/SearchForm'
+import {Button} from '@components/button/Button'
+import {SearchIcon} from '@components/icons/SearchIcon'
+import {UserIcon} from '@components/icons/UserIcon'
+import {SearchForm} from '@components/search/SearchForm'
 
 export const Top = () => {
   const [searchFormOpen, setSearchFormOpen] = useState(false)
+
+  const showSearchForm = useCallback(() => {
+    setSearchFormOpen(!searchFormOpen)
+  }, [searchFormOpen])
+
   return (
     <>
       <div className={styles.header_container}>
@@ -20,12 +25,12 @@ export const Top = () => {
             data-testid={'search'}
             variant={'icon'}
             className={classNames('mr-10')}
-            onClick={() => setSearchFormOpen(!searchFormOpen)}
+            onClick={showSearchForm}
           >
-            <SearchIcon />
+            <SearchIcon/>
           </Button>
           <Button data-testid={'login'} variant={'icon'}>
-            <UserIcon />
+            <UserIcon/>
           </Button>
         </div>
       </div>

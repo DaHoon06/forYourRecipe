@@ -1,5 +1,5 @@
 import styles from './Input.module.scss'
-import { ChangeEvent, ComponentProps, useState } from 'react'
+import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
 import { Typography } from '@components/typography/Typography'
 import classNames from 'classnames'
 
@@ -35,6 +35,13 @@ export const Input = (props: InputProps) => {
     setInputValue(value)
     onChange && onChange(event)
   }
+
+  /*
+  @description: 초기화
+   */
+  useEffect(() => {
+    if (!value) setInputValue('')
+  }, [value])
 
   return (
     <label htmlFor={id}>
