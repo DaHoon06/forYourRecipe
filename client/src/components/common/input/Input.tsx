@@ -1,6 +1,6 @@
 import styles from './Input.module.scss'
 import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
-import { Typography } from '@components/typography/Typography'
+import { Typography } from '@components/common/typography/Typography'
 import classNames from 'classnames'
 
 type InputValue = string | number | ReadonlyArray<string>

@@ -1,9 +1,9 @@
-import { Input } from '@components/input/Input'
+import { Input } from '@components/common/input/Input'
 import { useEffect, useState } from 'react'
 import styles from './SearchForm.module.scss'
 import classNames from 'classnames'
-import { Button } from '@components/button/Button'
-import { Typography } from '@components/typography/Typography'
+import { Button } from '@components/common/button/Button'
+import { Typography } from '@components/common/typography/Typography'
 
 interface Props {
   open: boolean

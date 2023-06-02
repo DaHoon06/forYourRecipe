@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from 'react-query'
 import { axiosInstance } from '@libs/axios'
 import { IRecipe } from '@interfaces/IRecipe'
 import './RecipeDetail.scss'
-import { Image } from '@components/image/Image'
+import { Image } from '@components/common/image/Image'
 
 export const RecipeDetail = () => {
   const [recipeId, setRecipeId] = useState('')

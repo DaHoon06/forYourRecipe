@@ -1,18 +1,22 @@
 import { axiosInstance } from '@libs/axios'
 import { IRecipe } from '@interfaces/IRecipe'
 import { Card } from '@components/ui/card/Card'
-import { Image } from '@components/image/Image'
+import { Image } from '@components/common/image/Image'
 import './RecipeLists.scss'
 import classNames from 'classnames'
-import { Typography } from '@components/typography/Typography'
+import { Typography } from '@components/common/typography/Typography'
 import { Tags } from '@components/ui/tag/Tags'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 export const RecipeLists = () => {
+  const [page, setPage] = useState(1)
   const load = async (): Promise<IRecipe.Card[]> => {
     try {
-      const { data } = await axiosInstance.get('/recipes/random-recipes')
+      const { data } = await axiosInstance.get('/recipes/all-recipes', {
+        params: { page },
+      })
       return data
     } catch (e) {
       throw e

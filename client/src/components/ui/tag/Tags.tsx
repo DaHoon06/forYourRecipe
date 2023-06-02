@@ -1,5 +1,5 @@
 import styles from './Tags.module.scss'
-import { Typography } from '@components/typography/Typography'
+import { Typography } from '@components/common/typography/Typography'
 
 interface TagsProp {
   tags: string

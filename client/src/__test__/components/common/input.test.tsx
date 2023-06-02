@@ -1,5 +1,5 @@
 import { render, screen, act } from '@testing-library/react'
-import { Input } from '@components/input/Input'
+import { Input } from '@components/common/input/Input'
 import userEvent from '@testing-library/user-event'
 
 describe('Input Component Test Code', () => {
