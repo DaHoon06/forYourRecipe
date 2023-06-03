@@ -41,7 +41,7 @@
         "./src/__test__/*"
       ],
       "@store/*": [
-        ".src/store/*"
+        "./src/store/*"
       ],
       "@interfaces/*": [
         "./src/interfaces/*"

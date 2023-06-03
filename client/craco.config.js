@@ -34,11 +34,6 @@ module.exports = {
       moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
         prefix: '<rootDir>/',
       }),
-      // moduleNameMapper: {
-      //   '^\\@components/(.*)$': '<rootDir>/src/components/$1',
-      //   '^\\@pages/(.*)$': '<rootDir>/src/pages/$1',
-      //   '^\\@libs/(.*)$': '<rootDir>/src/libs/$1',
-      // },
       transformIgnorePatterns: ['<rootDir>/node_modules/'],
     },
   },
