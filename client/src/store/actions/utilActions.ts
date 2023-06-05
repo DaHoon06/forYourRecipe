@@ -13,7 +13,7 @@ export const utilReducer = (state = initialState, action: UtilAction) => {
     case CURRENT_TAB:
       return {
         ...state,
-        move: action.value,
+        currentTab: action.value,
       }
     default:
       return state

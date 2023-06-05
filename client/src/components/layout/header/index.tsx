@@ -1,5 +1,5 @@
 import { Top } from '@components/layout/header/Header'
-import { Navigation } from '@components/layout/header/Navigation'
+import { Navigation } from '@components/layout/header/navigation/Navigation'
 import styles from '@components/layout/header/Header.module.scss'
 import { ReactElement } from 'react'
 

@@ -1,0 +1,15 @@
+.navbar {
+
+  &-container {
+    display: flex;
+
+    .item {
+      border-bottom: 1px solid $black;
+      margin-right: 1em;
+
+      &-active {
+        border-color: $primary;
+      }
+    }
+  }
+}

@@ -21,7 +21,7 @@ export const RecipeDetail = (): ReactElement => {
         )
       }
     }
-  }, [recipeId, queryClient])
+  }, [recipeId, params])
 
   return (
     <main>

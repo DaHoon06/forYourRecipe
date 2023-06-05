@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
+import { utilReducer } from '@store/actions/utilActions'
 
-/**
- * TODO: 생성산 reducer import
- */
-const rootReducer = combineReducers({})
+const rootReducer = combineReducers({
+  utilReducer,
+})
 export type RootState = ReturnType<typeof rootReducer>
 export default rootReducer

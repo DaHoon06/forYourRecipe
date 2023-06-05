@@ -7,13 +7,14 @@ import {
 import { LayoutPage } from '@pages/LayoutPage'
 import { HomePage } from '@pages/home/HomePage'
 import { RecipeDetail } from '@components/recipes/RecipeDetail'
+import { RecipePage } from '@pages/recipe/RecipePage'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<LayoutPage />}>
-      <Route index element={<Navigate to={'/home'} />} />
-      <Route index element={<HomePage />} path={'home'} />
-      <Route path={'recipe'}>
+      <Route element={<Navigate to={'/'} />} />
+      <Route index element={<HomePage />} path={'/'} />
+      <Route path={'recipe'} element={<RecipePage />}>
         <Route path={':recipeNo'} element={<RecipeDetail />} />
       </Route>
     </Route>

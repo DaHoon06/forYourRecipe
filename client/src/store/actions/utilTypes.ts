@@ -1,4 +1,4 @@
-export const CURRENT_TAB = '' as const
+export const CURRENT_TAB = 'CURRENT_TAB' as const
 
 export const changeNavigation = (tab: number) => {
   return {
