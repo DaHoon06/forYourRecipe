@@ -7,11 +7,17 @@ import { SearchIcon } from '@components/common/icons/SearchIcon'
 import { UserIcon } from '@components/common/icons/UserIcon'
 import { SearchForm } from '@components/search/SearchForm'
 import { Link } from 'react-router-dom'
+import { Modal } from '@components/common/modal/Modal'
+import { Login } from '@components/login/Login'
 
 export const Top = (): ReactElement => {
   const [searchFormOpen, setSearchFormOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const showSearchForm = useCallback(() => {
+    const arr = [202301, 202302, 202303]
+    const newArr = arr.map((value) => Number(value.toString().substring(4, 6)))
+    console.log(newArr)
     setSearchFormOpen(!searchFormOpen)
   }, [searchFormOpen])
 
@@ -32,7 +38,11 @@ export const Top = (): ReactElement => {
           >
             <SearchIcon />
           </Button>
-          <Button data-testid={'login'} variant={'icon'}>
+          <Button
+            data-testid={'login'}
+            variant={'icon'}
+            onClick={() => setModalOpen(!modalOpen)}
+          >
             <UserIcon />
           </Button>
         </div>
@@ -41,6 +51,9 @@ export const Top = (): ReactElement => {
         open={searchFormOpen}
         closeSearchForm={(payload: boolean) => setSearchFormOpen(payload)}
       />
+      <Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
+        <Login closeModal={() => setModalOpen(false)} />
+      </Modal>
     </>
   )
 }

@@ -25,16 +25,15 @@ export const Modal = (props: ModalProps): ReactElement => {
 
   const outerClickEvent = (e: React.MouseEvent) => {
     const { target } = e
-
-    if (ele.current) {
+    if (ele && ele.current) {
       const elements = ele.current.contains(target as Node) // HTMLElement
-      if (!elements) if (onRequestClose) onRequestClose()
+      if (!elements && onRequestClose) onRequestClose()
     }
   }
 
   return ReactDOM.createPortal(
     <div
-      className={classNames('modal', isOpen ? 'show' : 'hide')}
+      className={classNames('modal', isOpen ? 'modal-show' : 'modal-hide')}
       onClick={outerClickEvent}
       style={layerStyle}
     >
