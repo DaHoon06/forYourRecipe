@@ -1,46 +1,78 @@
 import styles from './Tile.module.scss'
 import classNames from 'classnames'
+import { Image } from '@components/common/image/Image'
+import { Link } from 'react-router-dom'
 import { IRecipe } from '@interfaces/IRecipe'
-import { axiosInstance } from '@libs/axios-instance/axios'
-import { useQuery } from 'react-query'
+import { Typography } from '@components/common/typography/Typography'
+import { useEffect, useRef, useState } from 'react'
 
-//TODD MOCK DATA
-export const Tile = () => {
-  const load = async (): Promise<IRecipe.Card[]> => {
-    try {
-      const { data } = await axiosInstance.get('/recipes/random-recipes')
-      return data
-    } catch (e) {
-      throw e
+interface Props {
+  items: IRecipe.Card[]
+}
+
+export const Tile = (props: Props) => {
+  const { items } = props
+  const [currentSlide, setCurrentSlide] = useState<number>(0)
+  const slideRef = useRef<HTMLDivElement>(null)
+
+  // useEffect(() => {
+  //   slideTransition()
+  //   const timer = setInterval(() => {
+  //     console.log('?')
+  //     nextSlide()
+  //   }, 2000)
+  //
+  //   return () => clearInterval(timer)
+  // }, [currentSlide])
+
+  const slideTransition = () => {
+    const { current } = slideRef
+    if (current !== null) {
+      current.style.transition = 'all 0.5s ease-in-out'
+      if (currentSlide === 0)
+        current.style.transform = `translateX(-${currentSlide}00%)`
+      else current.style.transform = `translateX(-${currentSlide}00%)`
     }
   }
 
-  const { data, isLoading, isError, isIdle } = useQuery<IRecipe.Card[]>(
-    'recipes',
-    load,
-    {
-      refetchOnWindowFocus: false,
-      staleTime: 60 * 1000,
+  const nextSlide = () => {
+    if (currentSlide >= 4) {
+      setCurrentSlide(0)
+    } else {
+      setCurrentSlide(currentSlide + 1)
     }
-  )
-
-  if (isLoading || isIdle) return <div>Loading....</div>
-  if (isError)
-    return (
-      <>
-        <h1>ERROR!!!!</h1>
-      </>
-    )
+  }
 
   return (
-    <>
-      <p>TILE UI</p>
+    <div className={styles.tile_container}>
       <div className={classNames(styles.tile)}>
-        <div className={classNames(styles.item)}>1</div>
-        <div className={classNames(styles.item)}>2</div>
-        <div className={classNames(styles.item)}>3</div>
-        <div className={classNames(styles.item)}>4</div>
+        {items.splice(0, 4).map((recipe) => {
+          return (
+            <div
+              ref={slideRef}
+              className={classNames(styles.item)}
+              key={recipe._id}
+            >
+              <Link to={'/'} className={'w-100 h-100'}>
+                <Image
+                  src={recipe.profileImage}
+                  alt={'sample1'}
+                  className={'h-100 w-100'}
+                />
+                <div className={styles.item_cover}>
+                  <Typography
+                    variant={'caption'}
+                    color={'white'}
+                    weight={'medium'}
+                  >
+                    {recipe.name}
+                  </Typography>
+                </div>
+              </Link>
+            </div>
+          )
+        })}
       </div>
-    </>
+    </div>
   )
 }

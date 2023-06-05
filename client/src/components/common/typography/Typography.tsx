@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'body1' | 'body2' | 'caption'
 type FontWeight = 'regular' | 'medium' | 'semibold' | 'bold'
-type FontColor = 'black' | 'black100' | 'gray' | 'primary'
+type FontColor = 'black' | 'black100' | 'gray' | 'primary' | 'white'
 
 interface TypographyProps extends ComponentProps<'p'> {
   variant?: Variant

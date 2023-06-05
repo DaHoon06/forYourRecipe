@@ -16,3 +16,10 @@ export const getOneRecipe = async (
   const { data } = await axiosInstance.get(`/recipes/detail/${recipeId}`)
   return data
 }
+
+export const getRandomRecipe = async (
+  page: number
+): Promise<IRecipe.Card[]> => {
+  const { data } = await axiosInstance.get('/recipes/random-recipes')
+  return data
+}

@@ -1,9 +1,10 @@
 import { ReactElement } from 'react'
+import { Outlet } from 'react-router'
 
 export const RecipePage = (): ReactElement => {
   return (
     <main>
-      <p>롸</p>
+      <Outlet />
     </main>
   )
 }
