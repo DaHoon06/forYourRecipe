@@ -1,4 +1,4 @@
-import { ComponentProps, useState } from 'react'
+import { ComponentProps, ReactElement, useState } from 'react'
 
 interface ImageProps extends ComponentProps<'img'> {
   src: string
@@ -6,7 +6,7 @@ interface ImageProps extends ComponentProps<'img'> {
   callbackImageSrc?: string
 }
 
-export const Image = (props: ImageProps) => {
+export const Image = (props: ImageProps): ReactElement => {
   const {
     src = 'https://picsum.photos/400/400',
     callbackImageSrc,

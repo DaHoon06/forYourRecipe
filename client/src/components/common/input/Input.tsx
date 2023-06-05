@@ -1,5 +1,11 @@
 import styles from './Input.module.scss'
-import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  ComponentProps,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react'
 import { Typography } from '@components/common/typography/Typography'
 import classNames from 'classnames'
 
@@ -15,7 +21,7 @@ interface InputProps extends ComponentProps<'input'> {
   onChange?: (event: InputChangeEvent) => void
 }
 
-export const Input = (props: InputProps) => {
+export const Input = (props: InputProps): ReactElement => {
   const {
     variant = 'default',
     label,

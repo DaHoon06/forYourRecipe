@@ -1,46 +1,27 @@
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { useQuery, useQueryClient } from 'react-query'
-import { axiosInstance } from '@libs/axios'
-import { IRecipe } from '@interfaces/IRecipe'
 import './RecipeDetail.scss'
 import { Image } from '@components/common/image/Image'
+import { queryClient } from '@libs/react-query/queryClient'
+import { useOneRecipe } from '@libs/react-query/hooks/recipe/useRecipe'
+import { getOneRecipe } from '@libs/react-query/api/recipe'
 
-export const RecipeDetail = () => {
+export const RecipeDetail = (): ReactElement => {
   const [recipeId, setRecipeId] = useState('')
   const params = useParams()
-  const queryClient = useQueryClient()
+  const recipe = useOneRecipe(recipeId)
 
   useEffect(() => {
     if (params) {
       const { recipeNo } = params
       if (recipeNo) {
         setRecipeId(recipeNo)
-        queryClient.prefetchQuery(['recipeDetail', recipeId], getRecipe)
+        queryClient.prefetchQuery(['recipeDetail', recipeId], () =>
+          getOneRecipe(recipeId)
+        )
       }
     }
   }, [recipeId, queryClient])
-
-  const getRecipe = async () => {
-    try {
-      const { data } = await axiosInstance.get(`/recipes/detail/${recipeId}`)
-      return data
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const { data, isLoading, isError, isIdle } = useQuery<IRecipe.RecipeDetail>(
-    ['recipeDetail', recipeId],
-    getRecipe,
-    {
-      staleTime: 2000,
-      keepPreviousData: true,
-    }
-  )
-
-  if (isLoading || isIdle) return <div>Loading....</div>
-  if (isError) return <div>ERROR</div>
 
   return (
     <main>
@@ -57,10 +38,10 @@ export const RecipeDetail = () => {
             <div className="recipe-detail-info--container">
               <section className="recipe-detail--title">
                 <div>
-                  <p>{data.name}</p>
+                  <p>{recipe.name}</p>
                   <div className="pt-16 pb-16 tags--wrapper">
-                    {data.detailedIngredient &&
-                      data.detailedIngredient.map((tag, index) => {
+                    {recipe.detailedIngredient &&
+                      recipe.detailedIngredient.map((tag, index) => {
                         return (
                           <span className="tags mr-6" key={index}>
                             {tag.name}
@@ -75,8 +56,8 @@ export const RecipeDetail = () => {
                 <div className="mb-10">
                   주재료
                   <hr />
-                  {data.allIngredient &&
-                    data.allIngredient[0].ingredients.map(
+                  {recipe.allIngredient &&
+                    recipe.allIngredient[0].ingredients.map(
                       (ingredient, index) => {
                         return (
                           <div
@@ -91,8 +72,8 @@ export const RecipeDetail = () => {
                     )}
                   양념
                   <hr />
-                  {data.allIngredient &&
-                    data.allIngredient[1].ingredients.map(
+                  {recipe.allIngredient &&
+                    recipe.allIngredient[1].ingredients.map(
                       (condiment, index) => {
                         return (
                           <div
@@ -109,21 +90,21 @@ export const RecipeDetail = () => {
               </section>
             </div>
             <hr />
-            {data.user && (
+            {recipe.user && (
               <section>
                 <div className="flex">
                   <picture>
                     <Image
                       src={
-                        data.user.img ||
+                        recipe.user.img ||
                         'https://4u-recipe.s3.ap-northeast-2.amazonaws.com/profile/profile.svg'
                       }
                       alt="테스트 이미지"
                     />
                   </picture>
                   <div className="flex-column justify-content-around pl-10">
-                    <p>{data.user.name}</p>
-                    <p>{data.user.introduce}</p>
+                    <p>{recipe.user.name}</p>
+                    <p>{recipe.user.introduce}</p>
                   </div>
                 </div>
               </section>
@@ -134,8 +115,8 @@ export const RecipeDetail = () => {
 
             <hr />
 
-            {data.steps &&
-              data.steps.map((step) => {
+            {recipe.steps &&
+              recipe.steps.map((step) => {
                 return (
                   <>
                     <section className={'pb-10 recipe-step'} key={step._id}>

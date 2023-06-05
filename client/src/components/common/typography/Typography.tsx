@@ -1,5 +1,5 @@
 import styles from './Typhography.module.scss'
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, ReactElement } from 'react'
 import classNames from 'classnames'
 
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'body1' | 'body2' | 'caption'
@@ -13,7 +13,7 @@ interface TypographyProps extends ComponentProps<'p'> {
   as?: keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
 }
 
-export const Typography = (props: TypographyProps) => {
+export const Typography = (props: TypographyProps): ReactElement => {
   const {
     className,
     variant = 'body1',

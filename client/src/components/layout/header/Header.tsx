@@ -1,5 +1,5 @@
 import styles from './Header.module.scss'
-import { useCallback, useState } from 'react'
+import { ReactElement, useCallback, useState } from 'react'
 import { Typography } from '@components/common/typography/Typography'
 import classNames from 'classnames'
 import { Button } from '@components/common/button/Button'
@@ -8,7 +8,7 @@ import { UserIcon } from '@components/common/icons/UserIcon'
 import { SearchForm } from '@components/search/SearchForm'
 import { Link } from 'react-router-dom'
 
-export const Top = () => {
+export const Top = (): ReactElement => {
   const [searchFormOpen, setSearchFormOpen] = useState(false)
 
   const showSearchForm = useCallback(() => {

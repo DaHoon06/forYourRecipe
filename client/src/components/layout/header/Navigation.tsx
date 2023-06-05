@@ -1,4 +1,6 @@
-export const Navigation = () => {
+import { ReactElement } from 'react'
+
+export const Navigation = (): ReactElement => {
   return (
     <nav>
       <ul>

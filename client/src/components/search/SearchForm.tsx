@@ -1,5 +1,5 @@
 import { Input } from '@components/common/input/Input'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import styles from './SearchForm.module.scss'
 import classNames from 'classnames'
 import { Button } from '@components/common/button/Button'
@@ -10,7 +10,7 @@ interface Props {
   closeSearchForm?: (payload: boolean) => void
 }
 
-export const SearchForm = (props: Props) => {
+export const SearchForm = (props: Props): ReactElement => {
   const { open, closeSearchForm } = props
   const [keyword, setKeyword] = useState('')
 

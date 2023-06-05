@@ -1,7 +1,7 @@
 import styles from './Tile.module.scss'
 import classNames from 'classnames'
 import { IRecipe } from '@interfaces/IRecipe'
-import { axiosInstance } from '@libs/axios'
+import { axiosInstance } from '@libs/axios-instance/axios'
 import { useQuery } from 'react-query'
 
 //TODD MOCK DATA

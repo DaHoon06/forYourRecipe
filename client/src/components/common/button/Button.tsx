@@ -1,6 +1,6 @@
 import styles from './Button.module.scss'
 import classNames from 'classnames/bind'
-import { ComponentProps } from 'react'
+import { ComponentProps, ReactElement } from 'react'
 
 const cx = classNames.bind(styles)
 type ButtonType = 'button' | 'submit' | 'reset'
@@ -18,7 +18,7 @@ interface ButtonProps extends ComponentProps<'button'> {
   type?: ButtonType
 }
 
-export const Button = (props: ButtonProps) => {
+export const Button = (props: ButtonProps): ReactElement => {
   const { variant, className, type = 'button', icon, children, ...rest } = props
   return (
     <button className={cx(styles[variant], className)} {...rest} type={type}>

@@ -1,4 +1,6 @@
-export const SearchIcon = () => {
+import { ReactElement } from 'react'
+
+export const SearchIcon = (): ReactElement => {
   return (
     <svg
       width="18"
