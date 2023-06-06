@@ -47,7 +47,7 @@ export const searchRecipe = async (
 export const recipeRegistration = async (
   body: IRecipe.RecipeRegistration
 ): Promise<boolean> => {
-  const { data } = await axiosInstance.post('/recipes/register-recipe', body)
+  const { data } = await axiosInstance.post('/recipes/register-recipes', body)
   return data
 }
 
