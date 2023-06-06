@@ -1,12 +1,12 @@
 import { IRecipe } from '@interfaces/IRecipe'
 import { useQuery, useQueryClient } from 'react-query'
 import { recipeKeys } from '@libs/react-query/keys/Recipe'
+import { useEffect } from 'react'
 import {
   getOneRecipe,
   getRandomRecipe,
-  getRecipeLists,
-} from '@libs/react-query/api/recipe'
-import { useEffect } from 'react'
+  getRecipeListsAll,
+} from '@apis/api/recipe'
 
 const initializeState = {
   getRecipe: {
@@ -28,7 +28,7 @@ const initializeState = {
 export function useRandomRecipe(page: number): IRecipe.Card[] {
   const { data = [] } = useQuery(
     [recipeKeys.getRandomRecipe, page],
-    () => getRandomRecipe(page),
+    () => getRandomRecipe(),
     {
       refetchOnMount: true,
       cacheTime: Infinity,
@@ -47,7 +47,7 @@ export function useOneRecipe(recipeId: string): IRecipe.RecipeDetail {
 
 export function useRecipeLists(page: number): IRecipe.Card[] {
   const { data = [] } = useQuery([recipeKeys.getAllRecipe, page], () =>
-    getRecipeLists(page)
+    getRecipeListsAll(page)
   )
   return data
 }

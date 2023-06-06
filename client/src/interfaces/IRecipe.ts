@@ -1,29 +1,35 @@
 export namespace IRecipe {
   interface User {
-    id: string;
-    img: string;
-    introduce: string;
-    name: string;
+    id: string
+    img: string
+    introduce: string
+    name: string
   }
 
   export interface RecipeDetail extends Card {
     user: User
   }
 
-  export interface Card {
+  export interface Card extends Recipe {
     _id: string
-    name: string
-    allIngredient: AllIngredient[]
-    detailedIngredient: IngredientType[]
-    profileImage: string
     createdAt: Date
     updatedAt: Date
     modified: boolean
-    steps: Steps[]
-    desc: string
     likes: string[]
   }
 
+  export interface RecipeRegistration extends Recipe {
+    user: User
+  }
+
+  export interface Recipe {
+    name: string
+    desc: string
+    allIngredient: AllIngredient[]
+    detailedIngredient: IngredientType[]
+    steps: Steps[]
+    profileImage: string
+  }
 
   export interface AllIngredient {
     category: string
@@ -46,8 +52,11 @@ export namespace IRecipe {
     desc: string
   }
 
-  export interface IngredientCategories {
+  export interface IngredientCategories extends Ingredients {
     _id: string
+  }
+
+  export interface Ingredients {
     name: string
     detailedIngredient: IngredientType[]
   }

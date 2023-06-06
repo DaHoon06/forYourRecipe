@@ -45,6 +45,9 @@
       ],
       "@interfaces/*": [
         "./src/interfaces/*"
+      ],
+      "@apis/*": [
+        "./src/apis/*"
       ]
     }
   },
