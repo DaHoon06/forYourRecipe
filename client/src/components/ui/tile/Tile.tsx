@@ -18,10 +18,8 @@ export const Tile = (props: Props) => {
   // useEffect(() => {
   //   slideTransition()
   //   const timer = setInterval(() => {
-  //     console.log('?')
   //     nextSlide()
   //   }, 2000)
-  //
   //   return () => clearInterval(timer)
   // }, [currentSlide])
 
@@ -36,11 +34,8 @@ export const Tile = (props: Props) => {
   }
 
   const nextSlide = () => {
-    if (currentSlide >= 4) {
-      setCurrentSlide(0)
-    } else {
-      setCurrentSlide(currentSlide + 1)
-    }
+    if (currentSlide >= 4) setCurrentSlide(0)
+    else setCurrentSlide(currentSlide + 1)
   }
 
   return (
