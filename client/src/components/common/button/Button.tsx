@@ -1,19 +1,12 @@
 import styles from './Button.module.scss'
 import classNames from 'classnames/bind'
 import { ComponentProps, ReactElement } from 'react'
+import { ButtonType, ButtonVariant } from '@type/buttonTypes'
 
 const cx = classNames.bind(styles)
-type ButtonType = 'button' | 'submit' | 'reset'
 
 interface ButtonProps extends ComponentProps<'button'> {
-  variant:
-    | 'black'
-    | 'white'
-    | 'primary'
-    | 'primary-outline'
-    | 'gray'
-    | 'gray-outline'
-    | 'icon'
+  variant: ButtonVariant
   icon?: JSX.Element
   type?: ButtonType
 }

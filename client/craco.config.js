@@ -22,6 +22,7 @@ module.exports = {
       '@store': path.resolve(__dirname, 'src/store'),
       '@interfaces': path.resolve(__dirname, 'src/interfaces'),
       '@apis': path.resolve(__dirname, 'src/apis'),
+      '@type': path.resolve(__dirname, 'src/types'),
     },
   },
   jest: {
