@@ -6,7 +6,7 @@ import { Typography } from '@components/common/typography/Typography'
 import { Tags } from '@components/ui/tag/Tags'
 import { Link } from 'react-router-dom'
 import { ReactElement, useState } from 'react'
-import { useRecipeLists } from '@libs/react-query/hooks/recipe/useRecipe'
+import { useRecipeLists } from '@libs/react-query/hooks/recipes/useRecipe'
 
 export const RecipeLists = (): ReactElement => {
   const [page, setPage] = useState(1)

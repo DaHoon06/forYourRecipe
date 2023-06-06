@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import './RecipeDetail.scss'
 import { Image } from '@components/common/image/Image'
-import { useOneRecipe } from '@libs/react-query/hooks/recipe/useRecipe'
+import { useOneRecipe } from '@libs/react-query/hooks/recipes/useRecipe'
 import { Typography } from '@components/common/typography/Typography'
 
 export const RecipeDetail = (): ReactElement => {
