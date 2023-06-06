@@ -7,8 +7,8 @@ interface Props extends ComponentProps<'article'> {}
 export const Card = (props: Props): ReactElement => {
   const { children } = props
   return (
-    <article className={classNames(styles.card)}>
-      <div>{children}</div>
-    </article>
+    <div className={classNames(styles.card)}>
+      <div className={classNames(styles.card_body)}>{children}</div>
+    </div>
   )
 }

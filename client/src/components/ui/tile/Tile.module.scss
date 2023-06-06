@@ -10,10 +10,10 @@
     gap: 8px;
 
     .item {
-      border: 1px solid gray;
+      border: 1px solid $line;
 
       &:hover {
-        filter: brightness(80%);
+        filter: brightness(90%);
       }
     }
 

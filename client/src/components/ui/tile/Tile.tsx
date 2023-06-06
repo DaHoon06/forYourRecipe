@@ -53,7 +53,7 @@ export const Tile = (props: Props) => {
               className={classNames(styles.item)}
               key={recipe._id}
             >
-              <Link to={'/'} className={'w-100 h-100'}>
+              <Link to={`/recipe/${recipe._id}`} className={'w-100 h-100'}>
                 <Image
                   src={recipe.profileImage}
                   alt={'sample1'}

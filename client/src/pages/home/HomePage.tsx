@@ -1,10 +1,10 @@
-import {RecipeLists} from '@components/recipes/RecipeLists'
-import {Tile} from '@components/ui/tile/Tile'
-import {ReactElement, useState} from 'react'
-import {useRandomRecipe} from '@libs/react-query/hooks/recipe/useRecipe'
-import {IRecipe} from '@interfaces/IRecipe'
-import {BannerLabel} from '@components/ui/banner-label/BannerLabel'
-import {IngredientsBox} from "@components/ingredients/IngredientsBox";
+import { RecipeLists } from '@components/recipes/RecipeLists'
+import { Tile } from '@components/ui/tile/Tile'
+import { ReactElement, useState } from 'react'
+import { useRandomRecipe } from '@libs/react-query/hooks/recipes/useRecipe'
+import { IRecipe } from '@interfaces/IRecipe'
+import { BannerLabel } from '@components/ui/banner-label/BannerLabel'
+import { IngredientsBox } from '@components/ingredients/IngredientsBox'
 
 export const HomePage = (): ReactElement => {
   const [page, setPage] = useState(1)
@@ -12,13 +12,13 @@ export const HomePage = (): ReactElement => {
 
   return (
     <main>
-      <BannerLabel title={'오늘의 추천 요리'} description={'맛있어용'}/>
-      <Tile items={items as IRecipe.Card[]}/>
+      <BannerLabel title={'오늘의 추천 요리'} description={'맛있어용'} />
+      <Tile items={items as IRecipe.Card[]} />
 
-      <IngredientsBox/>
+      <IngredientsBox />
 
-      <BannerLabel title={'RECIPE LISTS'}/>
-      <RecipeLists/>
+      <BannerLabel title={'RECIPE LISTS'} />
+      <RecipeLists />
     </main>
   )
 }
