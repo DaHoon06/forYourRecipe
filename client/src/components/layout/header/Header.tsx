@@ -15,9 +15,6 @@ export const Top = (): ReactElement => {
   const [modalOpen, setModalOpen] = useState(false)
 
   const showSearchForm = useCallback(() => {
-    const arr = [202301, 202302, 202303]
-    const newArr = arr.map((value) => Number(value.toString().substring(4, 6)))
-    console.log(newArr)
     setSearchFormOpen(!searchFormOpen)
   }, [searchFormOpen])
 

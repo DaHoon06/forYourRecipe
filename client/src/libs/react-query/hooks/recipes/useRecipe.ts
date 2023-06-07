@@ -29,7 +29,7 @@ const initializeState = {
 export function useRandomRecipe(page: number): IRecipe.Card[] {
   useEffect(() => {
     queryClient.prefetchQuery(recipeKeys.getRandomRecipe, getRandomRecipe)
-  }, [queryClient, page])
+  }, [page])
 
   const { data = [] } = useQuery(
     [recipeKeys.getRandomRecipe, page],
@@ -55,7 +55,7 @@ export function useRecipeLists(page: number): IRecipe.Card[] {
     queryClient.prefetchQuery(recipeKeys.getAllRecipe, () =>
       getRecipeListsAll(page)
     )
-  }, [queryClient, page])
+  }, [page])
 
   const { data = [] } = useQuery([recipeKeys.getAllRecipe, page], () =>
     getRecipeListsAll(page)

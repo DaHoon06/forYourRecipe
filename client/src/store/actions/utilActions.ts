@@ -1,4 +1,4 @@
-import { CURRENT_TAB, UtilAction } from '@store/actions/utilTypes'
+import { CURRENT_TAB, UtilAction } from '@store/actions/types/utilTypes'
 
 type InitialStateType = {
   currentTab: number

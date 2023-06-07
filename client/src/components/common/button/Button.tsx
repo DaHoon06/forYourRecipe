@@ -6,13 +6,20 @@ import { ButtonType, ButtonVariant } from '@type/buttonTypes'
 const cx = classNames.bind(styles)
 
 interface ButtonProps extends ComponentProps<'button'> {
-  variant: ButtonVariant
+  variant?: ButtonVariant
   icon?: JSX.Element
   type?: ButtonType
 }
 
 export const Button = (props: ButtonProps): ReactElement => {
-  const { variant, className, type = 'button', icon, children, ...rest } = props
+  const {
+    variant = 'default',
+    className,
+    type = 'button',
+    icon,
+    children,
+    ...rest
+  } = props
   return (
     <button className={cx(styles[variant], className)} {...rest} type={type}>
       {icon}

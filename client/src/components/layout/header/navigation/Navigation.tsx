@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CURRENT_TAB } from '@store/actions/utilTypes'
+import { CURRENT_TAB } from '@store/actions/types/utilTypes'
 import { RootState } from '@store/reducer/rootReducer'
 import './Navigation.scss'
 import classNames from 'classnames'

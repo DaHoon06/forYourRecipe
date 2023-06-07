@@ -1,6 +1,10 @@
 .icon {
   width: fit-content;
   height: auto;
+
+  &:hover {
+    filter: brightness(95%);
+  }
 }
 
 .primary {
