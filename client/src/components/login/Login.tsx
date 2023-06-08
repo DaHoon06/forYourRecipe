@@ -1,5 +1,6 @@
 import { ReactElement } from 'react'
 import styles from './Login.module.scss'
+import { KakaoLogin } from '@components/login/KakaoLogin'
 
 interface LoginProps {
   closeModal: () => void
@@ -20,6 +21,7 @@ export const Login = (props: LoginProps): ReactElement => {
           <input />
           <button>Login</button>
         </form>
+        <KakaoLogin />
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import '@styles/global.scss'
 import store from './store'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { AuthProvider } from '@store/AuthProvieder'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,14 +17,16 @@ const queryClient = new QueryClient({
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </React.StrictMode>
-  </Provider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </AuthProvider>
+    </Provider>
+  </React.StrictMode>
 )
 
 reportWebVitals()
