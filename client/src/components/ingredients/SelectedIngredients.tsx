@@ -29,7 +29,7 @@ export const SelectedIngredients = (props: Props): ReactElement => {
         }
       })
     },
-    [ingredients]
+    [ingredients, setIngredientsArr]
   )
 
   return (
