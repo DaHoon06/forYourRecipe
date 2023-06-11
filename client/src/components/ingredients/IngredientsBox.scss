@@ -16,6 +16,23 @@
     //width: min(100vw, 400px);
     height: 400px;
 
+    .category_item_icon {
+      position: absolute;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .ingredient_icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 0.8em;
+
+      &:hover {
+        filter: brightness(80%);
+      }
+    }
+
     .selected_ingredients_category {
       display: flex;
       width: 100%;
@@ -36,33 +53,19 @@
             color: $primary;
           }
         }
-
-        .show {
-          display: inline-block !important;
-          -webkit-animation: icon-drop-down .4s ease;
-          animation: icon-drop-down .4s ease;
-        }
-
-        .category_item_icon {
-          position: absolute;
-          margin-top: 10px;
-          display: none;
-
-          .ingredient_icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 0.8em;
-            filter: brightness(60%);
-
-            &:hover {
-              filter: brightness(80%);
-            }
-          }
-        }
       }
     }
   }
+}
+
+.show {
+  display: inline-block !important;
+  -webkit-animation: icon-drop-down .4s ease;
+  animation: icon-drop-down .4s ease;
+}
+
+.active {
+  filter: brightness(100%) !important;
 }
 
 @keyframes icon-drop-down {

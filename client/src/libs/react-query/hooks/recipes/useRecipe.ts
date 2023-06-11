@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import {
   getOneRecipe,
   getRandomRecipe,
+  getRecipeByIngredientIds,
   getRecipeListsAll,
 } from '@apis/api/recipe'
 import { queryClient } from '@libs/react-query/queryClient'
@@ -59,6 +60,17 @@ export function useRecipeLists(page: number): IRecipe.Card[] {
 
   const { data = [] } = useQuery([recipeKeys.getAllRecipe, page], () =>
     getRecipeListsAll(page)
+  )
+  return data
+}
+
+export function useRecipeByIngredientIds(
+  ingredientIds: string[],
+  page: number
+): IRecipe.Card[] {
+  const { data = [] } = useQuery(
+    [recipeKeys.getRecipeByIngredientIds, page],
+    () => getRecipeByIngredientIds(ingredientIds, page)
   )
   return data
 }

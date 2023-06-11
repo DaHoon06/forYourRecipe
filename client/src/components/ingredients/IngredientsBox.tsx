@@ -5,24 +5,35 @@ import { Typography } from '@components/common/typography/Typography'
 import { useIngredients } from '@libs/react-query/hooks/ingredients/useIngredients'
 import { Image } from '@components/common/image/Image'
 import { Button } from '@components/common/button/Button'
+import { useRecipeByIngredientIds } from '@libs/react-query/hooks/recipes/useRecipe'
+import { IRecipe } from '@interfaces/IRecipe'
+import { axiosInstance } from '@libs/axios-instance/axios'
 
 export const IngredientsBox = (): ReactElement => {
   const [currentTab, setCurrentTab] = useState(0)
   const [selectedIngredients, setSelectedIngredients] = useState<any[]>([])
   const ingredients = useIngredients()
 
+  /*
+  TODO: 리팩토링
+   컴포넌트 구분
+  * */
   const onClickIngredientsIcon = (ingredientId: string): void => {
-    //TODO: 1. 클릭했을 때 useState에 값이 존재한다면 거기 값을 사용
     const findIngredient = selectedIngredients.find(
       (value) => value._id === ingredientId
     )
+
     if (findIngredient) {
       findIngredient.selected = !findIngredient.selected
-      console.log(findIngredient)
-      setSelectedIngredients([...selectedIngredients, ...findIngredient])
-      return
+      if (!findIngredient.selected) {
+        setSelectedIngredients(
+          selectedIngredients.filter((value) => value._id !== ingredientId)
+        )
+      } else {
+        const copy = Object.assign(selectedIngredients, findIngredient)
+        setSelectedIngredients([...copy])
+      }
     } else {
-      //TODO: 2. useState에 값이 존재하지 않는다면 전체 아이템리스트에서 초기값을 넣어줌
       const selectedItem = ingredients
         .map((ingredient) => {
           const initialIngredient = ingredient.detailedIngredient.find(
@@ -36,8 +47,29 @@ export const IngredientsBox = (): ReactElement => {
           }
         })
         .filter((value) => value)
-      setSelectedIngredients([...selectedIngredients, ...selectedItem])
+      if (selectedItem)
+        setSelectedIngredients([...selectedIngredients, ...selectedItem])
     }
+  }
+
+  const findRecipeByIngredientId = async (): Promise<void> => {
+    const ingredientsIds = selectedIngredients.map(
+      (ingredient) => ingredient._id
+    )
+    await getRecipeByIngredientIds(ingredientsIds, 1)
+  }
+
+  const getRecipeByIngredientIds = async (
+    ingredientIds: string[],
+    page: number
+  ) => {
+    const { data } = await axiosInstance.get('/recipes/ingredient-recipes', {
+      params: {
+        id: ingredientIds,
+        page,
+      },
+    })
+    console.log(data)
   }
 
   return (
@@ -65,6 +97,7 @@ export const IngredientsBox = (): ReactElement => {
                     currentTab === index && 'show'
                   )}
                 >
+                  {/*TODO: 같은 코드*/}
                   <div className={classNames('flex')}>
                     {category.detailedIngredient.map((ingredient, index) => {
                       return (
@@ -83,7 +116,7 @@ export const IngredientsBox = (): ReactElement => {
                             width={24}
                           />
                           <Typography
-                            color={'white'}
+                            color={'gray'}
                             variant={'body2'}
                             as={'span'}
                           >
@@ -100,13 +133,33 @@ export const IngredientsBox = (): ReactElement => {
         </section>
         <section>
           <Typography variant={'body1'}>선택한 재료</Typography>
-          <div>
+          {/*TODO: 같은 코드*/}
+          <div className={classNames('flex')}>
             {selectedIngredients &&
-              selectedIngredients.map((icon) => {
-                return <span key={icon._id}>{icon.name}</span>
+              selectedIngredients.map((ingredient, index) => {
+                return (
+                  <Button
+                    onClick={() => onClickIngredientsIcon(ingredient._id)}
+                    variant={'icon'}
+                    className={classNames(
+                      'ingredient_icon',
+                      ingredient.selected ? 'active' : ''
+                    )}
+                    key={index}
+                  >
+                    <Image
+                      src={ingredient.img}
+                      alt={ingredient.name}
+                      width={24}
+                    />
+                    <Typography color={'gray'} variant={'body2'} as={'span'}>
+                      {ingredient.name}
+                    </Typography>
+                  </Button>
+                )
               })}
           </div>
-          <Button>
+          <Button onClick={findRecipeByIngredientId}>
             <Typography>레시피 검색</Typography>
           </Button>
         </section>

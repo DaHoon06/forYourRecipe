@@ -24,6 +24,19 @@ export const getRandomRecipe = async (): Promise<IRecipe.Card[]> => {
   return data
 }
 
+export const getRecipeByIngredientIds = async (
+  ingredientIds: string[],
+  page: number
+): Promise<IRecipe.Card[]> => {
+  const { data } = await axiosInstance.get('/recipes/ingredient-recipes', {
+    params: {
+      id: ingredientIds,
+      page,
+    },
+  })
+  return data
+}
+
 export const getOneRecipeByIngredientsId = async (
   ingredientsId: string[],
   page: number
