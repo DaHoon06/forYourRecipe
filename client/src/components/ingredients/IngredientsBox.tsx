@@ -5,14 +5,15 @@ import { Typography } from '@components/common/typography/Typography'
 import { useIngredients } from '@libs/react-query/hooks/ingredients/useIngredients'
 import { Image } from '@components/common/image/Image'
 import { Button } from '@components/common/button/Button'
-import { useRecipeByIngredientIds } from '@libs/react-query/hooks/recipes/useRecipe'
-import { IRecipe } from '@interfaces/IRecipe'
-import { axiosInstance } from '@libs/axios-instance/axios'
+import { getRecipeByIngredientIds } from '@apis/api/recipe'
+import { useDispatch } from 'react-redux'
+import { UPDATE_LISTS } from '@store/actions/types/recipeTypes'
 
 export const IngredientsBox = (): ReactElement => {
   const [currentTab, setCurrentTab] = useState(0)
   const [selectedIngredients, setSelectedIngredients] = useState<any[]>([])
   const ingredients = useIngredients()
+  const dispatch = useDispatch()
 
   /*
   TODO: 리팩토링
@@ -56,20 +57,11 @@ export const IngredientsBox = (): ReactElement => {
     const ingredientsIds = selectedIngredients.map(
       (ingredient) => ingredient._id
     )
-    await getRecipeByIngredientIds(ingredientsIds, 1)
-  }
-
-  const getRecipeByIngredientIds = async (
-    ingredientIds: string[],
-    page: number
-  ) => {
-    const { data } = await axiosInstance.get('/recipes/ingredient-recipes', {
-      params: {
-        id: ingredientIds,
-        page,
-      },
+    const data = await getRecipeByIngredientIds(ingredientsIds, 1)
+    dispatch({
+      type: UPDATE_LISTS,
+      value: data,
     })
-    console.log(data)
   }
 
   return (
