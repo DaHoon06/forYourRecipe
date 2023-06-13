@@ -16,7 +16,7 @@ export const RecipeLists = (): ReactElement => {
   const dispatch = useDispatch()
   const { recipeLists } = useSelector((state: RootState) => state.recipeReducer)
 
-  const load = async () => {
+  const fetchRecipeData = async () => {
     const recipe = await getRecipeListsAll(page)
     dispatch({
       type: UPDATE_LISTS,
@@ -25,10 +25,10 @@ export const RecipeLists = (): ReactElement => {
   }
 
   useEffect(() => {
-    load()
+    fetchRecipeData()
   }, [])
 
-  const noRecipe = () => (
+  const noRecipeLists = () => (
     <Typography color={'black'} variant={'h1'} className={'w-100 text-center'}>
       등록된 레시피가 없습니다.
     </Typography>
@@ -36,7 +36,7 @@ export const RecipeLists = (): ReactElement => {
 
   return (
     <section className={classNames('recipe-list')}>
-      {recipeLists.length === 0 && noRecipe()}
+      {recipeLists.length === 0 && noRecipeLists()}
       {recipeLists.map((recipe) => {
         return (
           <Link to={`/recipe/${recipe._id}`} key={recipe._id}>

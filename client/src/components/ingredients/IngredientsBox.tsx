@@ -19,6 +19,12 @@ export const IngredientsBox = (): ReactElement => {
   TODO: 리팩토링
    컴포넌트 구분
   * */
+  /**
+   * @description 이 함수의 역할은??????????
+   * 1. selectedIngredients 배열 내에 선택한 재료 id 가 있는지 확인
+   * 2. 있다면
+   * @param ingredientId
+   */
   const onClickIngredientsIcon = (ingredientId: string): void => {
     const findIngredient = selectedIngredients.find(
       (value) => value._id === ingredientId
@@ -151,8 +157,10 @@ export const IngredientsBox = (): ReactElement => {
                 )
               })}
           </div>
-          <Button onClick={findRecipeByIngredientId}>
-            <Typography>레시피 검색</Typography>
+          <Button variant={'primary'} onClick={findRecipeByIngredientId}>
+            <Typography variant={'body2'} weight={'medium'} color={'white'}>
+              레시피 검색
+            </Typography>
           </Button>
         </section>
       </div>
